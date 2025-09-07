@@ -35,6 +35,8 @@
             android:isIndicator="false"
             android:onRatingChanged="@{(ratingBar, rating, fromUser) -> viewModel.onChangeRating(rating)}"
             android:progressDrawable="@drawable/rating_custom"
+            android:splitTrack="false"
+            android:stepSize="1"
             android:rating="@{viewModel.stateFlow.ratingValue}"
             app:isVisible="@{viewModel.stateFlow.login}"
             app:layout_constraintEnd_toEndOf="parent"

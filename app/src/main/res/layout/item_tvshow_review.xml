@@ -68,17 +68,18 @@
             tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
 
-        <androidx.appcompat.widget.AppCompatRatingBar
+        <RatingBar
             android:id="@+id/rating_bar"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginTop="16dp"
-            android:isIndicator="true"
+            android:isIndicator="false"
             android:progressDrawable="@drawable/rating_custom"
             android:rating="@{item.rating}"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            android:stepSize="0.5"
+            android:stepSize="1"
+            android:splitTrack="false"
             android:transformPivotX="0dp"
             app:layout_constraintStart_toStartOf="@+id/comment"
             app:layout_constraintTop_toBottomOf="@+id/comment" />

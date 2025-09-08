@@ -1,15 +1,16 @@
-name: On Pull Request
 on:
-  pull_request:
+  push:
     branches:
-      - master
+      - main
       - develop
+  workflow_dispatch:
 
 jobs:
-  android:
+  build_app:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v5
 
@@ -17,7 +18,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
           cache: 'gradle'
 
       - name: Grant gradlew permissions execution

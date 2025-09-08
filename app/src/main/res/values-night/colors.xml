@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="background_color">#03050A</color>
 
-    <color name="card_background_color">#13171D</color>
+    <color name="background_color">#121321</color>
+    <color name="bottom_navigation_color">#1B1C2A</color>
+
+    <color name="handle_bar_color">#2D2E3B</color>
+    <color name="card_background_color">#1B1C2A</color>
     <color name="text_field_background_color">#2B3440</color>
     <color name="slider_gradiant_end_color">#9903050A</color>
 

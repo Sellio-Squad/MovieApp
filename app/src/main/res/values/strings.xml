@@ -46,7 +46,7 @@
     <string name="trending_today_label">Trending Today</string>
     <string name="home">Home</string>
     <string name="explore">Explore</string>
-    <string name="myList">My Lists</string>
+    <string name="match">Match</string>
     <string name="profile">Profile</string>
     <string name="play_trailer">Play Trailer</string>
     <string name="duration">%1$d Minutes</string>
@@ -102,5 +102,6 @@
     <string name="this_list_has_no_lists">No lists found</string>
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
+    <string name="icon">icon</string>
     <string name="forgot_password">Forgot Password?</string>
 </resources>

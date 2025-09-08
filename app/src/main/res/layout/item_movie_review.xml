@@ -70,12 +70,12 @@
 
 
 
-        <RatingBar
+        <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/rating_bar"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginTop="16dp"
-            android:isIndicator="false"
+            android:isIndicator="true"
             android:progressDrawable="@drawable/rating_custom"
             android:rating="@{item.rating}"
             android:scaleX="0.5"

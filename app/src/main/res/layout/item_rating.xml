@@ -43,6 +43,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rate_the_movie" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/rating_bar"
+            app:layout_constraintStart_toStartOf="@id/rating_bar"
+            app:layout_constraintTop_toBottomOf="@+id/rate_the_movie"
+            app:highlightEmojiByRating="@{viewModel.uiState.ratingValue}">
+
+            <ImageView
+                android:id="@+id/first"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:src="@drawable/img_frowning_face" />
+
+            <ImageView
+                android:id="@+id/second"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:src="@drawable/img_confused_face" />
+
+            <ImageView
+                android:id="@+id/third"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:src="@drawable/img_neutral_face" />
+
+            <ImageView
+                android:id="@+id/fourth"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:src="@drawable/img_smiling_face" />
+            <ImageView
+                android:id="@+id/fifth"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/img_star_struck" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

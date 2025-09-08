@@ -284,3 +284,15 @@ fun highlightEmojiByRating(container: LinearLayout, ratingValue: Float?) {
             .start()
     }
 }
+
+@BindingAdapter("app:starsDrawableByRating")
+fun starsDrawableByRating(container: LinearLayout, ratingValue: Float?) {
+    val ratingInt: Int = (ratingValue ?: 0f).toInt().coerceIn(0, 5)
+    val childCount = container.childCount
+
+    for (index in 0 until childCount) {
+        val starView = container.getChildAt(index) as? ImageView ?: continue
+        val isFilled = index < ratingInt
+        starView.setImageResource(if (isFilled) R.drawable.star_fill_new else R.drawable.star_outline_new)
+    }
+}

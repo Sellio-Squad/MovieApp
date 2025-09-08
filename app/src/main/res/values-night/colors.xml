@@ -2,10 +2,10 @@
 <resources>
 
 
-    <color name="background_color">#03050A</color>
+    <color name="background_color">#1B1C2A</color>
 
 
-    <color name="card_background_color">#13171D</color>
+    <color name="card_background_color">#1B1C2A</color>
     <color name="text_field_background_color">#2B3440</color>
     <color name="slider_gradiant_end_color">#9903050A</color>
 

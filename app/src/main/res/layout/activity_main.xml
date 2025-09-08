@@ -34,7 +34,7 @@
             app:labelVisibilityMode="labeled"
             app:itemPaddingTop="13dp"
             app:itemPaddingBottom="13dp"
-            android:background="@color/background_color"
+            android:background="@color/bottom_navigation_color"
             app:itemIconTint="@color/bottom_navigation_selector"
             app:itemTextColor="@color/bottom_navigation_selector"
             app:layout_constraintBottom_toBottomOf="parent"

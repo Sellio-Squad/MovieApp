@@ -21,12 +21,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_simi_small">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="0dp"
             android:layout_height="@dimen/media_card_height"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="136:182"
@@ -45,18 +45,19 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="@id/img_poster"
             app:layout_constraintEnd_toEndOf="@id/img_poster"
-            android:padding="@dimen/spacing_small"
             android:background="@drawable/media_rate_background"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="4dp"
-            android:layout_margin="@dimen/spacing_small">
+            android:layout_margin="@dimen/spacing_small"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/spacing_small"
+            android:paddingVertical="@dimen/spacing_too_small">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{String.format(`%.1f`, item.rate)}"
                 tools:text="5.7"
-                android:textColor="@color/shade_color_primary"/>
+                android:textColor="@color/shade_color_primary"
+                style="@style/TextStyle.Label.Medium.Medium" />
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"

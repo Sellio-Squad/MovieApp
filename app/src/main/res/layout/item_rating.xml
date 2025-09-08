@@ -45,8 +45,8 @@
 
             <ImageView
                 android:id="@+id/second"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/spacing_medium"
+                android:layout_height="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:src="@drawable/img_confused_face" />
 
@@ -73,7 +73,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_extra_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rate_the_movie"
@@ -81,39 +81,39 @@
 
             <ImageView
                 android:id="@+id/first_star"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_width="@dimen/spacing_large"
+                android:layout_height="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:onClick="@{() -> viewModel.onChangeRating(1f)}"
                 android:src="@drawable/star_outline_new" />
 
             <ImageView
                 android:id="@+id/second_star"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_width="@dimen/spacing_large"
+                android:layout_height="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:onClick="@{() -> viewModel.onChangeRating(2f)}"
                 android:src="@drawable/star_outline_new" />
 
             <ImageView
                 android:id="@+id/third_star"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_width="@dimen/spacing_large"
+                android:layout_height="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:onClick="@{() -> viewModel.onChangeRating(3f)}"
                 android:src="@drawable/star_outline_new" />
 
             <ImageView
                 android:id="@+id/fourth_star"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_width="@dimen/spacing_large"
+                android:layout_height="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:onClick="@{() -> viewModel.onChangeRating(4f)}"
                 android:src="@drawable/star_outline_new" />
             <ImageView
                 android:id="@+id/fifth_star"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/spacing_large"
+                android:layout_height="@dimen/spacing_large"
                 android:onClick="@{() -> viewModel.onChangeRating(5f)}"
                 android:src="@drawable/star_outline_new" />
         </LinearLayout>

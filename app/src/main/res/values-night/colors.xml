@@ -2,7 +2,8 @@
 <resources>
 
 
-    <color name="background_color">#03050A</color>
+    <color name="background_color">#121321</color>
+    <color name="brand_Tertiary_color">#24263B</color>
 
 
     <color name="card_background_color">#13171D</color>
@@ -16,4 +17,9 @@
     <color name="gray">#80737373</color>
 
     <color name="profile_background">#99FFFFFF</color>
+
+    <color name="button_primary_color">#8C9EFF</color>
+    <color name="button_secondary_color">#24263B</color>
+    <color name="on_button_primary_color">#1B1C2A</color>
+    <color name="on_button_secondary_color">#E1E1E3</color>
 </resources>

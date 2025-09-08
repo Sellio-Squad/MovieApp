@@ -67,7 +67,7 @@
             android:textColor="@color/shade_primary_color"
             app:animDuration="500"
             app:collapsedLines="5"
-            app:ellipsizeTextColor="@color/brand_color"
+            app:ellipsizeTextColor="@color/brand_color_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_name"

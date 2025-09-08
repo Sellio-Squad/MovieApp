@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="brand_color">#E82627</color>
-    <color name="background_color">#FFFFFF</color>
+    <color name="brand_color">#8C9EFF</color>
+    <color name="background_color">#F7F7F7</color>
+    <color name="bottom_navigation_color">#FFFFFF</color>
 
-
-    <color name="card_background_color">#F3F5F6</color>
+    <color name="handle_bar_color">#ECECEC</color>
+    <color name="card_background_color">#FFFFFF</color>
     <color name="text_field_background_color">#E8EBEE</color>
     <color name="slider_gradiant_end_color">#9903050A</color>
 
     <color name="shade_primary_color">#DF03050A</color>
-    <color name="shade_secondary_color">#9903050A</color>
+    <color name="shade_secondary_color">#72727B</color>
     <color name="shade_ternary_color">#6103050A</color>
     <color name="shade_quaternary_color">#2903050A</color>
 
     <color name="yellow">#FDB92C</color>
     <color name="colorDisabled">#66E82627</color>
-
 
     <color name="white_primary">#FFFFFF</color>
     <color name="white_secondary">#99FFFFFF</color>
@@ -25,5 +25,40 @@
     <color name="profile_background">#9903050A</color>
     <color name="primary">#8C9EFF</color>
     <color name="disabled_primary">#242533</color>
+
+    <!-- New colors for the new project -->
+    <color name="background_color_screen">#F7F7F7</color>
+    <color name="background_color_card">#FFFFFF</color>
+    <color name="background_color_bottomSheet">#FFFFFF</color>
+    <color name="background_color_bottomSheetCard">#F6F6F6</color>
+    <color name="background_color_bottomSheetContainer">#12121299</color>
+
+    <color name="shade_color_primary">#313131</color>
+    <color name="shade_color_secondary">#717171</color>
+    <color name="shade_color_tertiary">#A5A5A5</color>
+    <color name="shade_color_quaternary">#ECECEC</color>
+    <color name="shade_color_quinary">#F6F6F6</color>
+
+    <color name="brand_color_primary">#536DFE</color>
+    <color name="brand_color_secondary">#BEC8FF</color>
+    <color name="brand_color_tertiary">#F1F3FF</color>
+
+    <color name="button_color_primary">#536DFE</color>
+    <color name="button_color_secondary">#F1F3FF</color>
+    <color name="button_color_disabled">#E5E5E5</color>
+    <color name="button_color_onPrimary">#FFFFFF</color>
+    <color name="button_color_onSecondary">#313131</color>
+    <color name="button_color_onDisabled">#A5A5A5</color>
+    <color name="button_color_onTertiary">#536DFE</color>
+
+    <color name="stroke_color_primary">#ECECEC</color>
+
+    <color name="additional_color_primary_color_red">#EF4444</color>
+    <color name="additional_color_primary_color_green">#22C55E</color>
+    <color name="additional_color_primary_color_yellow">#FACC15</color>
+
+    <color name="additional_color_secondary_color_red">#EBEEEE</color>
+    <color name="additional_color_secondary_color_green">#EEF5EF</color>
+    <color name="additional_color_secondary_color_yellow">#FFFAEB</color>
 
 </resources>

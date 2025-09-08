@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -27,50 +28,79 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintEnd_toEndOf="@id/stars_layout"
+            app:layout_constraintStart_toStartOf="@id/stars_layout"
             app:layout_constraintTop_toBottomOf="@+id/rate_the_movie"
+            app:layout_constraintBottom_toTopOf="@id/stars_layout"
+            android:layout_marginBottom="@dimen/radius_large"
             app:highlightEmojiByRating="@{viewModel.uiState.ratingValue}">
 
             <ImageView
                 android:id="@+id/first_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
+                android:src="@drawable/img_frowning_face"
+                android:layout_marginBottom="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:src="@drawable/img_frowning_face" />
+                app:layout_constraintEnd_toStartOf="@+id/third_emoji"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
                 android:id="@+id/second_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
+                android:src="@drawable/img_confused_face"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:src="@drawable/img_confused_face" />
+                app:layout_constraintBottom_toBottomOf="@+id/third_emoji"
+                app:layout_constraintEnd_toStartOf="@+id/fourth_emoji"
+                app:layout_constraintStart_toEndOf="@+id/third_emoji"
+                app:layout_constraintTop_toTopOf="@+id/third_emoji" />
 
             <ImageView
                 android:id="@+id/third_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:src="@drawable/img_neutral_face" />
+                android:src="@drawable/img_neutral_face"
+                app:layout_constraintBottom_toBottomOf="@+id/first_emoji"
+                app:layout_constraintEnd_toStartOf="@+id/second_emoji"
+                app:layout_constraintStart_toEndOf="@+id/first_emoji"
+                app:layout_constraintTop_toTopOf="@+id/first_emoji" />
 
             <ImageView
                 android:id="@+id/fourth_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
+                android:src="@drawable/img_smiling_face"
                 android:layout_marginEnd="@dimen/spacing_medium"
-                android:src="@drawable/img_smiling_face" />
+                app:layout_constraintBottom_toBottomOf="@+id/second_emoji"
+                app:layout_constraintEnd_toStartOf="@+id/fifth_emoji"
+                app:layout_constraintStart_toEndOf="@+id/second_emoji"
+                app:layout_constraintTop_toTopOf="@+id/second_emoji" />
+
             <ImageView
                 android:id="@+id/fifth_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
-                android:src="@drawable/img_star_struck" />
-        </LinearLayout>
+                android:src="@drawable/img_star_struck"
+                app:layout_constraintBottom_toBottomOf="@+id/fourth_emoji"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fourth_emoji"
+                app:layout_constraintTop_toTopOf="@+id/fourth_emoji" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/stars_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_extra_large"
@@ -110,6 +140,7 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:onClick="@{() -> viewModel.onChangeRating(4f)}"
                 android:src="@drawable/star_outline_new" />
+
             <ImageView
                 android:id="@+id/fifth_star"
                 android:layout_width="@dimen/spacing_large"

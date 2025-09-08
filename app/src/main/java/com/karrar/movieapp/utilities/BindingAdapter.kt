@@ -1,6 +1,7 @@
 package com.karrar.movieapp.utilities
 
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.LinearLayout
@@ -261,13 +262,11 @@ fun <T> showWhenTextNotEmpty(view: View,text:String){
 }
 
 @BindingAdapter("app:highlightEmojiByRating")
-fun highlightEmojiByRating(container: LinearLayout, ratingValue: Float?) {
+fun highlightEmojiByRating(container: ViewGroup, ratingValue: Float?) {
     val selectedIndex: Int = ((ratingValue ?: 0f).toInt() - 1).coerceIn(-1, 4)
 
     val normalScale = 1f
-    val selectedScale = 1.4f
-    val normalTranslationY = 0f
-    val selectedTranslationY = -10f
+    val selectedScale = 1.5f
     val dimAlpha = 0.4f
 
     val childCount = container.childCount
@@ -278,7 +277,6 @@ fun highlightEmojiByRating(container: LinearLayout, ratingValue: Float?) {
         childView.animate()
             .scaleX(if (isSelected) selectedScale else normalScale)
             .scaleY(if (isSelected) selectedScale else normalScale)
-            .translationY(if (isSelected) selectedTranslationY else normalTranslationY)
             .alpha(if (isSelected) 1f else dimAlpha)
             .setDuration(200)
             .start()

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <color name="background_color">#121321</color>
-    <color name="brand_Tertiary_color">#24263B</color>
-
+    <color name="background_color">#03050A</color>
 
     <color name="card_background_color">#13171D</color>
     <color name="text_field_background_color">#2B3440</color>
@@ -18,8 +15,39 @@
 
     <color name="profile_background">#99FFFFFF</color>
 
-    <color name="button_primary_color">#8C9EFF</color>
-    <color name="button_secondary_color">#24263B</color>
-    <color name="on_button_primary_color">#1B1C2A</color>
-    <color name="on_button_secondary_color">#E1E1E3</color>
+    <!-- New colors for the new project -->
+    <color name="background_color_screen">#121321</color>
+    <color name="background_color_card">#1B1C2A</color>
+    <color name="background_color_bottomSheet">#1B1C2A</color>
+    <color name="background_color_bottomSheetCard">#242533</color>
+    <color name="background_color_bottomSheetContainer">#12121299</color>
+
+    <color name="shade_color_primary">#E1E1E3</color>
+    <color name="shade_color_secondary">#A4A4AA</color>
+    <color name="shade_color_tertiary">#72727B</color>
+    <color name="shade_color_quaternary">#2D2E3B</color>
+    <color name="shade_color_quinary">#242533</color>
+
+    <color name="brand_color_primary">#8C9EFF</color>
+    <color name="brand_color_secondary">#464D7B</color>
+    <color name="brand_color_tertiary">#24263B</color>
+
+    <color name="button_color_primary">#8C9EFF</color>
+    <color name="button_color_secondary">#24263B</color>
+    <color name="button_color_disabled">#242533</color>
+    <color name="button_color_onPrimary">#1B1C2A</color>
+    <color name="button_color_onSecondary">#E1E1E3</color>
+    <color name="button_color_onDisabled">#72727B</color>
+    <color name="button_color_onTertiary">#8C9EFF</color>
+
+    <color name="stroke_color_primary">#24263B</color>
+
+    <color name="additional_color_primary_color_red">#FF6B6B</color>
+    <color name="additional_color_primary_color_green">#00E676</color>
+    <color name="additional_color_primary_color_yellow">#FFD600</color>
+
+    <color name="additional_color_secondary_color_red">#2C202D</color>
+    <color name="additional_color_secondary_color_green">#232A31</color>
+    <color name="additional_color_secondary_color_yellow">#2D2927</color>
+
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- spacing -->
     <dimen name="spacing_extra_large">32dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
@@ -13,6 +14,7 @@
     <dimen name="media_card_width">128dp</dimen>
     <dimen name="media_card_airing_today_height">145dp</dimen>
     <dimen name="media_card_popular_movie">350dp</dimen>
+
     <!-- texts -->
     <dimen name="text_large">20sp</dimen>
     <dimen name="text_medium">14sp</dimen>
@@ -26,5 +28,45 @@
 
     <!-- chips -->
     <dimen name="chip_height">32dp</dimen>
+
+    <!-- New texts and radius for the new project -->
+    <!-- Cine verse texts -->
+
+    <dimen name="text_display">40sp</dimen>
+    <dimen name="text_title_extraLarge">24sp</dimen>
+    <dimen name="text_title_large">20sp</dimen>
+    <dimen name="text_title_medium">18sp</dimen>
+    <dimen name="text_title_small">16sp</dimen>
+    <dimen name="text_body_large_regular">16sp</dimen>
+    <dimen name="text_body_large_medium">16sp</dimen>
+    <dimen name="text_body_large_semiBold">16sp</dimen>
+    <dimen name="text_body_medium_regular">14sp</dimen>
+    <dimen name="text_body_medium_medium">14sp</dimen>
+    <dimen name="text_body_medium_semiBold">14sp</dimen>
+    <dimen name="text_body_small_regular">12sp</dimen>
+    <dimen name="text_body_small_medium">12sp</dimen>
+    <dimen name="text_body_small_semiBold">12sp</dimen>
+    <dimen name="text_label_large_regular">12sp</dimen>
+    <dimen name="text_label_large_medium">12sp</dimen>
+    <dimen name="text_label_large_semiBold">12sp</dimen>
+    <dimen name="text_label_medium_regular">12sp</dimen>
+    <dimen name="text_label_medium_medium">12sp</dimen>
+    <dimen name="text_label_medium_semiBold">12sp</dimen>
+    <dimen name="text_label_small_regular">12sp</dimen>
+    <dimen name="text_label_small_medium">12sp</dimen>
+    <dimen name="text_label_small_semiBold">12sp</dimen>
+
+    <!-- Cine verse radius -->
+    <dimen name="radius_cineVerse_size2xs">2dp</dimen>
+    <dimen name="radius_cineVerse_xs">4dp</dimen>
+    <dimen name="radius_cineVerse_s">8dp</dimen>
+    <dimen name="radius_cineVerse_m">10dp</dimen>
+    <dimen name="radius_cineVerse_l">12dp</dimen>
+    <dimen name="radius_cineVerse_xl">16dp</dimen>
+    <dimen name="radius_cineVerse_size2xl">20dp</dimen>
+    <dimen name="radius_cineVerse_size3xl">24dp</dimen>
+    <dimen name="radius_cineVerse_size4xl">28dp</dimen>
+    <dimen name="radius_cineVerse_size5xl">32dp</dimen>
+    <dimen name="radius_cineVerse_full">1000dp</dimen>
 
 </resources>

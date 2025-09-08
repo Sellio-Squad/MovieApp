@@ -21,6 +21,17 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
+      - name: Create google-services.json
+        run: |
+          mkdir -p app
+          cat > app/google-services.json << 'EOF'
+          ${{ secrets.GOOGLE_SERVICES_JSON }}
+          EOF
+
+      - name: Create local.properties
+        run: |
+          echo "apiKey=\"${{ secrets.API_KEY }}\"" >> local.properties
+
       - name: Grant gradlew permissions execution
         run: chmod +x ./gradlew
 

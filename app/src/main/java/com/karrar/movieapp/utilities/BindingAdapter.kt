@@ -3,6 +3,7 @@ package com.karrar.movieapp.utilities
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -257,4 +258,29 @@ fun setRating(view: RatingBar?, rating: Float) {
 @BindingAdapter("showWhenTextNotEmpty")
 fun <T> showWhenTextNotEmpty(view: View,text:String){
     view.isVisible = text.isNotEmpty()
+}
+
+@BindingAdapter("app:highlightEmojiByRating")
+fun highlightEmojiByRating(container: LinearLayout, ratingValue: Float?) {
+    val selectedIndex: Int = ((ratingValue ?: 0f).toInt() - 1).coerceIn(-1, 4)
+
+    val normalScale = 1f
+    val selectedScale = 1.4f
+    val normalTranslationY = 0f
+    val selectedTranslationY = -10f
+    val dimAlpha = 0.4f
+
+    val childCount = container.childCount
+    for (childPosition in 0 until childCount) {
+        val childView: ImageView = container.getChildAt(childPosition) as ImageView
+        val isSelected = childPosition == selectedIndex
+
+        childView.animate()
+            .scaleX(if (isSelected) selectedScale else normalScale)
+            .scaleY(if (isSelected) selectedScale else normalScale)
+            .translationY(if (isSelected) selectedTranslationY else normalTranslationY)
+            .alpha(if (isSelected) 1f else dimAlpha)
+            .setDuration(200)
+            .start()
+    }
 }

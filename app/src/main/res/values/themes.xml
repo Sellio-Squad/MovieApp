@@ -158,5 +158,12 @@
 
     </style>
 
+    <style name="MovieAppFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/MovieAppFabCorners</item>
+    </style>
 
+    <style name="MovieAppFabCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_medium</item>
+    </style>
 </resources>

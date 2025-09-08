@@ -22,8 +22,8 @@ class CineVerseTextField(
     private val trailingIcon: ImageView = container.findViewById(R.id.trailingIcon)
     private val errorMessage: TextView = container.findViewById(R.id.errorMessage)
     private val forgotPassword: TextView = container.findViewById(R.id.forgotPassword)
-
     private var passwordVisible = false
+    private var isFocused = false
 
     init {
         leadingIcon.setImageResource(leadingIconRes)
@@ -59,7 +59,17 @@ class CineVerseTextField(
                 togglePasswordVisibility()
             }
         }
+
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            isFocused = hasFocus
+            updateFocusState(hasFocus)
+        }
     }
+
+    private fun updateFocusState(hasFocus: Boolean) {
+        inputContainer.isSelected = hasFocus
+    }
+
 
     fun setLabel(text: String) {
         label.text = text

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Focused state -->
-    <item android:state_focused="true">
+    <item android:state_selected="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/button_color_onPrimary" />
             <corners android:radius="12dp" />

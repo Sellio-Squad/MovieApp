@@ -38,7 +38,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         passwordField = CineVerseTextField(
             binding.passwordField.root,
-            leadingIconRes = R.drawable.ic_lock,
+            leadingIconRes = R.drawable.outline_lock,
             isPassword = true
         ).apply {
             setLabel(getString(R.string.password))

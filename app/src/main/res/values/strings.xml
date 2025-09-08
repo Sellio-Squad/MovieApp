@@ -103,4 +103,7 @@
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
     <string name="icon">icon</string>
+    <string name="third">Third</string>
+    <string name="second">Second</string>
+    <string name="first">First</string>
 </resources>

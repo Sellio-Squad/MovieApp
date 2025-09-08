@@ -37,34 +37,34 @@
             app:highlightEmojiByRating="@{viewModel.uiState.ratingValue}">
 
             <ImageView
-                android:id="@+id/first"
+                android:id="@+id/first_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:src="@drawable/img_frowning_face" />
 
             <ImageView
-                android:id="@+id/second"
+                android:id="@+id/second_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:src="@drawable/img_confused_face" />
 
             <ImageView
-                android:id="@+id/third"
+                android:id="@+id/third_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:src="@drawable/img_neutral_face" />
 
             <ImageView
-                android:id="@+id/fourth"
+                android:id="@+id/fourth_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:src="@drawable/img_smiling_face" />
             <ImageView
-                android:id="@+id/fifth"
+                android:id="@+id/fifth_emoji"
                 android:layout_width="@dimen/spacing_medium"
                 android:layout_height="@dimen/spacing_medium"
                 android:src="@drawable/img_star_struck" />

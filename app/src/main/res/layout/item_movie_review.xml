@@ -14,8 +14,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/spacing_medium"
-        android:paddingTop="@dimen/spacing_small">
+        android:padding="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/review_section_background"
+        >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/user_image"
@@ -36,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@{item.name}"
+            android:textSize="14sp"
             android:textColor="@color/shade_primary_color"
             app:layout_constraintStart_toEndOf="@+id/user_image"
             app:layout_constraintTop_toTopOf="@+id/user_image"
@@ -46,6 +50,8 @@
             style="@style/Regular.Small.ternary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/shade_secondary_color"
             android:text="@{@string/user_name(item.userName)}"
             app:layout_constraintStart_toStartOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/name"
@@ -56,8 +62,10 @@
             style="@style/Regular.Small.Primary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="@{item.content}"
+            android:textSize="14sp"
+            android:textColor="@color/shade_primary_color"
             app:animDuration="500"
             app:collapsedLines="5"
             app:ellipsizeTextColor="@color/brand_color"
@@ -73,7 +81,8 @@
             android:id="@+id/rating_bar"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
+
             android:isIndicator="true"
             android:progressDrawable="@drawable/rating_custom"
             android:rating="@{item.rating}"
@@ -89,6 +98,8 @@
             style="@style/Regular.Small.ternary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/shade_secondary_color"
             android:text="@{item.createDate}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/rating_bar"

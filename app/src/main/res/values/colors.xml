@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="brand_color">#E82627</color>
+    <color name="brand_color">#8C9EFF</color>
     <color name="background_color">#FFFFFF</color>
 
 
@@ -10,7 +10,7 @@
     <color name="slider_gradiant_end_color">#9903050A</color>
 
     <color name="shade_primary_color">#DF03050A</color>
-    <color name="shade_secondary_color">#9903050A</color>
+    <color name="shade_secondary_color">#72727B</color>
     <color name="shade_ternary_color">#6103050A</color>
     <color name="shade_quaternary_color">#2903050A</color>
 

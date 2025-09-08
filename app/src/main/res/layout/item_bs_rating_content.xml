@@ -21,24 +21,25 @@
             android:id="@+id/first_emoji"
             android:layout_width="@dimen/spacing_medium"
             android:layout_height="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_medium"
-            android:layout_marginBottom="@dimen/spacing_small"
             android:src="@drawable/img_frowning_face"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/third_emoji"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintEnd_toStartOf="@+id/second_emoji"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
             android:id="@+id/second_emoji"
             android:layout_width="@dimen/spacing_medium"
             android:layout_height="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_medium"
             android:src="@drawable/img_confused_face"
-            app:layout_constraintBottom_toBottomOf="@+id/third_emoji"
-            app:layout_constraintEnd_toStartOf="@+id/fourth_emoji"
-            app:layout_constraintStart_toEndOf="@+id/third_emoji"
-            app:layout_constraintTop_toTopOf="@+id/third_emoji" />
+            android:layout_marginEnd="@dimen/spacing_medium"
+
+            app:layout_constraintBottom_toBottomOf="@+id/first_emoji"
+            app:layout_constraintEnd_toStartOf="@+id/third_emoji"
+            app:layout_constraintStart_toEndOf="@+id/first_emoji"
+            app:layout_constraintTop_toTopOf="@+id/first_emoji" />
 
         <ImageView
             android:id="@+id/third_emoji"
@@ -46,21 +47,21 @@
             android:layout_height="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
             android:src="@drawable/img_neutral_face"
-            app:layout_constraintBottom_toBottomOf="@+id/first_emoji"
-            app:layout_constraintEnd_toStartOf="@+id/second_emoji"
-            app:layout_constraintStart_toEndOf="@+id/first_emoji"
-            app:layout_constraintTop_toTopOf="@+id/first_emoji" />
+            app:layout_constraintBottom_toBottomOf="@+id/second_emoji"
+            app:layout_constraintEnd_toStartOf="@+id/fourth_emoji"
+            app:layout_constraintStart_toEndOf="@+id/second_emoji"
+            app:layout_constraintTop_toTopOf="@+id/second_emoji"/>
 
         <ImageView
             android:id="@+id/fourth_emoji"
             android:layout_width="@dimen/spacing_medium"
             android:layout_height="@dimen/spacing_medium"
-            android:layout_marginEnd="@dimen/spacing_medium"
             android:src="@drawable/img_smiling_face"
-            app:layout_constraintBottom_toBottomOf="@+id/second_emoji"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/third_emoji"
             app:layout_constraintEnd_toStartOf="@+id/fifth_emoji"
-            app:layout_constraintStart_toEndOf="@+id/second_emoji"
-            app:layout_constraintTop_toTopOf="@+id/second_emoji" />
+            app:layout_constraintStart_toEndOf="@+id/third_emoji"
+            app:layout_constraintTop_toTopOf="@+id/third_emoji" />
 
         <ImageView
             android:id="@+id/fifth_emoji"

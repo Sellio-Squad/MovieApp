@@ -56,14 +56,21 @@
             app:layout_constraintTop_toBottomOf="@id/title_lost_connection"
             app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
 
+
+
+        <!--            radius-->
+
         <Button
-            android:id="@+id/button_retry"
+            android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:onClick="@{() -> viewModel.getData()}"
-            android:text="@string/retry"
-            android:textColor="@color/white_primary"
+
+            android:text="Try Again"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#536DFE"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"

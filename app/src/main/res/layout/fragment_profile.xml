@@ -231,7 +231,7 @@
             app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
 
         <Button
-            android:id="@+id/button_retry"
+            android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
@@ -263,7 +263,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
+            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_try_again"
             app:isFail="@{viewModel.profileDetailsUIState.error}"
             app:isLoggedIn="@{viewModel.profileDetailsUIState.loggedIn}" />
 

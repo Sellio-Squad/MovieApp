@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/textView_title"
         android:layout_width="match_parent"
@@ -12,10 +11,9 @@
         android:text="Title"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textStyle="bold"
-        android:textSize="16sp"
+        style="@style/TextStyle.Body.Medium.Medium"
+        android:textColor="@color/shade_color_primary"
         android:gravity="start"
-        android:paddingEnd="42dp"
         />
 
     <TextView
@@ -24,8 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="Description"
-        android:textSize="14sp"
         android:ellipsize="end"
+        style="@style/TextStyle.Body.Small.Regular"
+        android:textColor="@color/shade_color_secondary"
         android:gravity="start" />
 
 </LinearLayout>

@@ -22,11 +22,13 @@
     <!-- Title -->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_title"
-        style="@style/SemiBold.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
         android:text="Title"
+        android:fontFamily="@font/manrope_medium"
+        android:textColor="@color/shade_color_primary"
+        android:textSize="@dimen/text_title_small"
         app:layout_constraintTop_toBottomOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -40,6 +42,9 @@
         android:gravity="center"
         android:layout_marginTop="@dimen/spacing_small"
         android:text="Caption"
+        android:fontFamily="@font/manrope_medium"
+        android:textColor="@color/shade_color_secondary"
+        android:textSize="@dimen/text_body_small_medium"
         app:layout_constraintTop_toBottomOf="@id/text_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -50,7 +55,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Button"
+        android:fontFamily="@font/manrope_medium"
         android:textColor="@color/button_color_onSecondary"
+        android:textSize="@dimen/text_body_medium_medium"
         android:background="@drawable/button_corner_shape"
         app:backgroundTint="@color/button_color_secondary"
         app:layout_constraintTop_toBottomOf="@id/caption"
@@ -66,6 +73,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Button"
+        android:fontFamily="@font/manrope_medium"
+        android:textSize="@dimen/text_body_medium_medium"
         android:textColor="@color/button_color_onPrimary"
         android:background="@drawable/button_corner_shape"
         app:backgroundTint="@color/button_color_primary"

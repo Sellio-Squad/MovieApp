@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/emoji_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_small"
+        app:highlightEmojiByRating="@{viewModel.uiState.ratingValue}"
+        app:layout_constraintBottom_toTopOf="@+id/star_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/first_emoji"
+            android:layout_width="@dimen/spacing_medium"
+            android:layout_height="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:src="@drawable/img_frowning_face" />
+
+        <ImageView
+            android:id="@+id/second_emoji"
+            android:layout_width="@dimen/spacing_medium"
+            android:layout_height="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:src="@drawable/img_confused_face" />
+
+        <ImageView
+            android:id="@+id/third_emoji"
+            android:layout_width="@dimen/spacing_medium"
+            android:layout_height="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:src="@drawable/img_neutral_face" />
+
+        <ImageView
+            android:id="@+id/fourth_emoji"
+            android:layout_width="@dimen/spacing_medium"
+            android:layout_height="@dimen/spacing_medium"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:src="@drawable/img_smiling_face" />
+
+        <ImageView
+            android:id="@+id/fifth_emoji"
+            android:layout_width="@dimen/spacing_medium"
+            android:layout_height="@dimen/spacing_medium"
+            android:src="@drawable/img_star_struck" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/star_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/radius_large"
+        app:layout_constraintBottom_toTopOf="@+id/add_rating_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:starsDrawableByRating="@{viewModel.uiState.ratingValue}">
+
+        <ImageView
+            android:id="@+id/first_star"
+            android:layout_width="@dimen/spacing_large"
+            android:layout_height="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:src="@drawable/star_outline_new" />
+
+        <ImageView
+            android:id="@+id/second_star"
+            android:layout_width="@dimen/spacing_large"
+            android:layout_height="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:src="@drawable/star_outline_new" />
+
+        <ImageView
+            android:id="@+id/third_star"
+            android:layout_width="@dimen/spacing_large"
+            android:layout_height="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:src="@drawable/star_outline_new" />
+
+        <ImageView
+            android:id="@+id/fourth_star"
+            android:layout_width="@dimen/spacing_large"
+            android:layout_height="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:src="@drawable/star_outline_new" />
+
+        <ImageView
+            android:id="@+id/fifth_star"
+            android:layout_width="@dimen/spacing_large"
+            android:layout_height="@dimen/spacing_large"
+            android:src="@drawable/star_outline_new" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_rating_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_medium"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:text="@string/add_rating"
+        android:textAllCaps="false"
+        android:textColor="@drawable/primary_button_text"
+        android:background="@drawable/bg_add_rating_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

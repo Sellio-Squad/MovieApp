@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Focused state -->
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/button_color_onPrimary" />
+            <corners android:radius="12dp" />
+            <stroke android:width="1dp" android:color="@color/brand_color_primary" />
+        </shape>
+    </item>
+
+    <!-- Error state -->
+    <item android:state_activated="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/background_color_card" />
+            <corners android:radius="12dp" />
+            <stroke android:width="1dp" android:color="@color/additional_color_primary_color_red" />
+        </shape>
+    </item>
+
+    <!-- Default state -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/background_color_card" />
+            <corners android:radius="12dp" />
+            <stroke android:width="1dp" android:color="@color/stroke_color_primary" />
+        </shape>
+    </item>
+</selector>

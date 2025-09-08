@@ -41,50 +41,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
+        <!-- Username CineVerse TextField -->
+        <include
+            android:id="@+id/usernameField"
+            layout="@layout/cineverse_text_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:hint="@string/username"
-            app:helperText="@{viewModel.loginUIState.userNameHelperText}"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:startIconDrawable="@drawable/ic_profile">
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:afterTextChanged="@{(text) -> viewModel.onUserNameInputChange(text)}"
-                android:textColor="@color/shade_secondary_color"
-
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
-            android:layout_width="match_parent"
+        <!-- Password CineVerse TextField -->
+        <include
+            android:id="@+id/passwordField"
+            layout="@layout/cineverse_text_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:hint="@string/password"
-            app:helperText="@{viewModel.loginUIState.passwordHelperText}"
-            app:layout_constraintTop_toBottomOf="@+id/user_name"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/shade_secondary_color"
-            app:startIconDrawable="@drawable/ic_key">
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usernameField" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:afterTextChanged="@{(text) -> viewModel.onPasswordInputChange(text)}"
-                android:textColor="@color/shade_secondary_color" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/containedButton"
@@ -101,7 +81,7 @@
             app:cornerRadius="@dimen/radius_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintTop_toBottomOf="@+id/passwordField"
             app:hideIfTrue="@{viewModel.loginUIState.loading}" />
 
 
@@ -114,7 +94,7 @@
             app:indicatorColor="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintTop_toBottomOf="@+id/passwordField"
             app:isVisible="@{viewModel.loginUIState.loading}"
             app:trackColor="@color/shade_secondary_color" />
 

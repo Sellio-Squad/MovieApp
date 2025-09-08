@@ -301,4 +301,10 @@
 
     <style name="TextStyle" parent="TextStyle.Title.Medium" />
 
+    <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
 </resources>

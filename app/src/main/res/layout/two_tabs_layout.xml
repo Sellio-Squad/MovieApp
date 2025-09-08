@@ -10,8 +10,9 @@
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/brand_color_primary"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/material_dynamic_neutral_variant0"
-        app:tabTextColor="@color/material_dynamic_neutral_variant0"
+        app:tabSelectedTextColor="@color/brand_color_primary"
+        app:tabTextColor="@color/shade_color_tertiary"
+        app:tabTextAppearance="@style/TabTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,13 +26,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/second" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/third" />
     </com.google.android.material.tabs.TabLayout>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

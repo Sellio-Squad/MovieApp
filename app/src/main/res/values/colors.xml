@@ -23,5 +23,7 @@
     <color name="gray">#33737373</color>
 
     <color name="profile_background">#9903050A</color>
+    <color name="primary">#8C9EFF</color>
+    <color name="disabled_primary">#242533</color>
 
 </resources>

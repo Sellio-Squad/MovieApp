@@ -15,20 +15,33 @@
         android:layout_height="match_parent"
         android:background="@color/background_color">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/image_actor"
             android:layout_width="0dp"
-            android:layout_height="128dp"
+            android:layout_height="58dp"
             android:layout_marginTop="50dp"
-            android:background="@color/gray"
-            android:scaleType="centerCrop"
+            android:background="@drawable/imge_circle_shape"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{viewModel.profileDetailsUIState.avatarPath}"
-            app:shapeAppearanceOverlay="@style/Circle"
-            tools:background="@drawable/actor" />
+            app:shapeAppearanceOverlay="@style/Circle">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:posterImage="@{viewModel.profileDetailsUIState.avatarPath}"
+                app:tint="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_name_actor"

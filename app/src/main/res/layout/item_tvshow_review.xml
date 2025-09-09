@@ -78,7 +78,8 @@
             android:rating="@{item.rating}"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            android:stepSize="0.5"
+            android:stepSize="1"
+            android:splitTrack="false"
             android:transformPivotX="0dp"
             app:layout_constraintStart_toStartOf="@+id/comment"
             app:layout_constraintTop_toBottomOf="@+id/comment" />

@@ -251,18 +251,15 @@
             app:spanCount="2"
             tools:listitem="@layout/item_trend" />
 
-        <com.airbnb.lottie.LottieAnimationView
+        <include
             android:id="@+id/animation_loading"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:isVisible="@{viewModel.uiState.loading}"
+            layout="@layout/loading2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation" />
+            app:isLoading="@{viewModel.uiState.loading}"
+            />
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

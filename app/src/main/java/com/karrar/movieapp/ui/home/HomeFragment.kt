@@ -3,15 +3,20 @@ package com.karrar.movieapp.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
+import com.karrar.movieapp.ui.home.adapter.PopularMovieAdapter
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -31,24 +36,40 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun collectHomeData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.homeUiState.collect {
+            viewModel.homeUiState.collect { uiState ->
                 homeAdapter.setItems(
                     mutableListOf(
-                        it.popularMovies,
-                        it.tvShowsSeries,
-                        it.onTheAiringSeries,
-                        it.airingTodaySeries,
-                        it.upcomingMovies,
-                        it.nowStreamingMovies,
-                        it.mysteryMovies,
-                        it.adventureMovies,
-                        it.trendingMovies,
-                        it.actors,
+                        uiState.popularMovies,
+                        uiState.tvShowsSeries,
+                        uiState.onTheAiringSeries,
+                        uiState.airingTodaySeries,
+                        uiState.upcomingMovies,
+                        uiState.nowStreamingMovies,
+                        uiState.mysteryMovies,
+                        uiState.adventureMovies,
+                        uiState.trendingMovies,
+                        uiState.actors,
                     )
                 )
+
+
+                val viewPager =
+                    binding.recyclerView.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
+
+                if (uiState.popularMovies is HomeItem.Slider) {
+                    val items = uiState.popularMovies.items
+                    if (items.isNotEmpty() && viewPager != null) {
+                        val adapter = PopularMovieAdapter(items, viewModel)
+                        viewPager.adapter = adapter
+                        viewPager.offscreenPageLimit = 3
+
+                        startAutoScroll(viewPager, items.size)
+                    }
+                }
             }
         }
     }
+
 
     private fun setAdapter() {
         homeAdapter = HomeAdapter(mutableListOf(), viewModel)
@@ -96,4 +117,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         findNavController().navigate(action)
     }
 
+    private fun startAutoScroll(viewPager: ViewPager2, itemCount: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                var position = 0
+                while (true) {
+                    delay(3000)
+                    position = (position + 1) % itemCount
+                    viewPager.setCurrentItem(position, true)
+                }
+            }
+        }
+    }
 }

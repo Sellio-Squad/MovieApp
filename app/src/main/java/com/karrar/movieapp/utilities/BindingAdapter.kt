@@ -238,7 +238,8 @@ fun <T> setGenresChips(
 @BindingAdapter("app:genre")
 fun setAllGenre(textView: TextView, genreList: List<String>?) {
     genreList?.let {
-        textView.text = genreList.joinToString(" . ") { it }
+        val limited = if (it.size > 5) it.take(3) else it
+        textView.text = limited.joinToString(" • ")
     }
 }
 

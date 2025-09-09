@@ -2,7 +2,9 @@ package com.karrar.movieapp.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.HomeItemsType
@@ -13,6 +15,7 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.utilities.Constants
+import kotlin.math.abs
 
 class HomeAdapter(
     private var homeItems: MutableList<HomeItem>,
@@ -49,6 +52,12 @@ class HomeAdapter(
                         BR.adapterRecycler,
                         PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
                     )
+
+                    // Attach the carousel effect to the ViewPager inside list_popular
+                    val viewPager =
+                        holder.binding.root.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
+                    viewPager?.offscreenPageLimit = 3
+                    attachCarouselTransformer(viewPager)
                 }
 
                 is HomeItem.TvShows -> {
@@ -161,10 +170,43 @@ class HomeAdapter(
                 is HomeItem.NowStreaming,
                 is HomeItem.Trending,
                 is HomeItem.Upcoming,
-                -> R.layout.list_movie
+                    -> R.layout.list_movie
             }
         }
         return -1
+    }
+
+    private fun attachCarouselTransformer(viewPager: ViewPager2?) {
+        viewPager?.offscreenPageLimit = 3
+
+        val sidePeek = (viewPager?.resources?.displayMetrics?.widthPixels ?: 0) * 0.05f
+
+        viewPager?.setPageTransformer { page, position ->
+            val offset = position * -sidePeek
+
+            if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
+                if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                    page.translationX = -offset
+                } else {
+                    page.translationX = offset
+                }
+            } else {
+                page.translationY = offset
+            }
+
+            // ✅ Keep all cards same size
+            page.scaleX = 1f
+            page.scaleY = 1f
+
+            // ✅ Optional fade
+            page.alpha = 0.8f + (1 - abs(position)) * 0.2f
+
+            val extraLift =
+                viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_extra_large)
+            page.translationY = if (position == 0f) -extraLift.toFloat() else 0f
+
+            page.translationZ = if (position == 0f) 1f else 0f
+        }
     }
 
 }

@@ -30,14 +30,15 @@
         android:background="@android:color/transparent"
         tools:background="@color/background_color">
 
-        <TextView
-            android:id="@+id/text_tvShow_title"
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
+        <com.karrar.movieapp.utilities.common.SectionHeaderView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_medium"
+            app:showSeeAll="false"
+            tools:text="Popular"
             android:text="@string/tv_shows"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="20sp"
+            android:textColor="@color/shade_color_primary"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -90,7 +91,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/image_top_rated"
-            app:layout_constraintTop_toBottomOf="@+id/text_tvShow_title"
+            app:layout_constraintTop_toBottomOf="@+id/header"
             app:posterImage="@{latest.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 

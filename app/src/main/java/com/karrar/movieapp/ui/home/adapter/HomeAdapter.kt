@@ -22,6 +22,7 @@ class HomeAdapter(
     private val listener: BaseInteractionListener,
 ) : BaseAdapter<HomeItem>(homeItems, listener) {
     override val layoutID: Int = 0
+    private val TRANSFORMER_APPLIED_KEY = 123456789
 
     fun setItem(item: HomeItem) {
         val newItems = homeItems.apply {
@@ -175,33 +176,20 @@ class HomeAdapter(
         return -1
     }
 
-    private fun attachCarouselTransformer(viewPager: ViewPager2?) {
-        viewPager?.offscreenPageLimit = 3
+    private fun attachCarouselTransformer(viewPager: ViewPager2) {
+        if (viewPager.getTag(TRANSFORMER_APPLIED_KEY) == true) return
+        viewPager.setTag(TRANSFORMER_APPLIED_KEY, true)
 
-        val sidePeek = (viewPager?.resources?.displayMetrics?.widthPixels ?: 0) * 0.05f
+        val sidePeek = viewPager.resources.displayMetrics.widthPixels * 0.05f
+        val extraLift = viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_extra_large)
 
-        viewPager?.setPageTransformer { page, position ->
+        viewPager.setPageTransformer { page, position ->
             val offset = position * -sidePeek
-
-            if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                if (viewPager.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
-                    page.translationX = -offset
-                } else {
-                    page.translationX = offset
-                }
-            } else {
-                page.translationY = offset
-            }
-
+            page.translationX = if (viewPager.layoutDirection == View.LAYOUT_DIRECTION_RTL) -offset else offset
             page.scaleX = 1f
             page.scaleY = 1f
-
             page.alpha = 0.8f + (1 - abs(position)) * 0.2f
-
-            val extraLift =
-                viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_extra_large)
             page.translationY = if (position == 0f) -extraLift.toFloat() else 0f
-
             page.translationZ = if (position == 0f) 1f else 0f
         }
     }

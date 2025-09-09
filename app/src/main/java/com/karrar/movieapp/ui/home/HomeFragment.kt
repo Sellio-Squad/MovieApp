@@ -7,6 +7,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
@@ -118,13 +120,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun startAutoScroll(viewPager: ViewPager2, itemCount: Int) {
+        val recyclerView = viewPager.getChildAt(0) as? RecyclerView ?: return
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 var position = 0
                 while (true) {
-                    delay(3000)
+                    delay(2000)
                     position = (position + 1) % itemCount
-                    viewPager.setCurrentItem(position, true)
+
+                    val smoothScroller = object : LinearSmoothScroller(viewPager.context) {
+                        override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
+                        override fun calculateTimeForScrolling(dx: Int): Int {
+                            return 400.coerceAtMost(super.calculateTimeForScrolling(dx))
+                        }
+                    }
+
+                    smoothScroller.targetPosition = position
+                    recyclerView.layoutManager?.startSmoothScroll(smoothScroller)
                 }
             }
         }

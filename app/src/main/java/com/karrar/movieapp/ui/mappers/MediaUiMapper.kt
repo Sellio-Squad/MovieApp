@@ -11,6 +11,7 @@ class MediaUiMapper @Inject constructor() : Mapper<Media, MediaUiState> {
         return MediaUiState(
             input.mediaID,
             input.mediaImage,
+            rate = input.mediaRate,
         )
     }
 }

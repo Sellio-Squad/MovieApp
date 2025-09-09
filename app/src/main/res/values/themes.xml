@@ -92,21 +92,50 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
-    <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColorHint">@color/shade_secondary_color</item>
-        <item name="boxBackgroundColor">@color/text_field_background_color</item>
-        <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
-        <item name="boxCornerRadiusTopStart">@dimen/radius_small</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/radius_small</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/radius_small</item>
-        <item name="boxCornerRadiusBottomEnd">@dimen/radius_small</item>
-        <item name="hintTextAppearance">@style/Regular.Medium.Primary</item>
-        <item name="startIconTint">@color/shade_secondary_color</item>
-        <item name="helperTextEnabled">true</item>
-        <item name="helperTextTextColor">@color/design_default_color_error</item>
-        <item name="errorEnabled">true</item>
+    <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Text appearance -->
+        <item name="android:textColorHint">@color/shade_color_tertiary</item>
+        <item name="hintTextAppearance">@style/TextStyle.Body.Medium.Regular</item>
+        <item name="hintTextColor">@color/shade_color_tertiary</item>
 
+        <!-- Box styling -->
+        <item name="boxBackgroundColor">@color/background_color_card</item>
+        <item name="boxStrokeColor">@color/text_input_stroke_selector</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+
+        <!-- Corner radius -->
+        <item name="boxCornerRadiusTopStart">@dimen/radius_cineVerse_l</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_cineVerse_l</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_cineVerse_l</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_cineVerse_l</item>
+
+        <!-- Icons -->
+        <item name="startIconTint">@color/shade_color_tertiary</item>
+        <item name="endIconTint">@color/shade_color_secondary</item>
+        <item name="passwordToggleTint">@color/shade_color_secondary</item>
+
+        <!-- Error styling -->
+        <item name="errorEnabled">true</item>
+        <item name="errorTextAppearance">@style/TextStyle.Body.Small.Regular</item>
+        <item name="errorTextColor">@color/additional_color_primary_color_red</item>
+        <item name="errorIconDrawable">@drawable/outline_danger_triangle</item>
+        <item name="errorIconTint">@color/additional_color_primary_color_red</item>
+
+        <!-- Helper text -->
+        <item name="helperTextEnabled">false</item>
+    </style>
+
+    <!-- the EditText inside -->
+    <style name="LoginEditText">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/shade_color_primary</item>
+        <item name="android:textCursorDrawable">@drawable/text_cursor</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
     <style name="Theme.MovieApp.SplashScreen" parent="Theme.SplashScreen.IconBackground">

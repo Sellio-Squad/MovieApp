@@ -1,8 +1,8 @@
 package com.karrar.movieapp.ui.home.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.BR
@@ -53,7 +53,6 @@ class HomeAdapter(
                         PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
                     )
 
-                    // Attach the carousel effect to the ViewPager inside list_popular
                     val viewPager =
                         holder.binding.root.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
                     viewPager?.offscreenPageLimit = 3
@@ -185,7 +184,7 @@ class HomeAdapter(
             val offset = position * -sidePeek
 
             if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                if (viewPager.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                     page.translationX = -offset
                 } else {
                     page.translationX = offset
@@ -194,11 +193,9 @@ class HomeAdapter(
                 page.translationY = offset
             }
 
-            // ✅ Keep all cards same size
             page.scaleX = 1f
             page.scaleY = 1f
 
-            // ✅ Optional fade
             page.alpha = 0.8f + (1 - abs(position)) * 0.2f
 
             val extraLift =

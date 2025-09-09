@@ -24,4 +24,9 @@
 
     <color name="profile_background">#9903050A</color>
 
+    <color name="brand_tertiary">#FFF1F3FF</color>
+    <color name="brand_secondary">#FFBEC8FF</color>
+    <color name="card_background">#FFFFFFFF</color>
+    <color name="stroke_primary">#FFECECEC</color>
+
 </resources>

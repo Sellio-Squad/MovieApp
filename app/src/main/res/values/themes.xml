@@ -307,7 +307,14 @@
         <item name="cornerSizeBottomLeft">12dp</item>
     </style>
 
+    <style name="MovieAppFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/MovieAppFabCorners</item>
+    </style>
 
+    <style name="MovieAppFabCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_cineVerse_l</item>
+    </style>
     <style name="ctaCard">
         <item name="android:background">@drawable/rating_card</item>
         <item name="android:layout_width">match_parent</item>

@@ -16,6 +16,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="@color/background_color_card"
         app:cardElevation="0dp"
         app:cardCornerRadius="12dp"
@@ -32,7 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:posterImage="@{item.imageUrl}"
-                app:shapeAppearanceOverlay="@style/Cast.Image"
+                app:shapeAppearanceOverlay="@style/CastImage"
                 tools:srcCompat="@drawable/image" />
 
             <LinearLayout

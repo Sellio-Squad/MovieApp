@@ -301,7 +301,7 @@
 
     <style name="TextStyle" parent="TextStyle.Title.Medium" />
 
-    <style name="Cast.Image">
+    <style name="CastImage">
         <item name="cornerSizeTopLeft">12dp</item>
         <item name="cornerSizeTopRight">12dp</item>
         <item name="cornerSizeBottomLeft">12dp</item>

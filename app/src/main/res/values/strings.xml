@@ -79,7 +79,6 @@
     <string name="zero">\.0</string>
     <string name="my_ratings">My Ratings</string>
     <string name="items">%1$s Items</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create">Create</string>
     <string name="list_name">List Name</string>
@@ -103,6 +102,7 @@
     <string name="this_list_has_no_lists">No lists found</string>
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
+    <string name="add_rating">Add Rating</string>
     <string name="delete_icon">delete icon</string>
     <string name="icon">icon</string>
     <string name="placeholder">placeholder</string>

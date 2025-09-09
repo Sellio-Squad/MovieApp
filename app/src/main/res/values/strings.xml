@@ -107,6 +107,9 @@
     <string name="icon">icon</string>
     <string name="try_again">Try Again</string>
     <string name="create_collection">Create Collection</string>
+    <string name="third">Third</string>
+    <string name="second">Second</string>
+    <string name="first">First</string>
     <string name="placeholder">placeholder</string>
     <string name="behind_the_scenes_section_title">Behind the Scenes</string>
     <string name="behind_the_scenes_section_show_more">Show More</string>

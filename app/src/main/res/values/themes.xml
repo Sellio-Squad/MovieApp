@@ -158,5 +158,147 @@
 
     </style>
 
+    <!-- Text styles for the CineVerse -->
+    <style name="TextStyle.Display">
+        <item name="android:fontFamily">@font/manrope_bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextStyle.Title.ExtraLarge">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle.Title.Large">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle.Title.Medium">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle.Title.Small">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Body Large -->
+    <style name="TextStyle.Body.Large.Regular">
+        <item name="android:fontFamily">@font/manrope_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Body.Large.Medium">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Body.Large.SemiBold">
+        <item name="android:fontFamily">@font/manrope_semi_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Body Medium -->
+    <style name="TextStyle.Body.Medium.Regular">
+        <item name="android:fontFamily">@font/manrope_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Body.Medium.Medium">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Body.Medium.SemiBold">
+        <item name="android:fontFamily">@font/manrope_semi_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Body Small -->
+    <style name="TextStyle.Body.Small.Regular">
+        <item name="android:fontFamily">@font/manrope_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Body.Small.Medium">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Body.Small.SemiBold">
+        <item name="android:fontFamily">@font/manrope_semi_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Label Large -->
+    <style name="TextStyle.Label.Large.Regular">
+        <item name="android:fontFamily">@font/manrope_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Label.Large.Medium">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Label.Large.SemiBold">
+        <item name="android:fontFamily">@font/manrope_semi_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Label Medium -->
+    <style name="TextStyle.Label.Medium.Regular">
+        <item name="android:fontFamily">@font/manrope_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Label.Medium.Medium">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Label.Medium.SemiBold">
+        <item name="android:fontFamily">@font/manrope_semi_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Label Small -->
+    <style name="TextStyle.Label.Small.Regular">
+        <item name="android:fontFamily">@font/manrope_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Label.Small.Medium">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="TextStyle.Label.Small.SemiBold">
+        <item name="android:fontFamily">@font/manrope_semi_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextStyle.Body.Large" parent="TextStyle.Body.Large.Regular" />
+    <style name="TextStyle.Body.Medium" parent="TextStyle.Body.Medium.Regular" />
+    <style name="TextStyle.Body.Small" parent="TextStyle.Body.Small.Regular" />
+    <style name="TextStyle.Label.Large" parent="TextStyle.Label.Large.Regular" />
+    <style name="TextStyle.Label.Medium" parent="TextStyle.Label.Medium.Regular" />
+    <style name="TextStyle.Label.Small" parent="TextStyle.Label.Small.Regular" />
+    <style name="TextStyle.Title" parent="TextStyle.Title.Medium" />
+
+    <style name="TextStyle" parent="TextStyle.Title.Medium" />
 
 </resources>

@@ -46,6 +46,7 @@
     <string name="trending_today_label">Trending Today</string>
     <string name="home">Home</string>
     <string name="explore">Explore</string>
+    <string name="match">Match</string>
     <string name="myList">My Lists</string>
     <string name="profile">Profile</string>
     <string name="play_trailer">Play Trailer</string>
@@ -102,6 +103,9 @@
     <string name="this_list_has_no_lists">No lists found</string>
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
+    <string name="delete_icon">delete icon</string>
+    <string name="icon">icon</string>
+    <string name="placeholder">placeholder</string>
     <string name="behind_the_scenes_section_title">Behind the Scenes</string>
     <string name="behind_the_scenes_section_show_more">Show More</string>
     <string name="behind_the_scenes_section_characters">Characters</string>

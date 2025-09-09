@@ -117,4 +117,5 @@
     <string name="behind_the_scenes_section_director">Director, Screenplay, Story</string>
     <string name="behind_the_scenes_section_screenplay">Screenplay</string>
     <string name="behind_the_scenes_section_story">Story</string>
+    <string name="join_as_guest">Join as Guest</string>
 </resources>

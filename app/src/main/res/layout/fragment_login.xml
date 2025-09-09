@@ -56,12 +56,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:afterTextChanged="@{(text) -> viewModel.onUserNameInputChange(text)}"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:afterTextChanged="@{(text) -> viewModel.onUserNameInputChange(text)}"
-                android:textColor="@color/shade_secondary_color"
-
-                />
+                android:textColor="@color/shade_secondary_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -80,9 +78,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:afterTextChanged="@{(text) -> viewModel.onPasswordInputChange(text)}"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:afterTextChanged="@{(text) -> viewModel.onPasswordInputChange(text)}"
                 android:textColor="@color/shade_secondary_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,17 +90,38 @@
             android:layout_height="56dp"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_extra_large"
+            android:background="@drawable/login_selector"
             android:enabled="@{viewModel.loginUIState.validForm}"
+            android:fontFamily="@font/manrope_medium"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
-            android:textAppearance="@style/SemiBold.Medium"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/button_color_primary"
+            android:textSize="@dimen/text_body_medium_medium"
+            android:textAllCaps="false"
+            app:hideIfTrue="@{viewModel.loginUIState.loading}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/guest"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/button_color_secondary"
+            android:elevation="0dp"
+            android:enabled="@{viewModel.loginUIState.validForm}"
+            android:fontFamily="@font/manrope_medium"
+            android:onClick="@{()->viewModel.onClickLogin()}"
+            android:text="@string/join_as_guest"
+            android:textColor="@color/button_color_onSecondary"
+            android:textSize="@dimen/text_body_medium_medium"
+            android:textAllCaps="false"
+            android:stateListAnimator="@null"
             app:cornerRadius="@dimen/radius_cineVerse_l"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            app:hideIfTrue="@{viewModel.loginUIState.loading}" />
+            app:layout_constraintTop_toBottomOf="@+id/containedButton" />
 
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -112,10 +131,10 @@
             android:indeterminate="true"
             android:visibility="gone"
             app:indicatorColor="@color/brand_color"
+            app:isVisible="@{viewModel.loginUIState.loading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"
-            app:isVisible="@{viewModel.loginUIState.loading}"
             app:trackColor="@color/shade_secondary_color" />
 
         <com.google.android.material.textview.MaterialTextView

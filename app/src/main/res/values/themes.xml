@@ -149,7 +149,7 @@
         <item name="chipStrokeColor">@color/selector_chip_stroke</item>
         <item name="chipStrokeWidth">1dp</item>
         <item name="android:textColor">@color/selector_chip_text</item>
-        <item name="chipCornerRadius">8dp</item>
+        <item name="chipCornerRadius">@dimen/radius_cineVerse_full</item>
     </style>
 
 
@@ -301,4 +301,18 @@
 
     <style name="TextStyle" parent="TextStyle.Title.Medium" />
 
+    <style name="CastImage">
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+    </style>
+
+    <style name="MovieAppFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/MovieAppFabCorners</item>
+    </style>
+
+    <style name="MovieAppFabCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_cineVerse_l</item>
+    </style>
 </resources>

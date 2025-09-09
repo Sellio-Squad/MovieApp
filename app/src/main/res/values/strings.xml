@@ -105,6 +105,9 @@
     <string name="add_rating">Add Rating</string>
     <string name="delete_icon">delete icon</string>
     <string name="icon">icon</string>
+    <string name="third">Third</string>
+    <string name="second">Second</string>
+    <string name="first">First</string>
     <string name="placeholder">placeholder</string>
     <string name="behind_the_scenes_section_title">Behind the Scenes</string>
     <string name="behind_the_scenes_section_show_more">Show More</string>

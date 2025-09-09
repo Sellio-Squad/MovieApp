@@ -45,26 +45,24 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    style="@style/TextStyle.Body.Medium.Medium"
                     android:id="@+id/cast_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
                     android:text="@{item.name}"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/manrope_medium"
                     android:textColor="@color/shade_color_primary"
                     tools:text="Cristian Bale" />
 
                 <TextView
+                    style="@style/TextStyle.Body.Small.Regular"
                     android:id="@+id/cast_character"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/manrope_regular"
                     android:textColor="@color/shade_color_secondary"
                     tools:text="Bruce Wayne" />
             </LinearLayout>

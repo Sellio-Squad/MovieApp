@@ -320,4 +320,30 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/radius_cineVerse_l</item>
     </style>
+    <style name="ctaCard">
+        <item name="android:background">@drawable/rating_card</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginStart">@dimen/spacing_medium</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_medium</item>
+    </style>
+
+
+    <style name="CtaText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/manrope_medium</item>
+    </style>
+
+    <style name="CtaText.Title">
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:textColor">@color/shade_color_primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="CtaText.Description">
+        <item name="android:textColor">@color/shade_color_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
 </resources>

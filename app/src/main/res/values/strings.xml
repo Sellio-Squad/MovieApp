@@ -115,4 +115,8 @@
     <string name="behind_the_scenes_section_director">Director, Screenplay, Story</string>
     <string name="behind_the_scenes_section_screenplay">Screenplay</string>
     <string name="behind_the_scenes_section_story">Story</string>
+    <string name="you_rated_it">You rated it</string>
+    <string name="tap_to_change_your_rating">Tap to change your rating</string>
+    <string name="title">Title</string>
+    <string name="caption">Caption</string>
 </resources>

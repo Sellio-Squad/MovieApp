@@ -313,6 +313,6 @@
 
     <style name="MovieAppFabCorners">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/radius_medium</item>
+        <item name="cornerSize">@dimen/radius_cineVerse_l</item>
     </style>
 </resources>

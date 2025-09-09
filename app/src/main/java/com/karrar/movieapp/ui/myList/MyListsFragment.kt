@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.myList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -23,7 +22,7 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, getString(R.string.myList))
+        setTitle(true, getString(R.string.match))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
         collectEvent()
     }

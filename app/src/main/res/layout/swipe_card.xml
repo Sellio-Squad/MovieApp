@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+
+    <data>
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.SavedMediaUIState" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.myList.listDetails.ListDetailsInteractionListener" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutDescription="@xml/scene_swipe">
+
+        <LinearLayout
+            android:id="@+id/deleteBackground"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rounded_delete_button"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardView"
+            android:alpha="0"
+            android:visibility="gone"
+            >
+
+            <ImageView
+                android:id="@+id/deleteIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/delete_icon"
+                android:src="@drawable/ic_trash" />
+        </LinearLayout>
+            <include
+                android:id="@+id/cardView"
+                layout="@layout/item_list_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:item="@{item}"
+                app:listener="@{listener}" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

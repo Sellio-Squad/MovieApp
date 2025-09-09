@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="40dp"
+   >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/toggle_button_background" />
+
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/toggle_button_indicator"
+        android:layout_marginStart="0dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_grid_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="grid_view_selected"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_grid_view"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_list_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="list_view_active"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_list_view"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>

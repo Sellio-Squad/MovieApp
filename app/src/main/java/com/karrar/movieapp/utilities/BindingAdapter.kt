@@ -152,8 +152,8 @@ fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolea
 fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
-            placeholder(R.drawable.loading)
-            error(R.drawable.ic_profile_place_holder)
+            placeholder(R.drawable.image_error_palceholder)
+            error(R.drawable.profile)
         }
     }
 }

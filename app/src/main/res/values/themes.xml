@@ -92,6 +92,10 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
+    <style name="CardCorners.large">
+        <item name="cornerSize">@dimen/radius_cineVerse_l</item>
+    </style>
+
     <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:textColorHint">@color/shade_secondary_color</item>
         <item name="boxBackgroundColor">@color/text_field_background_color</item>

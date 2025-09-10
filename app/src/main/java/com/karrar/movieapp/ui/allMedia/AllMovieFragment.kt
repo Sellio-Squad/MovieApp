@@ -93,7 +93,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.POPULAR -> resources.getString(R.string.popular)
             AllMediaType.TOP_RATED -> resources.getString(R.string.title_top_rated_tv_show)
             AllMediaType.TRENDING -> resources.getString(R.string.title_trending)
-            AllMediaType.NOW_STREAMING -> resources.getString(R.string.title_streaming)
+            AllMediaType.RECENTLY_RELEASED -> resources.getString(R.string.title_streaming)
             AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)

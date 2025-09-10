@@ -98,7 +98,7 @@ class HomeAdapter(
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
 
-                is HomeItem.NowStreaming -> {
+                is HomeItem.RecentlyReleased -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
 
@@ -158,7 +158,7 @@ class HomeAdapter(
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow
                 is HomeItem.Adventure,
                 is HomeItem.Mystery,
-                is HomeItem.NowStreaming,
+                is HomeItem.RecentlyReleased,
                 is HomeItem.Trending,
                 is HomeItem.Upcoming,
                 -> R.layout.list_movie

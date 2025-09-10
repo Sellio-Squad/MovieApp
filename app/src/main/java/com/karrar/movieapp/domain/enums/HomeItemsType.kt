@@ -3,8 +3,8 @@ package com.karrar.movieapp.domain.enums
 enum class HomeItemsType(val value :String) {
     ON_THE_AIR("On the air"),
     TRENDING("Trending"),
-    NOW_STREAMING("Now streaming"),
-    UPCOMING("Upcoming"),
+    RECENTLY_RELEASED("Recently Released"),
+    UPCOMING("Upcoming Movies"),
     MYSTERY("Mystery"),
     ADVENTURE("Adventure"),
     NON("")

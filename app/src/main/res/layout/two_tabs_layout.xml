@@ -8,7 +8,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/brand_color_primary"
+        app:tabIndicator="@drawable/tab_indicator"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/brand_color_primary"
         app:tabTextColor="@color/shade_color_tertiary"
@@ -27,4 +27,5 @@
             android:layout_height="wrap_content"
             android:text="@string/second" />
     </com.google.android.material.tabs.TabLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

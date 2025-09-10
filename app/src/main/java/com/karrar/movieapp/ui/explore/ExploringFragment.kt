@@ -44,7 +44,12 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> viewModel.onClickMovies()
+                    1 -> viewModel.onClickTVShow()
+                }
+            }
         })
 
     }

@@ -92,6 +92,15 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
+    <style name="CardCorners.TopOnlyRounded" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_cineVerse_size5xl</item>
+        <item name="cornerSizeTopRight">@dimen/radius_cineVerse_size5xl</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+
     <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:textColorHint">@color/shade_secondary_color</item>
         <item name="boxBackgroundColor">@color/text_field_background_color</item>

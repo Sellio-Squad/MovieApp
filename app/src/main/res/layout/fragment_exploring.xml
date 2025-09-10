@@ -17,7 +17,6 @@
         android:background="@color/background_color"
         app:layoutDescription="@xml/fragment_exploring_scene">
 
-
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
             android:layout_width="128dp"
@@ -128,8 +127,6 @@
                 android:text="@string/series"/>
         </com.google.android.material.tabs.TabLayout>
 
-
-
         <TextView
             android:id="@+id/text_trend_label"
             style="@style/SemiBold.Medium"
@@ -138,7 +135,7 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:text="@string/trending_today_label"
             android:textColor="@color/shade_primary_color"
-
+            android:layout_marginStart="@dimen/spacing_medium"
             app:doneLoading="@{viewModel.uiState.loading}"
             app:errorNotEmpty="@{viewModel.uiState.error}"
 

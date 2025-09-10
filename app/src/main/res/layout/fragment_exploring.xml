@@ -128,6 +128,41 @@
 
 
 
+        <TextView
+            android:id="@+id/text_trend_label"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/trending_today_label"
+            android:textColor="@color/shade_primary_color"
+
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
+
+            app:layout_constraintStart_toStartOf="@id/tabLayout"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_trend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:clipToPadding="false"
+            android:elevation="@dimen/spacing_too_small"
+
+            app:doneLoading="@{viewModel.uiState.loading}"
+            app:errorNotEmpty="@{viewModel.uiState.error}"
+
+            app:items="@{viewModel.uiState.trendyMovie}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_trend_label"
+            app:spanCount="2"
+            tools:listitem="@layout/item_trend" />
 
         <include
             android:id="@+id/animation_loading"

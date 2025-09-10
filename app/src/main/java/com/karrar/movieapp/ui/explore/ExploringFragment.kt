@@ -7,11 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.tabs.TabLayout
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploringUIEvent
 import com.karrar.movieapp.ui.explore.exploreUIState.TrendyMediaUIState
+import com.karrar.movieapp.ui.search.SearchViewModel
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +35,18 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
         setTitle(true, resources.getString(R.string.explore_label))
         collectEvent()
         binding.recyclerTrend.adapter = TrendAdapter(mutableListOf(), viewModel)
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> viewModel.onClickMovies()
+                    1 -> viewModel.onClickTVShow()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
     }
 
     private fun collectEvent() {

@@ -8,6 +8,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background_color_screen"
         app:tabIndicator="@drawable/tab_indicator"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/brand_color_primary"

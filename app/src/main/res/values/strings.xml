@@ -121,4 +121,6 @@
     <string name="tap_to_change_your_rating">Tap to change your rating</string>
     <string name="title">Title</string>
     <string name="caption">Caption</string>
+    <string name="nothing_found">Nothing Found!</string>
+    <string name="not_found_msg">We searched the entire universe… but found nothing matching your query. Try something else?</string>
 </resources>

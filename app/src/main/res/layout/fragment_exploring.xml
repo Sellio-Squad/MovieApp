@@ -17,6 +17,7 @@
         android:background="@color/background_color"
         app:layoutDescription="@xml/fragment_exploring_scene">
 
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
             android:layout_width="128dp"
@@ -107,6 +108,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/background_color_screen"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabSelectedTextColor="@color/brand_color_primary"
             app:tabTextColor="@color/shade_color_tertiary"

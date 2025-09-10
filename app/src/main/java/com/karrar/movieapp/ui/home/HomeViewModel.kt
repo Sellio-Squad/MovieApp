@@ -1,8 +1,6 @@
 package com.karrar.movieapp.ui.home
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.RequestStatus
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.usecase.home.HomeUseCasesContainer
@@ -267,7 +265,7 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         val type = when (homeItemsType) {
-            HomeItemsType.ON_THE_AIR -> AllMediaType.ON_THE_AIR
+            HomeItemsType.TOP_RATED_TV_SHOWS -> AllMediaType.TOP_RATED
             HomeItemsType.TRENDING -> AllMediaType.TRENDING
             HomeItemsType.NOW_STREAMING -> AllMediaType.NOW_STREAMING
             HomeItemsType.UPCOMING -> AllMediaType.UPCOMING

@@ -25,7 +25,9 @@
         style="@style/Regular.Medium"
         android:textColor="@color/shade_secondary_color"
         android:drawablePadding="6dp"
+        app:drawableStartCompat="@drawable/ic_history"
         app:drawableEndCompat="@drawable/ic_arrow_up_left"
+        app:drawableTint="@color/shade_secondary_color"
         android:onClick="@{() -> listener.onClickSearchHistory(item.name)}"/>
 
 </layout>

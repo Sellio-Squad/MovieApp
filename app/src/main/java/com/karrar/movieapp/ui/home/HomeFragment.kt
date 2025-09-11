@@ -44,7 +44,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         it.adventureMovies,
                         it.trendingMovies,
                         it.actors,
-                        it.matchesYourVibes
+//                        it.matchesYourVibes
+                        // TODO : uncomment this line when matches your vibes in data and domain layers completed
                     )
                 )
             }

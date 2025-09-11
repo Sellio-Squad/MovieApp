@@ -117,6 +117,8 @@
         <item name="startIconTint">@color/shade_color_tertiary</item>
         <item name="endIconTint">@color/shade_color_secondary</item>
         <item name="passwordToggleTint">@color/shade_color_secondary</item>
+        <item name="passwordToggleDrawable">@drawable/cineverse_password_toggle</item>
+
 
         <!-- Error styling -->
         <item name="errorEnabled">true</item>

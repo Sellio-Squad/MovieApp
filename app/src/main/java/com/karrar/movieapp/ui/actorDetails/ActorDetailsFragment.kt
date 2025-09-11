@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentActorDetailsBinding
 import com.karrar.movieapp.domain.enums.AllMediaType
+import com.karrar.movieapp.ui.actorDetails.actorSocial.SocialAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +23,7 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
         binding.relatedMovieRecycler.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
-
+        binding.socialMediaRecycler.adapter = SocialAdapter(mutableListOf(),viewModel)
         collectLast(viewModel.actorDetailsUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
@@ -39,7 +40,19 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
             ActorDetailsUIEvent.SeeAllMovies -> {
                 navigateToActorMovies()
             }
+            ActorDetailsUIEvent.SeeAllGallery -> {
+                navigateToGallery()
+            }
         }
+    }
+
+    private fun navigateToGallery() {
+        Navigation.findNavController(binding.root)
+            .navigate(
+                ActorDetailsFragmentDirections.actionActorDetailsFragmentToGalleryActorFragment(
+                    viewModel.args.id,
+                )
+            )
     }
 
     private fun navigateToActorMovies() {

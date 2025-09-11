@@ -132,7 +132,7 @@
                 style="@style/SemiBold.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/radius_large"
                 android:drawablePadding="@dimen/spacing_small"
                 app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
                 app:hideWhenSearch="@{viewModel.uiState.searchInput}"

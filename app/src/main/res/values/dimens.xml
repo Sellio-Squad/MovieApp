@@ -25,6 +25,7 @@
 
     <!-- radius -->
     <dimen name="radius_large">24dp</dimen>
+    <dimen name="radius_lg">12dp</dimen>
     <dimen name="radius_medium">16dp</dimen>
     <dimen name="radius_small">8dp</dimen>
     <dimen name="radius_too_small">4dp</dimen>
@@ -71,5 +72,7 @@
     <dimen name="radius_cineVerse_size4xl">28dp</dimen>
     <dimen name="radius_cineVerse_size5xl">32dp</dimen>
     <dimen name="radius_cineVerse_full">1000dp</dimen>
+    <dimen name="bottom_sheet_horizontal_margin">10dp</dimen>
+    <dimen name="bottom_sheet_bottom_margin">30dp</dimen>
 
 </resources>

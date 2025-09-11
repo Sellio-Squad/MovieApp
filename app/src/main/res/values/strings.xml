@@ -121,4 +121,6 @@
     <string name="tap_to_change_your_rating">Tap to change your rating</string>
     <string name="title">Title</string>
     <string name="caption">Caption</string>
+    <string name="add_to_collection">Add to Collection</string>
+    <string name="new_collection">New Collection</string>
 </resources>

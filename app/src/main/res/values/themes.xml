@@ -345,5 +345,17 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="FloatingBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:windowIsFloating">true</item> <!-- This is crucial for it to behave like a dialog -->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item> <!-- Important for transparency -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_floating_bottom_sheet</item>
+    </style>
 </resources>

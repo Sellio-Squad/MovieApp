@@ -13,6 +13,9 @@ data class HomeUiState (
     val airingTodaySeries: HomeItem = HomeItem.AiringToday(emptyList()),
     val tvShowsSeries: HomeItem = HomeItem.TvShows(emptyList()),
     val actors: HomeItem = HomeItem.Actor(emptyList()),
+    val browseEverything: HomeItem = HomeItem.BrowseEverything(),
+    val letUsChooseForYou: HomeItem = HomeItem.LetUsChooseForYou(),
+    val recentlyViewed: HomeItem = HomeItem.RecentlyViewed(emptyList()),
     val isLoading:Boolean = false,
     val error : List<String> = emptyList(),
 )

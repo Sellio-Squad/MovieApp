@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import com.google.android.material.tabs.TabLayout
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
@@ -38,12 +39,30 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         super.onViewCreated(view, savedInstanceState)
         sharedElementEnterTransition = ChangeTransform()
         setTitle(false)
+        setupTabLayout()
         getSearchResult()
         setSearchHistoryAdapter()
         getSearchResultsBySearchTerm()
         collectLast(viewModel.searchUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
+    }
+
+    private fun setupTabLayout() {
+        binding.tabLayoutMediaType.selectTab(binding.tabLayoutMediaType.getTabAt(0))
+
+        binding.tabLayoutMediaType.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> viewModel.onSearchForMovie()
+                    1 -> viewModel.onSearchForSeries()
+                    2 -> viewModel.onSearchForActor()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
     }
 
     private fun setSearchHistoryAdapter() {

@@ -64,59 +64,39 @@
             <requestFocus />
         </com.google.android.material.textfield.TextInputEditText>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_media_type"
-            style="@style/Widget.Material3.ChipGroup"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_media_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            app:checkedChip="@id/chip_movie"
-            app:chipSpacingHorizontal="12dp"
-            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/input_search"
-            app:selectionRequired="true"
+            app:tabIndicatorColor="@color/brand_color"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/brand_color"
+            app:tabTextColor="@color/shade_ternary_color"
+            app:tabTextAppearance="@style/TabTextStyle"
             app:showWhenSearch="@{viewModel.uiState.searchInput}"
-            app:singleSelection="true">
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_movie"
-                style="@style/Chip.Regular.Small"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_movie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSearchForMovie()}"
-                android:paddingHorizontal="@dimen/spacing_medium"
-                android:paddingVertical="6dp"
-                android:text="@string/movies_chip"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small" />
+                android:text="@string/movies_chip" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_series"
-                style="@style/Chip.Regular.Small"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_series"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSearchForSeries()}"
-                android:paddingHorizontal="@dimen/spacing_medium"
-                android:paddingVertical="6dp"
-                android:text="@string/tv_shows_chip"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small" />
+                android:text="@string/tv_shows_chip" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_actors"
-                style="@style/Chip.Regular.Small"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_actors"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSearchForActor()}"
-                android:paddingHorizontal="@dimen/spacing_medium"
-                android:paddingVertical="6dp"
-                android:text="@string/actors_label"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small" />
-        </com.google.android.material.chip.ChipGroup>
+                android:text="@string/actors_label" />
+        </com.google.android.material.tabs.TabLayout>
 
         <TextView
             android:id="@+id/text_search_label"
@@ -147,7 +127,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout_media_type"
             app:loadingSearch="@{viewModel.uiState.loading}"
             app:searchInput="@{viewModel.uiState.searchInput}"
             tools:listitem="@layout/item_media_search" />
@@ -207,4 +187,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

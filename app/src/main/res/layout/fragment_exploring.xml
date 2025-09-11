@@ -21,6 +21,7 @@
             android:id="@+id/animation_lost_connection"
             android:layout_width="128dp"
             android:layout_height="128dp"
+            android:layout_gravity="center"
             android:layout_marginBottom="@dimen/spacing_small"
             app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,12 +35,11 @@
             style="@style/SemiBold.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_extra_large"
             android:text="@string/oops"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_trend_label"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
             app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
 
         <TextView
@@ -127,42 +127,53 @@
                 android:text="@string/series"/>
         </com.google.android.material.tabs.TabLayout>
 
-        <TextView
-            android:id="@+id/text_trend_label"
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
+        <HorizontalScrollView
+            android:id="@+id/chipGroup_genres"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:text="@string/trending_today_label"
-            android:textColor="@color/shade_primary_color"
-            android:layout_marginStart="@dimen/spacing_medium"
-            app:doneLoading="@{viewModel.uiState.loading}"
-            app:errorNotEmpty="@{viewModel.uiState.error}"
+            android:scrollbars="none"
+            android:paddingVertical="@dimen/spacing_small"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            app:layout_constraintStart_toStartOf="@id/tabLayout"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/spacing_medium"
+                android:paddingEnd="@dimen/spacing_medium"
+                app:listener="@{viewModel}"
+                app:selectedChip="@{viewModel.uiState.selectedGenreID}"
+                app:selectionRequired="true"
+                app:setGenres="@{viewModel.uiState.genres}"
+                app:singleLine="true"
+                app:singleSelection="true" />
 
+        </HorizontalScrollView>
+
+        <!-- Vertical Media RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_trend"
-            android:layout_width="match_parent"
+            android:id="@+id/recycler_media"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginTop="@dimen/spacing_small"
             android:clipToPadding="false"
-            android:elevation="@dimen/spacing_too_small"
+            android:paddingBottom="@dimen/spacing_medium"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/chipGroup_genres"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            app:doneLoading="@{viewModel.uiState.loading}"
-            app:errorNotEmpty="@{viewModel.uiState.error}"
 
-            app:items="@{viewModel.uiState.trendyMovie}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        <include
+            android:id="@+id/error"
+            layout="@layout/error2"
+            app:isError="@{!viewModel.uiState.error.empty}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_trend_label"
-            app:spanCount="2"
-            tools:listitem="@layout/item_trend" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
         <include
             android:id="@+id/animation_loading"
             layout="@layout/loading2"

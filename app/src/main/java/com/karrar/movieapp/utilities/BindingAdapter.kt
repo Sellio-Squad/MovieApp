@@ -12,6 +12,7 @@ import coil.load
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.ui.actorDetails.actorSocial.ActorSocialUIState
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
@@ -24,6 +25,13 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 @BindingAdapter("app:showWhenListNotEmpty")
 fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
     view.isVisible = list.isNotEmpty() == true
+}
+
+@BindingAdapter("app:showWhenListOfGalleryLargeThenThreeAndNotEmpty")
+fun <T> showWhenListOfGalleryLargeThenThreeAndNotEmpty(view: View, list: List<T>) {
+    if(list.isNotEmpty()){
+        view.isVisible = list.size >= 3
+    }
 }
 
 @BindingAdapter("app:showWhenListEmpty")

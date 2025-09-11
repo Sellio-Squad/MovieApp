@@ -16,7 +16,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
-import com.karrar.movieapp.ui.category.uiState.GenreUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.GenreUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -230,11 +230,20 @@ fun <T> setGenresChips(
     view: ChipGroup, chipList: List<GenreUIState>?, listener: T,
     selectedChip: Int?
 ) {
-    chipList?.let {
-        it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+    val genreIds = chipList?.map { it.genreID } ?: emptyList()
+
+    if (view.tag != genreIds) {
+        view.removeAllViews()
+        chipList?.forEach { genre ->
+            view.addView(view.createChip(genre, listener))
+        }
+        view.tag = genreIds
     }
-    val index = chipList?.indexOf(chipList.find { it.genreID == selectedChip }) ?: FIRST_CATEGORY_ID
-    view.getChildAt(index)?.id?.let { view.check(it) }
+
+    chipList?.indexOfFirst { it.genreID == selectedChip }?.takeIf { it >= 0 }?.let { index ->
+        val chipId = view.getChildAt(index).id
+        if (view.checkedChipId != chipId) view.check(chipId)
+    }
 }
 
 @BindingAdapter("app:genre")

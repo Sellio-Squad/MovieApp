@@ -128,6 +128,25 @@ class HomeAdapter(
                 is HomeItem.Upcoming -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
+
+                is HomeItem.BrowseEverything -> {
+                    holder.binding.run {
+                        setVariable(BR.listener, listener as HomeInteractionListener)
+                    }
+                }
+
+                is HomeItem.RecentlyViewed -> {
+                    holder.binding.setVariable(
+                        BR.adapterRecycler,
+                        RecentlyViewedAdapter(currentItem.items, listener as RecentlyViewedInteractionListener)
+                    )
+                }
+
+                is HomeItem.LetUsChooseForYou -> {
+                    holder.binding.run {
+                        setVariable(BR.listener, listener as HomeInteractionListener)
+                    }
+                }
             }
     }
 
@@ -160,6 +179,7 @@ class HomeAdapter(
     override fun getItemViewType(position: Int): Int {
         if (homeItems.isNotEmpty()) {
             return when (homeItems[position]) {
+                is HomeItem.BrowseEverything -> R.layout.item_browser_everything_cta
                 is HomeItem.Actor -> R.layout.list_actor
                 is HomeItem.TvShows -> R.layout.list_tv_shows
                 is HomeItem.Slider -> R.layout.list_popular
@@ -170,7 +190,10 @@ class HomeAdapter(
                 is HomeItem.NowStreaming,
                 is HomeItem.Trending,
                 is HomeItem.Upcoming,
-                    -> R.layout.list_movie
+                -> R.layout.list_movie
+
+                is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
+                is HomeItem.LetUsChooseForYou -> R.layout.item_let_us_choose_cta
             }
         }
         return -1

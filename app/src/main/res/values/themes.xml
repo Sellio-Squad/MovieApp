@@ -345,5 +345,13 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="cast_image" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeTopRight">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
 
 </resources>

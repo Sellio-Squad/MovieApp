@@ -121,4 +121,8 @@
     <string name="tap_to_change_your_rating">Tap to change your rating</string>
     <string name="title">Title</string>
     <string name="caption">Caption</string>
+    <string name="fao">FAO</string>
+    <string name="oops_no_internet">Oops! No Internet</string>
+    <string name="looks_like_you_re_offline_let_s_reconnect_so_you_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect\n so you don\'t miss out!</string>
+    <string name="try_again">Try Again</string>
 </resources>

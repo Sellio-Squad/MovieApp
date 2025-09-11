@@ -13,6 +13,4 @@ data class ExploreUIState(
     val currentType: String = Constants.MOVIE,
     val isLoading: Boolean = false,
     val error: List<ErrorUIState> = emptyList()
-) {
-    val loading: Boolean get() = isLoading
-}
+)

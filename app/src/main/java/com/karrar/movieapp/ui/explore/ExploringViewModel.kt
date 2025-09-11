@@ -64,6 +64,7 @@ class ExploringViewModel @Inject constructor(
     private fun getGenres(mediaType: Int) {
         viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isLoading = true) }
                 val genres = getGenresUseCase(mediaType).map { genreUIStateMapper.map(it) }
                 _uiState.update { 
                     it.copy(
@@ -72,7 +73,6 @@ class ExploringViewModel @Inject constructor(
                         error = emptyList()
                     ) 
                 }
-                // Load media for the first genre (All)
                 if (genres.isNotEmpty()) {
                     getMediaList(currentMediaType, genres.first().genreID)
                 }
@@ -89,6 +89,7 @@ class ExploringViewModel @Inject constructor(
 
     fun getMediaList(mediaType: Int, categoryId: Int) {
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
             val result = getCategoryUseCase(mediaType, categoryId)
             _uiState.update {
                 it.copy(
@@ -157,5 +158,6 @@ class ExploringViewModel @Inject constructor(
             }
         }
     }
+
 
 }

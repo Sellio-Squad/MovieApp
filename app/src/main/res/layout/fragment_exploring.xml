@@ -17,18 +17,6 @@
         android:background="@color/background_color"
         app:layoutDescription="@xml/fragment_exploring_scene">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_lost_connection"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/spacing_small"
-            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
 
         <TextView
             android:id="@+id/title_lost_connection"
@@ -71,17 +59,7 @@
 
         <!--        layout-->
 
-        <TextView
-            android:id="@+id/text_explore"
-            style="@style/SemiBold.Large"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:paddingVertical="12dp"
-            android:paddingStart="@dimen/spacing_medium"
-            android:text="@string/explore_label"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <EditText
             android:id="@+id/input_search"
@@ -101,7 +79,7 @@
             android:transitionName="search_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_explore" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -174,6 +152,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
+
         <include
             android:id="@+id/animation_loading"
             layout="@layout/loading2"
@@ -181,7 +160,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isLoading="@{viewModel.uiState.loading}"
+            app:isLoading="@{viewModel.uiState.isLoading}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

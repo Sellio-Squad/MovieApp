@@ -7,5 +7,6 @@ enum class HomeItemsType(val value :String) {
     UPCOMING("Upcoming Movies"),
     MYSTERY("Mystery"),
     ADVENTURE("Adventure"),
+    MATCHES_YOUR_VIBE("Matches Your Vibe"),
     NON("")
 }

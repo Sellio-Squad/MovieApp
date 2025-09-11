@@ -44,6 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         it.adventureMovies,
                         it.trendingMovies,
                         it.actors,
+                        it.matchesYourVibes
                     )
                 )
             }

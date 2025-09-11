@@ -9,6 +9,7 @@ data class HomeUiState (
     val adventureMovies: HomeItem = HomeItem.Adventure(emptyList()),
     val mysteryMovies: HomeItem = HomeItem.Mystery(emptyList()),
     val upcomingMovies: HomeItem = HomeItem.Upcoming(emptyList()),
+    val matchesYourVibes: HomeItem = HomeItem.MatchesYourVibes(emptyList()),
     val onTheAiringSeries: HomeItem = HomeItem.OnTheAiring(emptyList()),
     val airingTodaySeries: HomeItem = HomeItem.AiringToday(emptyList()),
     val tvShowsSeries: HomeItem = HomeItem.TvShows(emptyList()),

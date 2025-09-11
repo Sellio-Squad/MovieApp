@@ -19,4 +19,5 @@ class HomeUseCasesContainer @Inject constructor(
     val getAdventureMoviesUseCase: GetAdventureMoviesUseCase,
     val getNowStreamingMoviesUseCase: GetNowStreamingMoviesUseCase,
     val getTrendingActorsUseCase: GetTrendingActorsUseCase,
+    val getMatchesYourVibeMoviesUseCase: GetMatchesYourVibeMoviesUseCase
 )

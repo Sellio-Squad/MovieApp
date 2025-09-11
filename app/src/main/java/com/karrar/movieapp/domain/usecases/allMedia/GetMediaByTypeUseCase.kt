@@ -51,7 +51,6 @@ class GetMediaByTypeUseCase @Inject constructor(
             }
             AllMediaType.MYSTERY -> {
                 wrapper({ movieRepository.getMovieByGenre(Constants.MYSTERY_ID) }, movieMapper::map)
-
             }
             AllMediaType.ADVENTURE -> {
                 wrapper(
@@ -59,6 +58,14 @@ class GetMediaByTypeUseCase @Inject constructor(
                     movieMapper::map
                 )
             }
+
+            AllMediaType.MATCHES_YOUR_VIBE -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.ADVENTURE_ID) },
+                    movieMapper::map
+                )
+            }
+            //TODO : change AllMediaType.MATCHES_YOUR_VIBE return with specific repo and mapper
         }
     }
 

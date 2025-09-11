@@ -98,6 +98,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
             AllMediaType.ACTOR_MOVIES -> ""
+            AllMediaType.MATCHES_YOUR_VIBE -> getString(R.string.title_matches_your_vibe)
         }
     }
 

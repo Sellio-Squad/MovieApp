@@ -53,7 +53,9 @@ class HomeViewModel @Inject constructor(
         getMystery()
         getAdventure()
         getActors()
+        getMatchesYourVibes()
     }
+
 
     override fun getData() {
         getHomeData()
@@ -68,8 +70,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(popularUiMapper::map)
                         _homeUiState.update {
-                            it.copy(popularMovies = HomeItem.Slider(items),
-                                isLoading = false)
+                            it.copy(
+                                popularMovies = HomeItem.Slider(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -92,8 +96,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(trendingMovies = HomeItem.Trending(items),
-                                isLoading = false)
+                            it.copy(
+                                trendingMovies = HomeItem.Trending(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -111,8 +117,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(actorUiMapper::map)
                         _homeUiState.update {
-                            it.copy(actors = HomeItem.Actor(items),
-                                isLoading = false)
+                            it.copy(
+                                actors = HomeItem.Actor(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -130,8 +138,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(upcomingMovies = HomeItem.Upcoming(items),
-                                isLoading = false)
+                            it.copy(
+                                upcomingMovies = HomeItem.Upcoming(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -139,8 +149,26 @@ class HomeViewModel @Inject constructor(
                 onError(th.message.toString())
             }
         }
+    }
 
-
+    private fun getMatchesYourVibes() {
+        viewModelScope.launch {
+            try {
+                homeUseCasesContainer.getMatchesYourVibeMoviesUseCase().collect { list ->
+                    if (list.isNotEmpty()) {
+                        val items = list.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(
+                                matchesYourVibes = HomeItem.MatchesYourVibes(items),
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
     }
 
     private fun getRecentlyReleased() {
@@ -150,8 +178,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(recentlyReleasedMovies = HomeItem.RecentlyReleased(items),
-                                isLoading = false)
+                            it.copy(
+                                recentlyReleasedMovies = HomeItem.RecentlyReleased(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -169,12 +199,15 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(tvShowsSeries = HomeItem.TvShows(items),
-                                isLoading = false)
+                            it.copy(
+                                tvShowsSeries = HomeItem.TvShows(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
-            }catch (t:Throwable){}
+            } catch (t: Throwable) {
+            }
         }
     }
 
@@ -185,8 +218,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(onTheAiringSeries = HomeItem.OnTheAiring(items),
-                                isLoading = false)
+                            it.copy(
+                                onTheAiringSeries = HomeItem.OnTheAiring(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -204,8 +239,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(airingTodaySeries = HomeItem.AiringToday(items),
-                                isLoading = false)
+                            it.copy(
+                                airingTodaySeries = HomeItem.AiringToday(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -213,7 +250,6 @@ class HomeViewModel @Inject constructor(
                 onError(th.message.toString())
             }
         }
-
 
     }
 
@@ -224,8 +260,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(mysteryMovies = HomeItem.Mystery(items),
-                                isLoading = false)
+                            it.copy(
+                                mysteryMovies = HomeItem.Mystery(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -243,8 +281,10 @@ class HomeViewModel @Inject constructor(
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(adventureMovies = HomeItem.Adventure(items),
-                                isLoading = false)
+                            it.copy(
+                                adventureMovies = HomeItem.Adventure(items),
+                                isLoading = false
+                            )
                         }
                     }
                 }
@@ -271,6 +311,7 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
             HomeItemsType.MYSTERY -> AllMediaType.MYSTERY
             HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE
+            HomeItemsType.MATCHES_YOUR_VIBE -> AllMediaType.MATCHES_YOUR_VIBE
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }

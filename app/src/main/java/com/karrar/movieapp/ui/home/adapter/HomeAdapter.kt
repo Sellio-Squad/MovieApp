@@ -119,6 +119,8 @@ class HomeAdapter(
                 is HomeItem.Upcoming -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
+
+                is HomeItem.MatchesYourVibes -> bindMovie(holder, currentItem.items, currentItem.type)
             }
     }
 
@@ -161,6 +163,7 @@ class HomeAdapter(
                 is HomeItem.RecentlyReleased,
                 is HomeItem.Trending,
                 is HomeItem.Upcoming,
+                is HomeItem.MatchesYourVibes
                 -> R.layout.list_movie
             }
         }

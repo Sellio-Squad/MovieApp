@@ -59,11 +59,19 @@ class SaveMovieViewModel @Inject constructor(
 
     override fun onClickSaveList(listID: Int) {
         viewModelScope.launch {
+            val currentListItems = _myListsUIState.value.myListItemUI.toMutableList()
+            val itemIndex = currentListItems.indexOfFirst { it.listID == listID }
+
+            currentListItems[itemIndex] = currentListItems[itemIndex].copy(isLoading = true)
+            _myListsUIState.update { it.copy(myListItemUI = currentListItems) }
             val message = try {
                 saveMovieToMyListUseCase(listID, args.movieId)
             } catch (t: Throwable) {
                 t.message.toString()
             }
+            currentListItems[itemIndex] = currentListItems[itemIndex].copy(isLoading = false)
+            _myListsUIState.update { it.copy(myListItemUI = currentListItems) }
+
             _saveMovieUIEvent.update { Event(SaveMovieUIEvent.DisplayMessage(message ?: "")) }
         }
     }

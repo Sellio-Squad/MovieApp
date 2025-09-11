@@ -92,6 +92,10 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
+    <style name="CardCorners.large">
+        <item name="cornerSize">@dimen/radius_cineVerse_l</item>
+    </style>
+
     <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:textColorHint">@color/shade_secondary_color</item>
         <item name="boxBackgroundColor">@color/text_field_background_color</item>
@@ -181,6 +185,7 @@
         <item name="android:fontFamily">@font/manrope_medium</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/shade_color_primary</item>
     </style>
 
     <style name="TextStyle.Title.Small">
@@ -216,6 +221,7 @@
         <item name="android:fontFamily">@font/manrope_medium</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/shade_color_secondary</item>
     </style>
     <style name="TextStyle.Body.Medium.SemiBold">
         <item name="android:fontFamily">@font/manrope_semi_bold</item>

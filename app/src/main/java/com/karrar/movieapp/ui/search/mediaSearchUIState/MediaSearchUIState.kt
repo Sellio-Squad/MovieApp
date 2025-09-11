@@ -14,4 +14,5 @@ data class MediaSearchUIState(
     val isLoading : Boolean = false,
     val isEmpty: Boolean = false,
     val error : List<Error> = emptyList(),
+    val isGridMode: Boolean = false
 )

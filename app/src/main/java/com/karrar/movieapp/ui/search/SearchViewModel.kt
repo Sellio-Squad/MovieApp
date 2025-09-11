@@ -83,7 +83,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-
     fun onSearchForMovie() {
         viewModelScope.launch {
             _uiState.update {
@@ -126,6 +125,21 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    // New methods for handling view mode toggle
+    fun onToggleViewMode() {
+        _uiState.update { it.copy(isGridMode = !it.isGridMode) }
+        _searchUIEvent.update { Event(SearchUIEvent.ToggleViewModeEvent) }
+    }
+
+    fun onGridViewSelected() {
+        _uiState.update { it.copy(isGridMode = true) }
+        _searchUIEvent.update { Event(SearchUIEvent.ToggleViewModeEvent) }
+    }
+
+    fun onListViewSelected() {
+        _uiState.update { it.copy(isGridMode = false) }
+        _searchUIEvent.update { Event(SearchUIEvent.ToggleViewModeEvent) }
+    }
 
     override fun onClickMediaResult(media: MediaUIState) {
         saveSearchResult(media.mediaID, media.mediaName)
@@ -182,5 +196,4 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
-
 }

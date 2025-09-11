@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -17,6 +19,7 @@ import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -125,6 +128,10 @@ fun hideWhenBlankSearch(view: View, text: String) {
     }
 }
 
+@BindingAdapter("app:hideWhenSearchActor")
+fun hideWhenSearchActor(view: View, mediaType: MediaTypes?) {
+    view.visibility = if (mediaType == MediaTypes.ACTOR) View.GONE else View.VISIBLE
+}
 
 @BindingAdapter(value = ["app:searchInput", "app:errorSearch", "app:loadingSearch"])
 fun <T> hideWhenSuccessSearch(view: View, text: String, error: List<T>?, loading: Boolean) {
@@ -134,6 +141,18 @@ fun <T> hideWhenSuccessSearch(view: View, text: String, error: List<T>?, loading
         View.INVISIBLE
     }
 }
+
+@BindingAdapter("app:truncatedTitle")
+fun setTruncatedTitle(view: TextView, title: String?) {
+    title?.let {
+        if (it.length > 15) {
+            view.text = "${it.substring(0, 12)}..."
+        } else {
+            view.text = it
+        }
+    }
+}
+
 
 // different
 

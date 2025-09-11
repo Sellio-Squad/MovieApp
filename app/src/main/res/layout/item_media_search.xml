@@ -21,7 +21,6 @@
         android:onClick="@{() -> listener.onClickMediaResult(item)}"
         app:cardCornerRadius="@dimen/radius_small">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,6 +31,7 @@
                 android:layout_width="142dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
+                android:transitionName="@{`media_image_` + item.mediaID}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:mediaPoster="@{item.mediaImage}"
@@ -48,11 +48,11 @@
                 android:ellipsize="end"
                 android:lines="2"
                 android:text="@{item.mediaName}"
+                android:transitionName="@{`media_title_` + item.mediaID}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="The Mandalorian" />
-
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_rate_movie"
@@ -65,6 +65,7 @@
                 android:drawablePadding="@dimen/spacing_too_small"
                 android:text="@{String.valueOf(item.mediaVoteAverage)}"
                 android:textColor="@color/yellow"
+                android:transitionName="@{`media_rating_` + item.mediaID}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
                 tools:text="8.4" />

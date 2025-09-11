@@ -51,6 +51,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.adventureMovies,
                         uiState.trendingMovies,
                         uiState.actors,
+                        uiState.browseEverything,
+                        uiState.letUsChooseForYou,
+                        uiState.recentlyViewed
                     )
                 )
 
@@ -114,6 +117,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(
                     event.seriesID
                 )
+            }
+            HomeUIEvent.ClickBrowseEverythingEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToExploringFragment()
+            }
+
+            HomeUIEvent.ClickSeeAllRecentlyViewedEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToWatchHistoryFragment()
+            }
+
+            HomeUIEvent.ClickLetUsChooseForYouEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToMyListFragment()
             }
         }
         findNavController().navigate(action)

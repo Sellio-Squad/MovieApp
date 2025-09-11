@@ -18,6 +18,7 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
     override val layoutIdFragment = R.layout.dialog_save_movie
     override val viewModel: SaveMovieViewModel by viewModels()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

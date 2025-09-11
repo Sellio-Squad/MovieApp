@@ -125,6 +125,8 @@
     <string name="oops_no_internet">Oops! No Internet</string>
     <string name="looks_like_you_re_offline_let_s_reconnect_so_you_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect\n so you don\'t miss out!</string>
     <string name="try_again">Try Again</string>
+    <string name="add_to_collection">Add to Collection</string>
+    <string name="new_collection">New Collection</string>
     <string name="welcome_to_your_movie_universe">Welcome to your movie universe</string>
     <string name="discover_track_and_rate_your_favorite_movies_series">Discover, track, and rate your favorite\n movies &amp; series.</string>
     <string name="track_everything">Track everything</string>

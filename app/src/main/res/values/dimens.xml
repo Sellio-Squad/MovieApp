@@ -71,5 +71,9 @@
     <dimen name="radius_cineVerse_size4xl">28dp</dimen>
     <dimen name="radius_cineVerse_size5xl">32dp</dimen>
     <dimen name="radius_cineVerse_full">1000dp</dimen>
+    <dimen name="on_boarding_btn_size">48dp</dimen>
+    <dimen name="vertical_btn_padding">14dp</dimen>
+    <dimen name="on_boarding_card_top_margin">53dp</dimen>
+    <dimen name="zero_dp">0dp</dimen>
 
 </resources>

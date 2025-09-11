@@ -103,4 +103,13 @@
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
     <string name="icon">icon</string>
+    <string name="best_of_christian_bale">Best of Christian Bale</string>
+    <string name="show_more">Show More</string>
+    <string name="gallery">Gallery</string>
+    <string name="born_on">Born on</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="youtube">Youtube</string>
+    <string name="tiktok">Tiktok</string>
+    <string name="instagram">Instagram</string>
 </resources>

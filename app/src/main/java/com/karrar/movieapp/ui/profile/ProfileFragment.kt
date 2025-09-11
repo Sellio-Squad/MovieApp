@@ -39,6 +39,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ProfileUIEvent.WatchHistoryEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
             }
+            ProfileUIEvent.DialogPreferencesEvent -> {
+                //replace it with navigate Preference Fragment
+                ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
+            }
+
+            ProfileUIEvent.DialogLanguageEvent -> {
+                //replace it with navigate Language Fragment
+                ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
+            }
         }
         findNavController().navigate(action)
     }

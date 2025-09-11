@@ -3,8 +3,8 @@ package com.karrar.movieapp.utilities
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.LinearLayout
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -160,6 +160,15 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
+@BindingAdapter("posterImage")
+fun ImageView.setPosterImage(imageURL: String?) {
+    imageURL?.let {
+        this.load(imageURL) {
+            placeholder(R.drawable.image_error_palceholder)
+            error(R.drawable.profile)
+        }
+    }
+}
 @BindingAdapter("app:mediaPoster")
 fun loadMediaPoster(image: ImageView, imageURL: String?) {
     imageURL?.let {

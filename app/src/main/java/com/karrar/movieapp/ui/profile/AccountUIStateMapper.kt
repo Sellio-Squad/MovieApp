@@ -9,7 +9,7 @@ class AccountUIStateMapper @Inject constructor() : Mapper<Account, ProfileUIStat
     override fun map(input: Account): ProfileUIState {
         return ProfileUIState(
             avatarPath = BuildConfig.IMAGE_BASE_PATH + input.avatarPath,
-            name = input.name,
+            name = input.name.ifEmpty { input.username },
             username = input.username
         )
     }

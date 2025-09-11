@@ -22,8 +22,9 @@ class ProfileViewModel @Inject constructor(
     private val _profileDetailsUIState = MutableStateFlow(ProfileUIState())
     val profileDetailsUIState = _profileDetailsUIState.asStateFlow()
 
-    private val _profileUIEvent: MutableStateFlow<Event<ProfileUIEvent?>> = MutableStateFlow(Event(null))
-    val profileUIEvent= _profileUIEvent.asStateFlow()
+    private val _profileUIEvent: MutableStateFlow<Event<ProfileUIEvent?>> =
+        MutableStateFlow(Event(null))
+    val profileUIEvent = _profileUIEvent.asStateFlow()
 
     init {
         getData()
@@ -69,6 +70,14 @@ class ProfileViewModel @Inject constructor(
 
     fun onClickLogout() {
         _profileUIEvent.update { Event(ProfileUIEvent.DialogLogoutEvent) }
+    }
+
+    fun onClickPreferences() {
+        _profileUIEvent.update { Event(ProfileUIEvent.DialogPreferencesEvent) }
+    }
+
+    fun onClickLanguage() {
+        _profileUIEvent.update { Event(ProfileUIEvent.DialogLanguageEvent) }
     }
 
     fun onClickWatchHistory() {

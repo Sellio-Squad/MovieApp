@@ -144,5 +144,11 @@
     <string name="discover_track_and_rate_your_favorite_movies_and_series">Discover, track and rate your favorite movies and series</string>
     <string name="nothing_found">Nothing Found!</string>
     <string name="not_found_msg">We searched the entire universe… but found nothing matching your query. Try something else?</string>
+    <string name="did_you_watch_it">Did you watch it?</string>
+    <string name="star_circlr_shape">star circlr shape</string>
+    <string name="give_it_stars">Give it Stars</string>
+    <string name="let_the_world_lnow_how_you_felt">Let the world lnow how you felt</string>
+    <string name="arrow">arrow</string>
+    <string name="star_icon">star_icon</string>
     <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
 </resources>

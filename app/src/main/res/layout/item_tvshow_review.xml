@@ -76,34 +76,42 @@
             app:readMoreText="Read more"
             tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
-
-        <androidx.appcompat.widget.AppCompatRatingBar
-            android:id="@+id/rating_bar"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="12dp"
-            android:isIndicator="true"
-            android:progressDrawable="@drawable/rating_custom"
-            android:rating="@{item.rating}"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:stepSize="1"
-            android:splitTrack="false"
-            android:transformPivotX="0dp"
-            app:layout_constraintStart_toStartOf="@+id/comment"
-            app:layout_constraintTop_toBottomOf="@+id/comment" />
-
-        <TextView
-            android:id="@+id/comment_date"
-            style="@style/Regular.Small.ternary"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/bottomRow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{item.createDate}"
-            android:textSize="12sp"
-            android:textColor="@color/shade_secondary_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rating_bar"
-            tools:text="3w ago" />
+            android:orientation="horizontal"
+            android:layout_marginVertical="12dp"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="comment_date"
+            app:layout_constraintTop_toBottomOf="@+id/comment"
+            >
+
+            <include
+                android:id="@+id/reviewRatingBar"
+                layout="@layout/movie_rating_bar"
+
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/comment_date"
+                style="@style/Regular.Small.ternary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/shade_secondary_color"
+                android:text="@{item.createDate}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rating_bar"
+                tools:text="3w ago" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

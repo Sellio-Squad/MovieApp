@@ -36,6 +36,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         collectHomeData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getData()
+    }
+
     private fun collectHomeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.homeUiState.collect { uiState ->
@@ -53,7 +58,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.actors,
                         uiState.browseEverything,
                         uiState.letUsChooseForYou,
-                        uiState.recentlyViewed
+                        uiState.recentlyViewed,
+                        uiState.collections
                     )
                 )
 
@@ -118,15 +124,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     event.seriesID
                 )
             }
-            HomeUIEvent.ClickBrowseEverythingEvent -> {
+            is HomeUIEvent.ClickBrowseEverythingEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToExploringFragment()
             }
 
-            HomeUIEvent.ClickSeeAllRecentlyViewedEvent -> {
+            is HomeUIEvent.ClickSeeAllRecentlyViewedEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToWatchHistoryFragment()
             }
 
-            HomeUIEvent.ClickLetUsChooseForYouEvent -> {
+            is HomeUIEvent.ClickLetUsChooseForYouEvent -> {
+                // TODO("Will Nav To Match Screen Later")
+                HomeFragmentDirections.actionHomeFragmentToMyListFragment()
+            }
+
+            is HomeUIEvent.ClickCollectionList -> {
+                HomeFragmentDirections.actionHomeFragmentToListDetailsFragment(
+                    event.list.listID,
+                    event.list.name
+                )
+            }
+
+            HomeUIEvent.ClickSeeAllCollectionsEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToMyListFragment()
             }
         }

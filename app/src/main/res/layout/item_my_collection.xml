@@ -2,11 +2,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.adapter.YourCollectionsInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/rating_card"
         android:minWidth="280dp"
+        android:onClick="@{() -> listener.onClickCollection(item)}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -60,7 +74,7 @@
                 android:layout_marginBottom="@dimen/spacing_too_small"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="My Favorite TV Shows"
+                android:text="@{item.name}"
                 android:textColor="@color/shade_color_primary"
                 app:layout_constraintBottom_toTopOf="@+id/description_text"
                 app:layout_constraintStart_toEndOf="@+id/icon_container"
@@ -73,8 +87,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="5 shows"
-                android:textColor="@color/shade_secondary_color"
+                android:text='@{String.valueOf(item.mediaCounts) + " shows"}'                android:textColor="@color/shade_secondary_color"
                 app:layout_constraintBottom_toBottomOf="@+id/icon_container"
                 app:layout_constraintStart_toStartOf="@+id/title_text"
                 app:layout_constraintTop_toBottomOf="@+id/title_text" />

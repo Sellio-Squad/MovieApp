@@ -147,6 +147,13 @@ class HomeAdapter(
                         setVariable(BR.listener, listener as HomeInteractionListener)
                     }
                 }
+
+                is HomeItem.CollectionsList -> {
+                    holder.binding.setVariable(
+                        BR.adapterRecycler,
+                        YourCollectionsAdapter(currentItem.items, listener as YourCollectionsInteractionListener)
+                    )
+                }
             }
     }
 
@@ -194,6 +201,7 @@ class HomeAdapter(
 
                 is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
                 is HomeItem.LetUsChooseForYou -> R.layout.item_let_us_choose_cta
+                is HomeItem.CollectionsList -> R.layout.list_your_collections
             }
         }
         return -1

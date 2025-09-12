@@ -21,82 +21,48 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_simi_small">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
-            android:layout_width="@dimen/media_card_width"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:onClick="@{()->listener.onClickMovie(item.id)}"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/media_card_height"
             android:scaleType="centerCrop"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/text_name_media"
-            app:layout_constraintDimensionRatio="1:1.4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="136:182"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            tools:background="@color/brand_color_primary"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{()->listener.onClickMovie(item.id)}"
             app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            tools:background="@color/yellow" />
+            android:id="@+id/img_poster"/>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_actorDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:backgroundTint="@color/background_color_card"
-            app:cardCornerRadius="@dimen/radius_cineVerse_full"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
-            app:layout_constraintTop_toTopOf="@+id/shapeableImageView">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="4dp">
-
-                <TextView
-                    android:id="@+id/text_rate_media"
-                    style="@style/TextStyle.Label.Medium.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:text="@{String.valueOf(item.mediaRate)}"
-                    android:textColor="@color/shade_color_primary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/image_star"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5"
-                    tools:text="8.5" />
-
-                <ImageView
-                    android:id="@+id/image_star"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/due_tone_star"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/text_name_media"
-            style="@style/TextStyle.Body.Medium.Medium"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="@id/img_poster"
+            app:layout_constraintEnd_toEndOf="@id/img_poster"
+            android:background="@drawable/media_rate_background"
+            android:layout_margin="@dimen/spacing_small"
             android:gravity="center"
-            android:text="@{item.mediaName}"
-            android:textAlignment="center"
-            android:textColor="@color/shade_color_secondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
-            tools:text="The Flash" />
+            android:paddingHorizontal="@dimen/spacing_small"
+            android:paddingVertical="@dimen/spacing_too_small">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.format(`%.1f`, item.rate)}"
+                tools:text="5.7"
+                android:textColor="@color/shade_color_primary"
+                style="@style/TextStyle.Label.Medium.Medium" />
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="@dimen/spacing_too_small"
+                android:src="@drawable/ic_rate"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

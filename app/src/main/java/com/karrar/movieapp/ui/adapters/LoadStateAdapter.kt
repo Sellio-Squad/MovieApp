@@ -29,7 +29,7 @@ class LoadUIStateAdapter(private val retry: () -> Unit) :
     inner class LoadStateViewHolder(val binding: ItemLoadStateBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.buttonRetry.setOnClickListener {
+            binding.buttonTryAgain.setOnClickListener {
                 retry.invoke()
             }
         }
@@ -37,7 +37,7 @@ class LoadUIStateAdapter(private val retry: () -> Unit) :
         fun bind(loadState: LoadState) {
             binding.apply {
                 progress.isVisible = loadState is LoadState.Loading
-                buttonRetry.isVisible = loadState is LoadState.Error
+                buttonTryAgain.isVisible = loadState is LoadState.Error
                 textInternetConnection.isVisible =
                     loadState is LoadState.Error
             }

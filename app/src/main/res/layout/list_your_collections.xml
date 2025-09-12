@@ -6,50 +6,55 @@
     <data>
 
         <variable
-            name="adapterRecycler"
-            type="com.karrar.movieapp.ui.home.adapter.RecentlyViewedAdapter" />
+            name="listener"
+            type="com.karrar.movieapp.ui.home.adapter.YourCollectionsInteractionListener" />
 
         <variable
             name="movieType"
             type="com.karrar.movieapp.domain.enums.HomeItemsType" />
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.home.adapter.YourCollectionsAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background_color"
-        android:layout_marginVertical="@dimen/spacing_medium">
+        android:layout_height="wrap_content">
+
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
+            app:isVisible="@{adapterRecycler.itemCount != 0}"
+            style="@style/TextStyle.Title.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:showSeeAll="true"
-            tools:text="Popular"
-            app:isVisible="@{adapterRecycler.itemCount != 0}"
-            android:text="@{movieType.RECENTLY_VIEWED.value}"
-            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllRecentlyViewed()}"
-            style="@style/TextStyle.Title.Small"
+            android:text="@{movieType.YOUR_COLLECTIONS.value}"
             android:textColor="@color/shade_color_primary"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllCollections()}"
+            app:showSeeAll="true"
+            tools:text="Popular" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_movie"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_simi_medium"
             android:adapter="@{adapterRecycler}"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:overScrollMode="never"
-            android:paddingHorizontal="@dimen/spacing_small"
+            android:paddingHorizontal="16dp"
             android:scrollbars="none"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header"
-            tools:listitem="@layout/item_recently_viewed" />
+            app:spanCount="2"
+            tools:listitem="@layout/item_my_collection" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

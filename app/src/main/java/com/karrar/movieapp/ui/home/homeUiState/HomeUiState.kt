@@ -16,6 +16,7 @@ data class HomeUiState (
     val browseEverything: HomeItem = HomeItem.BrowseEverything(),
     val letUsChooseForYou: HomeItem = HomeItem.LetUsChooseForYou(),
     val recentlyViewed: HomeItem = HomeItem.RecentlyViewed(emptyList()),
+    val collections: HomeItem = HomeItem.CollectionsList(emptyList()),
     val isLoading:Boolean = false,
     val error : List<String> = emptyList(),
     val username: String? = null,

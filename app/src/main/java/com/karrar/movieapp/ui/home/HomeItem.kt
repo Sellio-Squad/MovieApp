@@ -4,6 +4,7 @@ import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.ui.models.ActorUiState
 import com.karrar.movieapp.ui.home.homeUiState.PopularUiState
 import com.karrar.movieapp.ui.models.MediaUiState
+import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
 
 sealed class HomeItem(val priority: Int) {
@@ -33,5 +34,7 @@ sealed class HomeItem(val priority: Int) {
     data class LetUsChooseForYou(val ctaNumber: Int = 12): HomeItem(ctaNumber)
 
     data class RecentlyViewed(val items: List<MediaHistoryUiState>, val type: HomeItemsType = HomeItemsType.RECENTLY_VIEWED) : HomeItem(11)
+
+    data class CollectionsList(val items: List<CreatedListUIState>, val type: HomeItemsType = HomeItemsType.YOUR_COLLECTIONS) : HomeItem(13)
 
 }

@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.home.homeUiState
 
 import com.karrar.movieapp.domain.enums.AllMediaType
+import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
 
 sealed interface HomeUIEvent {
     object ClickSeeAllActorEvent : HomeUIEvent
@@ -12,4 +13,6 @@ sealed interface HomeUIEvent {
     object ClickSeeAllRecentlyViewedEvent: HomeUIEvent
     object ClickBrowseEverythingEvent : HomeUIEvent
     object ClickLetUsChooseForYouEvent : HomeUIEvent
+    data class ClickCollectionList(val list: CreatedListUIState): HomeUIEvent
+    object ClickSeeAllCollectionsEvent: HomeUIEvent
 }

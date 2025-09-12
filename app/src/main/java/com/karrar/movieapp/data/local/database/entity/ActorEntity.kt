@@ -8,4 +8,5 @@ data class ActorEntity(
     @PrimaryKey val id : Int,
     val name : String,
     val imageUrl : String,
+    val characterName : String,
 )

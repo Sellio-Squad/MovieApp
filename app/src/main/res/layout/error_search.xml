@@ -56,12 +56,18 @@
 
         <Button
             android:id="@+id/button_retry"
+            style="@style/small_button..enabled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:background="@drawable/large_enabled_button"
             android:onClick="@{() -> viewModel.getData()}"
-            android:text="@string/retry"
-            android:textColor="@color/white_primary"
+            android:paddingHorizontal="94dp"
+            android:text="@string/try_again"
+            android:textAllCaps="false"
+            android:textColor="@color/button_color_onPrimary"
+            android:fontFamily="@font/manrope_medium"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
@@ -70,7 +76,7 @@
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
+            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_try_again"
             app:isVisible="@{isError}"
             app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"/>
 

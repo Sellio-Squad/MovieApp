@@ -13,6 +13,31 @@
 
     </style>
 
+    <style name="large_button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:radius">@dimen/radius_cineVerse_l</item>
+    </style>
+
+    <style name="large_button.enabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint"> @color/button_color_primary</item>
+    </style>
+
+    <style name="large_button.disabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_disabled </item>
+    </style>
+
+    <style name="small_button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:radius">@dimen/radius_cineVerse_m</item>
+    </style>
+
+    <style name="small_button..enabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_onTertiary</item>
+    </style>
+
+    <style name="small_button..disabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_disabled</item>
+    </style>
+
+
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
@@ -92,6 +117,10 @@
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>
 
+    <style name="CardCorners.large">
+        <item name="cornerSize">@dimen/radius_cineVerse_l</item>
+    </style>
+
     <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:textColorHint">@color/shade_secondary_color</item>
         <item name="boxBackgroundColor">@color/text_field_background_color</item>
@@ -149,7 +178,7 @@
         <item name="chipStrokeColor">@color/selector_chip_stroke</item>
         <item name="chipStrokeWidth">1dp</item>
         <item name="android:textColor">@color/selector_chip_text</item>
-        <item name="chipCornerRadius">8dp</item>
+        <item name="chipCornerRadius">@dimen/radius_cineVerse_full</item>
     </style>
 
 
@@ -181,6 +210,7 @@
         <item name="android:fontFamily">@font/manrope_medium</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/shade_color_primary</item>
     </style>
 
     <style name="TextStyle.Title.Small">
@@ -216,6 +246,7 @@
         <item name="android:fontFamily">@font/manrope_medium</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/shade_color_secondary</item>
     </style>
     <style name="TextStyle.Body.Medium.SemiBold">
         <item name="android:fontFamily">@font/manrope_semi_bold</item>
@@ -301,4 +332,61 @@
 
     <style name="TextStyle" parent="TextStyle.Title.Medium" />
 
+    <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CastImage">
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+    </style>
+
+    <style name="MovieAppFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/MovieAppFabCorners</item>
+    </style>
+
+    <style name="MovieAppFabCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_cineVerse_l</item>
+    </style>
+    <style name="ctaCard">
+        <item name="android:background">@drawable/rating_card</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginStart">@dimen/spacing_medium</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_medium</item>
+    </style>
+
+
+    <style name="CtaText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/manrope_medium</item>
+    </style>
+
+    <style name="CtaText.Title">
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:textColor">@color/shade_color_primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="CtaText.Description">
+        <item name="android:textColor">@color/shade_color_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="FloatingBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:windowIsFloating">true</item> <!-- This is crucial for it to behave like a dialog -->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item> <!-- Important for transparency -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_floating_bottom_sheet</item>
+    </style>
 </resources>

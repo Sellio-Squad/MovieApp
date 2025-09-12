@@ -59,7 +59,7 @@
 
         <Button
             android:id="@+id/button_try_again"
-            style="@style/small_button..enabled"
+            style="@style/small_button.enabled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"

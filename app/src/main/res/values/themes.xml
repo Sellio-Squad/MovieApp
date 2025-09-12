@@ -29,7 +29,7 @@
         <item name="android:radius">@dimen/radius_cineVerse_m</item>
     </style>
 
-    <style name="small_button..enabled" parent="TextAppearance.AppCompat.Button">
+    <style name="small_button.enabled" parent="TextAppearance.AppCompat.Button">
         <item name="backgroundTint">@color/button_color_onTertiary</item>
     </style>
 

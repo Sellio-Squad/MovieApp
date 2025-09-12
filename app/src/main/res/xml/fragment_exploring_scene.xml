@@ -111,7 +111,7 @@
             app:visibilityMode="ignore" />
 
         <Constraint
-            android:id="@+id/button_retry"
+            android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
@@ -127,7 +127,7 @@
             app:constraint_referenced_ids="
             title_lost_connection,
             animation_lost_connection,
-            description_lost_connection,button_retry"
+            description_lost_connection,button_try_again"
             app:visibilityMode="ignore" />
 
     </ConstraintSet>
@@ -229,7 +229,7 @@
             app:visibilityMode="ignore" />
 
         <Constraint
-            android:id="@+id/button_retry"
+            android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
@@ -245,7 +245,7 @@
             app:constraint_referenced_ids="
             title_lost_connection,
             animation_lost_connection,
-            description_lost_connection,button_retry"
+            description_lost_connection,button_try_again"
             app:visibilityMode="ignore" />
 
         <Constraint

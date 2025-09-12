@@ -5,6 +5,7 @@
 
         <variable
             name="item"
+
             type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState" />
 
         <variable

@@ -10,6 +10,8 @@ class ActorMoviesMapper @Inject constructor() : Mapper<MovieDto, ActorMovie>{
         return ActorMovie(
             input.id ?: 0,
             (BuildConfig.IMAGE_BASE_PATH + input.posterPath),
+            input.voteAverage?.toFloat() ?: 0f,
+            input.title ?: ""
         )
     }
 }

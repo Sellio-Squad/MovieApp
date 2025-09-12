@@ -142,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:isVisible="@{viewModel.actorDetailsUIState.success}">
 
                 <androidx.cardview.widget.CardView
@@ -268,7 +268,7 @@
                             android:clipToPadding="false"
                             android:orientation="horizontal"
                             android:scrollbars="none"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             app:isVisible="@{!viewModel.actorDetailsUIState.socialItemUIState.empty}"
                             app:items="@{viewModel.actorDetailsUIState.socialItemUIState}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -324,7 +324,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/related_movie_title"
                     tools:ignore="MissingConstraints"
-                    tools:listitem="@layout/item_movie" />
+                    tools:listitem="@layout/item_movie_actor" />
 
                 <TextView
                     android:id="@+id/text_gallery"

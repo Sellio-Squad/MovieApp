@@ -128,11 +128,8 @@ class SearchViewModel @Inject constructor(
 
 
     override fun onClickMediaResult(media: MediaUIState) {
-        onSearchInputChange(media.mediaName)
-
-        /*
         saveSearchResult(media.mediaID, media.mediaName)
-        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }*/
+        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
     }
 
     override fun onClickActorResult(personID: Int, name: String) {

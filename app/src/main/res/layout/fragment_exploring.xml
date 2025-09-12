@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -52,18 +51,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:background="@drawable/large_enabled_button"
+            android:fontFamily="@font/manrope_medium"
             android:onClick="@{() -> viewModel.getData()}"
             android:text="@string/try_again"
             android:textAllCaps="false"
             android:textColor="@color/button_color_onPrimary"
-            android:fontFamily="@font/manrope_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
             app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
 
         <!--        layout-->
-
 
 
         <EditText
@@ -91,34 +89,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_color_screen"
-            app:tabIndicator="@drawable/tab_indicator"
-            app:tabSelectedTextColor="@color/brand_color_primary"
-            app:tabTextColor="@color/shade_color_tertiary"
-            app:tabTextAppearance="@style/TabTextStyle"
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintStart_toStartOf="@id/input_search"
-            app:layout_constraintTop_toBottomOf="@id/input_search">
+            app:layout_constraintTop_toBottomOf="@id/input_search"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabSelectedTextColor="@color/brand_color_primary"
+            app:tabTextAppearance="@style/TabTextStyle"
+            app:tabTextColor="@color/shade_color_tertiary">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/movies"/>
+                android:text="@string/movies" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/series"/>
+                android:text="@string/series" />
         </com.google.android.material.tabs.TabLayout>
 
         <HorizontalScrollView
             android:id="@+id/chipGroup_genres"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
+            android:background="@android:color/transparent"
+            android:elevation="6dp"
             android:paddingVertical="@dimen/spacing_small"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
@@ -131,7 +131,6 @@
                 app:setGenres="@{viewModel.uiState.genres}"
                 app:singleLine="true"
                 app:singleSelection="true" />
-
         </HorizontalScrollView>
 
         <!-- Vertical Media RecyclerView -->
@@ -140,12 +139,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/spacing_medium"
             android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@id/chipGroup_genres"
-            app:layout_constraintStart_toStartOf="parent"
+            android:paddingTop="48dp"
+            android:paddingBottom="@dimen/spacing_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
 
         <include
@@ -161,12 +161,11 @@
         <include
             android:id="@+id/animation_loading"
             layout="@layout/loading2"
+            app:isVisible="@{viewModel.uiState.isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:isLoading="@{viewModel.uiState.isLoading}"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

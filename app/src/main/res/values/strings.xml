@@ -141,5 +141,6 @@
     <string name="give_it_stars">Give it Stars</string>
     <string name="let_the_world_lnow_how_you_felt">Let the world lnow how you felt</string>
     <string name="arrow">arrow</string>
+    <string name="star_icon">star_icon</string>
     <string name="clear_all">Clear All</string>
 </resources>

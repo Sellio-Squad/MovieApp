@@ -13,6 +13,31 @@
 
     </style>
 
+    <style name="large_button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:radius">@dimen/radius_cineVerse_l</item>
+    </style>
+
+    <style name="large_button.enabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint"> @color/button_color_primary</item>
+    </style>
+
+    <style name="large_button.disabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_disabled </item>
+    </style>
+
+    <style name="small_button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:radius">@dimen/radius_cineVerse_m</item>
+    </style>
+
+    <style name="small_button..enabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_onTertiary</item>
+    </style>
+
+    <style name="small_button..disabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_disabled</item>
+    </style>
+
+
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>

@@ -142,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:isVisible="@{viewModel.actorDetailsUIState.success}">
 
                 <androidx.cardview.widget.CardView
@@ -268,7 +268,7 @@
                             android:clipToPadding="false"
                             android:orientation="horizontal"
                             android:scrollbars="none"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             app:isVisible="@{!viewModel.actorDetailsUIState.socialItemUIState.empty}"
                             app:items="@{viewModel.actorDetailsUIState.socialItemUIState}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

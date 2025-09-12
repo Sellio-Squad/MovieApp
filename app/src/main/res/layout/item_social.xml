@@ -22,7 +22,6 @@
         android:background="@drawable/rounded_pill_background"
         android:clickable="true"
         android:focusable="true"
-        android:minWidth="160dp"
         android:gravity="center"
         android:onClick="@{()->listener.onSocialClick(item.url)}"
         android:orientation="horizontal"
@@ -35,6 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/text_social"
             app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:setImageResource="@{item.iconRes}"
             tools:src="@drawable/colored_facebook" />
@@ -46,14 +46,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:ellipsize="end"
-            android:lines="1"
             android:gravity="center"
+            android:singleLine="true"
             android:text="@{item.label}"
             android:textColor="@color/shade_color_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/icon"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintBottom_toBottomOf="@id/icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toTopOf="@id/icon"
             tools:text="Facebook" />
 

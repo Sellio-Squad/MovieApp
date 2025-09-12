@@ -52,7 +52,7 @@
     <string name="play_trailer">Play Trailer</string>
     <string name="duration">%1$d Minutes</string>
     <string name="reviews">(%1$s reviews)</string>
-    <string name="overview">Overview</string>
+    <string name="Storyline">Storyline</string>
     <string name="cast">Star Cast</string>
     <string name="similar_movies">Similar Movies</string>
     <string name="rate_the_movie">Rate The Movie</string>
@@ -147,4 +147,5 @@
     <string name="star_icon">star_icon</string>
     <string name="clear_all">Clear All</string>
     <string name="join_as_guest">Join as Guest</string>
+    <string name="left_arrow">Left Arrow</string>
 </resources>

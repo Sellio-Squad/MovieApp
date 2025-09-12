@@ -91,7 +91,6 @@
             <include
                 android:id="@+id/reviewRatingBar"
                 layout="@layout/movie_rating_bar"
-                android:rating="@{item.rating}"
                 />
 
             <View

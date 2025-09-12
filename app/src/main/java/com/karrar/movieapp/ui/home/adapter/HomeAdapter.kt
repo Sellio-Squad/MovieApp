@@ -10,13 +10,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.ui.adapters.*
+import com.karrar.movieapp.ui.adapters.MovieAdapter
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.models.MediaUiState
-import com.karrar.movieapp.utilities.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -64,54 +64,6 @@ class HomeAdapter(
                     startAutoScroll(viewPager, currentItem.items.size)
                 }
 
-
-                is HomeItem.TvShows -> {
-                    holder.binding.run {
-                        if (currentItem.items.isNotEmpty()) {
-                            setVariable(BR.topRated, currentItem.items.first())
-                            setVariable(BR.popular, currentItem.items[1])
-                            setVariable(BR.latest, currentItem.items.last())
-                            setVariable(BR.listener, listener as TVShowInteractionListener)
-                        }
-                    }
-                }
-
-                is HomeItem.Actor -> {
-                    holder.binding.run {
-                        setVariable(
-                            BR.adapterRecycler, ActorAdapter(
-                                currentItem.items,
-                                R.layout.item_actor_home,
-                                listener as ActorsInteractionListener
-                            )
-                        )
-                        setVariable(BR.listener, listener as HomeInteractionListener)
-                    }
-
-                }
-
-                is HomeItem.AiringToday -> {
-                    holder.binding.run {
-                        setVariable(
-                            BR.adapterRecycler,
-                            MediaAdapter(
-                                currentItem.items.take(Constants.MAX_NUMBER_AIRING_TODAY),
-                                R.layout.item_airing_today,
-                                listener as MediaInteractionListener
-                            )
-                        )
-                        setVariable(BR.count, currentItem.items.size)
-                    }
-                }
-
-                is HomeItem.Adventure -> {
-                    bindMovie(holder, currentItem.items, currentItem.type)
-                }
-
-                is HomeItem.Mystery -> {
-                    bindMovie(holder, currentItem.items, currentItem.type)
-                }
-
                 is HomeItem.RecentlyReleased -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
@@ -124,10 +76,6 @@ class HomeAdapter(
                         )
                         setVariable(BR.movieType, currentItem.type)
                     }
-                }
-
-                is HomeItem.Trending -> {
-                    bindMovie(holder, currentItem.items, currentItem.type)
                 }
 
                 is HomeItem.Upcoming -> {
@@ -151,6 +99,13 @@ class HomeAdapter(
                     holder.binding.run {
                         setVariable(BR.listener, listener as HomeInteractionListener)
                     }
+                }
+
+                is HomeItem.CollectionsList -> {
+                    holder.binding.setVariable(
+                        BR.adapterRecycler,
+                        YourCollectionsAdapter(currentItem.items, listener as YourCollectionsInteractionListener)
+                    )
                 }
             }
     }
@@ -185,20 +140,14 @@ class HomeAdapter(
         if (homeItems.isNotEmpty()) {
             return when (homeItems[position]) {
                 is HomeItem.BrowseEverything -> R.layout.item_browser_everything_cta
-                is HomeItem.Actor -> R.layout.list_actor
-                is HomeItem.TvShows -> R.layout.list_tv_shows
                 is HomeItem.Slider -> R.layout.list_popular
-                is HomeItem.AiringToday -> R.layout.list_airing_today
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow
-                is HomeItem.Adventure,
-                is HomeItem.Mystery,
                 is HomeItem.RecentlyReleased,
-                is HomeItem.Trending,
                 is HomeItem.Upcoming,
                 -> R.layout.list_movie
-
                 is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
                 is HomeItem.LetUsChooseForYou -> R.layout.item_let_us_choose_cta
+                is HomeItem.CollectionsList -> R.layout.list_your_collections
             }
         }
         return -1

@@ -25,9 +25,10 @@
             android:layout_height="wrap_content"
             app:showSeeAll="true"
             tools:text="Popular"
+            app:isVisible="@{adapterRecycler.itemCount != 0}"
             android:text="@{movieType.RECENTLY_VIEWED.value}"
             app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllRecentlyViewed()}"
-            android:textSize="20sp"
+            style="@style/TextStyle.Title.Small"
             android:textColor="@color/shade_color_primary"
             app:layout_constraintTop_toTopOf="parent" />
 

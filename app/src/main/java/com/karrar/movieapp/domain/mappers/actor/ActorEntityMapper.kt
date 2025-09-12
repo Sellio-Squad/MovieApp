@@ -11,7 +11,8 @@ class ActorEntityMapper @Inject constructor() : Mapper<ActorEntity, Actor> {
         return Actor(
             actorID = input.id,
             actorName = input.name,
-            actorImage = BuildConfig.IMAGE_BASE_PATH + input.imageUrl
+            actorImage = BuildConfig.IMAGE_BASE_PATH + input.imageUrl,
+            characterName = input.characterName
         )
     }
 }

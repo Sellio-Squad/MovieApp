@@ -143,4 +143,5 @@
     <string name="arrow">arrow</string>
     <string name="star_icon">star_icon</string>
     <string name="clear_all">Clear All</string>
+    <string name="join_as_guest">Join as Guest</string>
 </resources>

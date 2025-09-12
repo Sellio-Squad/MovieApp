@@ -19,7 +19,7 @@ sealed class HomeItem(val priority: Int) {
 
     data class AiringToday(val items: List<MediaUiState>) : HomeItem(4)
 
-    data class NowStreaming(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.NOW_STREAMING) : HomeItem(5)
+    data class RecentlyReleased(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.RECENTLY_RELEASED) : HomeItem(1)
 
     data class Upcoming(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.UPCOMING) : HomeItem(6)
 

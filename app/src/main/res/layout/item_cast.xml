@@ -62,9 +62,9 @@
                     android:id="@+id/cast_character"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:lines="1"
+                    android:text="@{item.charName}"
                     android:textColor="@color/shade_color_secondary"
                     tools:text="Bruce Wayne" />
             </LinearLayout>

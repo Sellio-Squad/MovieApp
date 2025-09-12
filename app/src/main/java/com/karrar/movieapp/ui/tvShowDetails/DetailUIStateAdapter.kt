@@ -40,6 +40,14 @@ class DetailUIStateAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+            is DetailItemUIState.Seasons -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        SeasonAdapterUIState(currentItem.data, listener as SeasonInteractionListener)
+                    )
+                }
+            }
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
                     setVariable(
@@ -49,14 +57,6 @@ class DetailUIStateAdapter(
                             R.layout.item_cast,
                             listener as ActorsInteractionListener
                         )
-                    )
-                }
-            }
-            is DetailItemUIState.Seasons -> {
-                holder.binding.run {
-                    setVariable(
-                        BR.adapterRecycler,
-                        SeasonAdapterUIState(currentItem.data, listener as SeasonInteractionListener)
                     )
                 }
             }

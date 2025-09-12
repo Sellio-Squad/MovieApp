@@ -11,9 +11,12 @@ sealed class HomeItem(val priority: Int) {
 
     data class Slider(val items: List<PopularUiState>) : HomeItem(0)
 
-    data class RecentlyReleased(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.RECENTLY_RELEASED) : HomeItem(1)
+    data class RecentlyReleased(
+        val items: List<MediaUiState>,
+        val type: HomeItemsType = HomeItemsType.RECENTLY_RELEASED
+    ) : HomeItem(1)
 
-    data class LetUsChooseForYou(val ctaNumber: Int = 12) : HomeItem(ctaNumber)
+    data class LetUsChooseForYou(val ctaNumber: Int = 12) : HomeItem(2)
 
     data class Upcoming(
         val items: List<MediaUiState>,
@@ -30,7 +33,14 @@ sealed class HomeItem(val priority: Int) {
         val type: HomeItemsType = HomeItemsType.RECENTLY_VIEWED
     ) : HomeItem(7)
 
-    data class BrowseEverything(val ctaNumber: Int = 10) : HomeItem(ctaNumber)
+    data class CollectionsList(
+        val items: List<CreatedListUIState>,
+        val type: HomeItemsType = HomeItemsType.YOUR_COLLECTIONS
+    ) : HomeItem(8)
+
+    data class BrowseEverything(val ctaNumber: Int = 9) : HomeItem(ctaNumber)
+
+
 
     data class TvShows(val items: List<MediaUiState>) : HomeItem(10)
 
@@ -46,7 +56,6 @@ sealed class HomeItem(val priority: Int) {
         val type: HomeItemsType = HomeItemsType.MYSTERY
     ) : HomeItem(13)
 
-    data class CollectionsList(val items: List<CreatedListUIState>, val type: HomeItemsType = HomeItemsType.YOUR_COLLECTIONS) : HomeItem(13)
 
     data class Adventure(
         val items: List<MediaUiState>,

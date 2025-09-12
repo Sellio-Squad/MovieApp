@@ -2,7 +2,6 @@ package com.karrar.movieapp.ui.home
 
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.ui.home.homeUiState.PopularUiState
-import com.karrar.movieapp.ui.models.ActorUiState
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
@@ -40,27 +39,4 @@ sealed class HomeItem(val priority: Int) {
 
     data class BrowseEverything(val ctaNumber: Int = 9) : HomeItem(ctaNumber)
 
-
-
-    data class TvShows(val items: List<MediaUiState>) : HomeItem(10)
-
-    data class Trending(
-        val items: List<MediaUiState>,
-        val type: HomeItemsType = HomeItemsType.TRENDING
-    ) : HomeItem(11)
-
-    data class AiringToday(val items: List<MediaUiState>) : HomeItem(12)
-
-    data class Mystery(
-        val items: List<MediaUiState>,
-        val type: HomeItemsType = HomeItemsType.MYSTERY
-    ) : HomeItem(13)
-
-
-    data class Adventure(
-        val items: List<MediaUiState>,
-        val type: HomeItemsType = HomeItemsType.ADVENTURE
-    ) : HomeItem(14)
-
-    data class Actor(val items: List<ActorUiState>) : HomeItem(15)
 }

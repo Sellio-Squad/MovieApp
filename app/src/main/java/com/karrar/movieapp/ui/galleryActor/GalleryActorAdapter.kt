@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.galleryActor
 
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding

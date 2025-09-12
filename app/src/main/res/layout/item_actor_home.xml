@@ -22,10 +22,11 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:background="@android:color/transparent">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/image_actor"
             android:layout_width="@dimen/spacing_actor"
             android:layout_height="@dimen/spacing_actor"
+            android:layout_marginTop="8dp"
             android:background="@color/gray"
             android:onClick="@{()->listener.onClickActor(item.id)}"
             android:scaleType="centerCrop"
@@ -33,7 +34,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.imageUrl}"
-            app:shapeAppearanceOverlay="@style/Circle" />
+            app:enableModeration="@{true}"
+            app:detectFemales="@{true}"
+            app:detectMales="@{false}" />
 
 
         <TextView

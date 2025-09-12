@@ -130,4 +130,9 @@
     <string name="get_started">Get Started</string>
     <string name="onboarding_image_description">OnBoarding Image</string>
     <string name="discover_track_and_rate_your_favorite_movies_and_series">Discover, track and rate your favorite movies and series</string>
+    <string name="did_you_watch_it">Did you watch it?</string>
+    <string name="star_circlr_shape">star circlr shape</string>
+    <string name="give_it_stars">Give it Stars</string>
+    <string name="let_the_world_lnow_how_you_felt">Let the world lnow how you felt</string>
+    <string name="arrow">arrow</string>
 </resources>

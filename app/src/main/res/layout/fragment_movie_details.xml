@@ -53,19 +53,15 @@
             app:layout_constraintTop_toBottomOf="@id/appBar"
             app:spanCount="1" />
 
-        <com.airbnb.lottie.LottieAnimationView
+        <include
             android:id="@+id/loading"
-            android:layout_width="172dp"
-            android:layout_height="172dp"
+            layout="@layout/loading2"
             app:isVisible="@{viewModel.uiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation" />
-
+            />
         <include
             android:id="@+id/error"
             layout="@layout/error_movie_details"

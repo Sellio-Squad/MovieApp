@@ -13,6 +13,31 @@
 
     </style>
 
+    <style name="large_button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:radius">@dimen/radius_cineVerse_l</item>
+    </style>
+
+    <style name="large_button.enabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint"> @color/button_color_primary</item>
+    </style>
+
+    <style name="large_button.disabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_disabled </item>
+    </style>
+
+    <style name="small_button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:radius">@dimen/radius_cineVerse_m</item>
+    </style>
+
+    <style name="small_button.enabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_onTertiary</item>
+    </style>
+
+    <style name="small_button..disabled" parent="TextAppearance.AppCompat.Button">
+        <item name="backgroundTint">@color/button_color_disabled</item>
+    </style>
+
+
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
@@ -351,5 +376,17 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="FloatingBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:windowIsFloating">true</item> <!-- This is crucial for it to behave like a dialog -->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item> <!-- Important for transparency -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_floating_bottom_sheet</item>
+    </style>
 </resources>

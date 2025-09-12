@@ -1,7 +1,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
 
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +41,8 @@
                     android:id="@+id/movieType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Movie"
+                    tools:text="MOVIE"
+                    android:text="@{item.movieMediaType.value}"
                     android:textColor="@color/brand_color_primary"
                     android:textSize="12sp" />
 
@@ -208,16 +218,5 @@
             app:posterImage="@{item.image}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-
-        <variable
-            name="item"
-            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState" />
-
-        <variable
-            name="listener"
-            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
-    </data>
 
 </layout>

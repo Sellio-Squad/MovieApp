@@ -81,7 +81,7 @@
     <string name="items">%1$s Items</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create">Create</string>
-    <string name="list_name">List Name</string>
+    <string name="list_name">e.g. My Watchlist</string>
     <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on “Home” or “Search” and then create your movie list.</string>
     <string name="empty_overview_text">This season has no description.</string>
     <string name="one_season">%1$d Season</string>
@@ -126,10 +126,13 @@
     <string name="fao">FAO</string>
     <string name="oops_no_internet">Oops! No Internet</string>
     <string name="looks_like_you_re_offline_let_s_reconnect_so_you_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect\n so you don\'t miss out!</string>
-    <string name="try_again">Try Again</string>
     <string name="join_as_guest">Join as Guest</string>
     <string name="add_to_collection">Add to Collection</string>
     <string name="new_collection">New Collection</string>
+    <string name="time">Time</string>
+    <string name="no_collections_yet">No Collections Yet</string>
+    <string name="start_building_your_personal_library_by_saving_movies_or_series_you_want_to_remember">Start building your personal library by\nsaving movies or series you want to\nremember.</string>
+    <string name="start_collecting">Start Collecting</string>
     <string name="welcome_to_your_movie_universe">Welcome to your movie universe</string>
     <string name="discover_track_and_rate_your_favorite_movies_series">Discover, track, and rate your favorite\n movies &amp; series.</string>
     <string name="track_everything">Track everything</string>
@@ -141,4 +144,5 @@
     <string name="discover_track_and_rate_your_favorite_movies_and_series">Discover, track and rate your favorite movies and series</string>
     <string name="nothing_found">Nothing Found!</string>
     <string name="not_found_msg">We searched the entire universe… but found nothing matching your query. Try something else?</string>
+    <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
 </resources>

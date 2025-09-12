@@ -205,7 +205,14 @@ class HomeAdapter(
     }
 
     private fun attachCarouselTransformer(viewPager: ViewPager2) {
-        val sidePeek = viewPager.resources.displayMetrics.widthPixels * 0.05f
+        val displayMetrics = viewPager.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+
+        // Minimum overlap in pixels (for small devices)
+        val minSidePeek = viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_large)
+        // Adaptive overlap: 5% of screen width or at least minSidePeek
+        val sidePeek = maxOf(screenWidth * 0.05f, minSidePeek.toFloat())
+
         val extraLift = viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_extra_large)
 
         viewPager.setPageTransformer { page, position ->
@@ -218,6 +225,7 @@ class HomeAdapter(
             page.translationZ = if (position == 0f) 1f else 0f
         }
     }
+
     fun startAutoScroll(viewPager: ViewPager2, itemCount: Int) {
         if (itemCount == 0) return
 

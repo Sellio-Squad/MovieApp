@@ -214,19 +214,66 @@
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
 
-        <com.airbnb.lottie.LottieAnimationView
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_result"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_large"
+            android:layout_marginHorizontal="60dp"
             app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"
             app:isListEmpty="@{viewModel.uiState.empty}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_result" />
+            >
+
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/back_icon_shape"
+                android:contentDescription="@string/icon"
+                android:padding="12dp"
+                android:src="@drawable/due_tone_search"
+                app:tint="@color/brand_color_primary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Title -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="@string/nothing_found"
+                android:fontFamily="@font/manrope_medium"
+                android:textColor="@color/shade_color_primary"
+                android:textSize="@dimen/text_title_small"
+                app:layout_constraintTop_toBottomOf="@id/icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- caption -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/caption"
+                style="@style/Regular.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/not_found_msg"
+                android:fontFamily="@font/manrope_medium"
+                android:textColor="@color/shade_color_secondary"
+                android:textSize="@dimen/text_body_small_medium"
+                app:layout_constraintTop_toBottomOf="@id/text_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

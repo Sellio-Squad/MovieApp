@@ -116,17 +116,16 @@ class ActorViewModel @Inject constructor(
     }
 
     override fun onSocialClick(url: String) {
-        TODO("Not yet implemented")
+        _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.ClickSocialItem(url)) }
     }
 
-    @SuppressLint("ResourceType")
     private fun ActorSocialUIState.toList(): List<SocialItemUIState>{
         val socials = mutableListOf<SocialItemUIState>()
-        if(facebookLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_facebook, "Facebook", facebookLink))
-        if(twitterLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_x, "Twitter", twitterLink))
-        if(youtubeLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_youtube, "Youtube", youtubeLink))
-        if(tiktokLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_tiktok, "Tiktok", tiktokLink))
-        if(instagramLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_instagram, "Instagram", instagramLink))
+        if(facebookLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_facebook,R.string.facebook, facebookLink))
+        if(twitterLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_x,R.string.twitter, twitterLink))
+        if(youtubeLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_youtube, R.string.youtube, youtubeLink))
+        if(tiktokLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_tiktok, R.string.tiktok, tiktokLink))
+        if(instagramLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_instagram, R.string.instagram, instagramLink))
         return socials
     }
 

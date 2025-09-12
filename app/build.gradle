@@ -14,12 +14,12 @@ localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace "com.karrar.movieapp"
-    compileSdk 36
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.karrar.movieapp"
         minSdk 21
-        targetSdk 36
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 

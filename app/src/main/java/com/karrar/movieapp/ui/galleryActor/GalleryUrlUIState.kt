@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.galleryActor
 
 data class GalleryUrlUIState(
-        val galleryUrl: String = ""
-    )
+    val images: List<String>,
+    val isFlipped: Boolean = false
+)

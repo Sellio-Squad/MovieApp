@@ -5,4 +5,5 @@ sealed interface ActorDetailsUIEvent {
     object SeeAllMovies : ActorDetailsUIEvent
     object SeeAllGallery: ActorDetailsUIEvent
     data class ClickMovieEvent(val movieID: Int) : ActorDetailsUIEvent
+    data class ClickSocialItem(val url: String): ActorDetailsUIEvent
 }

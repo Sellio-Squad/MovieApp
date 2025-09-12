@@ -266,3 +266,10 @@ fun setRating(view: RatingBar?, rating: Float) {
 fun <T> showWhenTextNotEmpty(view: View,text:String){
     view.isVisible = text.isNotEmpty()
 }
+
+@BindingAdapter("app:setImageResource")
+fun setImageResource(image: ImageView, resourceId: Int){
+    if(resourceId != 0){
+        image.setImageResource(resourceId)
+    }
+}

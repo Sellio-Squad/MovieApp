@@ -47,9 +47,10 @@ class GalleryActorViewModel @Inject constructor(
                 _galleryActorUIState.update {
                     it.copy(
                         name = actorDetails.name,
-                        imagesUrl = actorGallery.galleryUrl.map { galleryUrlUIMapper.map(it) },
+                        imagesUrl = actorGallery.galleryUrl,
                         isLoading = false,
-                        isSuccess = true
+                        isSuccess = true,
+                        isFlipped = true
                     )
                 }
             }catch (e: Exception){

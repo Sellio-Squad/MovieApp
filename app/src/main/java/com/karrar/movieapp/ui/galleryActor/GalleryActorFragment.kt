@@ -23,8 +23,6 @@ class GalleryActorFragment: BaseFragment<FragmentGalleryBinding>() {
         collectLast(viewModel.galleryActorUIEvent){
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
-
-
     }
 
     private fun onEvent(event: GalleryActorUIEvent) {

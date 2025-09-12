@@ -81,7 +81,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints"
-            android:visibility="visible"
+            android:visibility="gone"
             app:isVisible="@{viewModel.galleryActorUIState.success}"
             app:items="@{viewModel.galleryActorUIState.imagesUrl}"
             tools:listitem="@layout/item_gallery" />

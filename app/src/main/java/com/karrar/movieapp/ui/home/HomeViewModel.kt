@@ -11,10 +11,14 @@ import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.home.adapter.RecentlyViewedInteractionListener
 import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
+import com.karrar.movieapp.ui.home.adapter.YourCollectionsInteractionListener
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
+import com.karrar.movieapp.ui.myList.CreatedListUIMapper
+import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myList.myListUIState.MyListUIState
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
@@ -31,9 +35,11 @@ class HomeViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper,
     private val actorUiMapper: ActorUiMapper,
     private val popularUiMapper: PopularUiMapper,
-    private val watchHistoryMapper: WatchHistoryMapper
+    private val watchHistoryMapper: WatchHistoryMapper,
+    private val createdListUIMapper: CreatedListUIMapper,
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
-    MediaInteractionListener, TVShowInteractionListener, RecentlyViewedInteractionListener {
+    MediaInteractionListener, TVShowInteractionListener, RecentlyViewedInteractionListener,
+    YourCollectionsInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -60,6 +66,20 @@ class HomeViewModel @Inject constructor(
         getActors()
         getRecentlyViewed()
         getUserName()
+        getMyCollections()
+    }
+
+    private fun getMyCollections() {
+        viewModelScope.launch {
+            try {
+                val items = homeUseCasesContainer.getMyListUseCase().map { createdListUIMapper.map(it) }
+                _homeUiState.update {
+                    it.copy(isLoading = false, collections = HomeItem.CollectionsList(items))
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
     }
 
 
@@ -330,6 +350,7 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
             HomeItemsType.RECENTLY_VIEWED -> TODO("There is no need to add new attribute to AllMediaType")
+            HomeItemsType.YOUR_COLLECTIONS -> TODO("There is no need to add new attribute to AllMediaType")
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }
@@ -369,6 +390,14 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickSeeAllRecentlyViewed() {
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllRecentlyViewedEvent) }
+    }
+
+    override fun onClickCollection(collection: CreatedListUIState) {
+        _homeUIEvent.update { Event(HomeUIEvent.ClickCollectionList(collection)) }
+    }
+
+    override fun onClickSeeAllCollections() {
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllCollectionsEvent) }
     }
 
 

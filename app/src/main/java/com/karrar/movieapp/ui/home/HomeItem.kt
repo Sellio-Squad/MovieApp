@@ -4,6 +4,7 @@ import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.ui.home.homeUiState.PopularUiState
 import com.karrar.movieapp.ui.models.ActorUiState
 import com.karrar.movieapp.ui.models.MediaUiState
+import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
 
 sealed class HomeItem(val priority: Int) {
@@ -44,6 +45,8 @@ sealed class HomeItem(val priority: Int) {
         val items: List<MediaUiState>,
         val type: HomeItemsType = HomeItemsType.MYSTERY
     ) : HomeItem(13)
+
+    data class CollectionsList(val items: List<CreatedListUIState>, val type: HomeItemsType = HomeItemsType.YOUR_COLLECTIONS) : HomeItem(13)
 
     data class Adventure(
         val items: List<MediaUiState>,

@@ -8,5 +8,6 @@ enum class HomeItemsType(val value :String) {
     MYSTERY("Mystery"),
     ADVENTURE("Adventure"),
     RECENTLY_VIEWED("You Recently Viewed"),
+    YOUR_COLLECTIONS("Your Collections"),
     NON("")
 }

@@ -118,21 +118,44 @@
                 app:chipCornerRadius="@dimen/spacing_small" />
         </com.google.android.material.chip.ChipGroup>
 
-        <TextView
-            android:id="@+id/text_search_label"
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_history"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:drawablePadding="@dimen/spacing_small"
-            android:gravity="center"
-            android:text="@string/history_label"
-            android:textColor="@color/shade_primary_color"
-            app:drawableStartCompat="@drawable/ic_history"
-            app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
-            app:hideWhenSearch="@{viewModel.uiState.searchInput}"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/input_search" />
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
+            <TextView
+                android:id="@+id/history_label"
+                style="@style/SemiBold.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/radius_large"
+                android:drawablePadding="@dimen/spacing_small"
+                app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
+                app:hideWhenSearch="@{viewModel.uiState.searchInput}"
+                android:text="@string/history_label"
+                android:textSize="16sp"
+                android:textColor="@color/shade_primary_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/clear_all_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/clear_all"
+                android:textSize="14sp"
+                android:textColor="@color/brand_color_primary"
+                app:layout_constraintBottom_toBottomOf="@id/history_label"
+                app:layout_constraintTop_toTopOf="@id/history_label"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
@@ -168,7 +191,7 @@
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/text_search_label"
+            app:layout_constraintTop_toBottomOf="@id/layout_history"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_search_history" />
 

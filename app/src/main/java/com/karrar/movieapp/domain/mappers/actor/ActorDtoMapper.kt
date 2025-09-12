@@ -11,7 +11,8 @@ class ActorDtoMapper @Inject constructor() : Mapper<ActorDto, Actor> {
         return Actor(
             actorID = input.id ?: 0,
             actorName = input.name ?: "unknown",
-            actorImage = BuildConfig.IMAGE_BASE_PATH + input.profilePath
+            actorImage = BuildConfig.IMAGE_BASE_PATH + input.profilePath,
+            characterName = input.characterName ?: "unknown"
         )
     }
 }

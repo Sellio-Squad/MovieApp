@@ -3,22 +3,15 @@ package com.karrar.movieapp.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
-import com.karrar.movieapp.ui.home.adapter.PopularMovieAdapter
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -56,28 +49,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.recentlyViewed
                     )
                 )
-
-
-                val viewPager =
-                    binding.recyclerView.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
-
-                if (uiState.popularMovies is HomeItem.Slider) {
-                    val items = uiState.popularMovies.items
-                    if (items.isNotEmpty() && viewPager != null) {
-                        val adapter = PopularMovieAdapter(items, viewModel)
-                        viewPager.adapter = adapter
-                        viewPager.offscreenPageLimit = 3
-
-                        startAutoScroll(viewPager, items.size)
-                    }
-                }
             }
         }
     }
 
 
     private fun setAdapter() {
-        homeAdapter = HomeAdapter(mutableListOf(), viewModel)
+        homeAdapter = HomeAdapter(mutableListOf(), viewModel, viewLifecycleOwner.lifecycleScope)
         binding.recyclerView.adapter = homeAdapter
     }
 
@@ -133,27 +111,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         findNavController().navigate(action)
     }
 
-    private fun startAutoScroll(viewPager: ViewPager2, itemCount: Int) {
-        val recyclerView = viewPager.getChildAt(0) as? RecyclerView ?: return
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                var position = 0
-                while (true) {
-                    delay(2000)
-                    position = (position + 1) % itemCount
-
-                    val smoothScroller = object : LinearSmoothScroller(viewPager.context) {
-                        override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
-                        override fun calculateTimeForScrolling(dx: Int): Int {
-                            return 400.coerceAtMost(super.calculateTimeForScrolling(dx))
-                        }
-                    }
-
-                    smoothScroller.targetPosition = position
-                    recyclerView.layoutManager?.startSmoothScroll(smoothScroller)
-                }
-            }
-        }
-    }
 }

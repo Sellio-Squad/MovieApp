@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
@@ -15,14 +17,17 @@ import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.utilities.Constants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class HomeAdapter(
     private var homeItems: MutableList<HomeItem>,
     private val listener: BaseInteractionListener,
+    private val scope: CoroutineScope
 ) : BaseAdapter<HomeItem>(homeItems, listener) {
     override val layoutID: Int = 0
-    private val TRANSFORMER_APPLIED_KEY = 123456789
 
     fun setItem(item: HomeItem) {
         val newItems = homeItems.apply {
@@ -49,16 +54,16 @@ class HomeAdapter(
         if (position != -1)
             when (val currentItem = homeItems[position]) {
                 is HomeItem.Slider -> {
-                    holder.binding.setVariable(
-                        BR.adapterRecycler,
-                        PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
-                    )
+                    val adapter = PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
+                    holder.binding.setVariable(BR.adapterRecycler, adapter)
 
-                    val viewPager =
-                        holder.binding.root.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
+                    val viewPager = holder.binding.root.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
+                    viewPager?.adapter = adapter  // ⚡ Make sure adapter is set
                     viewPager?.offscreenPageLimit = 3
                     attachCarouselTransformer(viewPager)
+                    startAutoScroll(viewPager, currentItem.items.size)
                 }
+
 
                 is HomeItem.TvShows -> {
                     holder.binding.run {
@@ -200,10 +205,14 @@ class HomeAdapter(
     }
 
     private fun attachCarouselTransformer(viewPager: ViewPager2) {
-        if (viewPager.getTag(TRANSFORMER_APPLIED_KEY) == true) return
-        viewPager.setTag(TRANSFORMER_APPLIED_KEY, true)
+        val displayMetrics = viewPager.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
 
-        val sidePeek = viewPager.resources.displayMetrics.widthPixels * 0.05f
+        // Minimum overlap in pixels (for small devices)
+        val minSidePeek = viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_large)
+        // Adaptive overlap: 5% of screen width or at least minSidePeek
+        val sidePeek = maxOf(screenWidth * 0.05f, minSidePeek.toFloat())
+
         val extraLift = viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_extra_large)
 
         viewPager.setPageTransformer { page, position ->
@@ -216,5 +225,30 @@ class HomeAdapter(
             page.translationZ = if (position == 0f) 1f else 0f
         }
     }
+
+    fun startAutoScroll(viewPager: ViewPager2, itemCount: Int) {
+        if (itemCount == 0) return
+
+        val recyclerView = viewPager.getChildAt(0) as? RecyclerView ?: return
+
+        scope.launch {
+            var position = 0
+            while (true) {
+                delay(2000)
+                position = (position + 1) % itemCount
+
+                val smoothScroller = object : LinearSmoothScroller(viewPager.context) {
+                    override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
+                    override fun calculateTimeForScrolling(dx: Int): Int {
+                        return 400.coerceAtMost(super.calculateTimeForScrolling(dx))
+                    }
+                }
+
+                smoothScroller.targetPosition = position
+                recyclerView.layoutManager?.startSmoothScroll(smoothScroller)
+            }
+        }
+    }
+
 
 }

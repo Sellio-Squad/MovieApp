@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
+class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),DetailInteractionListener  {
 
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
@@ -28,6 +28,8 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
+        binding.viewModel = viewModel
+        binding.listener = this
         collectMovieDetailsItems()
         collectEvents()
     }
@@ -86,6 +88,20 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         }
         action?.let { findNavController().navigate(it) }
 
+    }
+
+    override fun onclickBack() {
+        findNavController().navigateUp()
+
+    }
+
+    override fun onClickSave() {
+    }
+
+    override fun onClickPlayTrailer() {
+    }
+
+    override fun onclickViewReviews() {
     }
 
 }

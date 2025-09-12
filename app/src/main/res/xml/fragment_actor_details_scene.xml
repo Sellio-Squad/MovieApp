@@ -49,7 +49,7 @@
         />
 
         <Constraint
-            android:id="@+id/button_retry"
+            android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
@@ -139,7 +139,7 @@
             />
 
         <Constraint
-            android:id="@+id/button_retry"
+            android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"

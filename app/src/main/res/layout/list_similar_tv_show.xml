@@ -7,7 +7,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.adapters.MovieAdapter" />
+            type="com.karrar.movieapp.ui.adapters.TvShowDetailsAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +19,10 @@
             style="@style/TextStyle.Title.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
             android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
             android:text="@string/you_might_also_like"
+            android:textColor="@color/shade_color_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,12 +35,12 @@
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:paddingHorizontal="@dimen/radius_cineVerse_l"
             android:focusable="true"
+            android:paddingHorizontal="@dimen/radius_cineVerse_l"
             android:text="@string/show_more"
             android:textColor="@color/brand_color_primary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/similar_movie_title"  />
+            app:layout_constraintTop_toTopOf="@+id/similar_movie_title" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -55,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/similar_movie_title"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/item_similar_series" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

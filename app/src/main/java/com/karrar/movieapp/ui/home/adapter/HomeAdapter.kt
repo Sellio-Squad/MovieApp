@@ -219,6 +219,8 @@ class HomeAdapter(
         }
     }
     fun startAutoScroll(viewPager: ViewPager2, itemCount: Int) {
+        if (itemCount == 0) return
+
         val recyclerView = viewPager.getChildAt(0) as? RecyclerView ?: return
 
         scope.launch {
@@ -239,5 +241,6 @@ class HomeAdapter(
             }
         }
     }
+
 
 }

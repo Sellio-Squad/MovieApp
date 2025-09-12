@@ -22,6 +22,7 @@
             android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
             android:layout_marginStart="@dimen/spacing_medium"
             android:text="@string/you_might_also_like"
+            android:textColor="@color/shade_color_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

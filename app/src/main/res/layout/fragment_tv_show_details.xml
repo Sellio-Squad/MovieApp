@@ -7,21 +7,46 @@
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.tvShowDetails.TvShowDetailsViewModel" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/appBar"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/background_color"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/leftArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> listener.onclickBack()}"
+                android:contentDescription="@string/left_arrow"
+                android:padding="@dimen/spacing_small"
+                android:src="@drawable/outline_arrow_left"
+                app:tint="@color/shade_primary_color" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:background="@color/background_color"
             android:overScrollMode="never"
             app:doneLoading="@{viewModel.stateFlow.loading}"
             app:errorNotEmpty="@{viewModel.stateFlow.errorUIState}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBar"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="1" />
 

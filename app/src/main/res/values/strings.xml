@@ -122,4 +122,5 @@
     <string name="title">Title</string>
     <string name="caption">Caption</string>
     <string name="you_recently_viewed">You Recently Viewed</string>
+    <string name="welcome">Welcome</string>
 </resources>

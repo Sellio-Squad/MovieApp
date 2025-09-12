@@ -19,4 +19,6 @@ data class HomeUiState (
     val collections: HomeItem = HomeItem.CollectionsList(emptyList()),
     val isLoading:Boolean = false,
     val error : List<String> = emptyList(),
+    val username: String? = null,
+    val isLoggedIn: Boolean = false
 )

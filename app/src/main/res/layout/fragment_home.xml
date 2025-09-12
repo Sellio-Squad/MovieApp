@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
+        <import type="android.view.Gravity"/>
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.home.HomeViewModel" />
@@ -13,6 +14,60 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color">
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/appLogo"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/cine_verse_logo" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/headerTitle"
+                    style="@style/TextStyle.Body.Small.Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome"
+                    android:textColor="@color/shade_color_secondary" />
+
+                <TextView
+                    android:id="@+id/headerSubtitle"
+                    style="@style/TextStyle.Title.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{viewModel.homeUiState.loggedIn ? viewModel.homeUiState.username : ""}'
+                    android:visibility='@{viewModel.homeUiState.loggedIn ? View.VISIBLE : View.GONE}'
+                    android:textColor="@color/shade_color_primary" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/headerDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/stroke_color_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -20,21 +75,22 @@
             android:layout_height="0dp"
             android:overScrollMode="never"
             android:scrollbars="none"
+            app:hideIfTrue="@{viewModel.homeUiState.loading || viewModel.homeUiState.error.size() &gt;5}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:hideIfTrue="@{viewModel.homeUiState.loading || viewModel.homeUiState.error.size() &gt;5}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout"
             app:spanCount="1" />
 
         <include
             android:id="@+id/loading"
             layout="@layout/loading2"
+            app:isLoading="@{viewModel.homeUiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:isLoading="@{viewModel.homeUiState.loading}"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/error"

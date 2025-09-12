@@ -65,6 +65,7 @@ class HomeViewModel @Inject constructor(
         getAdventure()
         getActors()
         getRecentlyViewed()
+        getUserName()
         getMyCollections()
     }
 
@@ -80,6 +81,7 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
 
     private fun getRecentlyViewed() {
         viewModelScope.launch {
@@ -101,6 +103,34 @@ class HomeViewModel @Inject constructor(
 
         }
     }
+    private fun getUserName() {
+        viewModelScope.launch {
+            try {
+                val isLoggedIn = homeUseCasesContainer.checkIfLoggedInUseCase()
+                if (isLoggedIn) {
+                    val accountDetails = homeUseCasesContainer.getAccountDetailsUseCase()
+                    _homeUiState.update {
+                        it.copy(
+                            username = accountDetails.username,
+                            isLoggedIn = true,
+                            isLoading = false
+                        )
+                    }
+                } else {
+                    _homeUiState.update {
+                        it.copy(
+                            username = "",
+                            isLoggedIn = false,
+                            isLoading = false
+                        )
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
+    }
+
 
     override fun getData() {
         getHomeData()

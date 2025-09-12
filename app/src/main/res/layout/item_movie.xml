@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_simi_small">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
+            android:id="@+id/img_poster"
             android:layout_width="0dp"
             android:layout_height="@dimen/media_card_height"
             android:scaleType="centerCrop"
@@ -32,12 +33,14 @@
             app:layout_constraintDimensionRatio="136:182"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:background="@color/brand_color_primary"
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{()->listener.onClickMovie(item.id)}"
             app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            android:id="@+id/img_poster"/>
+            app:enableModeration="@{true}"
+            app:detectFemales="@{true}"
+            app:detectMales="@{false}"
+            tools:background="@color/brand_color_primary" />
 
         <LinearLayout
             android:layout_width="wrap_content"

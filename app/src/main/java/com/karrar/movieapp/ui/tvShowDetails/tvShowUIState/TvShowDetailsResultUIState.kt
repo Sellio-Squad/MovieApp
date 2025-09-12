@@ -12,5 +12,10 @@ data class TvShowDetailsResultUIState(
     val tvShowReview: Int = 0,
     val tvShowVoteAverage: String = "",
     val tvShowOverview: String = "",
+    val tvShowHours: Int = 0,
+    val tvShowMinutes: Int = 0,
     val tvShowMediaType: MediaType = MediaType.TV_SHOW
-)
+){
+    val duration: String
+        get() = "${tvShowHours}h ${tvShowMinutes}m"
+}

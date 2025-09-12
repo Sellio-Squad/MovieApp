@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.onTheAiringSeries,
                         uiState.airingTodaySeries,
                         uiState.upcomingMovies,
-                        uiState.nowStreamingMovies,
+                        uiState.recentlyReleasedMovies,
                         uiState.mysteryMovies,
                         uiState.adventureMovies,
                         uiState.trendingMovies,

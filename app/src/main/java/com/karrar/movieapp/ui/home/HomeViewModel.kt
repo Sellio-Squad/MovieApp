@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
     private fun getHomeData() {
         _homeUiState.update { it.copy(isLoading = true) }
         getTrending()
-        getNowStreaming()
+        getRecentlyReleased()
         getUpcoming()
         getTopRatedTvShow()
         getOnTheAir()
@@ -170,14 +170,14 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun getNowStreaming() {
+    private fun getRecentlyReleased() {
         viewModelScope.launch {
             try {
                 homeUseCasesContainer.getNowStreamingMoviesUseCase().collect { list ->
                     if (list.isNotEmpty()) {
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
-                            it.copy(nowStreamingMovies = HomeItem.NowStreaming(items),
+                            it.copy(recentlyReleasedMovies = HomeItem.RecentlyReleased(items),
                                 isLoading = false)
                         }
                     }
@@ -294,7 +294,7 @@ class HomeViewModel @Inject constructor(
         val type = when (homeItemsType) {
             HomeItemsType.TOP_RATED_TV_SHOWS -> AllMediaType.TOP_RATED
             HomeItemsType.TRENDING -> AllMediaType.TRENDING
-            HomeItemsType.NOW_STREAMING -> AllMediaType.NOW_STREAMING
+            HomeItemsType.RECENTLY_RELEASED -> AllMediaType.RECENTLY_RELEASED
             HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
             HomeItemsType.MYSTERY -> AllMediaType.MYSTERY
             HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE

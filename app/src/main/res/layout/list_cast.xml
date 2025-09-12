@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium">
 
+
         <TextView
             android:id="@+id/cast"
             style="@style/TextStyle.Title.Small"
@@ -23,9 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:text="@string/cast"
+            android:textColor="@color/shade_color_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cast_adapter"

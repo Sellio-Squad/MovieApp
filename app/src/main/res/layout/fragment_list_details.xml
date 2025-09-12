@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:onClick="@{() -> viewModel.getData()}"
-            style="@style/small_button..enabled"
+            style="@style/small_button.enabled"
             android:background="@drawable/large_enabled_button"
             android:paddingHorizontal="94dp"
             android:text="@string/try_again"

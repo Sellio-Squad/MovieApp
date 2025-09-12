@@ -56,7 +56,7 @@
 
         <Button
             android:id="@+id/button_retry"
-            style="@style/small_button..enabled"
+            style="@style/small_button.enabled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
@@ -76,7 +76,7 @@
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_try_again"
+            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
             app:isVisible="@{isError}"
             app:hideWhenBlankSearch="@{viewModel.uiState.searchInput}"/>
 

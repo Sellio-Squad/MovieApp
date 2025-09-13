@@ -28,7 +28,7 @@
             android:layout_height="32dp"
             android:layout_marginBottom="@dimen/spacing_too_small"
             android:contentDescription="@string/icon"
-            app:srcRes="@{item.icon}" />
+            app:imageRes="@{item.icon}" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_title"

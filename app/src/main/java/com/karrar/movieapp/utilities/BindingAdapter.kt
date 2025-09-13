@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
@@ -353,20 +352,14 @@ fun starsDrawableByRating(container: LinearLayout, ratingValue: Float?) {
 }
 
 @BindingAdapter("imageRes")
-fun setImageResource(imageView: ShapeableImageView, resId: Int) {
-    imageView.setImageResource(resId)
-}
-
-
-@BindingAdapter("srcRes")
-fun setImageResource(imageView: ImageView, resourceId: Int) {
+fun setImgResource(image: ImageView, resourceId: Int) {
     if (resourceId != 0) {
-        imageView.setImageResource(resourceId)
+        image.setImageResource(resourceId)
     }
 }
 
 @BindingAdapter("textRes")
-fun setImageResource(textView: MaterialTextView, resourceId: Int) {
+fun setTextResource(textView: MaterialTextView, resourceId: Int) {
     if (resourceId != 0) {
         textView.setText(resourceId)
     }

@@ -38,7 +38,7 @@
             android:contentDescription="@string/icon"
             android:padding="@dimen/spacing_small"
             android:selected="@{item == selectedItem}"
-            app:srcRes="@{item.icon}"
+            app:imageRes="@{item.icon}"
             app:tint="@color/icon_background" />
 
         <LinearLayout

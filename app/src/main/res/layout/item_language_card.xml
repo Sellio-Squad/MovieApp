@@ -19,7 +19,6 @@
         android:layout_height="87dp"
         android:background="@drawable/language_card_background"
         android:gravity="center"
-        android:onClick="@{() -> listener.onLanguageSelected(item)}"
         android:orientation="vertical"
         android:selected="@{isSelected}">
 

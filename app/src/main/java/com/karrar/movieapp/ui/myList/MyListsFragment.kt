@@ -37,16 +37,11 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         var action: NavDirections? = null
         when (event) {
             MyListUIEvent.CreateButtonClicked -> {
-                action = MyListsFragmentDirections.actionMyListFragmentToCreateSavedList()
             }
             is MyListUIEvent.DisplayError -> {
                 Toast.makeText(requireContext(), event.errorMessage, Toast.LENGTH_LONG).show()
             }
             is MyListUIEvent.OnSelectItem -> {
-                action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(
-                    event.createdListUIState.listID,
-                    event.createdListUIState.name
-                )
             }
             else -> {
             }

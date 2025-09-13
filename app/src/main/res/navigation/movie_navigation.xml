@@ -115,6 +115,15 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_logInDialog"
+            app:destination="@id/logInDialog" />
+        <action
+            android:id="@+id/action_profileFragment_to_contentPreferencesDialog"
+            app:destination="@id/contentPreferencesDialog" />
+        <action
+            android:id="@+id/action_profileFragment_to_changeLanguageDialog"
+            app:destination="@id/changeLanguageDialog" />
 
 
     </fragment>
@@ -326,6 +335,39 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+    </fragment>
+    <dialog
+        android:id="@+id/logInDialog"
+        android:name="com.karrar.movieapp.ui.profile.login.LogInDialog"
+        android:label="dialog_log_in"
+        tools:layout="@layout/dialog_log_in">
+        <action
+            android:id="@+id/action_logInDialog_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <argument
+            android:name="userName"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_logInDialog_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/contentPreferencesDialog"
+        android:name="com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesDialog"
+        android:label="ContentPreferencesDialog" />
+    <dialog
+        android:id="@+id/changeLanguageDialog"
+        android:name="com.karrar.movieapp.ui.profile.settings.language.ChangeLanguageDialog"
+        android:label="ChangeLanguageDialog" />
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.karrar.movieapp.ui.profile.editProfile.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view">
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
 
 </navigation>

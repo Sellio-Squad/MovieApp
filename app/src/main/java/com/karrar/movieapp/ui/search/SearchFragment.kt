@@ -30,6 +30,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val viewModel: SearchViewModel by viewModels()
 
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
+    private val mediaSearchCardAdapter by lazy { MediaSearchCardAdapter(viewModel) }
     private val actorSearchAdapter by lazy { ActorSearchAdapter(viewModel) }
 
     private val oldValue = MutableStateFlow(MediaSearchUIState())
@@ -75,6 +76,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
             else -> {
                 bindMedia()
+                bindMediaCard()
             }
         }
     }
@@ -132,6 +134,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         collect(flow = mediaSearchAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
+
+        getMediaSearchResults()
+    }
+    private fun bindMediaCard() {
+        val footerAdapter = LoadUIStateAdapter(mediaSearchAdapter::retry)
+        binding.recyclerMedia.adapter = mediaSearchCardAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
+
+        collect(flow = mediaSearchCardAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it, mediaSearchCardAdapter.itemCount) })
 
         getMediaSearchResults()
     }

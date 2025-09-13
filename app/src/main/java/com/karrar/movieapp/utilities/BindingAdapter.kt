@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textview.MaterialTextView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -169,6 +170,7 @@ fun ImageView.setPosterImage(imageURL: String?) {
         }
     }
 }
+
 @BindingAdapter("app:mediaPoster")
 fun loadMediaPoster(image: ImageView, imageURL: String?) {
     imageURL?.let {
@@ -266,7 +268,7 @@ fun setRating(view: RatingBar?, rating: Float) {
 }
 
 @BindingAdapter("showWhenTextNotEmpty")
-fun <T> showWhenTextNotEmpty(view: View,text:String){
+fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
 }
 
@@ -302,4 +304,27 @@ fun starsDrawableByRating(container: LinearLayout, ratingValue: Float?) {
         val isFilled = index < ratingInt
         starView.setImageResource(if (isFilled) R.drawable.star_fill_new else R.drawable.star_outline_new)
     }
+}
+
+@BindingAdapter("srcRes")
+fun setImageResource(imageView: ImageView, resourceId: Int) {
+    if (resourceId != 0) {
+        imageView.setImageResource(resourceId)
+    }
+}
+
+@BindingAdapter("textRes")
+fun setImageResource(textView: MaterialTextView, resourceId: Int) {
+    if (resourceId != 0) {
+        textView.setText(resourceId)
+    }
+}
+
+@BindingAdapter("selectedItem")
+fun <T> setSelectedItem(
+    recyclerView: RecyclerView,
+    selectedItem: T?
+) {
+    val adapter = recyclerView.adapter as? BaseAdapter<T>
+    adapter?.updateSelectedItem(selectedItem)
 }

@@ -100,4 +100,6 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(): List<RatedMoviesDto>?
 
+    suspend fun clearAllRecentSearch()
+
 }

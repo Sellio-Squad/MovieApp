@@ -20,6 +20,3 @@ class MediaSearchCardAdapter(listener: SearchViewModel)
     }
 }
 
-interface MediaSearchCardInteractionListener : BaseInteractionListener {
-    fun onClickMediaResult(media: MediaUIState)
-}

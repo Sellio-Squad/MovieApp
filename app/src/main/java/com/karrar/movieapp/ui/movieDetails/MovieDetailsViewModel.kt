@@ -87,13 +87,13 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = getMovieDetailsUseCase.getMovieDetails(movieId)
+
                 _uiState.update {
                     it.copy(
                         movieDetailsResult = movieDetailsUIStateMapper.map(result),
                         isLoading = false,
                     )
                 }
-                onAddMovieDetailsItemOfNestedView(DetailItemUIState.Header(_uiState.value.movieDetailsResult))
                 addToWatchHistory(result)
             } catch (e: Exception) {
                 _uiState.update {

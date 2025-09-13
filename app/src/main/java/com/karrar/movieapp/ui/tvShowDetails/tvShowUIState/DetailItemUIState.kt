@@ -3,6 +3,7 @@ package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 import androidx.lifecycle.ViewModel
 import com.karrar.movieapp.ui.models.ActorUiState
 import com.karrar.movieapp.ui.models.CrewUIState
+import com.karrar.movieapp.ui.models.MediaUiState
 
 sealed class DetailItemUIState(val priority: Int) {
 
@@ -12,7 +13,7 @@ sealed class DetailItemUIState(val priority: Int) {
 
     class Cast(val data: List<ActorUiState>) : DetailItemUIState(2)
 
-    class Crew(val data: List<CrewUIState>) : DetailItemUIState(3)
+    class SimilarTvShow(val data: List<MediaUiState>) : DetailItemUIState(3)
 
     class Rating(val viewModel: ViewModel) : DetailItemUIState(4)
 
@@ -21,4 +22,6 @@ sealed class DetailItemUIState(val priority: Int) {
     class Comment(val data: ReviewUIState) : DetailItemUIState(6)
 
     object SeeAllReviewsButton : DetailItemUIState(7)
+
+    class Crew(val data: List<CrewUIState>) : DetailItemUIState(8)
 }

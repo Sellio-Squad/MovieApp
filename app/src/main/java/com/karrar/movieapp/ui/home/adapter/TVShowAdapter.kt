@@ -8,7 +8,7 @@ import com.karrar.movieapp.ui.models.MediaUiState
 
 class TVShowAdapter(items: List<MediaUiState>,val listener: TVShowInteractionListener) :
     BaseAdapter<MediaUiState>(items, listener) {
-    override val layoutID: Int = R.layout.item_movie
+    override val layoutID: Int = R.layout.item_tvshow
 }
 
 interface TVShowInteractionListener : BaseInteractionListener {

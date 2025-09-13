@@ -87,17 +87,23 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
 
     private fun getTitle(type: AllMediaType): String {
         return when (type) {
-            AllMediaType.ON_THE_AIR -> resources.getString(R.string.title_on_air)
+            AllMediaType.ON_THE_AIR -> resources.getString(R.string.title_top_rated_tv_show)
             AllMediaType.AIRING_TODAY -> resources.getString(R.string.title_airing_today)
             AllMediaType.LATEST -> resources.getString(R.string.latest)
             AllMediaType.POPULAR -> resources.getString(R.string.popular)
             AllMediaType.TOP_RATED -> resources.getString(R.string.title_top_rated_tv_show)
             AllMediaType.TRENDING -> resources.getString(R.string.title_trending)
-            AllMediaType.NOW_STREAMING -> resources.getString(R.string.title_streaming)
+            AllMediaType.RECENTLY_RELEASED -> resources.getString(R.string.title_streaming)
             AllMediaType.UPCOMING -> resources.getString(R.string.title_upcoming)
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
             AllMediaType.ACTOR_MOVIES -> ""
+            AllMediaType.LATE_NIGHT_THRILLS -> "Late Night Thrills"
+            AllMediaType.MIND_BENDING_STORIES -> "Mind Bending Stories"
+            AllMediaType.CINEMATIC_MASTERPIECES -> "Cinematic Masterpieces"
+            AllMediaType.FAMILY_NIGHT_PICKS -> "Family Night Picks"
+            AllMediaType.BASED_ON_TRUE_EVENTS -> "Based On True Events"
+            AllMediaType.FEEL_GOOD_FAVORITES -> "Feel Good Favorites"
         }
     }
 

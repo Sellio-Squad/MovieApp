@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
 import com.karrar.movieapp.ui.models.ActorUiState
+import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.models.CrewUIState
 
 data class TvShowDetailsUIState(
@@ -13,5 +14,6 @@ data class TvShowDetailsUIState(
     val ratingValue: Float = 0F,
     val isLoading: Boolean = false,
     val isLogin: Boolean = false,
-    val errorUIState: List<Error> = emptyList()
+    val errorUIState: List<Error> = emptyList(),
+    val similarTvShowResult: List<MediaUiState> = emptyList(),
 )

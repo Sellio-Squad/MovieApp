@@ -24,6 +24,13 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
         collectLast(viewModel.listDetailsUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
+        binding.buttonEmpty.setOnClickListener {
+            findNavController().navigate(ListDetailsFragmentDirections.actionListDetailsFragmentToExploringFragment())
+        }
+
+        binding.tipClose.setOnClickListener {
+            binding.tipCard.visibility = View.GONE
+        }
     }
 
     private fun onEvent(event: ListDetailsUIEvent) {
@@ -47,5 +54,4 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
             ListDetailsFragmentDirections.actionListDetailsFragmentToTvShowDetailsFragment(id)
         )
     }
-
 }

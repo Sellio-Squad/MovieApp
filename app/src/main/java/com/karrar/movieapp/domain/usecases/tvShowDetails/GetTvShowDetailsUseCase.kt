@@ -4,7 +4,9 @@ import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
+import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.Crew
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.Season
@@ -16,6 +18,7 @@ import javax.inject.Inject
 class GetTvShowDetailsUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val seriesMapperContainer: SeriesMapperContainer,
+    private val tvShowMapper: TVShowMapper,
     private val getTVShowsReviews: GetReviewsUseCase
 ) {
 
@@ -35,9 +38,18 @@ class GetTvShowDetailsUseCase @Inject constructor(
             .mapList(seriesRepository.getTvShowCastAndCrew(tvShowId)?.crew)
     }
 
+    suspend fun getSimilarTvShow(tvShowId: Int): List<Media> {
+        return seriesRepository.getSimilarTvShow(tvShowId)?.let {
+            it.map { tvShowMapper.map(it) }
+        } ?: throw Throwable("Not Success")
+    }
+
     suspend fun getSeasons(tvShowId: Int): List<Season> {
-        return ListMapper(seriesMapperContainer.seasonMapper)
+        val allSeasons= ListMapper(seriesMapperContainer.seasonMapper)
             .mapList(seriesRepository.getTvShowDetails(tvShowId)?.season)
+        return allSeasons
+            .sortedByDescending { it.seasonNumber }
+            .take(3)
     }
 
 

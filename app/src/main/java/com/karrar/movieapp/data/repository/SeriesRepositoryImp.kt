@@ -1,5 +1,6 @@
 package com.karrar.movieapp.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import com.karrar.movieapp.data.Constants
 import com.karrar.movieapp.data.local.AppConfiguration
@@ -217,5 +218,9 @@ class SeriesRepositoryImp @Inject constructor(
 
     override suspend fun getTvShowCastAndCrew(tvShowId: Int): CreditsDto? {
         return service.getTvShowCast(tvShowId).body()
+    }
+
+    override suspend fun getSimilarTvShow(tvShowId: Int): List<TVShowsDTO>? {
+        return service.getSimilarTvShows(tvShowId).body()?.items
     }
 }

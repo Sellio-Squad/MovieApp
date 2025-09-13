@@ -8,19 +8,27 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.search.adapters.*
-import com.karrar.movieapp.ui.search.mediaSearchUIState.*
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.ui.search.adapters.ActorSearchAdapter
+import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
+import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
+import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.collect
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -60,7 +68,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             viewModel.uiState.debounce(500).collectLatest { searchTerm ->
                 if (searchTerm.searchInput.isNotBlank()
                     && oldValue.value.searchInput != viewModel.uiState.value.searchInput
-                    || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes) {
+                    || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes
+                ) {
                     getSearchResult()
                     oldValue.emit(viewModel.uiState.value)
                 }
@@ -73,26 +82,31 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             MediaTypes.ACTOR -> {
                 bindActors()
             }
+
             else -> {
                 bindMedia()
             }
         }
     }
 
+
     private fun onEvent(event: SearchUIEvent) {
         when (event) {
             is SearchUIEvent.ClickActorEvent -> {
                 navigateToActorDetails(event.actorID)
             }
+
             SearchUIEvent.ClickBackEvent -> {
                 popFragment()
             }
+
             is SearchUIEvent.ClickMediaEvent -> {
-                when (event.mediaUIState.mediaTypes) {
+                when (event.mediaUIState.mediaTypes.lowercase()) {
                     Constants.MOVIE -> navigateToMovieDetails(event.mediaUIState.mediaID)
                     Constants.TV_SHOWS -> navigateToSeriesDetails(event.mediaUIState.mediaID)
                 }
             }
+
             SearchUIEvent.ClickRetryEvent -> {
                 actorSearchAdapter.retry()
                 mediaSearchAdapter.retry()
@@ -130,7 +144,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager =
             LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
 
-        collect(flow = mediaSearchAdapter.loadStateFlow,
+        collect(
+            flow = mediaSearchAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
 
         getMediaSearchResults()
@@ -142,7 +157,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
         setSpanSize(footerAdapter)
 
-        collect(flow = actorSearchAdapter.loadStateFlow,
+        collect(
+            flow = actorSearchAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, actorSearchAdapter.itemCount) })
 
         getActorsSearchResults()

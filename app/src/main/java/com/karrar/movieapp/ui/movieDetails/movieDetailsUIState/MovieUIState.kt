@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.movieDetails.movieDetailsUIState
 
 import com.karrar.movieapp.ui.models.ActorUiState
+import com.karrar.movieapp.ui.models.CrewUIState
 import com.karrar.movieapp.ui.models.MediaUiState
 
 data class MovieUIState(
@@ -13,4 +14,5 @@ data class MovieUIState(
     val isLoading: Boolean = false,
     val isLogin: Boolean = false,
     val errorUIStates: List<ErrorUIState> = emptyList(),
+    val movieCrewResult: List<CrewUIState> = emptyList(),
 )

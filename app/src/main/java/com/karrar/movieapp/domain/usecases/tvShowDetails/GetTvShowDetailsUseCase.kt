@@ -7,6 +7,7 @@ import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Actor
 import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.models.Crew
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.domain.models.TvShowDetails
@@ -29,7 +30,12 @@ class GetTvShowDetailsUseCase @Inject constructor(
 
     suspend fun getSeriesCast(tvShowId: Int): List<Actor> {
         return ListMapper(seriesMapperContainer.actorMapper)
-            .mapList(seriesRepository.getTvShowCast(tvShowId)?.cast)
+            .mapList(seriesRepository.getTvShowCastAndCrew(tvShowId)?.cast)
+    }
+
+    suspend fun getSeriesCrew(tvShowId: Int): List<Crew> {
+        return ListMapper(seriesMapperContainer.seriesCrewMapper)
+            .mapList(seriesRepository.getTvShowCastAndCrew(tvShowId)?.crew)
     }
 
     suspend fun getSimilarTvShow(tvShowId: Int): List<Media> {

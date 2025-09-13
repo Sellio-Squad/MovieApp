@@ -227,6 +227,10 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }
 
+    override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
+
+    }
+
     override fun onClickBrowseEverything() {
         _homeUIEvent.update { Event(HomeUIEvent.ClickBrowseEverythingEvent) }
     }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -7,31 +8,24 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.adapters.TvShowDetailsInteractionListener" />
 
         <variable
             name="item"
             type="com.karrar.movieapp.ui.models.MediaUiState" />
-
-        <variable
-            name="type"
-            type="com.karrar.movieapp.domain.enums.HomeItemsType" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_simi_small">
+        android:layout_margin="@dimen/spacing_simi_small">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_poster"
             android:layout_width="0dp"
             android:layout_height="@dimen/media_card_height"
-            android:onClick="@{()->listener.onClickMovie(item.id)}"
+            android:onClick="@{()->listener.onClickTvShow(item)}"
             android:scaleType="centerCrop"
-            android:layout_marginBottom="@dimen/radius_cineVerse_s"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="136:182"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +51,7 @@
                 style="@style/TextStyle.Label.Medium.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.format(`%.1f`, item.rate)}"
+                android:text="@{String.valueOf(item.rate)}"
                 android:textColor="@color/shade_color_primary"
                 tools:text="5.7" />
 
@@ -67,7 +61,6 @@
                 android:layout_marginStart="@dimen/spacing_too_small"
                 android:src="@drawable/ic_rate" />
         </LinearLayout>
-
         <TextView
             style="@style/TextStyle.Body.Medium.Medium"
             android:layout_width="0dp"
@@ -83,6 +76,5 @@
             app:layout_constraintStart_toStartOf="@+id/img_poster"
             app:layout_constraintTop_toBottomOf="@id/img_poster"
             tools:text="The Flash" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

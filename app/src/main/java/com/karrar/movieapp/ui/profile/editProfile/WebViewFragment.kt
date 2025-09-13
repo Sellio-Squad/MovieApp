@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentWebViewBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.main.MainActivity
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,10 +20,15 @@ class WebViewFragment : BaseFragment<FragmentWebViewBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getString(R.string.edit_profile))
+        setBottomNavigationVisibility()
         setupWebView()
         collectLast(viewModel.url) {
             loadUrl(it)
         }
+    }
+
+    private fun setBottomNavigationVisibility() {
+        (activity as? MainActivity)?.showBottomNavigation(false)
     }
 
     private fun setupWebView() {

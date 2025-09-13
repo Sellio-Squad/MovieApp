@@ -47,6 +47,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
+
+
+
+
     private fun setSearchHistoryAdapter() {
         val inputMethodManager =
             binding.inputSearch.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -58,24 +62,33 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     @OptIn(FlowPreview::class)
     private fun getSearchResultsBySearchTerm() {
         lifecycleScope.launch {
-            viewModel.uiState.debounce(500).collectLatest { searchTerm ->
-                if (searchTerm.searchInput.isNotBlank()
-                    && oldValue.value.searchInput != viewModel.uiState.value.searchInput
-                    || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes) {
-                    getSearchResult()
-                    oldValue.emit(viewModel.uiState.value)
+            viewModel.uiState
+                .debounce(500)
+                .collectLatest { newState ->
+                    val oldState = oldValue.value
+
+                    val shouldUpdate = newState.searchInput.isNotBlank() &&
+                            (oldState.searchInput != newState.searchInput ||
+                                    oldState.searchTypes != newState.searchTypes ||
+                                    oldState.displayMode != newState.displayMode)
+
+                    if (shouldUpdate) {
+                        getSearchResult()
+                        oldValue.emit(newState)
+                    }
                 }
-            }
         }
     }
 
     private fun getSearchResult() {
-        when (viewModel.uiState.value.searchTypes) {
-            MediaTypes.ACTOR -> {
-                bindActors()
+        when (viewModel.uiState.value.displayMode) {
+            SearchDisplayMode.SUGGESTIONS -> {
+                when (viewModel.uiState.value.searchTypes) {
+                    MediaTypes.ACTOR -> bindActors()
+                    else -> bindMedia()
+                }
             }
-            else -> {
-                bindMedia()
+            SearchDisplayMode.RESULTS -> {
                 bindMediaCard()
             }
         }
@@ -146,7 +159,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         collect(flow = mediaSearchCardAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, mediaSearchCardAdapter.itemCount) })
 
-        getMediaSearchResults()
+        getMediaSearchCardResults()
     }
 
     private fun bindActors() {
@@ -164,6 +177,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun getMediaSearchResults() {
         collectLast(viewModel.uiState.value.searchResult)
         { mediaSearchAdapter.submitData(it) }
+    }
+    private fun getMediaSearchCardResults() {
+        collectLast(viewModel.uiState.value.searchResult)
+        { mediaSearchCardAdapter.submitData(it) }
     }
 
     private fun getActorsSearchResults() {

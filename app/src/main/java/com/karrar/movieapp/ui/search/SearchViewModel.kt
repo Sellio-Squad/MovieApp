@@ -24,7 +24,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+enum class SearchDisplayMode {
+    SUGGESTIONS,
+    RESULTS
+}
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchHistoryUIStateMapper: SearchHistoryUIStateMapper,
@@ -74,7 +77,16 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchInputChange(searchTerm: CharSequence) {
-        _uiState.update { it.copy(searchInput = searchTerm.toString(), isLoading = true) }
+        if (searchTerm.toString() == _uiState.value.searchInput) {
+            return
+        }
+        _uiState.update {
+            it.copy(
+                searchInput = searchTerm.toString(),
+                displayMode = SearchDisplayMode.SUGGESTIONS
+                , isLoading = true
+            )
+        }
         viewModelScope.launch {
             when (_uiState.value.searchTypes) {
                 MediaTypes.MOVIE -> onSearchForMovie()
@@ -134,11 +146,6 @@ class SearchViewModel @Inject constructor(
     }
 
 
-    override fun onClickMediaResult(media: MediaUIState) {
-        saveSearchResult(media.mediaID, media.mediaName)
-        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
-    }
-
     override fun onClickActorResult(personID: Int, name: String) {
         saveSearchResult(personID, name)
         _searchUIEvent.update { Event(SearchUIEvent.ClickActorEvent(personID)) }
@@ -189,5 +196,20 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
+
+    override fun onSuggestionClick(query: String) {
+        _uiState.update {
+            it.copy(
+                searchInput = query,
+                displayMode = SearchDisplayMode.RESULTS
+            )
+        }
+    }
+
+    override fun onMediaClick(media: MediaUIState) {
+        saveSearchResult(media.mediaID, media.mediaName)
+        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
+    }
+
 
 }

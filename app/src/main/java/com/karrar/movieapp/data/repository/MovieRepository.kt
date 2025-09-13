@@ -106,6 +106,7 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(): List<RatedMoviesDto>?
 
+    suspend fun getMovieCastAndCrew(movieId: Int): CreditsDto?
     suspend fun clearAllRecentSearch()
 
     suspend fun getMatchedMovies(

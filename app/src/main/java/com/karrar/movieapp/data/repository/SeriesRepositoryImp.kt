@@ -216,6 +216,10 @@ class SeriesRepositoryImp @Inject constructor(
         return service.deleteTvShowRating(tvId).body()
     }
 
+    override suspend fun getTvShowCastAndCrew(tvShowId: Int): CreditsDto? {
+        return service.getTvShowCast(tvShowId).body()
+    }
+
     override suspend fun getSimilarTvShow(tvShowId: Int): List<TVShowsDTO>? {
         return service.getSimilarTvShows(tvShowId).body()?.items
     }

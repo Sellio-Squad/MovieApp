@@ -104,6 +104,8 @@ interface MovieService {
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseListResponse<MovieDto>>
 
+    @GET("tv/{tv_id}/similar")
+    suspend fun getSimilarTvShows(@Path("tv_id") tvShowId: Int): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviews(@Path("movie_id") movieId: Int): Response<BaseListResponse<ReviewsDto>>

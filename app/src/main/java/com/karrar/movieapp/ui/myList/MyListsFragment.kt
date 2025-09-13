@@ -25,6 +25,11 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         setTitle(true, getString(R.string.match))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
         collectEvent()
+
+        binding.buttonEmpty.setOnClickListener {
+            findNavController().navigate(MyListsFragmentDirections.actionMyListFragmentToExploringFragment())
+        }
+
     }
 
     private fun collectEvent() {
@@ -38,11 +43,14 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         when (event) {
             MyListUIEvent.CreateButtonClicked -> {
             }
+
             is MyListUIEvent.DisplayError -> {
                 Toast.makeText(requireContext(), event.errorMessage, Toast.LENGTH_LONG).show()
             }
+
             is MyListUIEvent.OnSelectItem -> {
             }
+
             else -> {
             }
         }

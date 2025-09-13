@@ -27,7 +27,6 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         collectEvent()
 
         binding.buttonEmpty.setOnClickListener {
-            findNavController().navigate(MyListsFragmentDirections.actionMyListFragmentToExploringFragment())
         }
 
     }

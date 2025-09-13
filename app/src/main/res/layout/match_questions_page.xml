@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color_screen">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/match_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/spacing_simi_medium"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_drawable"
+        android:progressTint="@color/brand_color_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_extra_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar">
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/on_boarding_btn_size"
+            android:background="@drawable/rounded_button"
+            android:text="@string/next"
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:textColor="@color/button_color_onPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ScrollView
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="@dimen/zero_dp"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@id/next_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/questions_container"
+                    android:layout_width="@dimen/zero_dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingVertical="@dimen/spacing_extra_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/mood_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/mood_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:text="@string/what_mood"
+                            android:textColor="@color/shade_color_primary"
+                            style="@style/TextStyle.Title.Small"
+                             />
+
+                        <LinearLayout
+                            android:id="@+id/mood_row_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_simi_medium"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <FrameLayout
+                                android:id="@+id/mood_option_1"
+                                android:layout_width="@dimen/zero_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/spacing_simi_small"
+                                android:layout_weight="1" />
+
+                            <FrameLayout
+                                android:id="@+id/mood_option_2"
+                                android:layout_width="@dimen/zero_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_simi_small"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/mood_row_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <FrameLayout
+                                android:id="@+id/mood_option_3"
+                                android:layout_width="@dimen/zero_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/spacing_simi_small"
+                                android:layout_weight="1" />
+
+                            <FrameLayout
+                                android:id="@+id/mood_option_4"
+                                android:layout_width="@dimen/zero_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_simi_small"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/genre_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_extra_large"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/genre_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:text="@string/pick_genre"
+                            android:textColor="@color/shade_color_primary"
+                            style="@style/TextStyle.Title.Small"
+                            />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/genre_options_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:alignItems="stretch"
+                            app:flexWrap="wrap"
+                            app:justifyContent="flex_start" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/time_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_extra_large"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/time_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:text="@string/how_much_time"
+                            android:textColor="@color/shade_color_primary"
+                            style="@style/TextStyle.Title.Small"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/time_options_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/type_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_extra_large"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/type_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_medium"
+                            android:text="@string/recent_or_classic"
+                            android:textColor="@color/shade_color_primary"
+                            style="@style/TextStyle.Title.Small"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/type_options_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <FrameLayout
+                                android:id="@+id/type_option_1"
+                                android:layout_width="@dimen/zero_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/spacing_too_small"
+                                android:layout_weight="1" />
+
+                            <FrameLayout
+                                android:id="@+id/type_option_2"
+                                android:layout_width="@dimen/zero_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/spacing_too_small"
+                                android:layout_weight="1" />
+
+                            <FrameLayout
+                                android:id="@+id/type_option_3"
+                                android:layout_width="@dimen/zero_dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_too_small"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/loading_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="32dp"
+                        android:gravity="center"
+                        android:text="@string/loading_recommendations"
+                        android:textColor="@color/shade_color_primary"
+                        style="@style/TextStyle.Body.Medium.Regular"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

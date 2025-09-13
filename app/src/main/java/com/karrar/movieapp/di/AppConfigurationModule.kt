@@ -2,6 +2,8 @@ package com.karrar.movieapp.di
 
 import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.AppConfigurator
+import com.karrar.movieapp.data.repository.ThemeRepository
+import com.karrar.movieapp.data.repository.ThemeRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,4 +18,11 @@ abstract class AppConfigurationModule {
     @Singleton
     @Binds
     abstract fun bindAppConfiguration(appConfigurator: AppConfigurator) :AppConfiguration
+
+
+    @Singleton
+    @Binds
+    abstract fun bindThemeRepository(
+        themeRepositoryImp: ThemeRepositoryImpl
+    ): ThemeRepository
 }

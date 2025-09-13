@@ -1,72 +1,141 @@
 package com.karrar.movieapp.ui.galleryActor
 
 import android.view.LayoutInflater
-import android.widget.FrameLayout
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import com.karrar.movieapp.BR
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.karrar.movieapp.R
-import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.databinding.ItemGalleryBinding
+import com.karrar.movieapp.databinding.ItemGalleryFlippedBinding
 
-class GalleryActorAdapter(
-    private val items: List<GalleryActorUIState>,
-    val listener: GalleryActorInteractionListener
-) : BaseAdapter<GalleryActorUIState>(items, listener) {
-    override val layoutID: Int = R.layout.item_gallery
+class ActorGalleryAdapter(
+    private var images: List<List<String>> = emptyList()
+) : RecyclerView.Adapter<ActorGalleryAdapter.BaseViewHolder>() {
 
-    override fun bind(holder: ItemViewHolder, position: Int) {
-        super.bind(holder, position)
-
-        val itemGallery = items[position]
-        val containerImages = holder.binding.root.findViewById<FrameLayout>(R.id.container_images)
-
-        if (itemGallery.isFlipped) {
-            containerImages.scaleX = -1f
-        } else {
-            containerImages.scaleX = 1f
-        }
-        containerImages.removeAllViews()
-
-
-        val childBinding = when (itemGallery.imagesUrl.size) {
-            1 -> {
-                val binding = DataBindingUtil.inflate<ViewDataBinding>(
-                    LayoutInflater.from(containerImages.context),
-                    R.layout.single_image_gallery, containerImages, false
-                )
-                binding.setVariable(BR.imageUrlGallery, itemGallery.imagesUrl[0])
-                binding
-            }
-
-            2 -> {
-                val binding = DataBindingUtil.inflate<ViewDataBinding>(
-                    LayoutInflater.from(containerImages.context),
-                    R.layout.three_image_gallery, containerImages, false
-                )
-                binding.setVariable(BR.firstImageUrl, itemGallery.imagesUrl[0])
-                binding.setVariable(BR.secondImageUrl, itemGallery.imagesUrl[1])
-                binding
-            }
-
-            3 -> {
-                val binding = DataBindingUtil.inflate<ViewDataBinding>(
-                    LayoutInflater.from(containerImages.context),
-                    R.layout.three_image_gallery, containerImages, false
-                )
-                binding.setVariable(BR.firstImageUrl, itemGallery.imagesUrl[0])
-                binding.setVariable(BR.secondImageUrl, itemGallery.imagesUrl[1])
-                binding.setVariable(BR.thirdImageUrl, itemGallery.imagesUrl[2])
-                binding
-            }
-
-            else -> return
-        }
-        childBinding.executePendingBindings()
-        containerImages.addView(childBinding.root)
-
+    fun submitList(newImages: List<String>) {
+        images = newImages.chunked(3)
+        notifyDataSetChanged()
     }
 
-}
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        return when (viewType) {
+            TYPE_NORMAL -> {
+                val binding = ItemGalleryBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                return ActorGalleryViewHolder(binding)
+            }
 
-interface GalleryActorInteractionListener : BaseInteractionListener
+            TYPE_FLIPPED -> {
+                val binding = ItemGalleryFlippedBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                return ActorGalleryFlippedViewHolder(binding)
+            }
+
+            else -> throw Exception("Unknown view type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        when (holder) {
+            is ActorGalleryViewHolder -> holder.bind(images[position])
+            is ActorGalleryFlippedViewHolder -> holder.bind(images[position])
+        }
+    }
+
+    override fun getItemCount() = images.size
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position % 2 == 0) TYPE_NORMAL else TYPE_FLIPPED
+    }
+
+    open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    class ActorGalleryFlippedViewHolder(private val binding: ItemGalleryFlippedBinding) :
+        BaseViewHolder(binding.root) {
+
+        fun bind(images: List<String>) {
+            if (images.isNotEmpty()) {
+                binding.ivMainImage.load(
+                    images[0]
+                ) {
+                    placeholder(R.drawable.image_error_palceholder)
+                    error(R.drawable.profile)
+                }
+            } else {
+                binding.ivMainImage.setImageDrawable(null)
+            }
+
+            if (images.size > 1) {
+                binding.ivSecondImage.load(
+                    images[1]
+                ) {
+                    placeholder(R.drawable.image_error_palceholder)
+                    error(R.drawable.profile)
+                }
+            } else {
+                binding.ivSecondImage.setImageDrawable(null)
+            }
+
+            if (images.size > 2) {
+                binding.ivThirdImage.load(
+                    images[2]
+                ) {
+                    placeholder(R.drawable.image_error_palceholder)
+                    error(R.drawable.profile)
+                }
+            } else {
+                binding.ivThirdImage.setImageDrawable(null)
+            }
+        }
+    }
+
+    class ActorGalleryViewHolder(private val binding: ItemGalleryBinding) :
+        BaseViewHolder(binding.root) {
+
+        fun bind(images: List<String>) {
+            if (images.isNotEmpty()) {
+                binding.ivMainImage.load(
+                    images[0]
+                ) {
+                    placeholder(R.drawable.image_error_palceholder)
+                    error(R.drawable.profile)
+                }
+            } else {
+                binding.ivMainImage.setImageDrawable(null)
+            }
+
+            if (images.size > 1) {
+                binding.ivSecondImage.load(
+                    images[1]
+                ) {
+                    placeholder(R.drawable.image_error_palceholder)
+                    error(R.drawable.profile)
+                }
+            } else {
+                binding.ivSecondImage.setImageDrawable(null)
+            }
+
+            if (images.size > 2) {
+                binding.ivThirdImage.load(
+                    images[2]
+                ) {
+                    placeholder(R.drawable.image_error_palceholder)
+                    error(R.drawable.profile)
+                }
+            } else {
+                binding.ivThirdImage.setImageDrawable(null)
+            }
+        }
+    }
+
+    companion object {
+        private const val TYPE_NORMAL = 0
+        private const val TYPE_FLIPPED = 1
+    }
+}

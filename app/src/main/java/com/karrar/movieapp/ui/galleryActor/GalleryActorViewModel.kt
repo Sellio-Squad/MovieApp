@@ -1,10 +1,9 @@
 package com.karrar.movieapp.ui.galleryActor
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.GetActorDetailsUseCase
 import com.karrar.movieapp.domain.usecases.GetActorGalleryUseCase
-import com.karrar.movieapp.ui.actorDetails.ActorDetailsUIMapper
 import com.karrar.movieapp.ui.actorDetails.ActorGalleriesUIMapper
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
@@ -19,10 +18,7 @@ import javax.inject.Inject
 class GalleryActorViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getActorGalleryUseCase: GetActorGalleryUseCase,
-    private val getActorDetailsUseCase: GetActorDetailsUseCase,
     private val actorGalleriesUIMapper: ActorGalleriesUIMapper,
-    private val actorDetailsUIMapper: ActorDetailsUIMapper,
-    private val galleryUrlUIMapper: GalleryUrlUIMapper,
     ): BaseViewModel(), GalleryActorInteractionListener {
 
     val args = GalleryActorFragmentArgs.fromSavedStateHandle(state)
@@ -42,18 +38,25 @@ class GalleryActorViewModel @Inject constructor(
         _galleryActorUIState.update { it.copy(isLoading = true, error = emptyList()) }
         viewModelScope.launch {
             try {
-                val actorDetails = actorDetailsUIMapper.map(getActorDetailsUseCase(args.id))
-                val actorGallery = actorGalleriesUIMapper.map(getActorGalleryUseCase(args.id))
+                val actorGallery = getActorGalleryUseCase.invoke(args.id).galleryUrl
+                Log.d("123abc123","size: ${actorGallery.size}")
+                actorGallery.forEachIndexed { index, url->
+                    Log.d("123abc123","image $index: $url")
+                }
                 _galleryActorUIState.update {
                     it.copy(
-                        name = actorDetails.name,
-                        imagesUrl = actorGallery.galleryUrl,
+                        name = args.actorName,
+                        imagesUrl = actorGallery,
                         isLoading = false,
                         isSuccess = true,
-                        isFlipped = true
                     )
+
                 }
+                Log.d("123abc123","gallery : ${_galleryActorUIState.value}")
+
             }catch (e: Exception){
+                Log.d("123abc123","error : ${e.message}")
+
                 onError(e.message.toString())
             }
         }

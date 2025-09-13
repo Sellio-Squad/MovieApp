@@ -93,6 +93,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:ellipsize="end"
+            android:lines="1"
             android:text="@{item.mediaName}"
             android:textAlignment="textStart"
             android:textColor="@color/shade_color_secondary"

@@ -136,6 +136,9 @@
     <string name="discover_track_and_rate_your_favorite_movies_and_series">Discover, track and rate your favorite movies and series</string>
     <string name="nothing_found">Nothing Found!</string>
     <string name="not_found_msg">We searched the entire universe… but found nothing matching your query. Try something else?</string>
+    <string name="you_might_also_like">You Might Also Like</string>
+    <string name="show_more">Show More</string>
+    <string name="because_you_watched">Because You Watched</string>
     <string name="did_you_watch_it">Did you watch it?</string>
     <string name="star_circlr_shape">star circlr shape</string>
     <string name="give_it_stars">Give it Stars</string>

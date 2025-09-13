@@ -1,8 +1,14 @@
 package com.karrar.movieapp.ui.explore
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.transition.TransitionInflater
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -21,6 +27,7 @@ import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -29,6 +36,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
     override val viewModel: ExploringViewModel by viewModels()
 
     private val mediaAdapter by lazy { CategoryAdapter(this) }
+    private lateinit var voiceLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +46,10 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, resources.getString(R.string.explore_label))
         setupRecyclerViews()
         collectEvent()
         collectUIState()
+        setupVoiceSearch()
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewModel.onTabChanged(tab.position)
@@ -57,6 +65,37 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
 
     }
 
+    private fun setupVoiceSearch() {
+        voiceLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val voiceText =
+                    data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0) ?: ""
+                binding.searchEditText.setText(voiceText)
+            }
+        }
+
+        binding.inputSearch.setEndIconOnClickListener {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                )
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+                putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
+            }
+
+            try {
+                voiceLauncher.launch(intent)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(),
+                    "Voice search not supported",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     private fun collectEvent() {
         collectLast(viewModel.exploringUIEvent) {
             it?.getContentIfNotHandled()?.let { onEvent(it) }
@@ -136,8 +175,8 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
         }
     }
 
-
     override fun onClickMedia(mediaId: Int) {
         viewModel.onClickMedia(mediaId)
     }
+
 }

@@ -1,6 +1,5 @@
 package com.karrar.movieapp.data.remote.response
 
-
 import com.google.gson.annotations.SerializedName
 import com.karrar.movieapp.data.remote.response.episode.EpisodeDto
 
@@ -22,5 +21,7 @@ data class SeasonDto(
     @SerializedName("poster_path")
     val posterPath: String? = null,
     @SerializedName("season_number")
-    val seasonNumber: Int? = null
+    val seasonNumber: Int? = null,
+    @SerializedName("vote_average")
+    val seasonRate: Float? = null
 )

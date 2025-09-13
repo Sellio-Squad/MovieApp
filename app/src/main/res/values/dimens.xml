@@ -3,6 +3,7 @@
 
     <!-- spacing -->
     <dimen name="spacing_extra_large">32dp</dimen>
+    <dimen name="spacing_extra_extra_large">50dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_medium">16dp</dimen>
     <dimen name="spacing_simi_medium">12dp</dimen>
@@ -16,7 +17,7 @@
     <dimen name="media_card_width">128dp</dimen>
     <dimen name="media_card_height">182dp</dimen>
     <dimen name="media_card_airing_today_height">145dp</dimen>
-    <dimen name="media_card_popular_movie">350dp</dimen>
+    <dimen name="media_card_popular_movie">312dp</dimen>
 
     <!-- texts -->
     <dimen name="text_large">20sp</dimen>

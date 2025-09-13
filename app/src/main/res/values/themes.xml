@@ -378,7 +378,6 @@
     </style>
 
     <style name="CtaText.Title">
-        <item name="android:layout_marginStart">12dp</item>
         <item name="android:textColor">@color/shade_color_primary</item>
         <item name="android:textSize">16sp</item>
     </style>

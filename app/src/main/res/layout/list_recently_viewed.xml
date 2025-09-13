@@ -7,7 +7,7 @@
 
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.adapters.MovieAdapter" />
+            type="com.karrar.movieapp.ui.home.adapter.RecentlyViewedAdapter" />
 
         <variable
             name="movieType"
@@ -17,23 +17,26 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="@dimen/spacing_medium">
+        android:background="@color/background_color"
+        android:layout_marginVertical="@dimen/spacing_medium">
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:showSeeAll="true"
             tools:text="Popular"
-            android:text="@{movieType.value}"
-            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllMovie(movieType)}"
+            app:isVisible="@{adapterRecycler.itemCount != 0}"
+            android:text="@{movieType.RECENTLY_VIEWED.value}"
+            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllRecentlyViewed()}"
+            style="@style/TextStyle.Title.Small"
+            android:textColor="@color/shade_color_primary"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_movie"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_simi_medium"
+            android:layout_marginTop="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
             android:clipToPadding="false"
             android:orientation="horizontal"
@@ -45,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/item_recently_viewed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

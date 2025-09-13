@@ -78,10 +78,9 @@
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Movie Title (outside card, centered) -->
         <TextView
             android:id="@+id/text_movie_title"
-            style="@style/SemiBold.Medium"
+            style="@style/TextStyle.Body.Medium.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -89,17 +88,17 @@
             android:maxWidth="240dp"
             android:gravity="center"
             android:text="@{item.title}"
-            android:textColor="@color/white_primary"
+            android:textColor="@color/shade_color_primary"
             android:layout_marginTop="@dimen/spacing_small"
             tools:text="Inception" />
 
         <TextView
             android:id="@+id/text_category"
-            style="@style/SemiBold.Small"
+            style="@style/TextStyle.Body.Small.Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/white_secondary"
+            android:textColor="@color/shade_color_secondary"
             app:genre="@{item.genre}"
             android:layout_marginTop="@dimen/spacing_too_small"
             tools:text="Action • Sci-Fi" />

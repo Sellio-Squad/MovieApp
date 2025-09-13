@@ -63,34 +63,25 @@
         <!--        layout-->
 
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
             android:id="@+id/input_search"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            app:hintEnabled="false"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_small"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_mic"
-            app:endIconTint="@color/shade_primary_color"
+            android:background="@drawable/text_field_background"
             android:onClick="@{() -> viewModel.onClickSearch()}"
-            app:startIconDrawable="@drawable/ic_search"
+            android:drawableStart="@drawable/ic_search"
+            android:drawableEnd="@drawable/ic_mic"
+            android:drawablePadding="8dp"
+            android:focusable="false"
+            android:hint="@string/search"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:transitionName="search_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/text_field_background"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="2dp"
-                android:background="@drawable/text_field_background"
-                android:inputType="text"
-                android:hint="@string/search"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"

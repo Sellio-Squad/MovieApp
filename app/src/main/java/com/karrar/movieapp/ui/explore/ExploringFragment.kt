@@ -73,29 +73,38 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
                 val data: Intent? = result.data
                 val voiceText =
                     data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0) ?: ""
-                binding.searchEditText.setText(voiceText)
+                binding.inputSearch.setText(voiceText)
             }
         }
 
-        binding.inputSearch.setEndIconOnClickListener {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                putExtra(
-                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                )
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-                putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
+        binding.inputSearch.setOnTouchListener { v, event ->
+            val DRAWABLE_END = 2
+            if (event.action == android.view.MotionEvent.ACTION_UP &&
+                event.rawX >= binding.inputSearch.right - binding.inputSearch.compoundDrawables[DRAWABLE_END].bounds.width()
+            ) {
+                startVoiceSearch()
+                v.performClick()
+                return@setOnTouchListener true
             }
-
-            try {
-                voiceLauncher.launch(intent)
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(),
-                    "Voice search not supported",
-                    Toast.LENGTH_SHORT).show()
-            }
+            false
         }
     }
+
+    private fun startVoiceSearch() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
+        }
+
+        try {
+            voiceLauncher.launch(intent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Voice search not supported", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     private fun collectEvent() {
         collectLast(viewModel.exploringUIEvent) {
             it?.getContentIfNotHandled()?.let { onEvent(it) }
@@ -125,6 +134,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
                 extras
             )
     }
+
 
     fun navigateToMovieDetails(movieId: Int) {
         val action =

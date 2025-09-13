@@ -326,6 +326,11 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+        <action
+            android:id="@+id/action_tvShowDetailFragment_to_tvShowDetailFragment"
+            app:destination="@+id/tvShowDetailsFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
 </navigation>

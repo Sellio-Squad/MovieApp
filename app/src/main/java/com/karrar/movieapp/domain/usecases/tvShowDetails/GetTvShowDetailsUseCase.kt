@@ -30,8 +30,11 @@ class GetTvShowDetailsUseCase @Inject constructor(
     }
 
     suspend fun getSeasons(tvShowId: Int): List<Season> {
-        return ListMapper(seriesMapperContainer.seasonMapper)
+        val allSeasons= ListMapper(seriesMapperContainer.seasonMapper)
             .mapList(seriesRepository.getTvShowDetails(tvShowId)?.season)
+        return allSeasons
+            .sortedByDescending { it.seasonNumber }
+            .take(3)
     }
 
 

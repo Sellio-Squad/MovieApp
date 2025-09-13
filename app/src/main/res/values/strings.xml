@@ -166,11 +166,11 @@
     <string name="classic">Classic</string>
     <string name="both">Both</string>
 
-    <string name="time_short_label">Quick watch</string>
+    <string name="time_short_label">Short </string>
     <string name="time_short_desc">(Less than 90 min)</string>
-    <string name="time_medium_label">Perfect length</string>
+    <string name="time_medium_label">Medium </string>
     <string name="time_medium_desc">(90–120 min)</string>
-    <string name="time_long_label">Epic journey</string>
+    <string name="time_long_label">Long </string>
     <string name="time_long_desc">(More than 120 min)</string>
 
     <string name="genre_action">Action</string>

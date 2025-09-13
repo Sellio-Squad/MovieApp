@@ -80,22 +80,22 @@ fun getMoodQuestionAnswers() = listOf(
     QuestionUiState(
         id = 1,
         name = R.string.mood_chill,
-        iconResource = R.drawable.ic_headphones
+        iconResource = R.drawable.ic_chill
     ),
     QuestionUiState(
         id = 2,
         name = R.string.mood_excited,
-        iconResource = R.drawable.ic_flame
+        iconResource = R.drawable.ic_excited
     ),
     QuestionUiState(
         id = 3,
         name = R.string.mood_emotional,
-        iconResource = R.drawable.ic_heart
+        iconResource = R.drawable.ic_emotional
     ),
     QuestionUiState(
         id = 4,
         name = R.string.mood_curious,
-        iconResource = R.drawable.ic_search
+        iconResource = R.drawable.ic_curious
     )
 )
 

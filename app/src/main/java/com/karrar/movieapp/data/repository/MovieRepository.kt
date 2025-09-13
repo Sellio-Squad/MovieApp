@@ -100,6 +100,8 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(): List<RatedMoviesDto>?
 
+    suspend fun clearAllRecentSearch()
+
     suspend fun getMatchedMovies(
         page: Int,
         genres: String?,

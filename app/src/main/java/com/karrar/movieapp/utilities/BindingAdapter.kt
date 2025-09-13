@@ -3,8 +3,8 @@ package com.karrar.movieapp.utilities
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.LinearLayout
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.imageview.ShapeableImageView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -294,4 +295,9 @@ fun starsDrawableByRating(container: LinearLayout, ratingValue: Float?) {
         val isFilled = index < ratingInt
         starView.setImageResource(if (isFilled) R.drawable.star_fill_new else R.drawable.star_outline_new)
     }
+}
+
+@BindingAdapter("imageRes")
+fun setImageResource(imageView: ShapeableImageView, resId: Int) {
+    imageView.setImageResource(resId)
 }

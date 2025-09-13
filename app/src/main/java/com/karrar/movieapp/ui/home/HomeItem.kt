@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.home
 
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.ui.home.homeUiState.PopularUiState
+import com.karrar.movieapp.ui.home.model.FeaturedCollectionsItem
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
@@ -21,6 +22,11 @@ sealed class HomeItem(val priority: Int) {
         val items: List<MediaUiState>,
         val type: HomeItemsType = HomeItemsType.UPCOMING
     ) : HomeItem(3)
+
+    data class FeaturedCollections(
+        val items: List<FeaturedCollectionsItem> = emptyList(),
+        val pSort: Int = 3
+    ) : HomeItem(pSort)
 
     data class OnTheAiring(
         val items: List<MediaUiState>,

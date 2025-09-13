@@ -217,6 +217,12 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
             HomeItemsType.RECENTLY_VIEWED -> TODO("There is no need to add new attribute to AllMediaType")
             HomeItemsType.YOUR_COLLECTIONS -> TODO("There is no need to add new attribute to AllMediaType")
+            HomeItemsType.LATE_NIGHT_THRILLS -> AllMediaType.LATE_NIGHT_THRILLS
+            HomeItemsType.MIND_BENDING_STORIES -> AllMediaType.MIND_BENDING_STORIES
+            HomeItemsType.CINEMATIC_MASTERPIECES -> AllMediaType.CINEMATIC_MASTERPIECES
+            HomeItemsType.FAMILY_NIGHT_PICKS -> AllMediaType.FAMILY_NIGHT_PICKS
+            HomeItemsType.BASED_ON_TRUE_EVENTS -> AllMediaType.BASED_ON_TRUE_EVENTS
+            HomeItemsType.FEEL_GOOD_FAVORITES -> AllMediaType.FEEL_GOOD_FAVORITES
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }

@@ -3,7 +3,11 @@ package com.karrar.movieapp.ui.profile
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
+import com.karrar.movieapp.domain.usecases.theme.ChangeThemeUseCase
+import com.karrar.movieapp.domain.usecases.theme.GetCurrentThemeUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.utilities.Constants.THEME_DARK
+import com.karrar.movieapp.utilities.Constants.THEME_LIGHT
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +20,9 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
     private val accountUIStateMapper: AccountUIStateMapper,
-    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase
+    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
+    private val changeThemeUseCase: ChangeThemeUseCase,
+    private val getCurrentThemeUseCase: GetCurrentThemeUseCase,
 ) : BaseViewModel() {
 
     private val _profileDetailsUIState = MutableStateFlow(ProfileUIState())
@@ -28,6 +34,15 @@ class ProfileViewModel @Inject constructor(
 
     init {
         getData()
+        getCurrentTheme()
+    }
+
+    private fun getCurrentTheme() {
+        viewModelScope.launch {
+            getCurrentThemeUseCase.getCurrentTheme().collect { currentTheme ->
+                _profileDetailsUIState.update { it.copy(isSwitchChecked = currentTheme == THEME_DARK) }
+            }
+        }
     }
 
     override fun getData() {
@@ -85,6 +100,16 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickLogin() {
-        _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent) }
+        _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent(_profileDetailsUIState.value.username)) }
+    }
+
+    fun changeTheme() {
+        viewModelScope.launch {
+            if (_profileDetailsUIState.value.isSwitchChecked) {
+                changeThemeUseCase.changeTheme(THEME_LIGHT)
+            } else {
+                changeThemeUseCase.changeTheme(THEME_DARK)
+            }
+        }
     }
 }

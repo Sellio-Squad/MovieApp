@@ -24,20 +24,20 @@
             android:layout_height="wrap_content"
             android:background="@drawable/profile_header_section_bg"
             android:padding="@dimen/spacing_simi_medium"
+            android:onClick="@{() -> viewModel.onClickLogin()}"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:backgroundTint="@color/shade_color_quinary"
                 android:contentDescription="@string/profile"
+                android:background="@color/shade_color_quinary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:posterImage="@{viewModel.profileDetailsUIState.avatarPath}"
-                app:shapeAppearanceOverlay="@style/CircleImage"
-                app:strokeColor="@color/shade_color_quinary"
-                app:strokeWidth="8dp" />
+                android:src="@drawable/profile"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.profileDetailsUIState.isLoggedIn ? viewModel.profileDetailsUIState.username : @string/to_personalize_your_experience}"
-                    android:textColor="@color/shade_color_secondary" />
+                    android:textColor="@color/shade_color_tertiary" />
             </LinearLayout>
 
             <ImageView
@@ -74,7 +74,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/brand_color_tertiary" />
+                app:tint="@color/shade_color_tertiary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,7 +100,11 @@
                 app:chipBackgroundColor="@color/background_color_card"
                 app:chipCornerRadius="@dimen/radius_cineVerse_full"
                 app:chipIcon="@drawable/ic_history"
-                app:chipIconTint="@color/brand_color_primary" />
+                android:paddingVertical="8dp"
+                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
+                app:chipEndPadding="@dimen/spacing_simi_medium"
+                app:chipIconTint="@color/brand_color_primary"
+                app:chipStartPadding="@dimen/spacing_simi_medium" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_series"
@@ -116,7 +120,10 @@
                 app:chipBackgroundColor="@color/background_color_card"
                 app:chipCornerRadius="@dimen/radius_cineVerse_full"
                 app:chipIcon="@drawable/due_tone_video_library"
-                app:chipIconTint="@color/brand_color_primary" />
+                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
+                app:chipEndPadding="@dimen/spacing_simi_medium"
+                app:chipIconTint="@color/brand_color_primary"
+                app:chipStartPadding="@dimen/spacing_simi_medium" />
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
@@ -130,7 +137,11 @@
                 app:chipBackgroundColor="@color/background_color_card"
                 app:chipCornerRadius="@dimen/radius_cineVerse_full"
                 app:chipIcon="@drawable/ic_rate"
-                app:chipIconTint="@color/brand_color_primary" />
+                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
+                app:chipEndPadding="@dimen/spacing_simi_medium"
+                app:chipIconTint="@color/brand_color_primary"
+                app:chipStartPadding="@dimen/spacing_simi_medium" />
+
 
         </LinearLayout>
 
@@ -173,8 +184,12 @@
                     app:drawableStartCompat="@drawable/due_tone_moon"
                     app:drawableTint="@color/brand_color_primary" />
 
-                <include layout="@layout/cineverse_switch" />
-
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:thumb="@drawable/switch_thumb_selector"
+                    app:track="@drawable/switch_track_selector" />
 
             </LinearLayout>
 
@@ -215,7 +230,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/brand_color_tertiary" />
+                    app:tint="@color/shade_color_tertiary" />
 
 
             </LinearLayout>
@@ -256,7 +271,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/brand_color_tertiary" />
+                    app:tint="@color/shade_color_tertiary" />
 
 
             </LinearLayout>

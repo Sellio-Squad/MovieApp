@@ -19,15 +19,8 @@
         android:id="@+id/gallery_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:weightSum="3"
-        app:layout_constraintStart_toStartOf="@id/text_gallery"
-        app:layout_constraintTop_toBottomOf="@id/text_gallery">
+        android:weightSum="3">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_third_image"

@@ -17,6 +17,7 @@ import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.ActorSearchAdapter
 import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
+import com.karrar.movieapp.ui.search.adapters.MediaSearchCardAdapter
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes

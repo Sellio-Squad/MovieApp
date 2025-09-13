@@ -19,11 +19,9 @@ import com.karrar.movieapp.data.remote.response.trailerVideosDto.ResultDto
 import com.karrar.movieapp.databinding.ChipItemCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BasePagingAdapter
-import com.karrar.movieapp.ui.category.CategoryInteractionListener
-import com.karrar.movieapp.ui.category.uiState.GenreUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.GenreUIState
+import com.karrar.movieapp.ui.explore.CategoryInteractionListener
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

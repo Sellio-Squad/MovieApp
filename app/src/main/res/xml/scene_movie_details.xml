@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <!-- Collapsed state -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@id/posterImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop" />
+
+        <Constraint android:id="@id/movieTitle"
+            motion:layout_constraintStart_toEndOf="@id/posterImage"
+            motion:layout_constraintTop_toTopOf="@id/posterImage"
+            motion:layout_constraintBottom_toBottomOf="@id/posterImage" />
+
+        <!-- fade out instead of gone -->
+        <Constraint android:id="@id/infoRow"
+            android:alpha="0" />
+
+<!--        <Constraint android:id="@id/genres"-->
+<!--            android:alpha="0" />-->
+
+        <Constraint android:id="@id/playButton"
+            motion:layout_constraintEnd_toStartOf="@id/saveButton"
+            motion:layout_constraintTop_toTopOf="@id/posterImage"
+            motion:layout_constraintBottom_toBottomOf="@id/posterImage" />
+
+        <Constraint android:id="@id/saveButton"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/posterImage"
+            motion:layout_constraintBottom_toBottomOf="parent" />
+    </ConstraintSet>
+
+    <!-- Expanded state -->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@id/posterImage"
+            android:layout_width="216dp"
+            android:layout_height="289dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint android:id="@id/movieTitle"
+            motion:layout_constraintTop_toBottomOf="@id/posterImage"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+
+<!--        &lt;!&ndash; fade in &ndash;&gt;-->
+<!--        <Constraint android:id="@id/genres"-->
+<!--            android:alpha="1"-->
+<!--            motion:layout_constraintTop_toBottomOf="@id/movieTitle"-->
+<!--            motion:layout_constraintStart_toStartOf="parent"-->
+<!--            motion:layout_constraintEnd_toEndOf="parent" />-->
+
+<!--        <Constraint android:id="@id/infoRow"-->
+<!--            android:alpha="1"-->
+<!--            motion:layout_constraintTop_toBottomOf="@id/genres"-->
+<!--            motion:layout_constraintStart_toStartOf="parent"-->
+<!--            motion:layout_constraintEnd_toEndOf="parent" />-->
+
+        <Constraint android:id="@id/playButton"
+            motion:layout_constraintTop_toBottomOf="@id/infoRow"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" />
+
+        <Constraint android:id="@id/saveButton"
+            motion:layout_constraintTop_toBottomOf="@id/playButton"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" />
+    </ConstraintSet>
+
+    <Transition
+        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@id/end"
+        motion:duration="600">
+        <OnClick
+            motion:targetId="@id/posterImage"
+            motion:clickAction="toggle" />
+    </Transition>
+
+</MotionScene>

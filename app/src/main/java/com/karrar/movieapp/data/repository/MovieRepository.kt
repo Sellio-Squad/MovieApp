@@ -100,4 +100,14 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(): List<RatedMoviesDto>?
 
+    suspend fun clearAllRecentSearch()
+
+    suspend fun getMatchedMovies(
+        page: Int,
+        genres: String?,
+        runtimeGte: Int?,
+        runtimeLte: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?
+    ): BaseListResponse<MovieDto>?
 }

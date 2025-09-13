@@ -104,6 +104,8 @@ interface MovieService {
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseListResponse<MovieDto>>
 
+    @GET("tv/{tv_id}/similar")
+    suspend fun getSimilarTvShows(@Path("tv_id") tvShowId: Int): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviews(@Path("movie_id") movieId: Int): Response<BaseListResponse<ReviewsDto>>
@@ -227,4 +229,13 @@ interface MovieService {
         @Path("tv_id") tvId: Int,
     ): Response<RatingDto>
 
+    @GET("discover/movie")
+    suspend fun getMatchedMovies(
+        @Query("page") page: Int = 1,
+        @Query("with_genres") genres: String? = null,
+        @Query("with_runtime.gte") runtimeGte: Int? = null,
+        @Query("with_runtime.lte") runtimeLte: Int? = null,
+        @Query("primary_release_date.gte") releaseDateGte: String? = null,
+        @Query("primary_release_date.lte") releaseDateLte: String? = null
+    ): Response<BaseListResponse<MovieDto>>
 }

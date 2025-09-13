@@ -68,5 +68,11 @@ class ListDetailsViewModel @Inject constructor(
         _listDetailsUIEvent.update { Event(ListDetailsUIEvent.OnItemSelected(item)) }
     }
 
+    override fun onDeleteItem(item: SavedMediaUIState) {
+        _listDetailsUIState.update { state ->
+            state.copy(savedMedia = state.savedMedia.filter { it != item })
+        }
+    }
+
 }
 

@@ -2,7 +2,6 @@ package com.karrar.movieapp.domain.mappers.series
 
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
-import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.utilities.convertToDayMonthYearFormat
@@ -24,7 +23,7 @@ class TvShowDetailsMapper @Inject constructor(
             input.voteAverage.toString().take(3),
             input.overview ?: "",
             input.season?.map { seasonMapper.map(it) } ?: emptyList(),
-            MediaType.TV_SHOW
+            tvShowDuration = input.episodeRunTime?.firstOrNull() ?: 0,
         )
     }
 }

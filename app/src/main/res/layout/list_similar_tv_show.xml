@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.adapters.TvShowDetailsAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/similar_movie_title"
+            style="@style/TextStyle.Title.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
+            android:text="@string/you_might_also_like"
+            android:textColor="@color/shade_color_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textButton"
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="@dimen/radius_cineVerse_l"
+            android:text="@string/show_more"
+            android:textColor="@color/brand_color_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/similar_movie_title" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/similar_movie_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adapter="@{adapterRecycler}"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_small"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/similar_movie_title"
+            tools:listitem="@layout/item_similar_series" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

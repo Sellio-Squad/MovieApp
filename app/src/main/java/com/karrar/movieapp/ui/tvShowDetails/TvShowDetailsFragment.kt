@@ -12,13 +12,15 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
+class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
+    DetailInteractionListener {
 
     override val layoutIdFragment = R.layout.fragment_tv_show_details
     override val viewModel: TvShowDetailsViewModel by viewModels()
@@ -28,6 +30,8 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
+        binding.viewModel = viewModel
+        binding.listener = this
         collectTVShowDetailsItems()
         collectEvents()
     }
@@ -54,33 +58,63 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             TvShowDetailsUIEvent.ClickBackEvent -> {
                 findNavController().navigateUp()
             }
+
             is TvShowDetailsUIEvent.ClickCastEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(
                         event.castID
                     )
             }
+
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
                 action =
-                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId, event.seasonId)
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
+                        args.tvShowId,
+                        event.seasonId
+                    )
             }
+
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
+
+            is TvShowDetailsUIEvent.ClickTvShowEvent -> {
+                viewModelStore.clear()
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToTvShowDetailFragment(
+                        event.tvShowID
+                    )
+            }
         }
         action?.let { findNavController().navigate(it) }
+    }
+
+    override fun onclickBack() {
+        findNavController().navigateUp()
+
+    }
+
+    override fun onClickSave() {
+    }
+
+    override fun onClickPlayTrailer() {
+    }
+
+    override fun onclickViewReviews() {
     }
 
 }

@@ -23,20 +23,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/profile_header_section_bg"
-            android:padding="@dimen/spacing_simi_medium"
             android:onClick="@{() -> viewModel.onClickLogin()}"
+            android:padding="@dimen/spacing_simi_medium"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:contentDescription="@string/profile"
                 android:background="@color/shade_color_quinary"
+                android:contentDescription="@string/profile"
+                android:src="@drawable/profile"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:posterImage="@{viewModel.profileDetailsUIState.avatarPath}"
-                android:src="@drawable/profile"
                 app:shapeAppearanceOverlay="@style/CircleImage" />
 
             <LinearLayout
@@ -95,16 +95,13 @@
                 android:onClick="@{() -> viewModel.onClickWatchHistory()}"
                 android:text="@string/watch_history"
                 android:textAlignment="center"
+                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
                 android:textColor="@color/shade_primary_color"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@color/background_color_card"
                 app:chipCornerRadius="@dimen/radius_cineVerse_full"
                 app:chipIcon="@drawable/ic_history"
-                android:paddingVertical="8dp"
-                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
-                app:chipEndPadding="@dimen/spacing_simi_medium"
-                app:chipIconTint="@color/brand_color_primary"
-                app:chipStartPadding="@dimen/spacing_simi_medium" />
+                app:chipIconTint="@color/brand_color_primary" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_series"
@@ -115,15 +112,13 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="@dimen/spacing_small"
                 android:text="@string/my_collections"
+                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
                 android:textColor="@color/shade_primary_color"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@color/background_color_card"
                 app:chipCornerRadius="@dimen/radius_cineVerse_full"
                 app:chipIcon="@drawable/due_tone_video_library"
-                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
-                app:chipEndPadding="@dimen/spacing_simi_medium"
-                app:chipIconTint="@color/brand_color_primary"
-                app:chipStartPadding="@dimen/spacing_simi_medium" />
+                app:chipIconTint="@color/brand_color_primary" />
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
@@ -132,15 +127,13 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="@dimen/spacing_small"
                 android:text="@string/rated_movies"
+                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
                 android:textColor="@color/shade_primary_color"
                 app:checkedIconEnabled="true"
                 app:chipBackgroundColor="@color/background_color_card"
                 app:chipCornerRadius="@dimen/radius_cineVerse_full"
                 app:chipIcon="@drawable/ic_rate"
-                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
-                app:chipEndPadding="@dimen/spacing_simi_medium"
-                app:chipIconTint="@color/brand_color_primary"
-                app:chipStartPadding="@dimen/spacing_simi_medium" />
+                app:chipIconTint="@color/brand_color_primary" />
 
 
         </LinearLayout>
@@ -331,9 +324,9 @@
             android:layout_weight="1"
             android:drawablePadding="@dimen/spacing_small"
             android:text="@string/version"
+            android:textColor="@color/shade_color_tertiary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/shade_color_tertiary"
             app:layout_constraintTop_toBottomOf="@id/settings" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

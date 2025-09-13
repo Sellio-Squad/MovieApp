@@ -411,4 +411,22 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getMovieTrailer(movieId).body()
     }
 
+    override suspend fun getMatchedMovies(
+        page: Int,
+        genres: String?,
+        runtimeGte: Int?,
+        runtimeLte: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?
+    ): BaseListResponse<MovieDto>? {
+        return movieService.getMatchedMovies(
+            page = page,
+            genres = genres,
+            runtimeGte = runtimeGte,
+            runtimeLte = runtimeLte,
+            releaseDateGte = releaseDateGte,
+            releaseDateLte = releaseDateLte
+        ).body()
+    }
+
 }

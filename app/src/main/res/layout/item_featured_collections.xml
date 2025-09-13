@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.home.model.FeaturedCollectionsItem" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.adapters.MovieInteractionListener" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginVertical="12dp"
+        android:onClick="@{() -> listener.onClickSeeAllMovie(item.type)}">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:backgroundTint="@null"
+            android:background="@null"
+            app:cardElevation="11dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                app:imageRes="@{item.image}"
+                tools:srcCompat="@drawable/late_night_thrills" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:backgroundTint="#4D00051A"
+                android:layout_marginTop="48dp"
+                app:cardElevation="15dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:background="#5D000000"
+                android:layout_marginTop="48dp"
+                app:cardElevation="15dp">
+
+                <TextView
+                    style="@style/TextStyle.Body.Small.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="16dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:text="@{item.title}"
+                    android:textColor="@color/shade_color_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="late night thrills" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:backgroundTint="@color/shade_color_quinary"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="79dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="10dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="84dp"
+            android:backgroundTint="@color/shade_color_quinary"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp" />
+
+    </FrameLayout>
+
+
+</layout>

@@ -1,8 +1,8 @@
-package com.karrar.movieapp.ui.category
+package com.karrar.movieapp.ui.explore
 
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
-import com.karrar.movieapp.ui.category.uiState.MediaUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.MediaUIState
 import javax.inject.Inject
 
 class MediaUIStateMapper @Inject constructor() : Mapper<Media, MediaUIState> {
@@ -15,4 +15,3 @@ class MediaUIStateMapper @Inject constructor() : Mapper<Media, MediaUIState> {
         )
     }
 }
-

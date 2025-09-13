@@ -3,8 +3,8 @@ package com.karrar.movieapp.utilities
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.LinearLayout
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -16,11 +16,11 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
-import com.karrar.movieapp.ui.category.uiState.GenreUIState
-import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
+import com.karrar.movieapp.ui.explore.exploreUIState.GenreUIState
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState as DetailsErrorUIState
 
 
 @BindingAdapter("app:showWhenListNotEmpty")
@@ -67,6 +67,12 @@ fun showWhenDoneLoadingAndListIsEmpty(view: View, emptyList: Boolean) {
 @BindingAdapter(value = ["app:showWhenNoInternet"])
 fun showWhenNoInternet(view: View, error: List<ErrorUIState>) {
     view.isVisible = !error.none { it.code != ErrorUI.NEED_LOGIN }
+}
+
+
+@BindingAdapter(value = ["app:showWhenNoLogin"])
+fun showWhenNoLogin(view: View, error: List<DetailsErrorUIState>) {
+    view.isVisible = !error.none { it.code == ErrorUI.NEED_LOGIN }
 }
 
 @BindingAdapter(value = ["app:showWhenNoLogin"])
@@ -123,6 +129,11 @@ fun hideWhenBlankSearch(view: View, text: String) {
     if (text.isBlank()) {
         view.visibility = View.INVISIBLE
     }
+}
+
+@BindingAdapter("app:isLoading")
+fun setIsLoading(view: View, isLoading: Boolean) {
+    view.isVisible = isLoading
 }
 
 
@@ -230,11 +241,20 @@ fun <T> setGenresChips(
     view: ChipGroup, chipList: List<GenreUIState>?, listener: T,
     selectedChip: Int?
 ) {
-    chipList?.let {
-        it.forEach { genre -> view.addView(view.createChip(genre, listener)) }
+    val genreIds = chipList?.map { it.genreID } ?: emptyList()
+
+    if (view.tag != genreIds) {
+        view.removeAllViews()
+        chipList?.forEach { genre ->
+            view.addView(view.createChip(genre, listener))
+        }
+        view.tag = genreIds
     }
-    val index = chipList?.indexOf(chipList.find { it.genreID == selectedChip }) ?: FIRST_CATEGORY_ID
-    view.getChildAt(index)?.id?.let { view.check(it) }
+
+    chipList?.indexOfFirst { it.genreID == selectedChip }?.takeIf { it >= 0 }?.let { index ->
+        val chipId = view.getChildAt(index).id
+        if (view.checkedChipId != chipId) view.check(chipId)
+    }
 }
 
 @BindingAdapter("app:genre")
@@ -257,7 +277,7 @@ fun setRating(view: RatingBar?, rating: Float) {
 }
 
 @BindingAdapter("showWhenTextNotEmpty")
-fun <T> showWhenTextNotEmpty(view: View,text:String){
+fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
 }
 

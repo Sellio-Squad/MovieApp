@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,16 +10,33 @@
             type="com.karrar.movieapp.ui.profile.logout.LogoutViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color_bottomSheetContainer"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_medium"
-        android:backgroundTint="@color/card_background_color"
-        app:cardCornerRadius="@dimen/radius_medium">
-
+            android:layout_marginHorizontal="@dimen/spacing_simi_medium"
+            android:layout_marginBottom="@dimen/spacing_bottom"
+            app:cardBackgroundColor="@color/card_background_color"
+            app:cardCornerRadius="@dimen/radius_medium"
+            app:cardElevation="0dp">
         <include
             android:id="@+id/viewMessageInfo"
-            layout="@layout/view_message_info" />
+            layout="@layout/view_message_info"
+            bind:caption="@{@string/you_can_always_sign_back_in_with_your_account}"
+            bind:firstButtonText="@{@string/logout}"
+            bind:iconDrawable="@{@drawable/due_tone_logout}"
+            bind:onFirstButtonClick="@{() -> viewModel.onLogout()}"
+            bind:onSecondButtonClick="@{() -> viewModel.onCloseDialog()}"
+            bind:secondButtonText="@{@string/cancel}"
+            bind:title="@{@string/are_you_sure_you_want_to_logout}" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 </layout>

@@ -229,4 +229,13 @@ interface MovieService {
         @Path("tv_id") tvId: Int,
     ): Response<RatingDto>
 
+    @GET("discover/movie")
+    suspend fun getMatchedMovies(
+        @Query("page") page: Int = 1,
+        @Query("with_genres") genres: String? = null,
+        @Query("with_runtime.gte") runtimeGte: Int? = null,
+        @Query("with_runtime.lte") runtimeLte: Int? = null,
+        @Query("primary_release_date.gte") releaseDateGte: String? = null,
+        @Query("primary_release_date.lte") releaseDateLte: String? = null
+    ): Response<BaseListResponse<MovieDto>>
 }

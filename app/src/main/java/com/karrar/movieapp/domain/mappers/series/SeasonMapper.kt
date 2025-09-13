@@ -16,6 +16,7 @@ class SeasonMapper @Inject constructor(
             input.name ?: "",
             input.airDate ?: "",
             input.seasonNumber ?: 0,
+            seasonRate = input.seasonRate ?: 0.0f,
             input.episodeCount ?: 0,
             input.overview ?: "",
             input.episodes?.map {

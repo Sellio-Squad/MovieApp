@@ -1,8 +1,8 @@
-package com.karrar.movieapp.ui.category
+package com.karrar.movieapp.ui.explore
 
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Genre
-import com.karrar.movieapp.ui.category.uiState.GenreUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.GenreUIState
 import javax.inject.Inject
 
 class GenreUIStateMapper @Inject constructor() : Mapper<Genre, GenreUIState> {

@@ -80,4 +80,14 @@
     <dimen name="on_boarding_card_top_margin">53dp</dimen>
     <dimen name="zero_dp">0dp</dimen>
 
+    <!-- Match Feature Dimensions -->
+    <dimen name="match_genre_card_height">44dp</dimen>
+    <dimen name="back_btn_size">40dp</dimen>
+    <dimen name="app_bar_height">56dp</dimen>
+    <dimen name="match_start_spacing">60dp</dimen>
+    <dimen name="match_icon_container_size">64dp</dimen>
+    <dimen name="magic_icon_size">28dp</dimen>
+    <dimen name="view_pager_padding">100dp</dimen>
+    <dimen name="_90dp">90dp</dimen>
+
 </resources>

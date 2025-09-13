@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.category.uiState
+package com.karrar.movieapp.ui.explore.exploreUIState
 
 data class MediaUIState(
     val mediaID: Int,

@@ -79,8 +79,7 @@
                         android:layout_height="87dp"
                         android:layout_weight="1"
                         app:isSelected="@{viewModel.uiState.currentLanguage == viewModel.uiState.languages[0]}"
-                        bind:item="@{viewModel.uiState.languages[0]}"
-                        bind:listener="@{viewModel}" />
+                        bind:item="@{viewModel.uiState.languages[0]}" />
 
                     <View
                         android:layout_width="@dimen/spacing_simi_medium"

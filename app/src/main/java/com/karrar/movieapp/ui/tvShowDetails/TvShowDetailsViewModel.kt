@@ -9,6 +9,7 @@ import com.karrar.movieapp.domain.usecases.tvShowDetails.InsertTvShowUserCase
 import com.karrar.movieapp.domain.usecases.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
@@ -33,6 +34,7 @@ class TvShowDetailsViewModel @Inject constructor(
     private val sessionIDUseCase: GetSessionIDUseCase,
     private val tvShowMapperContainer: TvShowMapperContainer,
     private val actorUIStateMapper: ActorUIStateMapper,
+    private val crewUiStateMapper: CrewUIStateMapper,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {
@@ -57,8 +59,26 @@ class TvShowDetailsViewModel @Inject constructor(
         getTvShowCast(args.tvShowId)
         getSeasons(args.tvShowId)
         getTvShowReviews(args.tvShowId)
+        showTvShowCrew(args.tvShowId)
     }
+    private fun showTvShowCrew(tvShowId: Int) {
+        viewModelScope.launch {
+            try {
+                val result = getTvShowDetailsUseCase.getSeriesCrew(tvShowId)
+                _stateUI.update { it ->
+                    it.copy(
+                        seriesCrewResult = result.map { crewUiStateMapper.map(it) }.take(8),
+                        isLoading = false
+                    )
+                }
+                if (_stateUI.value.seriesCrewResult.isNotEmpty()) {
+                    updateDetailItems(DetailItemUIState.Crew(_stateUI.value.seriesCrewResult))
+                }
+            } catch (e: Exception) {
+            }
 
+        }
+    }
     private fun getTvShowDetails(tvShowId: Int) {
         viewModelScope.launch {
             try {

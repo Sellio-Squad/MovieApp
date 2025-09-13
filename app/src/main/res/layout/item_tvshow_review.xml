@@ -76,28 +76,25 @@
             app:readMoreText="Read more"
             tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
-        <LinearLayout
-            android:id="@+id/bottomRow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="12dp"
-            android:gravity="center_vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comment"
-            >
-
-            <include
-                android:id="@+id/reviewRatingBar"
-                layout="@layout/movie_rating_bar"
-
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:isIndicator="true"
+                android:rating="@{item.rating}"
+                android:layout_marginTop="12dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:stepSize="1"
+                android:splitTrack="false"
+                android:transformPivotX="0dp"
+                android:progressDrawable="@drawable/rating_custom"
+                android:progressTint="@color/additional_color_primary_color_yellow"
+                android:progressBackgroundTint="@color/shade_color_tertiary"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintStart_toStartOf="@+id/comment"
+                app:layout_constraintTop_toBottomOf="@+id/comment"
                 />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/comment_date"
@@ -107,11 +104,11 @@
                 android:textSize="12sp"
                 android:textColor="@color/shade_secondary_color"
                 android:text="@{item.createDate}"
+                tools:text="3w ago"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/rating_bar"
-                tools:text="3w ago" />
-        </LinearLayout>
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

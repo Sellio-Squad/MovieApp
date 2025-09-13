@@ -25,6 +25,12 @@ class CreateListDialog : BaseDialogFragment<FragmentCreateListDialogBinding>() {
                 }
             }
         }
+        binding.exitButton.setOnClickListener {
+            dismiss()
+        }
+        binding.cancelButton.setOnClickListener {
+            dismiss()
+        }
     }
 
     private fun dismissDialog() {

@@ -39,8 +39,10 @@
 
 
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
@@ -374,6 +376,15 @@
         <item name="android:textColor">@color/shade_color_secondary</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="cast_image" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeTopRight">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
 
     <style name="FloatingBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>

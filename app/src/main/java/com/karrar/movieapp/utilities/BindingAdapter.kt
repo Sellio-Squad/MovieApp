@@ -260,7 +260,10 @@ fun setRating(view: RatingBar?, rating: Float) {
 fun <T> showWhenTextNotEmpty(view: View,text:String){
     view.isVisible = text.isNotEmpty()
 }
-
+@BindingAdapter("app:hideDividerIfLast")
+fun hideDividerIfLast(view: View, isLast: Boolean) {
+    view.isVisible = !isLast
+}
 @BindingAdapter("app:highlightEmojiByRating")
 fun highlightEmojiByRating(container: ViewGroup, ratingValue: Float?) {
     val selectedIndex: Int = ((ratingValue ?: 0f).toInt() - 1).coerceIn(-1, 4)

@@ -9,7 +9,7 @@
             type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.search.adapters.MediaSearchCardInteractionListener" />
+            type="com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -18,7 +18,7 @@
         app:cardElevation="0dp"
         android:layout_marginVertical="@dimen/spacing_small"
         android:layout_marginHorizontal="@dimen/spacing_small"
-        android:onClick="@{() -> listener.onClickMediaResult(item)}"
+        android:onClick="@{() -> listener.onMediaClick(item)}"
         app:cardCornerRadius="@dimen/radius_small">
 
 

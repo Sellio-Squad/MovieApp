@@ -25,6 +25,22 @@
             android:id="@+id/action_homeFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_exploringFragment"
+            app:destination="@id/exploringFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_watchHistoryFragment"
+            app:destination="@id/watchHistoryFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_myListFragment"
+            app:destination="@+id/myListFragment"/>
+
+        <action
+            android:id="@+id/action_homeFragment_to_listDetailsFragment"
+            app:destination="@+id/listDetailsFragment"/>
+
     </fragment>
 
     <fragment
@@ -38,8 +54,8 @@
 
 
         <action
-            android:id="@+id/action_loginFragment_to_myListFragment"
-            app:destination="@id/myListFragment" />
+            android:id="@+id/action_loginFragment_to_matchFragment"
+            app:destination="@id/matchFragment" />
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
@@ -137,15 +153,18 @@
     </fragment>
 
     <fragment
-        android:id="@+id/myListFragment"
-        android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
-        tools:layout="@layout/fragment_my_lists">
+        android:id="@+id/matchFragment"
+        android:name="com.karrar.movieapp.ui.match.MatchFragment"
+        tools:layout="@layout/fragment_match">
         <action
-            android:id="@+id/action_myListFragment_to_createSavedList"
-            app:destination="@id/createSavedList" />
+            android:id="@+id/action_matchFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
         <action
             android:id="@+id/action_myListFragment_to_savedListFragment"
             app:destination="@id/listDetailsFragment" />
+        <action
+            android:id="@+id/action_myListFragment_to_exploringFragment"
+            app:destination="@id/exploringFragment" />
     </fragment>
 
     <fragment
@@ -307,6 +326,9 @@
         <action
             android:id="@+id/action_listDetailsFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
+        <action
+            android:id="@+id/action_listDetailsFragment_to_exploringFragment"
+            app:destination="@id/exploringFragment" />
     </fragment>
 
     <fragment
@@ -343,6 +365,11 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+        <action
+            android:id="@+id/action_tvShowDetailFragment_to_tvShowDetailFragment"
+            app:destination="@+id/tvShowDetailsFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
 </navigation>

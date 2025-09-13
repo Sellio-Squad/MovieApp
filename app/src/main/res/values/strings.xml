@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Movie App</string>
 
-    <string name="see_all">See all</string>
+    <string name="see_all">Show More</string>
     <string name="top_rated">Top Rated</string>
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
@@ -33,11 +33,11 @@
     <string name="title_mystery">Mystery</string>
     <string name="title_adventure">Adventure</string>
     <string name="title_trending">Trending</string>
-    <string name="title_streaming">Now Streaming</string>
-    <string name="title_upcoming">Upcoming</string>
+    <string name="title_streaming">Recently Released</string>
+    <string name="title_upcoming">Upcoming Movies</string>
     <string name="title_celebrity">Celebrities</string>
     <string name="title_airing_today">Airing today</string>
-    <string name="title_top_rated_tv_show">Top Rated Tv-Show</string>
+    <string name="title_top_rated_tv_show">Top Rated Tv Shows</string>
     <string name="text_movies">%s Movies</string>
     <string name="movies_label">Movies</string>
     <string name="tv_shows_label">TV Shows</string>
@@ -53,6 +53,7 @@
     <string name="duration">%1$d Minutes</string>
     <string name="reviews">(%1$s reviews)</string>
     <string name="overview">Overview</string>
+    <string name="Storyline">Storyline</string>
     <string name="cast">Star Cast</string>
     <string name="similar_movies">Similar Movies</string>
     <string name="rate_the_movie">Rate The Movie</string>
@@ -81,7 +82,7 @@
     <string name="items">%1$s Items</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create">Create</string>
-    <string name="list_name">List Name</string>
+    <string name="list_name">e.g. My Watchlist</string>
     <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on “Home” or “Search” and then create your movie list.</string>
     <string name="empty_overview_text">This season has no description.</string>
     <string name="one_season">%1$d Season</string>
@@ -123,9 +124,18 @@
     <string name="tap_to_change_your_rating">Tap to change your rating</string>
     <string name="title">Title</string>
     <string name="caption">Caption</string>
-    <string name="join_as_guest">Join as Guest</string>
+    <string name="you_recently_viewed">You Recently Viewed</string>
+    <string name="welcome">Welcome</string>
+    <string name="fao">FAO</string>
+    <string name="oops_no_internet">Oops! No Internet</string>
+    <string name="looks_like_you_re_offline_let_s_reconnect_so_you_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect\n so you don\'t miss out!</string>
+    <string name="latest_seasons">Latest Seasons</string>
     <string name="add_to_collection">Add to Collection</string>
     <string name="new_collection">New Collection</string>
+    <string name="time">Time</string>
+    <string name="no_collections_yet">No Collections Yet</string>
+    <string name="start_building_your_personal_library_by_saving_movies_or_series_you_want_to_remember">Start building your personal library by\nsaving movies or series you want to\nremember.</string>
+    <string name="start_collecting">Start Collecting</string>
     <string name="welcome_to_your_movie_universe">Welcome to your movie universe</string>
     <string name="discover_track_and_rate_your_favorite_movies_series">Discover, track, and rate your favorite\n movies &amp; series.</string>
     <string name="track_everything">Track everything</string>
@@ -137,11 +147,67 @@
     <string name="discover_track_and_rate_your_favorite_movies_and_series">Discover, track and rate your favorite movies and series</string>
     <string name="nothing_found">Nothing Found!</string>
     <string name="not_found_msg">We searched the entire universe… but found nothing matching your query. Try something else?</string>
+    <string name="you_might_also_like">You Might Also Like</string>
+    <string name="show_more">Show More</string>
+    <string name="because_you_watched">Because You Watched</string>
+
+    <string name="discover_your_match">Discover Your Match</string>
+    <string name="not_sure_watch">Not sure what to watch?</string>
+    <string name="answer_questions">Answer a few quick questions and we’ll\n match you with the perfect picks.</string>
+    <string name="start_matching">Start Matching</string>
+    <string name="what_mood">What\'s your mood?</string>
+    <string name="next">Next</string>
+    <string name="match_list">Your Perfect Matches</string>
+    <string name="loading_recommendations">Loading recommendations you’ll love...</string>
+
+    <string name="mood_chill">Chill</string>
+    <string name="mood_excited">Excited</string>
+    <string name="mood_emotional">Emotional</string>
+    <string name="mood_curious">Curious</string>
+
+    <string name="recent">Recent</string>
+    <string name="classic">Classic</string>
+    <string name="both">Both</string>
+
+    <string name="time_short_label">Short </string>
+    <string name="time_short_desc">(Less than 90 min)</string>
+    <string name="time_medium_label">Medium </string>
+    <string name="time_medium_desc">(90–120 min)</string>
+    <string name="time_long_label">Long </string>
+    <string name="time_long_desc">(More than 120 min)</string>
+
+    <string name="genre_action">Action</string>
+    <string name="genre_comedy">Comedy</string>
+    <string name="genre_drama">Drama</string>
+    <string name="genre_romance">Romance</string>
+    <string name="genre_scifi">Sci-Fi</string>
+    <string name="genre_thriller">Thriller</string>
+    <string name="genre_animation">Animation</string>
+    <string name="genre_mystery">Mystery</string>
+
+    <string name="pick_genre">Pick a genre you love</string>
+    <string name="how_much_time">How much time do you have?</string>
+    <string name="recent_or_classic">Do you want something recent or classic?</string>
+    <string name="movie">Movie</string>
+    <string name="series">Series</string>
+    <string name="view_details">View Details</string>
+    <string name="here_s_your_match_list">Here’s Your Match List</string>
+
     <string name="did_you_watch_it">Did you watch it?</string>
-    <string name="star_circlr_shape">star circlr shape</string>
+    <string name="star_circle_shape">star circle shape</string>
     <string name="give_it_stars">Give it Stars</string>
-    <string name="let_the_world_lnow_how_you_felt">Let the world lnow how you felt</string>
+    <string name="let_the_world_Know_how_you_felt">Let the world Know how you felt</string>
     <string name="arrow">arrow</string>
+    <string name="star_icon">star_icon</string>
+    <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
+    <string name="clear_all">Clear All</string>
+    <string name="join_as_guest">Join as Guest</string>
+    <string name="featured_collections">Featured Collections</string>
+    <string name="left_arrow">Left Arrow</string>
+    <string name="_2008_jul_18">2008, Jul 18</string>
+    <string name="_2h_32m">2h 32m</string>
+    <string name="_8_5">8.5</string>
+    <string name="search">Search...</string>
     <string name="best_of_christian_bale">Best of Christian Bale</string>
     <string name="show_more">Show More</string>
     <string name="gallery">Gallery</string>

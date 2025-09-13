@@ -14,6 +14,7 @@ class TvShowSeasonUIMapper @Inject constructor() : Mapper<Season, SeasonUIState>
             episodeCount = input.episodeCount,
             seasonYear = input.seasonYear,
             seasonDescription = input.seasonDescription,
+            seasonRate = input.seasonRate
         )
     }
 }

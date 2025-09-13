@@ -56,6 +56,10 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getRatedMovie().body()?.items
     }
 
+    override suspend fun clearAllRecentSearch() {
+        movieDao.clearAllSearchHistory()
+    }
+
     override suspend fun setRating(movieId: Int, value: Float): RatingDto? {
         return movieService.postRating(movieId, value).body()
     }
@@ -415,6 +419,24 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getMovieTrailer(movieId: Int): TrailerDto? {
         return movieService.getMovieTrailer(movieId).body()
+    }
+
+    override suspend fun getMatchedMovies(
+        page: Int,
+        genres: String?,
+        runtimeGte: Int?,
+        runtimeLte: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?
+    ): BaseListResponse<MovieDto>? {
+        return movieService.getMatchedMovies(
+            page = page,
+            genres = genres,
+            runtimeGte = runtimeGte,
+            runtimeLte = runtimeLte,
+            releaseDateGte = releaseDateGte,
+            releaseDateLte = releaseDateLte
+        ).body()
     }
 
 }

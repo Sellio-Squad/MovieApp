@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.category.CategoryViewModel" />
+            type="com.karrar.movieapp.ui.explore.ExploringViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -46,9 +46,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:listener="@{viewModel}"
-                        app:selectedChip="@{viewModel.uiState.selectedCategoryID}"
+                        app:selectedChip="@{viewModel.uiState.selectedGenreID}"
                         app:selectionRequired="true"
-                        app:setGenres="@{viewModel.uiState.genre}"
+                        app:setGenres="@{viewModel.uiState.genres}"
                         app:singleLine="true"
                         app:singleSelection="true" />
 
@@ -72,7 +72,6 @@
             app:errorNotEmpty="@{viewModel.uiState.error}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:spanCount="3"
             tools:listitem="@layout/item_category" />
 
         <include

@@ -33,7 +33,8 @@ class SearchViewModel @Inject constructor(
     private val getSearchForSeriesUserCase: GetSearchForSeriesUserCase,
     private val getSearchForActorUseCase: GetSearchForActorUseCase,
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
-    private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase
+    private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase,
+    private val clearAllSearchHistoryUseCase: ClearAllSearchHistoryUseCase,
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
@@ -98,6 +99,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun onClearAllSearchHistory() {
+        viewModelScope.launch {
+            clearAllSearchHistoryUseCase()
+        }
+    }
+
     fun onSearchForSeries() {
         viewModelScope.launch {
             _uiState.update {
@@ -128,11 +135,8 @@ class SearchViewModel @Inject constructor(
 
 
     override fun onClickMediaResult(media: MediaUIState) {
-        onSearchInputChange(media.mediaName)
-
-        /*
         saveSearchResult(media.mediaID, media.mediaName)
-        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }*/
+        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
     }
 
     override fun onClickActorResult(personID: Int, name: String) {

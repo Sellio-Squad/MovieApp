@@ -13,8 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_color"
-        app:layoutDescription="@xml/fragment_exploring_scene">
+        android:background="@color/background_color">
 
 
         <TextView
@@ -64,25 +63,31 @@
         <!--        layout-->
 
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_search"
-            style="@style/Regular.Medium"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/search"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_small"
-            android:background="@drawable/edit_text_background"
-            android:drawableStart="@drawable/ic_search"
-            android:drawablePadding="@dimen/spacing_small"
-            android:focusableInTouchMode="false"
-            android:hint="@string/search_hint"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_mic"
+            app:endIconTint="@color/shade_primary_color"
             android:onClick="@{() -> viewModel.onClickSearch()}"
-            android:paddingStart="@dimen/spacing_small"
-            android:textColorHint="@color/shade_ternary_color"
-            android:transitionName="search_box"
+            app:startIconDrawable="@drawable/ic_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"

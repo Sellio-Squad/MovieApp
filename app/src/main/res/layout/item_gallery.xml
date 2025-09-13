@@ -15,51 +15,51 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/gallery_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color_screen">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_main_image"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="134dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/CardCorners.large"
-            tools:src="@drawable/chris_evans" />
+            android:layout_height="280dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="2">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_second_image"
-            android:layout_width="0dp"
-            android:layout_height="134dp"
-            android:layout_marginTop="@dimen/radius_lg"
-            android:layout_marginBottom="@dimen/radius_lg"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_main_image"
-            app:shapeAppearanceOverlay="@style/CardCorners.large"
-            tools:src="@drawable/chris_evans" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_main_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="12dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+                tools:background="@color/yellow" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_second_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+                tools:background="@color/yellow" />
+        </LinearLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_third_image"
             android:layout_width="0dp"
             android:layout_height="280dp"
-            android:layout_marginStart="@dimen/radius_lg"
-            android:layout_marginBottom="@dimen/radius_lg"
-            android:adjustViewBounds="true"
+            android:layout_weight="2"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_main_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/CardCorners.large"
-            tools:src="@drawable/chris_evans" />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            tools:background="@color/yellow" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </layout>

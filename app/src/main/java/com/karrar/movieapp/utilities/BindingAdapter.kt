@@ -28,6 +28,11 @@ fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
     view.isVisible = list.isNotEmpty() == true
 }
 
+@BindingAdapter("app:showWhenListIsLargeThanOrEqualThreeItem")
+fun <T> showWhenListIsLargeThanOrEqualThreeItem(view: View, list: List<T>) {
+    view.isVisible = list.size >= 3
+}
+
 @BindingAdapter("app:showWhenListOfGalleryLargeThenThreeAndNotEmpty")
 fun <T> showWhenListOfGalleryLargeThenThreeAndNotEmpty(view: View, list: List<T>) {
     if(list.isNotEmpty()){

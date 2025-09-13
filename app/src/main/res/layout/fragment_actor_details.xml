@@ -315,11 +315,10 @@
                     android:text="@string/show_more"
                     android:textColor="@color/brand_color_primary"
                     android:visibility="gone"
-                    app:isVisible="@{viewModel.actorDetailsUIState.actorGalleryUIState.galleryUrl >= 3"
                     app:layout_constraintBottom_toBottomOf="@+id/text_gallery"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/text_gallery"
-                    app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.actorGalleryUIState.galleryUrl}" />
+                    app:showWhenListIsLargeThanOrEqualThreeItem="@{viewModel.actorDetailsUIState.actorGalleryUIState.galleryUrl}" />
 
                 <LinearLayout
                     android:id="@+id/gallery_section"

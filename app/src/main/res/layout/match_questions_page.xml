@@ -47,6 +47,7 @@
             android:background="@drawable/rounded_button"
             android:text="@string/next"
             style="@style/TextStyle.Body.Medium.Medium"
+            android:textAllCaps="false"
             android:textColor="@color/button_color_onPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

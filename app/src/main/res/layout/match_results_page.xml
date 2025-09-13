@@ -212,6 +212,7 @@
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/button_color_primary"
             android:text="@string/view_details"
+            android:textAllCaps="false"
             android:textColor="@color/button_color_onPrimary"
 
             />

@@ -91,6 +91,7 @@
                 android:backgroundTint="@color/button_color_primary"
                 android:text="@string/start_matching"
                 style="@style/TextStyle.Body.Small.Medium"
+                android:textAllCaps="false"
                 android:textColor="@color/button_color_onPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

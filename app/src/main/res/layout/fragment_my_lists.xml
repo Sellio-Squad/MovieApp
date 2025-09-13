@@ -78,7 +78,7 @@
             android:id="@+id/animation_lost_connection"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:background="@drawable/circle_background"
+            android:background="@drawable/circle_background_my_list"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

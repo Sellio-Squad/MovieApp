@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.models.CrewUIState" />
+
+        <variable
+            name="isLast"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:id="@+id/crew_job"
+            style="@style/TextStyle.Body.Medium.Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="18.5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{item.job}"
+            android:textAlignment="textStart"
+            android:textColor="@color/shade_secondary_color"
+            android:textFontWeight="400"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/line"
+            app:layout_constraintEnd_toStartOf="@id/crew_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Characters" />
+
+        <TextView
+            android:id="@+id/crew_name"
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="18.5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.name}"
+            android:textAlignment="textStart"
+            android:textColor="@color/shade_primary_color"
+            android:textFontWeight="500"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="john michae" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/shade_color_quinary"
+            app:hideDividerIfLast="@{isLast}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

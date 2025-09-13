@@ -156,4 +156,6 @@
     <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
     <string name="clear_all">Clear All</string>
     <string name="left_arrow">Left Arrow</string>
+    <string name="series">Series</string>
+    <string name="search">Search...</string>
 </resources>

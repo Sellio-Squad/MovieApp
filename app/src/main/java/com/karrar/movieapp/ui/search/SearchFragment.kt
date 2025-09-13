@@ -17,6 +17,7 @@ import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.ActorSearchAdapter
 import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
+import com.karrar.movieapp.ui.search.adapters.MediaSearchCardAdapter
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
@@ -38,6 +39,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val viewModel: SearchViewModel by viewModels()
 
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
+    private val mediaSearchCardAdapter by lazy { MediaSearchCardAdapter(viewModel) }
     private val actorSearchAdapter by lazy { ActorSearchAdapter(viewModel) }
 
     private val oldValue = MutableStateFlow(MediaSearchUIState())
@@ -54,6 +56,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
+
+
+
+
     private fun setSearchHistoryAdapter() {
         val inputMethodManager =
             binding.inputSearch.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -65,26 +71,34 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     @OptIn(FlowPreview::class)
     private fun getSearchResultsBySearchTerm() {
         lifecycleScope.launch {
-            viewModel.uiState.debounce(500).collectLatest { searchTerm ->
-                if (searchTerm.searchInput.isNotBlank()
-                    && oldValue.value.searchInput != viewModel.uiState.value.searchInput
-                    || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes
-                ) {
-                    getSearchResult()
-                    oldValue.emit(viewModel.uiState.value)
+            viewModel.uiState
+                .debounce(500)
+                .collectLatest { newState ->
+                    val oldState = oldValue.value
+
+                    val shouldUpdate = newState.searchInput.isNotBlank() &&
+                            (oldState.searchInput != newState.searchInput ||
+                                    oldState.searchTypes != newState.searchTypes ||
+                                    oldState.displayMode != newState.displayMode)
+
+                    if (shouldUpdate) {
+                        getSearchResult()
+                        oldValue.emit(newState)
+                    }
                 }
-            }
         }
     }
 
     private fun getSearchResult() {
-        when (viewModel.uiState.value.searchTypes) {
-            MediaTypes.ACTOR -> {
-                bindActors()
+        when (viewModel.uiState.value.displayMode) {
+            SearchDisplayMode.SUGGESTIONS -> {
+                when (viewModel.uiState.value.searchTypes) {
+                    MediaTypes.ACTOR -> bindActors()
+                    else -> bindMedia()
+                }
             }
-
-            else -> {
-                bindMedia()
+            SearchDisplayMode.RESULTS -> {
+                bindMediaCard()
             }
         }
     }
@@ -150,6 +164,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         getMediaSearchResults()
     }
+    private fun bindMediaCard() {
+        val footerAdapter = LoadUIStateAdapter(mediaSearchAdapter::retry)
+        binding.recyclerMedia.adapter = mediaSearchCardAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
+
+        collect(flow = mediaSearchCardAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it, mediaSearchCardAdapter.itemCount) })
+
+        getMediaSearchCardResults()
+    }
 
     private fun bindActors() {
         val footerAdapter = LoadUIStateAdapter(actorSearchAdapter::retry)
@@ -167,6 +192,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun getMediaSearchResults() {
         collectLast(viewModel.uiState.value.searchResult)
         { mediaSearchAdapter.submitData(it) }
+    }
+    private fun getMediaSearchCardResults() {
+        collectLast(viewModel.uiState.value.searchResult)
+        { mediaSearchCardAdapter.submitData(it) }
     }
 
     private fun getActorsSearchResults() {

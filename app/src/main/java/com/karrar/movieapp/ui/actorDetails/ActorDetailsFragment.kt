@@ -68,12 +68,16 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
     }
 
     private fun navigateToGallery() {
-        Navigation.findNavController(binding.root)
-            .navigate(
-                ActorDetailsFragmentDirections.actionActorDetailsFragmentToGalleryActorFragment(
-                    viewModel.args.id,
+        if(findNavController().currentDestination?.id == R.id.actorDetailsFragment){
+            Navigation.findNavController(binding.root)
+                .navigate(
+                    ActorDetailsFragmentDirections.actionActorDetailsFragmentToGalleryActorFragment(
+                        viewModel.args.id,
+                        viewModel.actorDetailsUIState.value.name
+                    )
                 )
-            )
+        }
+
     }
 
     private fun navigateToActorMovies() {

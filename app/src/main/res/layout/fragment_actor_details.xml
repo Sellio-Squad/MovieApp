@@ -55,66 +55,27 @@
             app:layout_constraintTop_toTopOf="@+id/actor_image_app_bar"
             tools:text="Chris Evans" />
 
-        <com.airbnb.lottie.LottieAnimationView
+        <include
             android:id="@+id/loading"
-            android:layout_width="172dp"
-            android:layout_height="172dp"
-            android:elevation="1dp"
+            layout="@layout/loading2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:isLoading="@{viewModel.actorDetailsUIState.isLoading}"
             app:isVisible="@{viewModel.actorDetailsUIState.isLoading}"
+            />
+
+        <include
+            android:id="@+id/error"
+            layout="@layout/error2"
+            app:isError="@{viewModel.actorDetailsUIState.error.size() &gt;0 &amp;&amp; !viewModel.actorDetailsUIState.isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_lost_connection"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/lost_internet_animation"
-            app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.error}" />
-
-        <Button
-            android:id="@+id/button_retry"
-            style="@style/small_button..enabled"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@drawable/large_enabled_button"
-            android:onClick="@{() -> viewModel.getData()}"
-            android:paddingHorizontal="94dp"
-            android:text="@string/try_again"
-            android:textAllCaps="false"
-            android:textColor="@color/button_color_onPrimary"
-            android:fontFamily="@font/manrope_medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"
-            app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.error}" />
-
-        <TextView
-            android:id="@+id/description_lost_connection"
-            style="@style/Regular.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:gravity="center"
-            android:text="@string/description"
-            android:textColor="@color/brand_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/animation_lost_connection"
-            app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.error}" />
-
+            app:showWhenListNotEmpty="@{viewModel.actorDetailsUIState.error}"
+            app:viewModel="@{viewModel}" />
 
         <ImageView
             android:id="@+id/back_button"
@@ -350,6 +311,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_medium"
+                    android:onClick="@{() -> viewModel.onClickSeeAllGallery(HomeItemsType.NON)}"
                     android:text="@string/show_more"
                     android:textColor="@color/brand_color_primary"
                     android:visibility="gone"

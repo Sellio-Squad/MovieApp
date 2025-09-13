@@ -89,13 +89,15 @@
         <TextView
             android:id="@+id/text_name_media"
             style="@style/TextStyle.Body.Medium.Medium"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
+            android:ellipsize="end"
             android:text="@{item.mediaName}"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:textColor="@color/shade_color_secondary"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
             app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
             tools:text="The Flash" />
     </androidx.constraintlayout.widget.ConstraintLayout>

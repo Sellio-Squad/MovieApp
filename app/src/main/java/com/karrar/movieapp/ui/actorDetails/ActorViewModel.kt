@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.actorDetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.R
@@ -80,7 +79,6 @@ class ActorViewModel @Inject constructor(
                         isSuccess = true
                     )
                 }
-                Log.d("123abc123", "state: ${_actorDetailsUIState.value.socialItemUIState} :: actorSocial $actorSocial")
 
             } catch (e: Exception) {
                 onError(e.message.toString())
@@ -118,13 +116,43 @@ class ActorViewModel @Inject constructor(
         _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.ClickSocialItem(url)) }
     }
 
-    private fun ActorSocialUIState.toList(): List<SocialItemUIState>{
+    private fun ActorSocialUIState.toList(): List<SocialItemUIState> {
         val socials = mutableListOf<SocialItemUIState>()
-        if(facebookLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_facebook,R.string.facebook, facebookLink))
-        if(twitterLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_x,R.string.twitter, twitterLink))
-        if(youtubeLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_youtube, R.string.youtube, youtubeLink))
-        if(tiktokLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_tiktok, R.string.tiktok, tiktokLink))
-        if(instagramLink.isNotBlank()) socials.add(SocialItemUIState(R.drawable.colored_instagram, R.string.instagram, instagramLink))
+        if (facebookLink.isNotBlank()) socials.add(
+            SocialItemUIState(
+                R.drawable.colored_facebook,
+                R.string.facebook,
+                facebookLink
+            )
+        )
+        if (twitterLink.isNotBlank()) socials.add(
+            SocialItemUIState(
+                R.drawable.colored_x,
+                R.string.twitter,
+                twitterLink
+            )
+        )
+        if (youtubeLink.isNotBlank()) socials.add(
+            SocialItemUIState(
+                R.drawable.colored_youtube,
+                R.string.youtube,
+                youtubeLink
+            )
+        )
+        if (tiktokLink.isNotBlank()) socials.add(
+            SocialItemUIState(
+                R.drawable.colored_tiktok,
+                R.string.tiktok,
+                tiktokLink
+            )
+        )
+        if (instagramLink.isNotBlank()) socials.add(
+            SocialItemUIState(
+                R.drawable.colored_instagram,
+                R.string.instagram,
+                instagramLink
+            )
+        )
         return socials
     }
 

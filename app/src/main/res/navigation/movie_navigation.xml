@@ -73,6 +73,9 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <argument
+            android:name="actorName"
+            app:argType="string"/>
 
     </fragment>
 

@@ -55,7 +55,8 @@
                     android:text="@{item.name}"
                     android:textColor="@color/shade_primary_color"
                     android:textSize="18sp"
-                    tools:text="name" />
+                    tools:text="name"
+                    />
 
                 <TextView
                     android:id="@+id/movieGenres"
@@ -217,7 +218,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.image}" />
-
+<!--        </androidx.constraintlayout.motion.widget.MotionLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

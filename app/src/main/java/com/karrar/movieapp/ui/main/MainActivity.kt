@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationController {
             setOf(
                 R.id.homeFragment,
                 R.id.exploringFragment,
-                R.id.myListFragment,
+                R.id.matchFragment,
                 R.id.profileFragment,
             )
         )
@@ -62,6 +62,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationController {
             navController.popBackStack(item.itemId, inclusive = false)
             true
         }
+    }
+
+    fun hideBottomNavigation() {
+        binding.bottomNavigation.isVisible = false
+    }
+
+    fun showBottomNavigation() {
+        binding.bottomNavigation.isVisible = true
     }
 
     override fun onSupportNavigateUp(): Boolean {

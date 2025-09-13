@@ -7,7 +7,9 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.movie.*
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorGalleryDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
@@ -27,6 +29,10 @@ interface MovieRepository {
     suspend fun getActorDetails(actorId: Int): ActorDto?
 
     suspend fun getActorMovies(actorId: Int): ActorMoviesDto?
+
+    suspend fun getGalleryActor(actorId: Int): ActorGalleryDto?
+
+    suspend fun getActorSocialMedia(actorId: Int): ActorSocialMediaDto?
 
     suspend fun getAllLists(sessionId: String): List<CreatedListDto>?
 
@@ -100,4 +106,15 @@ interface MovieRepository {
 
     suspend fun getRatedMovie(): List<RatedMoviesDto>?
 
+    suspend fun getMovieCastAndCrew(movieId: Int): CreditsDto?
+    suspend fun clearAllRecentSearch()
+
+    suspend fun getMatchedMovies(
+        page: Int,
+        genres: String?,
+        runtimeGte: Int?,
+        runtimeLte: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?
+    ): BaseListResponse<MovieDto>?
 }

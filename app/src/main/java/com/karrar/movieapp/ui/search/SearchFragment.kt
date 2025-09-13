@@ -8,19 +8,28 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.search.adapters.*
-import com.karrar.movieapp.ui.search.mediaSearchUIState.*
-import com.karrar.movieapp.utilities.*
+import com.karrar.movieapp.ui.search.adapters.ActorSearchAdapter
+import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
+import com.karrar.movieapp.ui.search.adapters.MediaSearchCardAdapter
+import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
+import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.collect
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -30,6 +39,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val viewModel: SearchViewModel by viewModels()
 
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
+    private val mediaSearchCardAdapter by lazy { MediaSearchCardAdapter(viewModel) }
     private val actorSearchAdapter by lazy { ActorSearchAdapter(viewModel) }
 
     private val oldValue = MutableStateFlow(MediaSearchUIState())
@@ -46,6 +56,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
+
+
+
+
     private fun setSearchHistoryAdapter() {
         val inputMethodManager =
             binding.inputSearch.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -57,42 +71,56 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     @OptIn(FlowPreview::class)
     private fun getSearchResultsBySearchTerm() {
         lifecycleScope.launch {
-            viewModel.uiState.debounce(500).collectLatest { searchTerm ->
-                if (searchTerm.searchInput.isNotBlank()
-                    && oldValue.value.searchInput != viewModel.uiState.value.searchInput
-                    || oldValue.value.searchTypes != viewModel.uiState.value.searchTypes) {
-                    getSearchResult()
-                    oldValue.emit(viewModel.uiState.value)
+            viewModel.uiState
+                .debounce(500)
+                .collectLatest { newState ->
+                    val oldState = oldValue.value
+
+                    val shouldUpdate = newState.searchInput.isNotBlank() &&
+                            (oldState.searchInput != newState.searchInput ||
+                                    oldState.searchTypes != newState.searchTypes ||
+                                    oldState.displayMode != newState.displayMode)
+
+                    if (shouldUpdate) {
+                        getSearchResult()
+                        oldValue.emit(newState)
+                    }
                 }
-            }
         }
     }
 
     private fun getSearchResult() {
-        when (viewModel.uiState.value.searchTypes) {
-            MediaTypes.ACTOR -> {
-                bindActors()
+        when (viewModel.uiState.value.displayMode) {
+            SearchDisplayMode.SUGGESTIONS -> {
+                when (viewModel.uiState.value.searchTypes) {
+                    MediaTypes.ACTOR -> bindActors()
+                    else -> bindMedia()
+                }
             }
-            else -> {
-                bindMedia()
+            SearchDisplayMode.RESULTS -> {
+                bindMediaCard()
             }
         }
     }
+
 
     private fun onEvent(event: SearchUIEvent) {
         when (event) {
             is SearchUIEvent.ClickActorEvent -> {
                 navigateToActorDetails(event.actorID)
             }
+
             SearchUIEvent.ClickBackEvent -> {
                 popFragment()
             }
+
             is SearchUIEvent.ClickMediaEvent -> {
-                when (event.mediaUIState.mediaTypes) {
+                when (event.mediaUIState.mediaTypes.lowercase()) {
                     Constants.MOVIE -> navigateToMovieDetails(event.mediaUIState.mediaID)
                     Constants.TV_SHOWS -> navigateToSeriesDetails(event.mediaUIState.mediaID)
                 }
             }
+
             SearchUIEvent.ClickRetryEvent -> {
                 actorSearchAdapter.retry()
                 mediaSearchAdapter.retry()
@@ -130,10 +158,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager =
             LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
 
-        collect(flow = mediaSearchAdapter.loadStateFlow,
+        collect(
+            flow = mediaSearchAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
 
         getMediaSearchResults()
+    }
+    private fun bindMediaCard() {
+        val footerAdapter = LoadUIStateAdapter(mediaSearchAdapter::retry)
+        binding.recyclerMedia.adapter = mediaSearchCardAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
+
+        collect(flow = mediaSearchCardAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it, mediaSearchCardAdapter.itemCount) })
+
+        getMediaSearchCardResults()
     }
 
     private fun bindActors() {
@@ -142,7 +182,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.recyclerMedia.layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
         setSpanSize(footerAdapter)
 
-        collect(flow = actorSearchAdapter.loadStateFlow,
+        collect(
+            flow = actorSearchAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, actorSearchAdapter.itemCount) })
 
         getActorsSearchResults()
@@ -151,6 +192,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun getMediaSearchResults() {
         collectLast(viewModel.uiState.value.searchResult)
         { mediaSearchAdapter.submitData(it) }
+    }
+    private fun getMediaSearchCardResults() {
+        collectLast(viewModel.uiState.value.searchResult)
+        { mediaSearchCardAdapter.submitData(it) }
     }
 
     private fun getActorsSearchResults() {

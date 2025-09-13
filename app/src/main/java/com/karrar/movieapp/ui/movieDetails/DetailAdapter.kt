@@ -30,12 +30,7 @@ class DetailAdapter(
 
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
-            is DetailItemUIState.Header -> {
-                holder.binding.run {
-                    setVariable(BR.item, currentItem.data)
-                    setVariable(BR.listener, listener as DetailInteractionListener)
-                }
-            }
+
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
                     setVariable(
@@ -53,6 +48,15 @@ class DetailAdapter(
                     setVariable(
                         BR.adapterRecycler,
                         MovieAdapter(currentItem.data, listener as MovieInteractionListener)
+                    )
+                }
+            }
+
+            is DetailItemUIState.Crew -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        CrewAdapter(currentItem.data, R.layout.item_crew, listener)
                     )
                 }
             }
@@ -87,13 +91,13 @@ class DetailAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is DetailItemUIState.Header -> R.layout.item_movie_detail_header
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
             is DetailItemUIState.Rating -> R.layout.item_rating
             is DetailItemUIState.Comment -> R.layout.item_movie_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
             DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.Crew -> R.layout.list_crew
         }
     }
 

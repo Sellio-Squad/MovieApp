@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel" />
@@ -10,7 +11,6 @@
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,13 +35,35 @@
                 android:padding="@dimen/spacing_small"
                 android:src="@drawable/outline_arrow_left"
                 app:tint="@color/shade_primary_color" />
-
         </com.google.android.material.appbar.MaterialToolbar>
 
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/headerMotionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/appBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutDescription="@xml/scene_movie_details">
+
+            <include
+                android:id="@+id/fullHeader"
+                layout="@layout/item_movie_detail_header"
+                app:item="@{viewModel.uiState.movieDetailsResult}"
+                app:listener="@{listener}" />
+
+
+            <include
+                android:id="@+id/minHeader"
+                layout="@layout/min_header"
+                app:item="@{viewModel.uiState.movieDetailsResult}"
+                app:listener="@{listener}" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/background_color"
             android:overScrollMode="never"
@@ -49,32 +71,31 @@
             app:doneLoading="@{viewModel.uiState.loading}"
             app:errorNotEmpty="@{viewModel.uiState.errorUIStates}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:spanCount="1"
+            app:layout_constraintTop_toBottomOf="@id/headerMotionLayout"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBar"
-            app:spanCount="1" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loading"
-            android:layout_width="172dp"
-            android:layout_height="172dp"
-            app:isVisible="@{viewModel.uiState.loading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/item_movie_detail_header" />
+
+        <include
+            android:id="@+id/loading"
+            layout="@layout/loading2"
+            app:isVisible="@{viewModel.uiState.loading}"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <include
             android:id="@+id/error"
             layout="@layout/error_movie_details"
             app:isError="@{!viewModel.uiState.errorUIStates.isEmpty()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:viewModel="@{viewModel}"
             app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

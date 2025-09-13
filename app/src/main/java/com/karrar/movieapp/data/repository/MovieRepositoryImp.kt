@@ -13,6 +13,8 @@ import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actor.ActorGalleryDto
+import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
@@ -54,6 +56,14 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getRatedMovie().body()?.items
     }
 
+    override suspend fun getMovieCastAndCrew(movieId: Int): CreditsDto? {
+        return movieService.getMovieCastAndCrew(movieId).body()
+    }
+
+    override suspend fun clearAllRecentSearch() {
+        movieDao.clearAllSearchHistory()
+    }
+
     override suspend fun setRating(movieId: Int, value: Float): RatingDto? {
         return movieService.postRating(movieId, value).body()
     }
@@ -68,6 +78,14 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getActorMovies(actorId: Int): ActorMoviesDto? {
         return movieService.getActorMovies(actorId = actorId).body()
+    }
+
+    override suspend fun getGalleryActor(actorId: Int): ActorGalleryDto? {
+        return movieService.getGalleryActor(actorId).body()
+    }
+
+    override suspend fun getActorSocialMedia(actorId: Int): ActorSocialMediaDto? {
+        return movieService.getActorSocialMedia(actorId).body()
     }
 
     /**
@@ -405,6 +423,24 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getMovieTrailer(movieId: Int): TrailerDto? {
         return movieService.getMovieTrailer(movieId).body()
+    }
+
+    override suspend fun getMatchedMovies(
+        page: Int,
+        genres: String?,
+        runtimeGte: Int?,
+        runtimeLte: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?
+    ): BaseListResponse<MovieDto>? {
+        return movieService.getMatchedMovies(
+            page = page,
+            genres = genres,
+            runtimeGte = runtimeGte,
+            runtimeLte = runtimeLte,
+            releaseDateGte = releaseDateGte,
+            releaseDateLte = releaseDateLte
+        ).body()
     }
 
 }

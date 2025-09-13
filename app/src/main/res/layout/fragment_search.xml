@@ -151,6 +151,7 @@
                 android:text="@string/clear_all"
                 android:textSize="14sp"
                 android:textColor="@color/brand_color_primary"
+                android:onClick="@{() -> viewModel.onClearAllSearchHistory()}"
                 app:layout_constraintBottom_toBottomOf="@id/history_label"
                 app:layout_constraintTop_toTopOf="@id/history_label"/>
 

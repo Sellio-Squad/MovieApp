@@ -33,7 +33,8 @@ class SearchViewModel @Inject constructor(
     private val getSearchForSeriesUserCase: GetSearchForSeriesUserCase,
     private val getSearchForActorUseCase: GetSearchForActorUseCase,
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
-    private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase
+    private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase,
+    private val clearAllSearchHistoryUseCase: ClearAllSearchHistoryUseCase,
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
@@ -95,6 +96,12 @@ class SearchViewModel @Inject constructor(
                     }
                 )
             }
+        }
+    }
+
+    fun onClearAllSearchHistory() {
+        viewModelScope.launch {
+            clearAllSearchHistoryUseCase()
         }
     }
 

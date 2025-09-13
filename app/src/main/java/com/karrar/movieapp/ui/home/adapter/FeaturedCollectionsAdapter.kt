@@ -1,18 +1,14 @@
 package com.karrar.movieapp.ui.home.adapter
 
 import com.karrar.movieapp.R
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.home.homeUiState.FeaturedCollectionUiState
+import com.karrar.movieapp.ui.home.model.FeaturedCollectionsItem
 
 class FeaturedCollectionsAdapter(
-    items: List<FeaturedCollectionUiState>,
-    val listener: FeaturedCollectionsListener
+    items: List<FeaturedCollectionsItem>,
+    val listener: MovieInteractionListener
 ) :
-    BaseAdapter<FeaturedCollectionUiState>(items, listener) {
+    BaseAdapter<FeaturedCollectionsItem>(items, listener) {
     override val layoutID: Int = R.layout.item_featured_collections
-}
-
-interface FeaturedCollectionsListener : BaseInteractionListener {
-    fun onClickCollection(title: String)
 }

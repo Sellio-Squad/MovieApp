@@ -98,6 +98,12 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
             AllMediaType.ACTOR_MOVIES -> ""
+            AllMediaType.LATE_NIGHT_THRILLS -> "Late Night Thrills"
+            AllMediaType.MIND_BENDING_STORIES -> "Mind Bending Stories"
+            AllMediaType.CINEMATIC_MASTERPIECES -> "Cinematic Masterpieces"
+            AllMediaType.FAMILY_NIGHT_PICKS -> "Family Night Picks"
+            AllMediaType.BASED_ON_TRUE_EVENTS -> "Based On True Events"
+            AllMediaType.FEEL_GOOD_FAVORITES -> "Feel Good Favorites"
         }
     }
 

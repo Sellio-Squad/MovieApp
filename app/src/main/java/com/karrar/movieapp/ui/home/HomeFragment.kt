@@ -46,7 +46,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.browseEverything,
                         uiState.letUsChooseForYou,
                         uiState.recentlyViewed,
-                        uiState.collections
+                        uiState.collections,
+                        uiState.featuredCollections
                     )
                 )
             }
@@ -73,6 +74,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 )
             }
             is HomeUIEvent.ClickSeeAllMovieEvent -> {
+                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
+                    -1, event.mediaType
+                )
+            }
+
+            is HomeUIEvent.ClickFeaturedCollectionsEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
                     -1, event.mediaType
                 )

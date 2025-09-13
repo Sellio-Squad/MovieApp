@@ -54,6 +54,10 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getRatedMovie().body()?.items
     }
 
+    override suspend fun getMovieCastAndCrew(movieId: Int): CreditsDto? {
+        return movieService.getMovieCastAndCrew(movieId).body()
+    }
+
     override suspend fun setRating(movieId: Int, value: Float): RatingDto? {
         return movieService.postRating(movieId, value).body()
     }

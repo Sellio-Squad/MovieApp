@@ -60,5 +60,5 @@ interface SeriesRepository {
 
     suspend fun deleteTvShowRating(tvId: Int): RatingDto?
 
-
+    suspend fun getTvShowCastAndCrew(tvShowId: Int): CreditsDto?
 }

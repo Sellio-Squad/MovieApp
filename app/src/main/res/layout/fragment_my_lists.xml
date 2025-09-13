@@ -158,13 +158,17 @@
             app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
 
         <Button
-            android:id="@+id/button_retry"
+            style="@style/large_button.enabled"
+            android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
             android:onClick="@{() -> viewModel.getData()}"
-            android:text="@string/retry"
-            android:textColor="@color/white_primary"
+            android:fontFamily="@font/manrope_medium"
+            android:paddingHorizontal="94dp"
+            android:textAllCaps="false"
+            android:text="@string/try_again"
+            android:textColor="@color/button_color_onPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
@@ -173,7 +177,7 @@
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
+            app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_try_again"
             app:showWhenNoInternet="@{viewModel.createdListUIState.error}" />
 
 

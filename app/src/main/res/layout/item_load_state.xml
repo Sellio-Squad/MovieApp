@@ -25,11 +25,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_retry"
+        android:id="@+id/button_try_again"
+        style="@style/large_button.enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/retry"
-        android:textColor="@color/shade_primary_color"
+        android:text="@string/try_again"
+        android:textColor="@color/white"
+        android:backgroundTint="#536DFE"
+        android:textAllCaps="false"
+        android:fontFamily="@font/manrope_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

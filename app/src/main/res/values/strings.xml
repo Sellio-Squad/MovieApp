@@ -147,15 +147,60 @@
     <string name="you_might_also_like">You Might Also Like</string>
     <string name="show_more">Show More</string>
     <string name="because_you_watched">Because You Watched</string>
+
+    <string name="discover_your_match">Discover Your Match</string>
+    <string name="not_sure_watch">Not sure what to watch?</string>
+    <string name="answer_questions">Answer a few quick questions and we’ll\n match you with the perfect picks.</string>
+    <string name="start_matching">Start Matching</string>
+    <string name="what_mood">What\'s your mood?</string>
+    <string name="next">Next</string>
+    <string name="match_list">Your Perfect Matches</string>
+    <string name="loading_recommendations">Loading recommendations you’ll love...</string>
+
+    <string name="mood_chill">Chill</string>
+    <string name="mood_excited">Excited</string>
+    <string name="mood_emotional">Emotional</string>
+    <string name="mood_curious">Curious</string>
+
+    <string name="recent">Recent</string>
+    <string name="classic">Classic</string>
+    <string name="both">Both</string>
+
+    <string name="time_short_label">Short </string>
+    <string name="time_short_desc">(Less than 90 min)</string>
+    <string name="time_medium_label">Medium </string>
+    <string name="time_medium_desc">(90–120 min)</string>
+    <string name="time_long_label">Long </string>
+    <string name="time_long_desc">(More than 120 min)</string>
+
+    <string name="genre_action">Action</string>
+    <string name="genre_comedy">Comedy</string>
+    <string name="genre_drama">Drama</string>
+    <string name="genre_romance">Romance</string>
+    <string name="genre_scifi">Sci-Fi</string>
+    <string name="genre_thriller">Thriller</string>
+    <string name="genre_animation">Animation</string>
+    <string name="genre_mystery">Mystery</string>
+
+    <string name="pick_genre">Pick a genre you love</string>
+    <string name="how_much_time">How much time do you have?</string>
+    <string name="recent_or_classic">Do you want something recent or classic?</string>
+    <string name="movie">Movie</string>
+    <string name="series">Series</string>
+    <string name="view_details">View Details</string>
+    <string name="here_s_your_match_list">Here’s Your Match List</string>
+
     <string name="did_you_watch_it">Did you watch it?</string>
-    <string name="star_circlr_shape">star circlr shape</string>
+    <string name="star_circle_shape">star circle shape</string>
     <string name="give_it_stars">Give it Stars</string>
-    <string name="let_the_world_lnow_how_you_felt">Let the world lnow how you felt</string>
+    <string name="let_the_world_Know_how_you_felt">Let the world Know how you felt</string>
     <string name="arrow">arrow</string>
     <string name="star_icon">star_icon</string>
     <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
     <string name="clear_all">Clear All</string>
     <string name="left_arrow">Left Arrow</string>
-    <string name="series">Series</string>
+    <string name="_2008_jul_18">2008, Jul 18</string>
+    <string name="_2h_32m">2h 32m</string>
+    <string name="_8_5">8.5</string>
     <string name="search">Search...</string>
 </resources>

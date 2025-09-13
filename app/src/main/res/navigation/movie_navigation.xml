@@ -38,8 +38,8 @@
 
 
         <action
-            android:id="@+id/action_loginFragment_to_myListFragment"
-            app:destination="@id/myListFragment" />
+            android:id="@+id/action_loginFragment_to_matchFragment"
+            app:destination="@id/matchFragment" />
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
@@ -120,12 +120,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/myListFragment"
-        android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
-        tools:layout="@layout/fragment_my_lists">
+        android:id="@+id/matchFragment"
+        android:name="com.karrar.movieapp.ui.match.MatchFragment"
+        tools:layout="@layout/fragment_match">
         <action
-            android:id="@+id/action_myListFragment_to_createSavedList"
-            app:destination="@id/createSavedList" />
+            android:id="@+id/action_matchFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
         <action
             android:id="@+id/action_myListFragment_to_savedListFragment"
             app:destination="@id/listDetailsFragment" />

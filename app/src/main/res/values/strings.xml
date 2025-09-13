@@ -148,7 +148,6 @@
     <string name="nothing_found">Nothing Found!</string>
     <string name="not_found_msg">We searched the entire universe… but found nothing matching your query. Try something else?</string>
     <string name="you_might_also_like">You Might Also Like</string>
-    <string name="show_more">Show More</string>
     <string name="because_you_watched">Because You Watched</string>
 
     <string name="discover_your_match">Discover Your Match</string>
@@ -208,5 +207,15 @@
     <string name="_2h_32m">2h 32m</string>
     <string name="_8_5">8.5</string>
     <string name="search">Search...</string>
+    <string name="best_of_christian_bale">Best of Christian Bale</string>
+    <string name="show_more">Show More</string>
+    <string name="gallery">Gallery</string>
+    <string name="born_on">Born on</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="youtube">Youtube</string>
+    <string name="tiktok">Tiktok</string>
+    <string name="instagram">Instagram</string>
+    <string name="in">In</string>
     <string name="behind_the_scene">Behind The Scene</string>
 </resources>

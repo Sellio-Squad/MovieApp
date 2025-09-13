@@ -76,6 +76,23 @@
         <action
             android:id="@+id/action_actorDetailsFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_actorDetailsFragment_to_galleryActorFragment"
+            app:destination="@id/galleryActorFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/galleryActorFragment"
+        android:name="com.karrar.movieapp.ui.galleryActor.GalleryActorFragment"
+        tools:layout="@layout/fragment_gallery">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="actorName"
+            app:argType="string"/>
+
     </fragment>
 
     <fragment

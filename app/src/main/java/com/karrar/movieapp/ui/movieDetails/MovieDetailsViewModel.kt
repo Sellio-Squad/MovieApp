@@ -9,6 +9,7 @@ import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentArgs
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
@@ -233,6 +234,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {}
+    override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
+        TODO("Not yet implemented")
+    }
 
     override fun onClickActor(actorID: Int) {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }

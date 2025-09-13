@@ -29,6 +29,18 @@ fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
     view.isVisible = list.isNotEmpty() == true
 }
 
+@BindingAdapter("app:showWhenListIsLargeThanOrEqualThreeItem")
+fun <T> showWhenListIsLargeThanOrEqualThreeItem(view: View, list: List<T>) {
+    view.isVisible = list.size >= 3
+}
+
+@BindingAdapter("app:showWhenListOfGalleryLargeThenThreeAndNotEmpty")
+fun <T> showWhenListOfGalleryLargeThenThreeAndNotEmpty(view: View, list: List<T>) {
+    if(list.isNotEmpty()){
+        view.isVisible = list.size >= 3
+    }
+}
+
 @BindingAdapter("app:showWhenListEmpty")
 fun <T> showWhenListEmpty(view: View, list: List<T>) {
     view.isVisible = list.isEmpty() == true
@@ -282,10 +294,19 @@ fun setRating(view: RatingBar?, rating: Float) {
 fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
 }
+
+@BindingAdapter("app:setImageResource")
+fun setImageResource(image: ImageView, resourceId: Int){
+    if(resourceId != 0){
+        image.setImageResource(resourceId)
+    }
+}
+
 @BindingAdapter("app:hideDividerIfLast")
 fun hideDividerIfLast(view: View, isLast: Boolean) {
     view.isVisible = !isLast
 }
+
 @BindingAdapter("app:highlightEmojiByRating")
 fun highlightEmojiByRating(container: ViewGroup, ratingValue: Float?) {
     val selectedIndex: Int = ((ratingValue ?: 0f).toInt() - 1).coerceIn(-1, 4)

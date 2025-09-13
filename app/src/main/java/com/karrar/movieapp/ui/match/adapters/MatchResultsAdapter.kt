@@ -46,6 +46,10 @@ class MatchResultsAdapter(
 
                 override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
                 }
+
+                override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
+
+                }
             }
 
             binding.executePendingBindings()

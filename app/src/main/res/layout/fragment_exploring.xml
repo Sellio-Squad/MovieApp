@@ -67,8 +67,7 @@
             android:id="@+id/input_search"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/edit_text_background"
-            android:hint="@string/search"
+            app:hintEnabled="false"
             android:layout_marginHorizontal="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/spacing_small"
             app:endIconMode="custom"
@@ -78,14 +77,18 @@
             app:startIconDrawable="@drawable/ic_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/text_field_background"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_background"
+                android:paddingVertical="2dp"
+                android:background="@drawable/text_field_background"
                 android:inputType="text"
+                android:hint="@string/search"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

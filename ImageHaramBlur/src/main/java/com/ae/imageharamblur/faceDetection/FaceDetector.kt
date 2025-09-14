@@ -23,26 +23,19 @@ class FaceDetector(private val context: Context) {
 
     private val modelBuffer by lazy {
         runCatching {
-            Log.d(TAG, "Loading model file: $MODEL_FILE")
             FileUtil.loadMappedFile(context, MODEL_FILE)
-        }.onSuccess {
-            Log.i(TAG, "Model file loaded successfully")
         }.onFailure { e ->
-            Log.e(TAG, "Failed to load model file", e)
         }.getOrNull()
     }
 
     init {
-        Log.d(TAG, "Initializing FaceDetector with RFB-320 model")
         setupModel()
     }
 
     private fun setupModel() {
         runCatching {
             modelBuffer
-            Log.d(TAG, "Model setup completed, buffer available: ${modelBuffer != null}")
         }.onFailure { e ->
-            Log.e(TAG, "Model setup failed", e)
         }
     }
 
@@ -50,22 +43,16 @@ class FaceDetector(private val context: Context) {
         var interpreter = interpreterThreadLocal.get()
         if (interpreter == null && modelBuffer != null) {
             runCatching {
-                Log.d(TAG, "Creating new interpreter for thread: ${Thread.currentThread().name}")
                 val options = Interpreter.Options().apply {
                     setNumThreads(4)
                     runCatching {
                         setUseXNNPACK(true)
-                        Log.d(TAG, "XNNPACK enabled")
                     }.onFailure {
-                        Log.w(TAG, "XNNPACK not available")
                     }
                 }
                 interpreter = Interpreter(modelBuffer!!, options)
                 interpreterThreadLocal.set(interpreter)
-
-                Log.i(TAG, "Interpreter created successfully")
             }.onFailure { e ->
-                Log.e(TAG, "Failed to create interpreter", e)
                 return null
             }
         }
@@ -73,13 +60,11 @@ class FaceDetector(private val context: Context) {
     }
 
     suspend fun detectFaces(bitmap: Bitmap): List<DetectedFace> = withContext(Dispatchers.IO) {
-        Log.d(TAG, "detectFaces() called - Image size: ${bitmap.width}x${bitmap.height}")
 
         interpreterMutex.withLock {
             runCatching {
                 val interpreter = getOrCreateInterpreter()
                 if (interpreter == null) {
-                    Log.e(TAG, "No interpreter available, returning empty list")
                     return@withContext emptyList()
                 }
 
@@ -98,9 +83,7 @@ class FaceDetector(private val context: Context) {
                 )
 
                 // Run inference
-                Log.d(TAG, "Running inference...")
                 interpreter.runForMultipleInputsOutputs(arrayOf(inputBuffer), outputs)
-                Log.d(TAG, "Inference completed")
 
                 // Process detections
                 val detections = processResults(
@@ -113,7 +96,6 @@ class FaceDetector(private val context: Context) {
                 return@withContext detections
 
             }.getOrElse { e ->
-                Log.e(TAG, "Face detection failed", e)
                 emptyList()
             }
         }
@@ -127,7 +109,6 @@ class FaceDetector(private val context: Context) {
     ): List<DetectedFace> {
         val detections = mutableListOf<DetectedFace>()
 
-        Log.d(TAG, "Processing ${boxes.size} potential detections")
 
         for (i in boxes.indices) {
             // scores[i][1] is the face confidence (index 0 is background)
@@ -153,12 +134,9 @@ class FaceDetector(private val context: Context) {
                 // Validate box dimensions
                 if (rect.width() >= MIN_FACE_SIZE && rect.height() >= MIN_FACE_SIZE) {
                     detections.add(DetectedFace(rect, confidence))
-                    Log.v(TAG, "Added detection: $rect, confidence: $confidence")
                 }
             }
         }
-
-        Log.d(TAG, "Found ${detections.size} valid detections before NMS")
 
         // Apply Non-Maximum Suppression
         return nonMaxSuppression(detections, NMS_THRESHOLD).take(MAX_FACES)
@@ -189,7 +167,6 @@ class FaceDetector(private val context: Context) {
             }
         }
 
-        Log.d(TAG, "NMS: Selected ${selected.size} faces from ${faces.size}")
         return selected
     }
 
@@ -237,17 +214,13 @@ class FaceDetector(private val context: Context) {
 
     fun close() {
         runCatching {
-            Log.d(TAG, "Closing FaceDetector")
             interpreterThreadLocal.get()?.close()
             interpreterThreadLocal.remove()
-            Log.i(TAG, "FaceDetector closed successfully")
         }.onFailure { e ->
-            Log.e(TAG, "Error closing FaceDetector", e)
         }
     }
 
     companion object {
-        private const val TAG = "FaceDetector"
         private const val MODEL_FILE = "version-RFB-320_without_postprocessing.tflite"
         private const val INPUT_WIDTH = 320
         private const val INPUT_HEIGHT = 240

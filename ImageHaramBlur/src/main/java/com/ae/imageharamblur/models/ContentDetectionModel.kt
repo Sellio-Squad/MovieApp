@@ -2,6 +2,7 @@ package com.ae.imageharamblur.models
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -19,7 +20,7 @@ import java.io.FileInputStream
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 
-internal class ContentDetectionModel {
+internal class NsfwDetectionModel {
 
     // Thread-local interpreter instances
     private val interpreterThreadLocal = ThreadLocal<Interpreter?>()
@@ -34,80 +35,92 @@ internal class ContentDetectionModel {
     // Mutex for thread-safe access
     private val interpreterLock = Mutex()
 
+    // NSFW categories with proper indices
+    enum class Category(val index: Int, val label: String) {
+        DRAWING(0, "drawings"),
+        HENTAI(1, "hentai"),
+        NEUTRAL(2, "neutral"),
+        PORN(3, "porn"),
+        SEXY(4, "sexy")
+    }
+
     constructor(context: Context) {
         try {
             modelBuffer = FileUtil.loadMappedFile(context, MODEL_FILE)
 
             // Initialize one interpreter to get model info, then close it
             val tempInterpreter = createInterpreter(modelBuffer)
-
-            // Validate model has required tensors
-            if (tempInterpreter.inputTensorCount == 0) {
-                tempInterpreter.close()
-                throw Exception("Model has no input tensors")
-            }
-            if (tempInterpreter.outputTensorCount == 0) {
-                tempInterpreter.close()
-                throw Exception("Model has no output tensors")
-            }
-
-            val inputTensor = tempInterpreter.getInputTensor(0)
-            val inputShape = inputTensor.shape()
-            this.inputImageHeight = inputShape[1]
-            this.inputImageWidth = inputShape[2]
-            this.inputDataType = inputTensor.dataType()
-
-            val outputTensor = tempInterpreter.getOutputTensor(0)
-            val outputShape = outputTensor.shape()
-            this.outputSize = outputShape[outputShape.size - 1]
-            this.outputDataType = outputTensor.dataType()
-
+            val modelInfo = extractModelInfo(tempInterpreter)
             tempInterpreter.close()
 
+            this.inputImageHeight = modelInfo.inputHeight
+            this.inputImageWidth = modelInfo.inputWidth
+            this.inputDataType = modelInfo.inputDataType
+            this.outputSize = modelInfo.outputSize
+            this.outputDataType = modelInfo.outputDataType
+
             this.imageProcessor = createImageProcessor()
+
         } catch (e: Exception) {
-            throw Exception("Failed to initialize model: ${e.message}")
+            throw Exception("Failed to initialize content detection model: ${e.message}")
         }
     }
 
     constructor(modelFile: File) {
         try {
-            if (!modelFile.exists() || modelFile.length() == 0L) {
-                throw Exception("Invalid model file")
-            }
+            require(modelFile.exists()) { "Model file does not exist: ${modelFile.absolutePath}" }
+            require(modelFile.length() > 0) { "Model file is empty" }
 
             modelBuffer = loadModelFile(modelFile)
 
             // Initialize one interpreter to get model info, then close it
             val tempInterpreter = createInterpreter(modelBuffer)
-
-            // Validate model has required tensors
-            if (tempInterpreter.inputTensorCount == 0) {
-                tempInterpreter.close()
-                throw Exception("Model has no input tensors")
-            }
-            if (tempInterpreter.outputTensorCount == 0) {
-                tempInterpreter.close()
-                throw Exception("Model has no output tensors")
-            }
-
-            val inputTensor = tempInterpreter.getInputTensor(0)
-            val inputShape = inputTensor.shape()
-            this.inputImageHeight = inputShape[1]
-            this.inputImageWidth = inputShape[2]
-            this.inputDataType = inputTensor.dataType()
-
-            val outputTensor = tempInterpreter.getOutputTensor(0)
-            val outputShape = outputTensor.shape()
-            this.outputSize = outputShape[outputShape.size - 1]
-            this.outputDataType = outputTensor.dataType()
-
+            val modelInfo = extractModelInfo(tempInterpreter)
             tempInterpreter.close()
 
+            this.inputImageHeight = modelInfo.inputHeight
+            this.inputImageWidth = modelInfo.inputWidth
+            this.inputDataType = modelInfo.inputDataType
+            this.outputSize = modelInfo.outputSize
+            this.outputDataType = modelInfo.outputDataType
+
             this.imageProcessor = createImageProcessor()
+
         } catch (e: Exception) {
-            throw Exception("Failed to initialize model: ${e.message}")
+            throw Exception("Failed to initialize content detection model: ${e.message}")
         }
+    }
+
+    private data class ModelInfo(
+        val inputHeight: Int,
+        val inputWidth: Int,
+        val inputDataType: DataType,
+        val outputSize: Int,
+        val outputDataType: DataType
+    )
+
+    private fun extractModelInfo(interpreter: Interpreter): ModelInfo {
+        require(interpreter.inputTensorCount > 0) { "Model has no input tensors" }
+        require(interpreter.outputTensorCount > 0) { "Model has no output tensors" }
+
+        val inputTensor = interpreter.getInputTensor(0)
+        val inputShape = inputTensor.shape()
+        require(inputShape.size >= 3) { "Invalid input shape: ${inputShape.contentToString()}" }
+
+        val outputTensor = interpreter.getOutputTensor(0)
+        val outputShape = outputTensor.shape()
+
+        // Verify this is a 5-category model
+        val outputSize = outputShape[outputShape.size - 1]
+        require(outputSize == 5) { "Model must have 5 output categories, found: $outputSize" }
+
+        return ModelInfo(
+            inputHeight = inputShape[1],
+            inputWidth = inputShape[2],
+            inputDataType = inputTensor.dataType(),
+            outputSize = outputSize,
+            outputDataType = outputTensor.dataType()
+        )
     }
 
     private fun getOrCreateInterpreter(): Interpreter? {
@@ -121,101 +134,130 @@ internal class ContentDetectionModel {
 
     private fun loadModelFile(file: File): MappedByteBuffer {
         return FileInputStream(file).use { fileInputStream ->
-            val fileChannel = fileInputStream.channel
-            fileChannel.map(FileChannel.MapMode.READ_ONLY, 0L, fileChannel.size())
+            fileInputStream.channel.use { fileChannel ->
+                fileChannel.map(FileChannel.MapMode.READ_ONLY, 0L, fileChannel.size())
+            }
         }
     }
 
     private fun createInterpreter(modelBuffer: MappedByteBuffer): Interpreter {
         val options = Interpreter.Options().apply {
-            setNumThreads(1)
-            setUseNNAPI(false)
+            setNumThreads(NUM_THREADS)
+            // Try to use GPU delegate if available
+            try {
+                setUseNNAPI(true)
+            } catch (e: Exception) {
+                setUseNNAPI(false)
+            }
         }
         return Interpreter(modelBuffer, options)
     }
 
     private fun createImageProcessor(): ImageProcessor {
-        val builder = ImageProcessor.Builder()
+        return ImageProcessor.Builder()
             .add(ResizeOp(inputImageHeight, inputImageWidth, ResizeOp.ResizeMethod.BILINEAR))
-
-        if (inputDataType == DataType.FLOAT32) {
-            builder.add(NormalizeOp(0f, 255f))
-        }
-
-        return builder.build()
+            .add(NormalizeOp(0f, 255f)) // Normalize to [0, 1]
+            .build()
     }
 
     suspend fun detectContent(bitmap: Bitmap): ContentResult = withContext(Dispatchers.IO) {
         interpreterLock.withLock {
             try {
-                val interpreter =
-                    getOrCreateInterpreter() ?: return@withContext ContentResult(isInappropriate = false)
+                val interpreter = getOrCreateInterpreter()
+                    ?: return@withContext ContentResult.safe()
 
-                // Validate interpreter state
-                if (interpreter.outputTensorCount == 0) {
-                    return@withContext ContentResult(isInappropriate = false)
-                }
+                // Validate input
+                require(!bitmap.isRecycled) { "Input bitmap is recycled" }
+                require(bitmap.width > 0 && bitmap.height > 0) { "Invalid bitmap dimensions" }
 
+                // Process image
                 val tensorImage = TensorImage(inputDataType)
                 tensorImage.load(bitmap)
-
                 val processedImage = imageProcessor.process(tensorImage)
 
-                // Use pre-computed output info instead of calling getOutputTensor again
+                // Create output buffer
                 val outputBuffer = TensorBuffer.createFixedSize(
                     intArrayOf(1, outputSize),
                     outputDataType
                 )
 
-                // Thread-safe execution
+                // Run inference
                 interpreter.run(processedImage.buffer, outputBuffer.buffer.rewind())
 
-                val probabilities = when (outputDataType) {
-                    DataType.FLOAT32 -> {
-                        val floatArray = FloatArray(outputSize)
-                        outputBuffer.buffer.rewind()
-                        outputBuffer.buffer.asFloatBuffer().get(floatArray)
-                        floatArray
-                    }
+                // Extract probabilities
+                val probabilities = extractProbabilities(outputBuffer)
 
-                    DataType.UINT8 -> {
-                        val byteArray = ByteArray(outputSize)
-                        outputBuffer.buffer.rewind()
-                        outputBuffer.buffer.get(byteArray)
-                        byteArray.map { (it.toInt() and 0xFF) / 255f }.toFloatArray()
-                    }
-
-                    DataType.INT8 -> {
-                        val byteArray = ByteArray(outputSize)
-                        outputBuffer.buffer.rewind()
-                        outputBuffer.buffer.get(byteArray)
-                        byteArray.map { (it.toFloat() + 128f) / 255f }.toFloatArray()
-                    }
-
-                    else -> FloatArray(outputSize)
+                // Map to categories
+                val categoryScores = mutableMapOf<Category, Float>()
+                Category.entries.forEach { category ->
+                    categoryScores[category] = probabilities.getOrElse(category.index) { 0f }
                 }
 
-                val isInappropriate = if (outputSize == 2) {
-                    probabilities[1] > DEFAULT_CONTENT_THRESHOLD
-                } else {
-                    val pornScore = probabilities.getOrNull(3) ?: 0f
-                    val sexyScore = probabilities.getOrNull(4) ?: 0f
-                    val hentaiScore = probabilities.getOrNull(1) ?: 0f
-                    val inappropriateScore = pornScore + sexyScore + hentaiScore
-                    inappropriateScore > DEFAULT_CONTENT_THRESHOLD
+                // Calculate inappropriate content score
+                val pornScore = categoryScores[Category.PORN] ?: 0f
+                val sexyScore = categoryScores[Category.SEXY] ?: 0f
+                val hentaiScore = categoryScores[Category.HENTAI] ?: 0f
+                val inappropriateScore = pornScore + sexyScore + hentaiScore
+
+                // Determine if content is inappropriate
+                val isInappropriate = when {
+                    pornScore > STRICT_THRESHOLD -> true
+                    hentaiScore > STRICT_THRESHOLD -> true
+                    inappropriateScore > DEFAULT_THRESHOLD -> true
+                    else -> false
                 }
 
-                ContentResult(isInappropriate = isInappropriate)
+
+                return@withContext ContentResult(
+                    isInappropriate = isInappropriate,
+                    inappropriateScore = inappropriateScore,
+                    categoryScores = categoryScores,
+                    dominantCategory = categoryScores.maxByOrNull { it.value }?.key
+                        ?: Category.NEUTRAL,
+                    confidence = categoryScores.values.maxOrNull() ?: 0f
+                )
+
             } catch (e: Exception) {
-                android.util.Log.e("ContentDetectionModel", "Error detecting content", e)
-                ContentResult(isInappropriate = false)
+                ContentResult.safe()
+            }
+        }
+    }
+
+    private fun extractProbabilities(outputBuffer: TensorBuffer): FloatArray {
+        return when (outputDataType) {
+            DataType.FLOAT32 -> {
+                val floatArray = FloatArray(outputSize)
+                outputBuffer.buffer.rewind()
+                outputBuffer.buffer.asFloatBuffer().get(floatArray)
+                floatArray
+            }
+
+            DataType.UINT8 -> {
+                val byteArray = ByteArray(outputSize)
+                outputBuffer.buffer.rewind()
+                outputBuffer.buffer.get(byteArray)
+                FloatArray(outputSize) { i ->
+                    (byteArray[i].toInt() and 0xFF) / 255f
+                }
+            }
+
+            DataType.INT8 -> {
+                val byteArray = ByteArray(outputSize)
+                outputBuffer.buffer.rewind()
+                outputBuffer.buffer.get(byteArray)
+                FloatArray(outputSize) { i ->
+                    (byteArray[i].toFloat() + 128f) / 255f
+                }
+            }
+
+            else -> {
+                FloatArray(outputSize)
             }
         }
     }
 
     fun close() {
         try {
-            0
             interpreterThreadLocal.get()?.close()
             interpreterThreadLocal.remove()
         } catch (e: Exception) {
@@ -224,10 +266,27 @@ internal class ContentDetectionModel {
 
     companion object {
         private const val MODEL_FILE = "nsfw_model.tflite"
-        private const val DEFAULT_CONTENT_THRESHOLD = 0.3f
+        private const val DEFAULT_THRESHOLD = 0.3f
+        private const val STRICT_THRESHOLD = 0.7f
+        private const val NUM_THREADS = 4
     }
 }
 
 internal data class ContentResult(
-    val isInappropriate: Boolean
-)
+    val isInappropriate: Boolean,
+    val inappropriateScore: Float = 0f,
+    val categoryScores: Map<NsfwDetectionModel.Category, Float> = emptyMap(),
+    val dominantCategory: NsfwDetectionModel.Category = NsfwDetectionModel.Category.NEUTRAL,
+    val confidence: Float = 0f
+) {
+    companion object {
+        fun safe() = ContentResult(
+            isInappropriate = false,
+            inappropriateScore = 0f,
+            categoryScores = NsfwDetectionModel.Category.entries.associateWith { 0f },
+            dominantCategory = NsfwDetectionModel.Category.NEUTRAL,
+            confidence = 1f
+        )
+    }
+
+}

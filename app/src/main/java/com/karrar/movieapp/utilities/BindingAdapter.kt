@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.textview.MaterialTextView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -184,6 +184,16 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
+@BindingAdapter("posterImage")
+fun ImageView.setPosterImage(imageURL: String?) {
+    imageURL?.let {
+        this.load(imageURL) {
+            placeholder(R.drawable.image_error_palceholder)
+            error(R.drawable.profile)
+        }
+    }
+}
+
 @BindingAdapter("app:mediaPoster")
 fun loadMediaPoster(image: ImageView, imageURL: String?) {
     imageURL?.let {
@@ -342,6 +352,24 @@ fun starsDrawableByRating(container: LinearLayout, ratingValue: Float?) {
 }
 
 @BindingAdapter("imageRes")
-fun setImageResource(imageView: ShapeableImageView, resId: Int) {
-    imageView.setImageResource(resId)
+fun setImgResource(image: ImageView, resourceId: Int) {
+    if (resourceId != 0) {
+        image.setImageResource(resourceId)
+    }
+}
+
+@BindingAdapter("textRes")
+fun setTextResource(textView: MaterialTextView, resourceId: Int) {
+    if (resourceId != 0) {
+        textView.setText(resourceId)
+    }
+}
+
+@BindingAdapter("selectedItem")
+fun <T> setSelectedItem(
+    recyclerView: RecyclerView,
+    selectedItem: T?
+) {
+    val adapter = recyclerView.adapter as? BaseAdapter<T>
+    adapter?.updateSelectedItem(selectedItem)
 }

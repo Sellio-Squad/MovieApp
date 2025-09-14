@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="selectedItem"
+            type="com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesTypes" />
+
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesTypes" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesInteractionListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_simi_medium"
+        android:background="@drawable/preference_card_selector"
+        android:gravity="center"
+        android:onClick="@{() -> listener.onPreferenceSelected(item)}"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_simi_larg"
+        android:selected="@{item == selectedItem}">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="@dimen/spacing_simi_medium"
+            android:background="@drawable/rounded_corners"
+            android:contentDescription="@string/icon"
+            android:padding="@dimen/spacing_small"
+            android:selected="@{item == selectedItem}"
+            app:imageRes="@{item.icon}"
+            app:tint="@color/icon_background" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_title"
+                style="@style/TextStyle.Body.Medium.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_too_small"
+                android:text="@{item.title}"
+                android:textColor="@color/shade_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_description"
+                style="@style/TextStyle.Body.Small.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.description}"
+                android:textColor="@color/shade_color_primary" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

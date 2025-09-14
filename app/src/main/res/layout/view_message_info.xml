@@ -1,88 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background_color"
-    android:padding="@dimen/spacing_large">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Icon -->
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:background="@drawable/back_icon_shape"
-        android:contentDescription="@string/icon"
-        android:padding="12dp"
-        android:src="@drawable/logout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <data>
 
-    <!-- Title -->
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_title"
-        android:layout_width="wrap_content"
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="caption"
+            type="String" />
+
+        <variable
+            name="firstButtonText"
+            type="String" />
+
+        <variable
+            name="secondButtonText"
+            type="String" />
+
+        <variable
+            name="onFirstButtonClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onSecondButtonClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="iconDrawable"
+            type="android.graphics.drawable.Drawable" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:text="Title"
-        android:fontFamily="@font/manrope_medium"
-        android:textColor="@color/shade_color_primary"
-        android:textSize="@dimen/text_title_small"
-        app:layout_constraintTop_toBottomOf="@id/icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:background="@color/background_color"
+        android:padding="@dimen/spacing_large">
 
-    <!-- caption -->
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/caption"
-        style="@style/Regular.Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:text="Caption"
-        android:fontFamily="@font/manrope_medium"
-        android:textColor="@color/shade_color_secondary"
-        android:textSize="@dimen/text_body_small_medium"
-        app:layout_constraintTop_toBottomOf="@id/text_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/back_icon_shape"
+            android:contentDescription="@string/icon"
+            android:padding="12dp"
+            android:src="@{iconDrawable}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/brand_color_primary" />
 
-    <!-- dismiss Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_cancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:fontFamily="@font/manrope_medium"
-        android:textColor="@color/button_color_onSecondary"
-        android:textSize="@dimen/text_body_medium_medium"
-        android:background="@drawable/button_corner_shape"
-        app:backgroundTint="@color/button_color_secondary"
-        app:layout_constraintTop_toBottomOf="@id/caption"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_action"
-        app:layout_constraintHorizontal_weight="1"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:layout_marginEnd="@dimen/spacing_small" />
+        <!-- Title -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:fontFamily="@font/manrope_medium"
+            android:text="@{title}"
+            android:textColor="@color/shade_color_primary"
+            android:textSize="@dimen/text_title_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon" />
 
-    <!-- Action Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_action"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:fontFamily="@font/manrope_medium"
-        android:textSize="@dimen/text_body_medium_medium"
-        android:textColor="@color/button_color_onPrimary"
-        android:background="@drawable/button_corner_shape"
-        app:backgroundTint="@color/button_color_primary"
-        app:layout_constraintTop_toBottomOf="@id/caption"
-        app:layout_constraintStart_toEndOf="@id/btn_cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/spacing_large"
-        app:layout_constraintHorizontal_weight="1" />
+        <!-- caption -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/caption"
+            style="@style/Regular.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:fontFamily="@font/manrope_medium"
+            android:gravity="center"
+            android:text="@{caption}"
+            android:textColor="@color/shade_color_secondary"
+            android:textSize="@dimen/text_body_small_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_title" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- dismiss Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:background="@drawable/button_corner_shape"
+            android:onClick="@{onSecondButtonClick}"
+            android:text="@{secondButtonText}"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextStyle.Body.Medium.Medium"
+            android:textColor="@color/button_color_onSecondary"
+            app:backgroundTint="@color/button_color_secondary"
+            app:layout_constraintEnd_toStartOf="@id/btn_action"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/caption" />
+
+        <!-- Action Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_action"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:background="@drawable/button_corner_shape"
+            android:onClick="@{onFirstButtonClick}"
+            android:text="@{firstButtonText}"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextStyle.Body.Medium.Medium"
+            android:textColor="@color/button_color_onPrimary"
+            app:backgroundTint="@color/button_color_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/btn_cancel"
+            app:layout_constraintTop_toBottomOf="@id/caption" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

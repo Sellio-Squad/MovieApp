@@ -31,6 +31,8 @@ object Constants {
     const val THEME_DARK = "dark"
     const val THEME_LIGHT = "light"
     const val APP_THEME = "light"
+    const val CONTENT_PREFERENCE_KEY = "content_preference"
+
 }
 
 object ErrorUI {

@@ -24,18 +24,82 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeableImageView"
             android:layout_width="@dimen/media_card_width"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/spacing_small"
+            android:onClick="@{()->listener.onClickMovie(item.id)}"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/text_name_media"
             app:layout_constraintDimensionRatio="1:1.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:background="@color/yellow"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{()->listener.onClickMovie(item.id)}"
             app:posterImage="@{item.imageUrl}"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            tools:background="@color/yellow" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_actorDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:backgroundTint="@color/background_color_card"
+            app:cardCornerRadius="@dimen/radius_cineVerse_full"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintTop_toTopOf="@+id/shapeableImageView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp">
+
+                <TextView
+                    android:id="@+id/text_rate_media"
+                    style="@style/TextStyle.Label.Medium.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="@{String.valueOf(item.rate)}"
+                    android:textColor="@color/shade_color_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/image_star"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    tools:text="8.5" />
+
+                <ImageView
+                    android:id="@+id/image_star"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/due_tone_star"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_name_media"
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@{item.mediaName}"
+            android:textAlignment="textStart"
+            android:textColor="@color/shade_color_secondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
+            tools:text="The Flash" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.movieDetails
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
@@ -18,20 +20,24 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
+class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),DetailInteractionListener  {
 
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
     private val detailAdapter by lazy { DetailAdapter(emptyList(), viewModel) }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
+        binding.viewModel = viewModel
+        binding.listener = this
         collectMovieDetailsItems()
         collectEvents()
-    }
+        setupRecyclerWithHeaderAnimation()
 
+    }
     private fun collectMovieDetailsItems() {
         binding.recyclerView.adapter = detailAdapter
         lifecycleScope.launch {
@@ -86,6 +92,37 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         }
         action?.let { findNavController().navigate(it) }
 
+    }
+
+    override fun onclickBack() {
+        findNavController().navigateUp()
+
+    }
+
+    override fun onClickSave() {
+    }
+
+    override fun onClickPlayTrailer() {
+    }
+
+    override fun onclickViewReviews() {
+    }
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setupRecyclerWithHeaderAnimation() {
+        val recyclerView = binding.recyclerView
+        val motionLayout = binding.headerMotionLayout
+
+        recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            val dy = scrollY - oldScrollY
+
+            if (dy != 0) {
+                val totalScrollRange = 500f
+                val currentOffset = recyclerView.computeVerticalScrollOffset().toFloat()
+
+                val progress = (currentOffset / totalScrollRange).coerceIn(0f, 1f)
+                motionLayout.progress = progress
+            }
+        }
     }
 
 }

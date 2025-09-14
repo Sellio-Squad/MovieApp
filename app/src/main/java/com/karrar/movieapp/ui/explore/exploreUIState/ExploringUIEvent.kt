@@ -1,9 +1,11 @@
 package com.karrar.movieapp.ui.explore.exploreUIState
 
-sealed interface ExploringUIEvent {
-    object SearchEvent : ExploringUIEvent
-    object MoviesEvent : ExploringUIEvent
-    object TVShowEvent : ExploringUIEvent
-    object ActorsEvent : ExploringUIEvent
-    data class TrendEvent(val trendyMediaUIState: TrendyMediaUIState) : ExploringUIEvent
+import com.karrar.movieapp.utilities.Constants
+
+sealed class ExploringUIEvent {
+    object SearchEvent : ExploringUIEvent()
+    object ActorsEvent : ExploringUIEvent()
+    data class ClickMediaEvent(val mediaID: Int) : ExploringUIEvent()
+    data class SelectedCategory(val categoryID: Int = Constants.FIRST_CATEGORY_ID) :
+        ExploringUIEvent()
 }

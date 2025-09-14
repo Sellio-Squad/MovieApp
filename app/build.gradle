@@ -120,6 +120,9 @@ dependencies {
     // DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+    // FlexboxLayout for match questions
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
     // Test
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
@@ -129,4 +132,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation project(':ImageHaramBlur')
+
+    // Swipe
+    implementation 'com.github.hydrated:SwipeRevealLayout:1.4.0'
+
 }

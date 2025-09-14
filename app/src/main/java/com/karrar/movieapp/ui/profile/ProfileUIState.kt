@@ -7,4 +7,5 @@ data class ProfileUIState (
     val isLoading: Boolean = false,
     val isLoggedIn: Boolean = false,
     val error: Boolean = false,
+    val isSwitchChecked: Boolean = true
 )

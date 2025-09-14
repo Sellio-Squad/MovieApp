@@ -16,7 +16,7 @@ abstract class BaseAdapter<T>(
 ) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
     abstract val layoutID: Int
-
+    private var selectedItem: T? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ItemViewHolder(
             DataBindingUtil.inflate(
@@ -31,6 +31,7 @@ abstract class BaseAdapter<T>(
     open fun bind(holder: ItemViewHolder, position: Int) {
         holder.binding.apply {
             setVariable(BR.item, items[position])
+            setVariable(BR.selectedItem, selectedItem)
             setVariable(BR.listener, listener)
         }
     }
@@ -52,4 +53,14 @@ abstract class BaseAdapter<T>(
     }
     open fun areContentSame(oldPosition: T, newPosition: T) = true
 
+    open fun updateSelectedItem(newSelectedItem: T?) {
+        val oldPosition = items.indexOf(selectedItem)
+        val newPosition = items.indexOf(newSelectedItem)
+
+        selectedItem = newSelectedItem
+
+        // Refresh old and new positions
+        if (oldPosition != -1) notifyItemChanged(oldPosition)
+        if (newPosition != -1) notifyItemChanged(newPosition)
+    }
 }

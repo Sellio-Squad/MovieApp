@@ -28,6 +28,9 @@ object Constants {
     const val INTERNET_STATUS = 400
 
     const val PROFILE = 1
+    const val THEME_DARK = "dark"
+    const val THEME_LIGHT = "light"
+    const val APP_THEME = "light"
 }
 
 object ErrorUI {
@@ -37,4 +40,7 @@ object ErrorUI {
     const val NO_LOGIN = "NoLogin"
     const val EMPTY_FIELD = "EMPTY_FIELD"
     const val EMPTY_BODY = "EMPTY_BODY"
+
+    const val EDIT_PROFILE_URL = "https://www.themoviedb.org/u/"
+
 }

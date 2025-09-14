@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ImageViewFilter">
+        <attr name="enableModeration" format="boolean" />
+        <attr name="blurStrength" format="float" />
+        <attr name="detectFemales" format="boolean" />
+        <attr name="detectMales" format="boolean" />
+        <attr name="useContentDetection" format="boolean" />
+        <attr name="showCustomContentWhenBlurred" format="boolean" />
+        <attr name="showTextInsteadOfBlur" format="boolean" />
+        <attr name="forceBlur" format="boolean" />"
+    </declare-styleable>
+</resources>

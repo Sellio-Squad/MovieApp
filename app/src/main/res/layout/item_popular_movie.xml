@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.ae.imageharamblur.ui.ImageViewFilter
                 android:id="@+id/image_movie"
                 android:layout_width="@dimen/media_card_popular_movie"
                 android:layout_height="200dp"
@@ -38,7 +38,7 @@
                 app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
 
             <!-- Gradient Overlay -->
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.ae.imageharamblur.ui.ImageViewFilter
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/gradient"

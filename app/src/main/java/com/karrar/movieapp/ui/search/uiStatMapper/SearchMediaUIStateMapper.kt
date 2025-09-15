@@ -14,7 +14,8 @@ class SearchMediaUIStateMapper @Inject constructor(): Mapper<Media, MediaUIState
             input.mediaImage,
             input.mediaType,
             input.mediaRate,
-            input.mediaDate
+            input.mediaDate,
+            //input.mediaGenre
         )
     }
 }

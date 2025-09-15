@@ -18,6 +18,7 @@ import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.GenreUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -156,6 +157,22 @@ fun <T> hideWhenSuccessSearch(view: View, text: String, error: List<T>?, loading
         View.VISIBLE
     } else {
         View.INVISIBLE
+    }
+}
+
+@BindingAdapter("app:showToggleForMedia")
+fun showToggleForMedia(view: View, mediaType: MediaTypes) {
+    view.isVisible = mediaType == MediaTypes.MOVIE || mediaType == MediaTypes.TVS_SHOW
+}
+
+@BindingAdapter("app:truncatedTitle")
+fun setTruncatedTitle(textView: TextView, title: String?) {
+    title?.let {
+        textView.text = if (it.length > 20) {
+            it.take(17) + "..."
+        } else {
+            it
+        }
     }
 }
 

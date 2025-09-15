@@ -16,7 +16,8 @@ class WatchHistoryMapper @Inject constructor(): Mapper<TvShowDetails, WatchHisto
             movieDuration = input.tvShowSeasonsNumber,
             voteAverage = input.tvShowVoteAverage,
             releaseDate = input.tvShowReleaseDate,
-            mediaType = MediaType.TV_SHOW.value
+            mediaType = MediaType.TV_SHOW.value,
+            genres = input.tvShowGenres
         )
     }
 

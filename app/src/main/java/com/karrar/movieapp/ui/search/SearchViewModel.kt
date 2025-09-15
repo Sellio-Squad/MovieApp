@@ -14,6 +14,7 @@ import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.ViewMode
+import com.karrar.movieapp.ui.search.mediaSearchUIState.SearchDisplayMode
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
 import com.karrar.movieapp.utilities.Event
@@ -58,11 +59,13 @@ class SearchViewModel @Inject constructor(
             try {
                 getSearchHistoryUseCase().collect { list ->
                     _uiState.update {
-                        it.copy(searchHistory = list.map { item ->
-                            searchHistoryUIStateMapper.map(
-                                item
-                            )
-                        }, isLoading = false, isEmpty = false)
+                        it.copy(
+                            searchHistory = list.map { item ->
+                                searchHistoryUIStateMapper.map(item)
+                            },
+                            isLoading = false,
+                            isEmpty = false
+                        )
                     }
                 }
             } catch (e: Throwable) {
@@ -74,21 +77,74 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchInputChange(searchTerm: CharSequence) {
-        if (searchTerm.toString() == _uiState.value.searchInput) {
+        val newSearchTerm = searchTerm.toString()
+
+        // Update the search input immediately for UI responsiveness
+        _uiState.update {
+            it.copy(searchInput = newSearchTerm)
+        }
+
+        // If search term is blank, show suggestions
+        if (newSearchTerm.isBlank()) {
+            _uiState.update {
+                it.copy(displayMode = SearchDisplayMode.SUGGESTIONS)
+            }
             return
         }
+
+        // If search term is not blank, show results and perform search
+        if (newSearchTerm != _uiState.value.searchInput || _uiState.value.displayMode != SearchDisplayMode.RESULTS) {
+            _uiState.update {
+                it.copy(
+                    displayMode = SearchDisplayMode.RESULTS,
+                    isLoading = true
+                )
+            }
+
+            viewModelScope.launch {
+                performSearch(newSearchTerm)
+            }
+        }
+    }
+
+    private suspend fun performSearch(searchTerm: String) {
+        when (_uiState.value.searchTypes) {
+            MediaTypes.MOVIE -> performMovieSearch(searchTerm)
+            MediaTypes.TVS_SHOW -> performSeriesSearch(searchTerm)
+            MediaTypes.ACTOR -> performActorSearch(searchTerm)
+        }
+    }
+
+    private suspend fun performMovieSearch(searchTerm: String) {
         _uiState.update {
             it.copy(
-                searchInput = searchTerm.toString(),
-                isLoading = true
+                isLoading = false,
+                searchResult = getSearchForMovieUseCase(searchTerm).map { pagingData ->
+                    pagingData.map { item -> searchMediaUIStateMapper.map(item) }
+                }
             )
         }
-        viewModelScope.launch {
-            when (_uiState.value.searchTypes) {
-                MediaTypes.MOVIE -> onSearchForMovie()
-                MediaTypes.TVS_SHOW -> onSearchForSeries()
-                MediaTypes.ACTOR -> onSearchForActor()
-            }
+    }
+
+    private suspend fun performSeriesSearch(searchTerm: String) {
+        _uiState.update {
+            it.copy(
+                isLoading = false,
+                searchResult = getSearchForSeriesUserCase(searchTerm).map { pagingData ->
+                    pagingData.map { item -> searchMediaUIStateMapper.map(item) }
+                }
+            )
+        }
+    }
+
+    private suspend fun performActorSearch(searchTerm: String) {
+        _uiState.update {
+            it.copy(
+                isLoading = false,
+                searchResult = getSearchForActorUseCase(searchTerm).map { pagingData ->
+                    pagingData.map { item -> searchMediaUIStateMapper.map(item) }
+                }
+            )
         }
     }
 
@@ -97,15 +153,37 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchForMovie() {
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    searchTypes = MediaTypes.MOVIE,
-                    isLoading = false,
-                    searchResult = getSearchForMovieUseCase(it.searchInput).map { pagingData ->
-                        pagingData.map { item -> searchMediaUIStateMapper.map(item) }
-                    }
-                )
+        _uiState.update { it.copy(searchTypes = MediaTypes.MOVIE) }
+
+        // If we have a search term and we're in results mode, perform the search
+        if (_uiState.value.searchInput.isNotBlank() && _uiState.value.displayMode == SearchDisplayMode.RESULTS) {
+            viewModelScope.launch {
+                _uiState.update { it.copy(isLoading = true) }
+                performMovieSearch(_uiState.value.searchInput)
+            }
+        }
+    }
+
+    fun onSearchForSeries() {
+        _uiState.update { it.copy(searchTypes = MediaTypes.TVS_SHOW) }
+
+        // If we have a search term and we're in results mode, perform the search
+        if (_uiState.value.searchInput.isNotBlank() && _uiState.value.displayMode == SearchDisplayMode.RESULTS) {
+            viewModelScope.launch {
+                _uiState.update { it.copy(isLoading = true) }
+                performSeriesSearch(_uiState.value.searchInput)
+            }
+        }
+    }
+
+    fun onSearchForActor() {
+        _uiState.update { it.copy(searchTypes = MediaTypes.ACTOR) }
+
+        // If we have a search term and we're in results mode, perform the search
+        if (_uiState.value.searchInput.isNotBlank() && _uiState.value.displayMode == SearchDisplayMode.RESULTS) {
+            viewModelScope.launch {
+                _uiState.update { it.copy(isLoading = true) }
+                performActorSearch(_uiState.value.searchInput)
             }
         }
     }
@@ -113,34 +191,6 @@ class SearchViewModel @Inject constructor(
     fun onClearAllSearchHistory() {
         viewModelScope.launch {
             clearAllSearchHistoryUseCase()
-        }
-    }
-
-    fun onSearchForSeries() {
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    searchTypes = MediaTypes.TVS_SHOW,
-                    isLoading = false,
-                    searchResult = getSearchForSeriesUserCase(it.searchInput).map { pagingData ->
-                        pagingData.map { item -> searchMediaUIStateMapper.map(item) }
-                    }
-                )
-            }
-        }
-    }
-
-    fun onSearchForActor() {
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    searchTypes = MediaTypes.ACTOR,
-                    isLoading = false,
-                    searchResult = getSearchForActorUseCase(it.searchInput).map { pagingData ->
-                        pagingData.map { item -> searchMediaUIStateMapper.map(item) }
-                    }
-                )
-            }
         }
     }
 
@@ -159,7 +209,18 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onClickSearchHistory(name: String) {
-        onSearchInputChange(name)
+        // When clicking on search history, update the input and trigger search
+        _uiState.update {
+            it.copy(
+                searchInput = name,
+                displayMode = SearchDisplayMode.RESULTS,
+                isLoading = true
+            )
+        }
+
+        viewModelScope.launch {
+            performSearch(name)
+        }
     }
 
     fun onClickBack() {
@@ -201,9 +262,8 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onSuggestionClick(query: String) {
-        _uiState.update {
-            it.copy(searchInput = query)
-        }
+        // When clicking on a suggestion, treat it like typing in the search box
+        onSearchInputChange(query)
     }
 
     override fun onMediaClick(media: MediaUIState) {

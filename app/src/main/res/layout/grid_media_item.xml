@@ -13,18 +13,17 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_simi_small"
         android:onClick="@{() -> listener.onClickMediaResult(item)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_poster"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/media_card_height"
+            android:layout_width="match_parent"
+            android:layout_height="232dp"
             android:scaleType="centerCrop"
             android:transitionName="@{`media_image_` + item.mediaID}"
-            app:layout_constraintDimensionRatio="156:208"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

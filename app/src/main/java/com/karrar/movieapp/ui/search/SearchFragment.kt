@@ -23,6 +23,7 @@ import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.karrar.movieapp.ui.search.mediaSearchUIState.ViewMode
+import com.karrar.movieapp.ui.search.mediaSearchUIState.SearchDisplayMode
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
@@ -51,9 +52,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setTitle(false)
         setupTabs()
         setupToggleButton()
-        getSearchResult()
         setSearchHistoryAdapter()
         getSearchResultsBySearchTerm()
+
+        // Observe UI state changes
+        collect(viewModel.uiState) { state ->
+            updateToggleVisibility(state.searchTypes)
+            updateToggleIndicator(state.viewMode == ViewMode.GRID)
+            updateViewVisibility(state)
+        }
+
         collectLast(viewModel.searchUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
@@ -77,19 +85,32 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun setupToggleButton() {
         binding.btnGridView.setOnClickListener {
             viewModel.setViewMode(ViewMode.GRID)
-            updateToggleIndicator(true)
         }
 
         binding.btnListView.setOnClickListener {
             viewModel.setViewMode(ViewMode.LIST)
-            updateToggleIndicator(false)
         }
+    }
 
-        // Observe view mode changes
-        collect(viewModel.uiState) { state ->
-            updateToggleVisibility(state.searchTypes)
-            if (state.searchTypes != MediaTypes.ACTOR) {
-                getSearchResult()
+    private fun updateViewVisibility(state: MediaSearchUIState) {
+        when (state.displayMode) {
+            SearchDisplayMode.SUGGESTIONS -> {
+                // Show search history/suggestions
+                binding.recyclerSearchHistory.visibility = View.VISIBLE
+                binding.layoutHistory.visibility = View.VISIBLE
+                binding.recyclerMedia.visibility = View.GONE
+                binding.tabLayoutMediaType.visibility = View.GONE
+                binding.toggleViewMode.visibility = View.GONE
+            }
+            SearchDisplayMode.RESULTS -> {
+                // Show search results
+                binding.recyclerSearchHistory.visibility = View.GONE
+                binding.layoutHistory.visibility = View.GONE
+                binding.recyclerMedia.visibility = View.VISIBLE
+                binding.tabLayoutMediaType.visibility = if (state.searchInput.isNotBlank()) View.VISIBLE else View.GONE
+
+                // Show toggle only for movie/tv shows, not actors
+                binding.toggleViewMode.visibility = if (state.searchTypes == MediaTypes.ACTOR) View.GONE else View.VISIBLE
             }
         }
     }
@@ -125,24 +146,26 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 .collectLatest { newState ->
                     val oldState = oldValue.value
 
-                    val shouldUpdate = newState.searchInput.isNotBlank() &&
+                    // Only update when we're in results mode and something relevant changed
+                    val shouldUpdate = newState.displayMode == SearchDisplayMode.RESULTS &&
+                            newState.searchInput.isNotBlank() &&
                             (oldState.searchInput != newState.searchInput ||
                                     oldState.searchTypes != newState.searchTypes ||
                                     oldState.viewMode != newState.viewMode)
 
                     if (shouldUpdate) {
-                        getSearchResult()
+                        updateRecyclerView(newState)
                         oldValue.emit(newState)
                     }
                 }
         }
     }
 
-    private fun getSearchResult() {
-        when (viewModel.uiState.value.searchTypes) {
+    private fun updateRecyclerView(state: MediaSearchUIState) {
+        when (state.searchTypes) {
             MediaTypes.ACTOR -> bindActors()
             else -> {
-                when (viewModel.uiState.value.viewMode) {
+                when (state.viewMode) {
                     ViewMode.LIST -> bindMediaList()
                     ViewMode.GRID -> bindMediaGrid()
                 }
@@ -209,7 +232,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             flow = mediaSearchAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
 
-        getMediaSearchResults()
+        // Collect the search results and submit to adapter
+        lifecycleScope.launch {
+            viewModel.uiState.value.searchResult.collectLatest { pagingData ->
+                mediaSearchAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun bindMediaGrid() {
@@ -221,7 +249,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         collect(flow = gridMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, gridMediaAdapter.itemCount) })
 
-        getGridMediaResults()
+        // Collect the search results and submit to adapter
+        lifecycleScope.launch {
+            viewModel.uiState.value.searchResult.collectLatest { pagingData ->
+                gridMediaAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun bindActors() {
@@ -234,22 +267,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             flow = actorSearchAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it, actorSearchAdapter.itemCount) })
 
-        getActorsSearchResults()
-    }
-
-    private fun getMediaSearchResults() {
-        collectLast(viewModel.uiState.value.searchResult)
-        { mediaSearchAdapter.submitData(it) }
-    }
-
-    private fun getGridMediaResults() {
-        collectLast(viewModel.uiState.value.searchResult)
-        { gridMediaAdapter.submitData(it) }
-    }
-
-    private fun getActorsSearchResults() {
-        collectLast(viewModel.uiState.value.searchResult)
-        { actorSearchAdapter.submitData(it) }
+        // Collect the search results and submit to adapter
+        lifecycleScope.launch {
+            viewModel.uiState.value.searchResult.collectLatest { pagingData ->
+                actorSearchAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun setSpanSizeForGrid(footerAdapter: LoadUIStateAdapter) {

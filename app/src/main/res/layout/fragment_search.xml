@@ -76,7 +76,7 @@
             app:tabSelectedTextColor="@color/brand_color"
             app:tabTextColor="@color/shade_ternary_color"
             app:tabTextAppearance="@style/TabTextStyle"
-            app:showWhenSearch="@{viewModel.uiState.searchInput}"
+            app:showTabsWhenResults="@{viewModel.uiState}"
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toBottomOf="@id/input_search">
@@ -105,9 +105,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_medium"
+            app:showWhenSuggestionMode="@{viewModel.uiState.displayMode}"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintTop_toBottomOf="@id/input_search">
+
             <TextView
                 android:id="@+id/history_label"
                 style="@style/SemiBold.Medium"
@@ -116,7 +118,6 @@
                 android:layout_marginTop="@dimen/radius_large"
                 android:drawablePadding="@dimen/spacing_small"
                 app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
-                app:hideWhenSearch="@{viewModel.uiState.searchInput}"
                 android:text="@string/history_label"
                 android:textSize="16sp"
                 android:textColor="@color/shade_primary_color"
@@ -146,6 +147,7 @@
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingVertical="@dimen/spacing_small"
             android:paddingBottom="80dp"
+            app:showWhenDisplayMode="@{viewModel.uiState.displayMode}"
             app:errorSearch="@{viewModel.uiState.error}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -154,7 +156,7 @@
             app:layout_constraintTop_toBottomOf="@id/tab_layout_media_type"
             app:loadingSearch="@{viewModel.uiState.loading}"
             app:searchInput="@{viewModel.uiState.searchInput}"
-            tools:listitem="@layout/item_media_search" />
+            tools:listitem="@layout/grid_media_item" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_history"
@@ -165,7 +167,7 @@
             android:overScrollMode="never"
             android:paddingVertical="@dimen/spacing_too_small"
             android:scrollbars="none"
-            app:hideWhenSearch="@{viewModel.uiState.searchInput}"
+            app:showWhenSuggestionMode="@{viewModel.uiState.displayMode}"
             app:items="@{viewModel.uiState.searchHistory}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -184,8 +186,7 @@
             android:layout_marginEnd="@dimen/spacing_medium"
             android:layout_marginBottom="@dimen/spacing_medium"
             android:elevation="8dp"
-            app:showToggleForMedia="@{viewModel.uiState.searchTypes}"
-            app:showWhenSearch="@{viewModel.uiState.searchInput}"
+            app:showToggleWhenResultsAndNotActor="@{viewModel.uiState}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 

@@ -13,6 +13,7 @@ import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.ViewMode
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
 import com.karrar.movieapp.utilities.Event
@@ -24,10 +25,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class SearchDisplayMode {
-    SUGGESTIONS,
-    RESULTS
-}
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchHistoryUIStateMapper: SearchHistoryUIStateMapper,
@@ -83,8 +80,7 @@ class SearchViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 searchInput = searchTerm.toString(),
-                displayMode = SearchDisplayMode.SUGGESTIONS
-                , isLoading = true
+                isLoading = true
             )
         }
         viewModelScope.launch {
@@ -96,6 +92,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun setViewMode(viewMode: ViewMode) {
+        _uiState.update { it.copy(viewMode = viewMode) }
+    }
 
     fun onSearchForMovie() {
         viewModelScope.launch {
@@ -145,10 +144,14 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-
     override fun onClickActorResult(personID: Int, name: String) {
         saveSearchResult(personID, name)
         _searchUIEvent.update { Event(SearchUIEvent.ClickActorEvent(personID)) }
+    }
+
+    override fun onClickMediaResult(media: MediaUIState) {
+        saveSearchResult(media.mediaID, media.mediaName)
+        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
     }
 
     private fun saveSearchResult(id: Int, name: String) {
@@ -199,10 +202,7 @@ class SearchViewModel @Inject constructor(
 
     override fun onSuggestionClick(query: String) {
         _uiState.update {
-            it.copy(
-                searchInput = query,
-                displayMode = SearchDisplayMode.RESULTS
-            )
+            it.copy(searchInput = query)
         }
     }
 
@@ -210,6 +210,4 @@ class SearchViewModel @Inject constructor(
         saveSearchResult(media.mediaID, media.mediaName)
         _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
     }
-
-
 }

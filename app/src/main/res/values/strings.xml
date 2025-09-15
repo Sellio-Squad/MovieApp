@@ -245,4 +245,6 @@
     <string name="instagram">Instagram</string>
     <string name="in">In</string>
     <string name="behind_the_scene">Behind The Scene</string>
+    <string name="release_date">release date</string>
+    <string name="movie_poster">movie poster</string>
 </resources>

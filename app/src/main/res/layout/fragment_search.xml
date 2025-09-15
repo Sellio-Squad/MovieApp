@@ -64,60 +64,41 @@
             <requestFocus />
         </com.google.android.material.textfield.TextInputEditText>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_media_type"
-            style="@style/Widget.Material3.ChipGroup"
+        <!-- Tabs replacing the Chip Group -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_media_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            app:checkedChip="@id/chip_movie"
-            app:chipSpacingHorizontal="12dp"
-            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/input_search"
-            app:selectionRequired="true"
+            android:background="@color/background_color_screen"
+            app:tabIndicatorColor="@color/brand_color"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/brand_color"
+            app:tabTextColor="@color/shade_ternary_color"
+            app:tabTextAppearance="@style/TabTextStyle"
             app:showWhenSearch="@{viewModel.uiState.searchInput}"
-            app:singleSelection="true">
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/input_search">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_movie"
-                style="@style/Chip.Regular.Small"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_movie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSearchForMovie()}"
-                android:paddingHorizontal="@dimen/spacing_medium"
-                android:paddingVertical="6dp"
-                android:text="@string/movies_chip"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small" />
+                android:text="@string/movies_chip" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_series"
-                style="@style/Chip.Regular.Small"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_series"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSearchForSeries()}"
-                android:paddingHorizontal="@dimen/spacing_medium"
-                android:paddingVertical="6dp"
-                android:text="@string/tv_shows_chip"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small" />
+                android:text="@string/series" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_actors"
-                style="@style/Chip.Regular.Small"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_actors"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSearchForActor()}"
-                android:paddingHorizontal="@dimen/spacing_medium"
-                android:paddingVertical="6dp"
-                android:text="@string/actors_label"
-                android:textColor="@color/chip_text"
-                app:checkedIconEnabled="false"
-                app:chipCornerRadius="@dimen/spacing_small" />
-        </com.google.android.material.chip.ChipGroup>
-
+                android:text="@string/actors_label" />
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_history"
@@ -142,7 +123,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <TextView
                 android:id="@+id/clear_all_label"
                 android:layout_width="wrap_content"
@@ -155,7 +135,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/history_label"
                 app:layout_constraintTop_toTopOf="@id/history_label"/>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -166,12 +145,13 @@
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingVertical="@dimen/spacing_small"
+            android:paddingBottom="80dp"
             app:errorSearch="@{viewModel.uiState.error}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout_media_type"
             app:loadingSearch="@{viewModel.uiState.loading}"
             app:searchInput="@{viewModel.uiState.searchInput}"
             tools:listitem="@layout/item_media_search" />
@@ -196,6 +176,62 @@
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_search_history" />
 
+        <!-- Toggle Switch positioned at bottom right -->
+        <FrameLayout
+            android:id="@+id/toggle_view_mode"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:elevation="8dp"
+            app:showToggleForMedia="@{viewModel.uiState.searchTypes}"
+            app:showWhenSearch="@{viewModel.uiState.searchInput}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/toggle_button_background" />
+
+            <View
+                android:id="@+id/indicator"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/toggle_button_indicator"
+                android:layout_marginStart="0dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_grid_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="grid_view_selected"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/selector_grid_view" />
+
+                <ImageButton
+                    android:id="@+id/btn_list_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="list_view_active"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/selector_list_view" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
         <include
             android:id="@+id/loading"
             layout="@layout/loading2"
@@ -215,7 +251,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_result"
             android:layout_width="match_parent"
@@ -227,8 +262,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- Icon -->
             <ImageView
@@ -278,4 +312,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

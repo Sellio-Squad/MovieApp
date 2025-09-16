@@ -7,7 +7,6 @@ import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.drawable.toBitmap
 import coil.Coil
@@ -47,10 +46,7 @@ class ImageViewFilter @JvmOverloads constructor(
     var onError: ((String?) -> Unit)? = null
 
     init {
-        // Set default scale type
-        scaleType = ScaleType.CENTER_CROP
 
-        // IMPORTANT: Enable outline clipping for shape
         clipToOutline = true
 
         // Parse attributes
@@ -132,7 +128,6 @@ class ImageViewFilter @JvmOverloads constructor(
     private fun showImage(drawable: Drawable, shouldBlur: Boolean) {
         if (shouldBlur) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                // Android 12+: Use RenderEffect (maintains shape)
                 setImageDrawable(drawable)
                 setRenderEffect(
                     RenderEffect.createBlurEffect(
@@ -142,7 +137,6 @@ class ImageViewFilter @JvmOverloads constructor(
                     )
                 )
             } else {
-                // Older versions: Apply blur to bitmap
                 val bitmap = drawable.toBitmap()
                 val blurredBitmap = StackBlur.process(
                     bitmap.copy(Bitmap.Config.ARGB_8888, true),

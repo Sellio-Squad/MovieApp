@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecases
+package com.karrar.movieapp.domain.usecases.myHistory
 
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.repository.MovieRepository

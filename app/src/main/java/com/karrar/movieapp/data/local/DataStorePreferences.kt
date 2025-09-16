@@ -2,6 +2,7 @@ package com.karrar.movieapp.data.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -40,6 +41,16 @@ class DataStorePreferences(context: Context) {
 
     fun readStringFlow(key: String): Flow<String?> =
         prefDataStore.data.map { it[stringPreferencesKey(key)] }
+
+    suspend fun writeBoolean(key: String, value: Boolean) {
+        prefDataStore.edit { preferences ->
+            preferences[booleanPreferencesKey(key)] = value
+        }
+    }
+
+    suspend fun readBoolean(key: String): Boolean? {
+        return prefDataStore.data.firstOrNull()?.get(booleanPreferencesKey(key))
+    }
 
     companion object {
         private const val PREFERENCES_FILE_NAME = "movie"

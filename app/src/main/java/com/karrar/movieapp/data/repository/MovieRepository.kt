@@ -54,6 +54,8 @@ interface MovieRepository {
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
 
+    suspend fun deleteRecentlyViewedItemById(id: Int)
+
     suspend fun getAllMovies(): Pager<Int, MovieDto>
 
     suspend fun getMovieByGenre(genreID: Int): Pager<Int, MovieDto>

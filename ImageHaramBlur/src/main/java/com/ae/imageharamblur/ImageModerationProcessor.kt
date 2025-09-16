@@ -3,7 +3,7 @@ package com.ae.imageharamblur
 import android.content.Context
 import android.graphics.Bitmap
 import com.ae.imageharamblur.faceDetection.FaceDetector
-import com.ae.imageharamblur.models.ContentDetectionModel
+import com.ae.imageharamblur.models.NsfwDetectionModel
 import com.ae.imageharamblur.models.GenderDetectionModel
 import com.ae.imageharamblur.models.ModelDownloadManager
 import com.ae.imageharamblur.ui.ModerationCacheManager
@@ -21,7 +21,7 @@ internal class ImageModerationProcessor(private val context: Context) {
         private var sharedGenderModel: GenderDetectionModel? = null
 
         @Volatile
-        private var sharedContentModel: ContentDetectionModel? = null
+        private var sharedContentModel: NsfwDetectionModel? = null
 
         @Volatile
         private var modelsInitialized = false
@@ -39,7 +39,7 @@ internal class ImageModerationProcessor(private val context: Context) {
         }
     }
 
-    private val faceDetector = FaceDetector(context)
+    private val faceDetector = FaceDetector()
     private val modelDownloadManager = ModelDownloadManager(context)
 
     init {
@@ -73,7 +73,7 @@ internal class ImageModerationProcessor(private val context: Context) {
 
                 if (modelFiles.isFromFirebase) {
                     sharedGenderModel = GenderDetectionModel(modelFiles.genderModelFile)
-                    sharedContentModel = ContentDetectionModel(modelFiles.nsfwModelFile)
+                    sharedContentModel = NsfwDetectionModel(modelFiles.nsfwModelFile)
                     currentModelsAreFromFirebase = true
 
                     if (switchingToFirebase) {
@@ -82,7 +82,7 @@ internal class ImageModerationProcessor(private val context: Context) {
                     }
                 } else {
                     sharedGenderModel = GenderDetectionModel(context)
-                    sharedContentModel = ContentDetectionModel(context)
+                    sharedContentModel = NsfwDetectionModel(context)
                     currentModelsAreFromFirebase = false
                 }
 
@@ -94,7 +94,7 @@ internal class ImageModerationProcessor(private val context: Context) {
                         sharedContentModel?.close()
 
                         sharedGenderModel = GenderDetectionModel(context)
-                        sharedContentModel = ContentDetectionModel(context)
+                        sharedContentModel = NsfwDetectionModel(context)
                         currentModelsAreFromFirebase = false
                         modelsInitialized = true
                     }

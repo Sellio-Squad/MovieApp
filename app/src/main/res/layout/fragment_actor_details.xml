@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/actor_image_app_bar"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -129,7 +129,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/spacing_medium">
 
-                        <com.google.android.material.imageview.ShapeableImageView
+                        <com.ae.imageharamblur.ui.ImageViewFilter
                             android:id="@+id/actor_image"
                             android:layout_width="64dp"
                             android:layout_height="80dp"
@@ -345,7 +345,7 @@
                         android:orientation="vertical"
                         android:weightSum="2">
 
-                        <com.google.android.material.imageview.ShapeableImageView
+                        <com.ae.imageharamblur.ui.ImageViewFilter
                             android:id="@+id/image_top_left"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
@@ -356,7 +356,7 @@
                             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
                             tools:background="@color/yellow" />
 
-                        <com.google.android.material.imageview.ShapeableImageView
+                        <com.ae.imageharamblur.ui.ImageViewFilter
                             android:id="@+id/image_bottom_left"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
@@ -367,7 +367,7 @@
                             tools:background="@color/yellow" />
                     </LinearLayout>
 
-                    <com.google.android.material.imageview.ShapeableImageView
+                    <com.ae.imageharamblur.ui.ImageViewFilter
                         android:id="@+id/image_right"
                         android:layout_width="0dp"
                         android:layout_height="280dp"

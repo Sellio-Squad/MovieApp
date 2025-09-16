@@ -34,5 +34,4 @@ abstract class RepositoryModule {
         accountRepositoryImp: AccountRepositoryImp
     ): AccountRepository
 
-
 }

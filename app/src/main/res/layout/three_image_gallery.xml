@@ -22,7 +22,7 @@
         android:gravity="center_vertical"
         android:baselineAligned="false">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/iv_first_image"
             android:layout_width="0dp"
             android:layout_height="280dp"
@@ -31,7 +31,7 @@
             app:posterImage="@{firstImageUrl}"
             tools:background="@color/yellow" />
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/iv_second_image"
             android:layout_width="0dp"
             android:layout_height="280dp"

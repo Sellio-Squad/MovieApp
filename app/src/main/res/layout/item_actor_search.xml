@@ -18,7 +18,7 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:background="@android:color/transparent">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/image_actor"
             android:layout_width="0dp"
             android:layout_height="0dp"

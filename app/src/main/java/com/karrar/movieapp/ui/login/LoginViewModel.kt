@@ -39,6 +39,9 @@ class LoginViewModel @Inject constructor(
     fun onClickLogin() {
         login()
     }
+    fun onClickJoinAsGuest() {
+        _loginEvent.update { Event(LoginUIEvent.LoginEvent(args.from)) }
+    }
 
     fun onUserNameInputChange(text: CharSequence) {
         val userNameFieldState = validateFiledUseCase(text.toString())

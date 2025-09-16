@@ -16,7 +16,6 @@
     <string name="welcome_back_to_cineverse">Welcome back to CineVerse!</string>
     <string name="enter_your_email_or_username">Enter your email or username</string>
     <string name="enter_your_password">Enter your password</string>
-    <string name="join_as_guest">Join as Guest</string>
     <string name="create_a_new_account">Create a New Account</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login">Login</string>

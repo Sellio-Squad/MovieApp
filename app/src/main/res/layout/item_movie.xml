@@ -22,47 +22,67 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_simi_small">
+        android:layout_marginHorizontal="@dimen/spacing_simi_small">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_poster"
             android:layout_width="0dp"
             android:layout_height="@dimen/media_card_height"
+            android:onClick="@{()->listener.onClickMovie(item.id)}"
             android:scaleType="centerCrop"
+            android:layout_marginBottom="@dimen/radius_cineVerse_s"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="136:182"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:background="@color/brand_color_primary"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{()->listener.onClickMovie(item.id)}"
             app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            android:id="@+id/img_poster"/>
+            tools:background="@color/brand_color_primary" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="@id/img_poster"
-            app:layout_constraintEnd_toEndOf="@id/img_poster"
-            android:background="@drawable/media_rate_background"
             android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/media_rate_background"
             android:gravity="center"
+            android:orientation="horizontal"
             android:paddingHorizontal="@dimen/spacing_small"
-            android:paddingVertical="@dimen/spacing_too_small">
+            android:paddingVertical="@dimen/spacing_too_small"
+            app:layout_constraintEnd_toEndOf="@id/img_poster"
+            app:layout_constraintTop_toTopOf="@id/img_poster">
 
             <TextView
+                style="@style/TextStyle.Label.Medium.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{String.format(`%.1f`, item.rate)}"
-                tools:text="5.7"
                 android:textColor="@color/shade_color_primary"
-                style="@style/TextStyle.Label.Medium.Medium" />
+                tools:text="5.7" />
+
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="@dimen/spacing_too_small"
-                android:src="@drawable/ic_rate"/>
+                android:src="@drawable/ic_rate" />
         </LinearLayout>
+
+        <TextView
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start|center"
+            android:maxLines="1"
+            android:text="@{item.mediaTitle}"
+            android:textAllCaps="false"
+            android:textColor="@color/shade_color_secondary"
+            app:layout_constraintEnd_toEndOf="@+id/img_poster"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/img_poster"
+            app:layout_constraintTop_toBottomOf="@id/img_poster"
+            tools:text="The Flash" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

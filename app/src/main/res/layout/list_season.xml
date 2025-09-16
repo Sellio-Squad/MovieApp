@@ -17,14 +17,30 @@
 
         <TextView
             android:id="@+id/text_seasons"
-            style="@style/SemiBold.Medium"
+            style="@style/TextStyle.Title.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/seasons"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/latest_seasons"
+            android:textColor="@color/shade_color_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textButton"
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="@dimen/radius_cineVerse_l"
+            android:text="@string/show_more"
+            android:textColor="@color/brand_color_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_seasons" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_seasons"

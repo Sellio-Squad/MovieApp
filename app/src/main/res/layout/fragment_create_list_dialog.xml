@@ -12,50 +12,62 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_sheet_corners"
-        android:paddingVertical="@dimen/spacing_large">
+        android:background="@drawable/bottom_sheet_my_collection"
+        android:paddingHorizontal="16dp">
 
         <TextView
             android:id="@+id/primary_text"
-            style="@style/SemiBold.Large"
+            style="@style/TextStyle.Title.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:layout_marginTop="35dp"
             android:text="@string/create_a_new_list"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/shade_color_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:fontFamily="@font/plus_jakarta_sans_regular"
-            android:text="@string/explore_some_movies_on_home_or_search_and_then_create_your_movie_list"
-            android:textAlignment="center"
-            android:textColor="@color/shade_secondary_color"
+        <ImageView
+            android:id="@+id/exit_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/outline_x"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/shade_color_secondary" />
+
+        <TextView
+            android:id="@+id/collection_name"
+            style="@style/TextStyle.Body.Medium.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/create_a_new_list"
+            android:textColor="@color/shade_color_secondary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/primary_text" />
+            app:layout_constraintTop_toBottomOf="@id/primary_text" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/list_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/radius_cineVerse_s"
             android:hint="@string/list_name"
-            android:textColorHint="@color/shade_secondary_color"
-            app:hintTextColor="@color/shade_secondary_color"
+            android:textColorHint="@color/shade_color_tertiary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5">
+            app:layout_constraintTop_toBottomOf="@+id/collection_name"
+            app:startIconCheckable="false"
+            app:startIconDrawable="@drawable/outline_folder"
+            app:startIconTint="@color/shade_color_tertiary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:afterTextChanged="@{(text) -> viewModel.onListNameInputChange(text)}"
+                android:background="@drawable/custom_textinput_background"
                 android:fontFamily="@font/plus_jakarta_sans_regular"
                 android:inputType="textPersonName"
                 android:maxLength="15"
@@ -66,24 +78,44 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:layout_marginBottom="24dp"
-            android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
-            android:fontFamily="@font/plus_jakarta_sans_semibold"
-            android:onClick="@{()->viewModel.onClickAddList()}"
-            android:paddingVertical="@dimen/spacing_medium"
-            android:text="@string/create"
+            android:layout_marginHorizontal="@dimen/radius_cineVerse_xl"
+            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
+            android:layout_marginBottom="@dimen/radius_cineVerse_xl"
+            android:fontFamily="@font/manrope_medium"
+            android:paddingVertical="@dimen/radius_cineVerse_xl"
+            android:text="@string/cancel"
             android:textAllCaps="false"
-            android:textColor="@color/white_primary"
-            app:backgroundTint="@color/color_states_material_button"
-            app:cornerRadius="@dimen/spacing_small"
+            android:textColor="@color/button_color_onSecondary"
+            app:backgroundTint="@color/button_color_secondary"
+            app:cornerRadius="@dimen/radius_cineVerse_l"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/create_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/list_name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/radius_cineVerse_xl"
+            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
+            android:layout_marginBottom="@dimen/radius_cineVerse_xl"
+            android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
+            android:fontFamily="@font/manrope_medium"
+            android:onClick="@{()->viewModel.onClickAddList()}"
+            android:paddingVertical="@dimen/radius_cineVerse_xl"
+            android:text="@string/create"
+            android:textAllCaps="false"
+            android:textColor="@color/material_button_text_color"
+            app:backgroundTint="@color/color_states_material_button"
+            app:cornerRadius="@dimen/radius_cineVerse_l"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cancel_button"
+            app:layout_constraintTop_toBottomOf="@+id/list_name" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

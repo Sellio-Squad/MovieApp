@@ -13,5 +13,6 @@ data class TvShowDetails(
     val tvShowVoteAverage: String = "",
     val tvShowOverview: String = "",
     val tvShowSeasons: List<Season> = emptyList(),
+    val tvShowDuration: Int = 0,
     val tvShowType: MediaType = MediaType.TV_SHOW
 )

@@ -5,6 +5,7 @@ import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState
 import javax.inject.Inject
 
+
 class TvShowDetailsResultUIMapper @Inject constructor() : Mapper<TvShowDetails, TvShowDetailsResultUIState> {
     override fun map(input: TvShowDetails): TvShowDetailsResultUIState {
         return TvShowDetailsResultUIState(
@@ -16,7 +17,7 @@ class TvShowDetailsResultUIMapper @Inject constructor() : Mapper<TvShowDetails, 
             tvShowReview = input.tvShowReview,
             tvShowReleaseDate = input.tvShowReleaseDate,
             tvShowGenres = input.tvShowGenres,
-            tvShowSeasonsNumber = input.tvShowSeasonsNumber
+            tvShowSeasonsNumber = input.tvShowSeasonsNumber,
         )
     }
 }

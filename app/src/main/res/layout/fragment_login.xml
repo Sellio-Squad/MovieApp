@@ -76,8 +76,6 @@
                 android:hint="@string/enter_your_email_or_username"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
                 android:textColor="@color/shade_color_primary"
                 android:textColorHint="@color/shade_color_tertiary"
                 android:textSize="14sp" />

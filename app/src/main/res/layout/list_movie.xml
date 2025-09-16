@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="@dimen/spacing_medium">
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
@@ -27,15 +27,13 @@
             tools:text="Popular"
             android:text="@{movieType.value}"
             app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllMovie(movieType)}"
-            android:textSize="20sp"
-            android:textColor="@color/shade_color_primary"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_movie"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_simi_medium"
             android:adapter="@{adapterRecycler}"
             android:clipToPadding="false"
             android:orientation="horizontal"

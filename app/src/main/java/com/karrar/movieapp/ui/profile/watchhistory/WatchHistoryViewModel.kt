@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
 import com.karrar.movieapp.domain.usecases.myHistory.CloseHistoryTipUseCase
+import com.karrar.movieapp.domain.usecases.myHistory.DeleteRecentlyViewedItemByIdUseCase
 import com.karrar.movieapp.domain.usecases.myHistory.GetShowHistoryTipUseCase
 import com.karrar.movieapp.domain.usecases.myHistory.GetWatchHistoryUseCase
 import com.karrar.movieapp.utilities.Constants
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
     private val closeHistoryTipUseCase: CloseHistoryTipUseCase,
+    private val deleteWatchHistoryItemUseCase: DeleteRecentlyViewedItemByIdUseCase,
     private val getShowHistoryTipUseCase: GetShowHistoryTipUseCase,
     private val watchHistoryMapper: WatchHistoryMapper
 ) : ViewModel(), WatchHistoryInteractionListener {
@@ -81,6 +83,17 @@ class WatchHistoryViewModel @Inject constructor(
 
     override fun onClickFindSomethingToWatchButton() {
         _watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.FindToSomethingToWatchEvent) }
+    }
+
+    override fun onDeleteItem(item: MediaHistoryUiState) {
+        viewModelScope.launch {
+            try {
+                deleteWatchHistoryItemUseCase(item.id)
+            } catch (t: Throwable) {
+                _uiState.update { it.copy(error = listOf(Error(400, t.message.toString()))) }
+            }
+            getWatchHistoryData()
+        }
     }
 
 }

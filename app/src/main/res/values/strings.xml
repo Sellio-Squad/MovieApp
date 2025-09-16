@@ -22,6 +22,8 @@
     <string name="you_re_almost_there">You\'re Almost There!</string>
     <string name="don_t_have_an_account">Don’t have an account?</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="join_cineverse">Join CineVerse</string>
+    <string name="sign_up_description">Let\'s get you set up! We\'ll take you to the website to create your account.</string>
     <string name="log_in_to_update_your_name_profile_picture_and_account_details">Log in to update your name, profile picture, and account details</string>
     <string name="you_ll_be_taken_to_the_website_to_update_your_name_username_or_profile_picture">You’ll be taken to the website to update your name, username, or profile picture.</string>
     <string name="go_to_website">Go to Website</string>

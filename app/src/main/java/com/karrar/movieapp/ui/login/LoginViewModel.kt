@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
     val loginEvent = _loginEvent.asStateFlow()
 
     fun onClickSignUp() {
-        _loginEvent.update { Event(LoginUIEvent.SignUpEvent) }
+        _loginEvent.update { Event(LoginUIEvent.ShowSignUpDialog) }
     }
 
     fun onClickLogin() {

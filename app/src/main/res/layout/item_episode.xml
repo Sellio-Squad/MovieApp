@@ -16,7 +16,7 @@
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:background="@drawable/bottom_line">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/image_episode"
             android:layout_width="0dp"
             android:layout_height="48dp"

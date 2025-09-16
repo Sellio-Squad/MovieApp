@@ -27,7 +27,7 @@
             android:padding="@dimen/spacing_simi_medium"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.ae.imageharamblur.ui.ImageViewFilter
                 android:id="@+id/profile_image"
                 android:layout_width="56dp"
                 android:layout_height="56dp"

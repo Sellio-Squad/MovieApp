@@ -7,7 +7,7 @@ import com.karrar.movieapp.domain.usecase.home.getData.series.GetTopRatedTvShowS
 import com.karrar.movieapp.domain.usecase.home.getData.movie.*
 import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
-import com.karrar.movieapp.domain.usecases.GetWatchHistoryUseCase
+import com.karrar.movieapp.domain.usecases.myHistory.GetWatchHistoryUseCase
 import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 
 import javax.inject.Inject

@@ -310,6 +310,10 @@
         <action
             android:id="@+id/action_watchHistoryFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
+
+        <action
+            android:id="@+id/action_watchHistoryFragment_to_searchFragment"
+            app:destination="@id/exploringFragment" />
     </fragment>
 
     <activity

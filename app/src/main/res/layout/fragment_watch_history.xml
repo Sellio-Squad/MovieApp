@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryViewModel" />
@@ -15,10 +17,62 @@
         android:layout_height="match_parent"
         android:background="@color/background_color">
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tip_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/radius_cineVerse_xl"
+            android:layout_marginTop="@dimen/radius_cineVerse_xl"
+            android:background="@drawable/tip_background_drawable"
+            android:padding="@dimen/radius_cineVerse_l"
+            app:isVisible="@{viewModel.uiState.showTip &amp; viewModel.uiState.allMedia.size() != 0}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/tip_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/due_tone_info_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/brand_color_primary" />
+
+            <TextView
+                android:id="@+id/tip_text"
+                style="@style/TextStyle.Body.Small.Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/radius_cineVerse_s"
+                android:gravity="center_vertical"
+                android:text="@string/tip_my_history"
+                android:textColor="@color/shade_color_primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tip_close"
+                app:layout_constraintStart_toEndOf="@id/tip_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/tip_close"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:onClick="@{() -> viewModel.onTipCancelIconClicked()}"
+                android:src="@drawable/outline_x"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/shade_color_secondary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_watch_history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/spacing_medium"
             app:items="@{viewModel.uiState.allMedia}"
@@ -26,20 +80,79 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tip_card"
             tools:listitem="@layout/item_watch_history" />
 
-        <TextView
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:text="@string/this_list_has_no_movies"
-            android:visibility="gone"
+            android:background="@color/background_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListEmpty="@{viewModel.uiState.allMedia}" />
+            app:showWhenListEmpty="@{viewModel.uiState.allMedia}">
+
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/back_icon_shape"
+                android:contentDescription="@string/icon"
+                android:padding="18dp"
+                android:src="@drawable/due_tone_history"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/brand_color_primary" />
+
+            <!-- Title -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_title"
+                style="@style/TextStyle.Title.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="@string/no_history_yet"
+                android:textColor="@color/shade_color_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/icon" />
+
+            <!-- caption -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/caption"
+                style="@style/TextStyle.Body.Small.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:gravity="center"
+                android:text="@string/no_history_caption"
+                android:textColor="@color/shade_color_secondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_title" />
+
+            <!-- Action Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:background="@drawable/button_corner_shape"
+                android:onClick="@{() -> viewModel.onClickFindSomethingToWatchButton()}"
+                android:text="@string/find_something_to_watch"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextStyle.Body.Small.Medium"
+                android:textColor="@color/button_color_onPrimary"
+                app:backgroundTint="@color/button_color_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/caption" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

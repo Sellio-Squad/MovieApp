@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:background="@drawable/button_corner_shape"
-                android:onClick="@{() -> viewModel.onClickFindToSomethingToWatchButton()}"
+                android:onClick="@{() -> viewModel.onClickFindSomethingToWatchButton()}"
                 android:text="@string/find_something_to_watch"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextStyle.Body.Small.Medium"

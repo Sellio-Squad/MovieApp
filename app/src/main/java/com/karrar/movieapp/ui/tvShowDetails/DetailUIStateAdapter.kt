@@ -40,6 +40,14 @@ class DetailUIStateAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+            is DetailItemUIState.Seasons -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        SeasonAdapterUIState(currentItem.data, listener as SeasonInteractionListener)
+                    )
+                }
+            }
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
                     setVariable(
@@ -52,11 +60,23 @@ class DetailUIStateAdapter(
                     )
                 }
             }
-            is DetailItemUIState.Seasons -> {
+            is DetailItemUIState.SimilarTvShow -> {
                 holder.binding.run {
                     setVariable(
                         BR.adapterRecycler,
-                        SeasonAdapterUIState(currentItem.data, listener as SeasonInteractionListener)
+                        TvShowDetailsAdapter(currentItem.data, listener as TvShowDetailsInteractionListener)
+                    )
+                }
+            }
+            is DetailItemUIState.Crew -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        CrewAdapter(
+                            currentItem.data,
+                            R.layout.item_crew,
+                            listener
+                        )
                     )
                 }
             }
@@ -93,11 +113,13 @@ class DetailUIStateAdapter(
         return when (items[position]) {
             is DetailItemUIState.Header -> R.layout.item_tv_show_details_header
             is DetailItemUIState.Cast -> R.layout.list_cast
+            is DetailItemUIState.SimilarTvShow -> R.layout.list_similar_tv_show
             is DetailItemUIState.Seasons -> R.layout.list_season
             is DetailItemUIState.Rating -> R.layout.item_tvshow_rating
             is DetailItemUIState.Comment -> R.layout.item_tvshow_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
             DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.Crew -> R.layout.list_crew
         }
     }
 }

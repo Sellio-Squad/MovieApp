@@ -3,6 +3,8 @@ package com.karrar.movieapp.domain.mappers
 import com.karrar.movieapp.domain.mappers.actor.ActorDetailsMapper
 import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
 import com.karrar.movieapp.domain.mappers.actor.ActorEntityMapper
+import com.karrar.movieapp.domain.mappers.actor.ActorGalleryMapper
+import com.karrar.movieapp.domain.mappers.actor.ActorSocialMediaMapper
 import com.karrar.movieapp.domain.mappers.movie.*
 import com.karrar.movieapp.domain.mappers.savedList.CreatedListsMapper
 import com.karrar.movieapp.domain.mappers.savedList.ItemListMapper
@@ -22,6 +24,8 @@ class MovieMappersContainer @Inject constructor(
     val ratedMoviesMapper: RatedMoviesMapper,
     val actorDetailsMapper: ActorDetailsMapper,
     val actorMapper: ActorDtoMapper,
+    val actorGalleryMapper: ActorGalleryMapper,
+    val actorSocialMediaMapper: ActorSocialMediaMapper,
     val searchActorMapper: SearchActorMapper,
     val seriesMapper: SearchSeriesMapper,
     val searchHistoryMapper: SearchHistoryMapper,

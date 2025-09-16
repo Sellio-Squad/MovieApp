@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.adapters.TvShowDetailsInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.models.MediaUiState" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_simi_small">
+
+        <com.ae.imageharamblur.ui.ImageViewFilter
+            android:id="@+id/img_poster"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/media_card_height"
+            android:onClick="@{()->listener.onClickTvShow(item)}"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="136:182"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.imageUrl}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            tools:background="@color/brand_color_primary" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/media_rate_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_small"
+            android:paddingVertical="@dimen/spacing_too_small"
+            app:layout_constraintEnd_toEndOf="@id/img_poster"
+            app:layout_constraintTop_toTopOf="@id/img_poster">
+
+            <TextView
+                style="@style/TextStyle.Label.Medium.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(item.rate)}"
+                android:textColor="@color/shade_color_primary"
+                tools:text="5.7" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="@dimen/spacing_too_small"
+                android:src="@drawable/ic_rate" />
+        </LinearLayout>
+        <TextView
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start|center"
+            android:maxLines="1"
+            android:text="@{item.mediaTitle}"
+            android:textAllCaps="false"
+            android:textColor="@color/shade_color_secondary"
+            app:layout_constraintEnd_toEndOf="@+id/img_poster"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/img_poster"
+            app:layout_constraintTop_toBottomOf="@id/img_poster"
+            tools:text="The Flash" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

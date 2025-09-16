@@ -21,21 +21,50 @@
         android:layout_marginVertical="@dimen/spacing_too_small"
         android:onClick="@{() -> listener.onClickSaveList(item.listID)}"
         app:cardBackgroundColor="@color/background_color"
-        app:cardCornerRadius="@dimen/radius_large"
+        app:cardCornerRadius="@dimen/radius_lg"
         app:cardElevation="0dp">
 
-        <TextView
-            android:id="@+id/list_name"
-            style="@style/Regular.Medium.Primary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:layout_marginStart="16dp"
-            android:text="@{item.name}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="list name" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/folder_collection"
+                android:layout_width="@dimen/radius_cineVerse_size2xl"
+                android:layout_height="@dimen/radius_cineVerse_size2xl"
+                android:layout_marginVertical="@dimen/radius_cineVerse_xl"
+                android:layout_marginStart="@dimen/radius_cineVerse_xl"
+                android:src="@drawable/folder_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/list_name"
+                style="@style/Regular.Medium.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/radius_cineVerse_xl"
+                android:layout_marginStart="@dimen/radius_cineVerse_xl"
+                android:text="@{item.name}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/folder_collection"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="list name" />
+
+            <ProgressBar
+                android:id="@+id/save_to_collection_progress"
+                android:layout_width="@dimen/radius_cineVerse_size3xl"
+                android:layout_height="@dimen/radius_cineVerse_size3xl"
+                android:layout_marginEnd="@dimen/radius_cineVerse_xl"
+                android:indeterminateTint="@color/brand_color"
+                android:visibility="gone"
+                app:isVisible="@{item.isLoading}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.google.android.material.card.MaterialCardView>

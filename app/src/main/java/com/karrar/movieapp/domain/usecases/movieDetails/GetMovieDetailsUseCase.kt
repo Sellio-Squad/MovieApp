@@ -2,10 +2,12 @@ package com.karrar.movieapp.domain.usecases.movieDetails
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.mappers.MovieCrewMapper
 import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
 import com.karrar.movieapp.domain.mappers.movie.MovieDetailsMapper
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.models.Crew
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.MovieDetails
@@ -18,7 +20,8 @@ class GetMovieDetailsUseCase @Inject constructor(
     private val movieDetailsMapper: MovieDetailsMapper,
     private val getMovieReviewsUseCase: GetReviewsUseCase,
     private val actorMapper: ActorDtoMapper,
-    private val movieMapper: MovieMapper
+    private val movieMapper: MovieMapper,
+    private val movieCrewMapper: MovieCrewMapper
 ) {
     suspend fun getMovieDetails(movieId: Int): MovieDetails {
         val response = movieRepository.getMovieDetails(movieId)
@@ -30,6 +33,12 @@ class GetMovieDetailsUseCase @Inject constructor(
     suspend fun getMovieCast(movieId: Int): List<Actor> {
         return movieRepository.getMovieCast(movieId)?.cast?.let {
             it.map { actorMapper.map(it) }
+        } ?: throw Throwable("Not Success")
+    }
+
+    suspend fun getMovieCrew(movieId: Int): List<Crew> {
+        return movieRepository.getMovieCastAndCrew(movieId)?.crew?.let {
+            it.map { movieCrewMapper.map(it) }
         } ?: throw Throwable("Not Success")
     }
 

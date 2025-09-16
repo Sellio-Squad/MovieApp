@@ -15,5 +15,6 @@ class MovieAdapter(items: List<MediaUiState>,val listener: MovieInteractionListe
 interface MovieInteractionListener : BaseInteractionListener {
     fun onClickMovie(movieId: Int)
     fun onClickSeeAllMovie(homeItemsType: HomeItemsType)
+    fun onClickSeeAllGallery(homeItemsType: HomeItemsType)
 }
 

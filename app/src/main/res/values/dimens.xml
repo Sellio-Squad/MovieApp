@@ -3,20 +3,23 @@
 
     <!-- spacing -->
     <dimen name="spacing_extra_large">32dp</dimen>
+    <dimen name="spacing_extra_extra_large">50dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_simi_larg">18dp</dimen>
     <dimen name="spacing_medium">16dp</dimen>
     <dimen name="spacing_simi_medium">12dp</dimen>
     <dimen name="spacing_small">8dp</dimen>
     <dimen name="spacing_simi_small">6dp</dimen>
     <dimen name="spacing_too_small">4dp</dimen>
     <dimen name="season_card_width">88dp</dimen>
+    <dimen name="spacing_bottom">28dp</dimen>
 
     <!--  layout -->
     <dimen name="spacing_actor">72dp</dimen>
     <dimen name="media_card_width">128dp</dimen>
     <dimen name="media_card_height">182dp</dimen>
     <dimen name="media_card_airing_today_height">145dp</dimen>
-    <dimen name="media_card_popular_movie">350dp</dimen>
+    <dimen name="media_card_popular_movie">312dp</dimen>
 
     <!-- texts -->
     <dimen name="text_large">20sp</dimen>
@@ -25,6 +28,7 @@
 
     <!-- radius -->
     <dimen name="radius_large">24dp</dimen>
+    <dimen name="radius_lg">12dp</dimen>
     <dimen name="radius_medium">16dp</dimen>
     <dimen name="radius_small">8dp</dimen>
     <dimen name="radius_too_small">4dp</dimen>
@@ -71,5 +75,21 @@
     <dimen name="radius_cineVerse_size4xl">28dp</dimen>
     <dimen name="radius_cineVerse_size5xl">32dp</dimen>
     <dimen name="radius_cineVerse_full">1000dp</dimen>
+    <dimen name="bottom_sheet_horizontal_margin">10dp</dimen>
+    <dimen name="bottom_sheet_bottom_margin">30dp</dimen>
+    <dimen name="on_boarding_btn_size">48dp</dimen>
+    <dimen name="vertical_btn_padding">14dp</dimen>
+    <dimen name="on_boarding_card_top_margin">53dp</dimen>
+    <dimen name="zero_dp">0dp</dimen>
+
+    <!-- Match Feature Dimensions -->
+    <dimen name="match_genre_card_height">44dp</dimen>
+    <dimen name="back_btn_size">40dp</dimen>
+    <dimen name="app_bar_height">56dp</dimen>
+    <dimen name="match_start_spacing">60dp</dimen>
+    <dimen name="match_icon_container_size">64dp</dimen>
+    <dimen name="magic_icon_size">28dp</dimen>
+    <dimen name="view_pager_padding">100dp</dimen>
+    <dimen name="_90dp">90dp</dimen>
 
 </resources>

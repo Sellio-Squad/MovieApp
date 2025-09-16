@@ -8,7 +8,9 @@ class ActorMoviesUIMapper @Inject constructor() : Mapper<ActorMovie, ActorMovies
     override fun map(input: ActorMovie): ActorMoviesUIState {
         return ActorMoviesUIState(
             id = input.movieId,
-            imageUrl = input.movieImage
+            imageUrl = input.movieImage,
+            rate = input.rate,
+            mediaName = input.mediaName
         )
     }
 }

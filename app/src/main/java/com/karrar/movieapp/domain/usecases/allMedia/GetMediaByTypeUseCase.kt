@@ -59,6 +59,48 @@ class GetMediaByTypeUseCase @Inject constructor(
                 )
             }
 
+            AllMediaType.LATE_NIGHT_THRILLS -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.HORROR_ID) },
+                    movieMapper::map
+                )
+            }
+
+            AllMediaType.MIND_BENDING_STORIES -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.SCIENCE_FICTION_ID) },
+                    movieMapper::map
+                )
+            }
+
+            AllMediaType.CINEMATIC_MASTERPIECES -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.DRAMA_ID) },
+                    movieMapper::map
+                )
+            }
+
+            AllMediaType.FAMILY_NIGHT_PICKS -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.FAMILY_ID) },
+                    movieMapper::map
+                )
+            }
+
+            AllMediaType.BASED_ON_TRUE_EVENTS -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.HISTORY_ID) },
+                    movieMapper::map
+                )
+            }
+
+            AllMediaType.FEEL_GOOD_FAVORITES -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.COMEDY_ID) },
+                    movieMapper::map
+                )
+            }
+
             AllMediaType.MATCHES_YOUR_VIBE -> {
                 wrapper(
                     { movieRepository.getMovieByGenre(Constants.ADVENTURE_ID) },

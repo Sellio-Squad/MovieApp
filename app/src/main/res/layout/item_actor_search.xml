@@ -18,7 +18,7 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:background="@android:color/transparent">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/image_actor"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -28,14 +28,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/Circle"
+            app:shapeAppearanceOverlay="@style/CardCorners.large"
             tools:src="@drawable/actor"
             app:posterImage="@{item.mediaImage}"
             android:onClick="@{() -> listener.onClickActorResult(item.mediaID, item.mediaName)}"/>
 
         <TextView
             android:id="@+id/cast_name"
-            style="@style/Regular.Small.Secondary"
+            style="@style/TextStyle.Body.Small.Medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

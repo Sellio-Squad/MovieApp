@@ -3,7 +3,9 @@ package com.karrar.movieapp.ui.profile.watchhistory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
-import com.karrar.movieapp.domain.usecases.GetWatchHistoryUseCase
+import com.karrar.movieapp.domain.usecases.myHistory.CloseHistoryTipUseCase
+import com.karrar.movieapp.domain.usecases.myHistory.GetShowHistoryTipUseCase
+import com.karrar.movieapp.domain.usecases.myHistory.GetWatchHistoryUseCase
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
+    private val closeHistoryTipUseCase: CloseHistoryTipUseCase,
+    private val getShowHistoryTipUseCase: GetShowHistoryTipUseCase,
     private val watchHistoryMapper: WatchHistoryMapper
 ) : ViewModel(), WatchHistoryInteractionListener {
 
@@ -28,6 +32,7 @@ class WatchHistoryViewModel @Inject constructor(
 
     init {
         getWatchHistoryData()
+        getShowTip()
     }
 
     private fun getWatchHistoryData() {
@@ -41,7 +46,17 @@ class WatchHistoryViewModel @Inject constructor(
             } catch (t: Throwable) {
                 _uiState.update { it.copy(error = listOf(Error(400, t.message.toString()))) }
             }
+        }
+    }
 
+    private fun getShowTip() {
+        viewModelScope.launch {
+            try {
+                val showTip = getShowHistoryTipUseCase()
+                _uiState.update { it.copy(showTip = showTip) }
+            } catch (t: Throwable) {
+                _uiState.update { it.copy(error = listOf(Error(400, t.message.toString()))) }
+            }
         }
     }
 
@@ -51,6 +66,21 @@ class WatchHistoryViewModel @Inject constructor(
         } else {
             _watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.TVShowEvent(item.id)) }
         }
+    }
+
+    override fun onTipCancelIconClicked() {
+        viewModelScope.launch {
+            try {
+                closeHistoryTipUseCase()
+                _uiState.update { it.copy(showTip = false) }
+            } catch (t: Throwable) {
+                _uiState.update { it.copy(error = listOf(Error(400, t.message.toString()))) }
+            }
+        }
+    }
+
+    override fun onClickFindSomethingToWatchButton() {
+        _watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.FindToSomethingToWatchEvent) }
     }
 
 }

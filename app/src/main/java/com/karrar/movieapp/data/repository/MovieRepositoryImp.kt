@@ -8,12 +8,27 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.local.database.entity.movie.*
+import com.karrar.movieapp.data.local.database.entity.movie.AdventureMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.MatchVibesMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.MysteryMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.NowStreamingMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.PopularMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.TrendingMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.UpcomingMovieEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
-import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.BaseListResponse
+import com.karrar.movieapp.data.remote.response.CreatedListDto
+import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.DailyTrendingDto
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.RatedMoviesDto
+import com.karrar.movieapp.data.remote.response.SavedListDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
-import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.actor.ActorGalleryDto
+import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
@@ -26,7 +41,7 @@ import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSource
 import com.karrar.movieapp.data.repository.serchDataSource.SearchDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import kotlinx.coroutines.flow.Flow
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
@@ -259,7 +274,6 @@ class MovieRepositoryImp @Inject constructor(
         return Pager(config = config, pagingSourceFactory = { dataSource })
     }
 
-
     private suspend fun refreshPopularMovies(currentDate: Date) {
         val genres = getMovieGenreList() ?: emptyList()
         refreshWrapper(
@@ -431,16 +445,56 @@ class MovieRepositoryImp @Inject constructor(
         runtimeGte: Int?,
         runtimeLte: Int?,
         releaseDateGte: String?,
-        releaseDateLte: String?
-    ): BaseListResponse<MovieDto>? {
-        return movieService.getMatchedMovies(
-            page = page,
-            genres = genres,
-            runtimeGte = runtimeGte,
-            runtimeLte = runtimeLte,
-            releaseDateGte = releaseDateGte,
-            releaseDateLte = releaseDateLte
-        ).body()
+        releaseDateLte: String?,
+    ): Flow<List<MatchVibesMovieEntity>> {
+        refreshOneTimePerDay(
+            appConfiguration.getRequestDate(Constants.MATCH_VIBES_MOVIE_REQUEST_DATE_KEY)
+
+        ) { date ->
+            refreshMatchedVibesMovies(
+                page = page,
+                genres = genres,
+                runtimeGte = runtimeGte,
+                runtimeLte = runtimeLte,
+                releaseDateGte = releaseDateGte,
+                releaseDateLte = releaseDateLte,
+                currentDate = date,
+            )
+        }
+        return movieDao.getMatchVibesMovies()
     }
 
+    private suspend fun refreshMatchedVibesMovies(
+        page: Int,
+        genres: String?,
+        runtimeGte: Int?,
+        runtimeLte: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?,
+        currentDate: Date
+    ) {
+        refreshWrapper(
+            {
+                movieService.getMatchedMovies(
+                    page = page,
+                    genres = genres,
+                    runtimeGte = runtimeGte,
+                    runtimeLte = runtimeLte,
+                    releaseDateGte = releaseDateGte,
+                    releaseDateLte = releaseDateLte
+                )
+            },
+            { list ->
+                list?.map { dataMappers.matchVibesMovieMapper.map(it) }
+            },
+            {
+                movieDao.deleteAllWatchedMovies()
+                movieDao.insertMatchVibesMovies(it)
+                appConfiguration.saveRequestDate(
+                    Constants.MATCH_VIBES_MOVIE_REQUEST_DATE_KEY,
+                    currentDate.time
+                )
+            },
+        )
+    }
 }

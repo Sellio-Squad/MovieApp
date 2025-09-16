@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.flexbox.FlexboxLayout
@@ -15,12 +16,14 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMatchBinding
 import com.karrar.movieapp.databinding.ItemMatchQuestionCardBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.main.MainActivity
 import com.karrar.movieapp.ui.match.adapters.MatchCarouselAdapter
 import com.karrar.movieapp.ui.match.adapters.MatchOptionsAdapter
 import com.karrar.movieapp.ui.match.adapters.MatchResultsAdapter
-import com.karrar.movieapp.ui.main.MainActivity
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -157,12 +160,16 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     }
 
     private fun observeViewModel() {
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            updateUI(state)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collectLatest { state ->
+                updateUI(state)
+            }
         }
 
-        viewModel.uiEvent.observe(viewLifecycleOwner) { event ->
-            handleEvent(event)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiEvent.collect { event ->
+                handleEvent(event)
+            }
         }
     }
 
@@ -455,13 +462,14 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
         }
     }
 
-    private fun handleEvent(event: Event<MatchEvent>) {
+    private fun handleEvent(event: Event<MatchEvent?>) {
         event.getContentIfNotHandled()?.let { matchEvent ->
             when (matchEvent) {
                 is MatchEvent.OnMovieClick -> {
                     navigateToMovieDetails(matchEvent.id)
                 }
             }
+            viewModel.resetEvent()
         }
     }
 

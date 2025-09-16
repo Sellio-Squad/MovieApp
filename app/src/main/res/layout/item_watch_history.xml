@@ -48,7 +48,7 @@
             android:background="@drawable/bg_card_rounded"
             android:onClick="@{() -> listener.onClickMovie(item)}">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.ae.imageharamblur.ui.ImageViewFilter
                 android:id="@+id/image_movie"
                 android:layout_width="64dp"
                 android:layout_height="0dp"

@@ -48,7 +48,7 @@
             android:background="@drawable/collection_card"
             android:onClick="@{()-> listener.onItemClick(item)}">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.ae.imageharamblur.ui.ImageViewFilter
                 android:id="@+id/cast_image"
                 android:layout_width="64dp"
                 android:layout_height="0dp"

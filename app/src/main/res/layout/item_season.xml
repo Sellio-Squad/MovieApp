@@ -43,7 +43,7 @@
 <!--                app:layout_constraintStart_toStartOf="parent"-->
 <!--                app:layout_constraintTop_toTopOf="parent">-->
 
-<!--                <com.google.android.material.imageview.ShapeableImageView-->
+<!--                <com.ae.imageharamblur.ui.ImageViewFilter-->
 <!--                    android:id="@+id/image_episode"-->
 <!--                    android:layout_width="0dp"-->
 <!--                    android:layout_height="0dp"-->
@@ -200,7 +200,7 @@
 <!--        android:padding="@dimen/radius_cineVerse_l">-->
 
 
-<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--        <com.ae.imageharamblur.ui.ImageViewFilter-->
 <!--            android:id="@+id/image_episode"-->
 <!--            android:layout_width="0dp"-->
 <!--            android:layout_height="0dp"-->
@@ -351,7 +351,7 @@
         android:outlineProvider="background"
         android:padding="@dimen/radius_cineVerse_l">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/image_episode"
             android:layout_width="0dp"
             android:layout_height="0dp"

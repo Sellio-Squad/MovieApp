@@ -205,7 +205,7 @@
             app:layout_constraintTop_toBottomOf="@+id/over_view_title"
             tools:text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam. Exercitation veniam." />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/posterImage"
             android:layout_width="216dp"
             android:layout_height="289dp"

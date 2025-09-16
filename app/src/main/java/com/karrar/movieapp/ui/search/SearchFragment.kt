@@ -19,6 +19,7 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.search.adapters.ActorSearchAdapter
 import com.karrar.movieapp.ui.search.adapters.GridMediaAdapter
 import com.karrar.movieapp.ui.search.adapters.MediaSearchAdapter
+import com.karrar.movieapp.ui.search.adapters.MediaSearchCardAdapter
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryAdapter
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
@@ -41,6 +42,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val viewModel: SearchViewModel by viewModels()
 
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
+    private val mediaSearchCardAdapter by lazy { MediaSearchCardAdapter(viewModel) }
     private val gridMediaAdapter by lazy { GridMediaAdapter(viewModel) }
     private val actorSearchAdapter by lazy { ActorSearchAdapter(viewModel) }
 
@@ -78,7 +80,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> viewModel.onSearchForMovie()
+                    1 -> viewModel.onSearchForSeries()
+                    2 -> viewModel.onSearchForActor()
+                }
+            }
         })
     }
 
@@ -194,6 +202,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 actorSearchAdapter.retry()
                 mediaSearchAdapter.retry()
                 gridMediaAdapter.retry()
+                mediaSearchCardAdapter.retry()
             }
         }
     }
@@ -223,19 +232,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun bindMediaList() {
-        val footerAdapter = LoadUIStateAdapter(mediaSearchAdapter::retry)
-        binding.recyclerMedia.adapter = mediaSearchAdapter.withLoadStateFooter(footerAdapter)
+        val footerAdapter = LoadUIStateAdapter(mediaSearchCardAdapter::retry)
+        binding.recyclerMedia.adapter = mediaSearchCardAdapter.withLoadStateFooter(footerAdapter)
         binding.recyclerMedia.layoutManager =
             LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
 
         collect(
-            flow = mediaSearchAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
+            flow = mediaSearchCardAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it, mediaSearchCardAdapter.itemCount) })
 
         // Collect the search results and submit to adapter
         lifecycleScope.launch {
             viewModel.uiState.value.searchResult.collectLatest { pagingData ->
-                mediaSearchAdapter.submitData(pagingData)
+                mediaSearchCardAdapter.submitData(pagingData)
             }
         }
     }

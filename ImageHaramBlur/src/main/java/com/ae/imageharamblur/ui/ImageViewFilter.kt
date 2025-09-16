@@ -4,30 +4,67 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.RenderEffect
 import android.graphics.Shader
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.FrameLayout
+import android.util.Log
 import androidx.core.content.withStyledAttributes
-import androidx.core.view.isVisible
 import coil.Coil
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.ae.imageharamblur.R
-import com.ae.imageharamblur.databinding.ViewImageFilterBinding
 import com.ae.imageharamblur.extensions.toBitmap
 import com.ae.imageharamblur.utils.StackBlur
+import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.*
 
 class ImageViewFilter @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : ShapeableImageView(context, attrs, defStyleAttr) {
 
-    private val binding: ViewImageFilterBinding =
-        ViewImageFilterBinding.inflate(LayoutInflater.from(context), this, true)
+    companion object {
+        private const val TAG = "ImageViewFilter"
+
+        private fun generateImageKey(model: Any?): String = when (model) {
+            is String -> model
+            is Int -> model.toString()
+            else -> model.hashCode().toString()
+        }
+
+        private suspend fun loadImageDrawable(
+            context: Context,
+            model: Any?
+        ): Drawable? = withContext(Dispatchers.IO) {
+            val request = ImageRequest.Builder(context)
+                .data(model)
+                .allowHardware(false)
+                .memoryCachePolicy(CachePolicy.ENABLED)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .build()
+
+            try {
+                val result = Coil.imageLoader(context).execute(request)
+                result.drawable
+            } catch (_: Exception) {
+                null
+            }
+        }
+
+        private fun createModerationController(
+            context: Context,
+            imageKey: String,
+            config: ImageFilterConfig
+        ): ImageModerationController = ImageModerationController(
+            context = context,
+            cacheKey = imageKey,
+            enableModeration = config.enableModeration,
+            blurStrength = config.blurStrength
+        )
+    }
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var loadingJob: Job? = null
     private var moderationJob: Job? = null
@@ -51,19 +88,10 @@ class ImageViewFilter @JvmOverloads constructor(
     var onError: ((String?) -> Unit)? = null
 
     init {
-        // Hide all UI elements except imageView
-        binding.apply {
-            imageView.isVisible = true // Always show image view
-            progressBar.isVisible = false
-            errorContainer.isVisible = false
-            moderatedContainer.isVisible = false
-            customLoadingContainer.isVisible = false
-            customErrorContainer.isVisible = false
-            customModeratedContainer.isVisible = false
-            blurTextOverlay.isVisible = false
-        }
+        // Set default scale type
+        scaleType = ScaleType.CENTER_CROP
 
-        // Parse attributes if needed
+        // Parse attributes
         attrs?.let {
             context.withStyledAttributes(it, R.styleable.ImageViewFilter) {
                 config = ImageFilterConfig(
@@ -112,12 +140,11 @@ class ImageViewFilter @JvmOverloads constructor(
                 }
 
                 // Show image immediately without blur
-                val bitmap = drawable.toBitmap() ?: return@launch
-                showImage(bitmap, shouldBlur = false)
+                showImage(drawable, shouldBlur = false)
 
                 // Process moderation in background
                 if (config.forceBlur) {
-                    showImage(bitmap, shouldBlur = true)
+                    showImage(drawable, shouldBlur = true)
                     onModerationResult?.invoke(true)
                     return@launch
                 }
@@ -164,7 +191,7 @@ class ImageViewFilter @JvmOverloads constructor(
                                 useContentDetection = config.useContentDetection
                             )
                         } catch (e: Exception) {
-                            android.util.Log.e("ImageViewFilter", "Moderation failed", e)
+                            Log.e(TAG, "Moderation failed", e)
                             null
                         }
 
@@ -175,7 +202,7 @@ class ImageViewFilter @JvmOverloads constructor(
                             if (it.shouldBlur && isActive) {
                                 withContext(Dispatchers.Main) {
                                     if (isActive) {
-                                        showImage(it.originalBitmap!!, shouldBlur = true)
+                                        showImage(drawable, shouldBlur = true)
                                         onModerationResult?.invoke(true)
                                     }
                                 }
@@ -185,59 +212,61 @@ class ImageViewFilter @JvmOverloads constructor(
                         }
                     } catch (e: CancellationException) {
                         // Expected when view is recycled
-                        android.util.Log.d("ImageViewFilter", "Moderation cancelled")
+                        Log.d(TAG, "Moderation cancelled")
                     } catch (e: Exception) {
-                        android.util.Log.e("ImageViewFilter", "Moderation error", e)
+                        Log.e(TAG, "Moderation error", e)
                         onError?.invoke(e.message)
                     }
                 }
             } catch (e: CancellationException) {
                 // Expected when loading new image
-                android.util.Log.d("ImageViewFilter", "Loading cancelled")
+                Log.d(TAG, "Loading cancelled")
             } catch (e: Exception) {
-                android.util.Log.e("ImageViewFilter", "Loading error", e)
+                Log.e(TAG, "Loading error", e)
                 onError?.invoke(e.message)
             }
         }
     }
 
-    private fun showImage(bitmap: Bitmap, shouldBlur: Boolean) {
+    private fun showImage(drawable: Drawable, shouldBlur: Boolean) {
         try {
-            binding.imageView.apply {
-                if (shouldBlur) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        setImageBitmap(bitmap)
-                        setRenderEffect(
-                            RenderEffect.createBlurEffect(
-                                config.blurStrength,
-                                config.blurStrength,
-                                Shader.TileMode.CLAMP
-                            )
+            if (shouldBlur) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    // Use RenderEffect for Android 12+
+                    setImageDrawable(drawable)
+                    setRenderEffect(
+                        RenderEffect.createBlurEffect(
+                            config.blurStrength,
+                            config.blurStrength,
+                            Shader.TileMode.CLAMP
                         )
-                    } else {
-                        try {
-                            val blurredBitmap = applyStackBlur(bitmap, config.blurStrength.toInt())
-                            setImageBitmap(blurredBitmap)
-                        } catch (e: Exception) {
-                            // If blur fails, show original
-                            android.util.Log.e("ImageViewFilter", "Blur failed", e)
-                            setImageBitmap(bitmap)
-                        }
-                    }
+                    )
                 } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        setRenderEffect(null)
+                    // Use StackBlur for older versions
+                    try {
+                        val bitmap = drawable.toBitmap() ?: return
+                        val blurredBitmap = applyStackBlur(bitmap, config.blurStrength.toInt())
+                        setImageBitmap(blurredBitmap)
+                    } catch (e: Exception) {
+                        // If blur fails, show original
+                        Log.e(TAG, "Blur failed", e)
+                        setImageDrawable(drawable)
                     }
-                    setImageBitmap(bitmap)
                 }
+            } else {
+                // Clear any render effect and show original
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    setRenderEffect(null)
+                }
+                setImageDrawable(drawable)
             }
         } catch (e: Exception) {
-            android.util.Log.e("ImageViewFilter", "Failed to show image", e)
+            Log.e(TAG, "Failed to show image", e)
         }
     }
 
     private fun applyStackBlur(bitmap: Bitmap, radius: Int): Bitmap {
-        val output = bitmap.copy(bitmap.config!!, true)
+        val output = bitmap.copy(bitmap.config ?: Bitmap.Config.ARGB_8888, true)
         return StackBlur.process(output, radius.coerceIn(1, 180))
     }
 
@@ -246,49 +275,26 @@ class ImageViewFilter @JvmOverloads constructor(
         moderationJob?.cancel()
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        // Cancel jobs but not the entire scope
-        loadingJob?.cancel()
-        moderationJob?.cancel()
-        controller?.close()
+    override fun setImageDrawable(drawable: Drawable?) {
+        // Clear any existing render effect when setting new drawable
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            setRenderEffect(null)
+        }
+        super.setImageDrawable(drawable)
     }
 
-    companion object {
-        private fun generateImageKey(model: Any?): String = when (model) {
-            is String -> model
-            is Int -> model.toString()
-            else -> model.hashCode().toString()
+    override fun setImageBitmap(bm: Bitmap?) {
+        // Clear any existing render effect when setting new bitmap
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            setRenderEffect(null)
         }
+        super.setImageBitmap(bm)
+    }
 
-        private suspend fun loadImageDrawable(
-            context: Context,
-            model: Any?
-        ): Drawable? = withContext(Dispatchers.IO) {
-            val request = ImageRequest.Builder(context)
-                .data(model)
-                .allowHardware(false)
-                .memoryCachePolicy(CachePolicy.ENABLED)
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .build()
-
-            try {
-                val result = Coil.imageLoader(context).execute(request)
-                result.drawable
-            } catch (_: Exception) {
-                null
-            }
-        }
-
-        private fun createModerationController(
-            context: Context,
-            imageKey: String,
-            config: ImageFilterConfig
-        ): ImageModerationController = ImageModerationController(
-            context = context,
-            cacheKey = imageKey,
-            enableModeration = config.enableModeration,
-            blurStrength = config.blurStrength
-        )
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        // Cancel all coroutines
+        coroutineScope.cancel()
+        controller?.close()
     }
 }

@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.myList.myListUIState
 
-import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 
 data class CreateListDialogUIState(
     val mediaListName: String = "",

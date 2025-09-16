@@ -2,6 +2,8 @@ package com.karrar.movieapp.di
 
 import com.karrar.movieapp.data.repository.AccountRepository
 import com.karrar.movieapp.data.repository.AccountRepositoryImp
+import com.karrar.movieapp.data.repository.HistoryTipsRepository
+import com.karrar.movieapp.data.repository.HistoryTipsRepositoryImpl
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.MovieRepositoryImp
 import com.karrar.movieapp.data.repository.SeriesRepository
@@ -34,5 +36,8 @@ abstract class RepositoryModule {
         accountRepositoryImp: AccountRepositoryImp
     ): AccountRepository
 
+    @ViewModelScoped
+    @Binds
+    abstract fun bindHistoryTipsRepository(impl: HistoryTipsRepositoryImpl): HistoryTipsRepository
 
 }

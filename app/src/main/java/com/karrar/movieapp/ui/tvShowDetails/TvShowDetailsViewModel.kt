@@ -70,7 +70,6 @@ class TvShowDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                updateDetailItems(DetailItemUIState.Header(_stateUI.value.tvShowDetailsResult))
                 insertMovieToWatchHistory(result)
             } catch (e: Exception) {
                 _stateUI.update {

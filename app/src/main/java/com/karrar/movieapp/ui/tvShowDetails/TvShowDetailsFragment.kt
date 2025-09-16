@@ -1,8 +1,10 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
@@ -27,6 +29,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
     private val args: TvShowDetailsFragmentArgs by navArgs()
     private val detailAdapter by lazy { DetailUIStateAdapter(emptyList(), viewModel) }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
@@ -34,6 +37,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
         binding.listener = this
         collectTVShowDetailsItems()
         collectEvents()
+        setupRecyclerWithHeaderAnimation()
     }
 
     private fun collectTVShowDetailsItems() {
@@ -100,5 +104,21 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
 
     override fun onclickViewReviews() {
     }
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setupRecyclerWithHeaderAnimation() {
+        val recyclerView = binding.recyclerView
+        val motionLayout = binding.headerMotionLayout
 
+        recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            val dy = scrollY - oldScrollY
+
+            if (dy != 0) {
+                val totalScrollRange = 500f
+                val currentOffset = recyclerView.computeVerticalScrollOffset().toFloat()
+
+                val progress = (currentOffset / totalScrollRange).coerceIn(0f, 1f)
+                motionLayout.progress = progress
+            }
+        }
+    }
 }

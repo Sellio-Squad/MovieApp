@@ -5,7 +5,6 @@ import com.karrar.movieapp.ui.models.ActorUiState
 
 sealed class DetailItemUIState(val priority: Int) {
 
-    class Header(val data: TvShowDetailsResultUIState) : DetailItemUIState(0)
 
     class Seasons(val data: List<SeasonUIState>) : DetailItemUIState(1)
 

@@ -3,37 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
     <data>
-
         <variable
             name="item"
-
-            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieDetailsUIState" />
+            type="com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState" />
 
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
     </data>
-<LinearLayout
-    android:id="@+id/min_header"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingHorizontal="16dp"
-    android:backgroundTint="@color/background_color_screen"
-    >
+    <LinearLayout
+        android:id="@+id/min_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:backgroundTint="@color/background_color_screen"
+        >
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/user_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:posterImage="@{item.image}"
-        app:shapeAppearanceOverlay="@style/Circle"
-        tools:srcCompat="@drawable/image"
-        />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/user_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.tvShowImage}"
+            app:shapeAppearanceOverlay="@style/Circle"
+            tools:srcCompat="@drawable/image"
+            />
         <TextView
             android:id="@+id/movieTitle"
             android:layout_width="0dp"
@@ -43,7 +41,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:singleLine="true"
-            android:text="@{item.name}"
+            android:text="@{item.tvShowName}"
             android:textColor="@color/shade_primary_color"
             android:textSize="18sp"
             tools:text="title"

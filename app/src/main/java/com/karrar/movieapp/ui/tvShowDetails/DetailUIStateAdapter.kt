@@ -34,12 +34,6 @@ class DetailUIStateAdapter(
 
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
-            is DetailItemUIState.Header -> {
-                holder.binding.run {
-                    setVariable(BR.item, currentItem.data)
-                    setVariable(BR.listener, listener as DetailInteractionListener)
-                }
-            }
             is DetailItemUIState.Seasons -> {
                 holder.binding.run {
                     setVariable(
@@ -91,7 +85,6 @@ class DetailUIStateAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is DetailItemUIState.Header -> R.layout.item_tv_show_details_header
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.Seasons -> R.layout.list_season
             is DetailItemUIState.Rating -> R.layout.item_tvshow_rating

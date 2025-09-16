@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -36,19 +37,48 @@
                 app:tint="@color/shade_primary_color" />
 
         </com.google.android.material.appbar.MaterialToolbar>
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/headerMotionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/appBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutDescription="@xml/scene_media_details">
+
+            <include
+                android:id="@+id/fullHeader"
+                layout="@layout/item_tv_show_details_header"
+                app:item="@{viewModel.stateFlow.tvShowDetailsResult}"
+                app:listener="@{listener}"
+                />
+
+
+            <include
+                android:id="@+id/minHeader"
+                layout="@layout/min_tv_show_header"
+                app:item="@{viewModel.stateFlow.tvShowDetailsResult}"
+                app:listener="@{listener}" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/background_color"
             android:overScrollMode="never"
+            android:scrollbars="none"
             app:doneLoading="@{viewModel.stateFlow.loading}"
             app:errorNotEmpty="@{viewModel.stateFlow.errorUIState}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBar"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:spanCount="1" />
+            app:spanCount="1"
+            app:layout_constraintTop_toBottomOf="@id/headerMotionLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/item_movie_detail_header" />
+
 
         <include
             android:id="@+id/loading"

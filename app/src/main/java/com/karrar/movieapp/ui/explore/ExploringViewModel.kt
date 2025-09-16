@@ -9,6 +9,7 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploringUIEvent
+import com.karrar.movieapp.ui.explore.exploreUIState.ViewMode
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
@@ -102,6 +103,9 @@ class ExploringViewModel @Inject constructor(
         }
     }
 
+    fun setViewMode(viewMode: ViewMode) {
+        _uiState.update { it.copy(viewMode = viewMode) }
+    }
 
     fun onClickSearch() {
         _exploringUIEvent.update { Event(ExploringUIEvent.SearchEvent) }

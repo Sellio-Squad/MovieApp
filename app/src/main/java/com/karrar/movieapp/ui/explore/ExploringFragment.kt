@@ -15,27 +15,33 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
-import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.explore.adapter.CategoryListAdapter
+import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploringUIEvent
+import com.karrar.movieapp.ui.explore.exploreUIState.ViewMode
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 
 @AndroidEntryPoint
-class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInteractionListener {
+class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInteractionListener {
     override val layoutIdFragment: Int = R.layout.fragment_exploring
     override val viewModel: ExploringViewModel by viewModels()
 
-    private val mediaAdapter by lazy { CategoryAdapter(this) }
+    private val listAdapter by lazy { CategoryListAdapter(this) }
+    private val gridAdapter by lazy { CategoryAdapter(this) }
     private lateinit var voiceLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,16 +52,23 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerViews()
+
         collectEvent()
         collectUIState()
+        setupToggleButton()
         setupVoiceSearch()
+
+        collect(viewModel.uiState) { state ->
+            setupRecyclerViews(state)
+            updateToggleIndicator(state.viewMode == ViewMode.GRID)
+        }
+
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewModel.onTabChanged(tab.position)
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) { }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
 
             override fun onTabReselected(tab: TabLayout.Tab) {
                 viewModel.onTabChanged(tab.position)
@@ -63,6 +76,24 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
         }
         )
 
+    }
+
+    private fun setupToggleButton() {
+        binding.btnGridView.setOnClickListener {
+            viewModel.setViewMode(ViewMode.GRID)
+        }
+
+        binding.btnListView.setOnClickListener {
+            viewModel.setViewMode(ViewMode.LIST)
+        }
+    }
+
+
+    private fun updateToggleIndicator(isGridSelected: Boolean) {
+        val indicatorMargin = if (isGridSelected) 0 else 40 // 40dp for moving to the right
+        val layoutParams = binding.indicator.layoutParams as android.widget.FrameLayout.LayoutParams
+        layoutParams.marginStart = (indicatorMargin * resources.displayMetrics.density).toInt()
+        binding.indicator.layoutParams = layoutParams
     }
 
     private fun setupVoiceSearch() {
@@ -92,7 +123,10 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
 
     private fun startVoiceSearch() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
         }
@@ -100,7 +134,10 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
         try {
             voiceLauncher.launch(intent)
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Voice search not supported", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(), "Voice search not supported", Toast.LENGTH_SHORT
+            )
+                .show()
         }
     }
 
@@ -114,7 +151,10 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
     private fun onEvent(event: ExploringUIEvent) {
         when (event) {
             ExploringUIEvent.ActorsEvent -> {
-                findNavController().navigate(ExploringFragmentDirections.actionExploringFragmentToActorsFragment())
+                findNavController().navigate(
+                    ExploringFragmentDirections
+                        .actionExploringFragmentToActorsFragment()
+                )
             }
 
             ExploringUIEvent.SearchEvent -> navigateToSearch()
@@ -148,28 +188,65 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
         findNavController().navigate(action)
     }
 
-    private fun setupRecyclerViews() {
-        val gridLayoutManager = GridLayoutManager(context, 2)
-        binding.recyclerMedia.layoutManager = gridLayoutManager
+    private var lastViewMode: ViewMode? = null
 
-        val footerAdapter = LoadUIStateAdapter(mediaAdapter::retry)
-        binding.recyclerMedia.adapter = mediaAdapter.withLoadStateFooter(footerAdapter)
+    private fun setupRecyclerViews(state: ExploreUIState) {
+        if (state.viewMode == lastViewMode) return
+        lastViewMode = state.viewMode
 
-        collect(flow = mediaAdapter.loadStateFlow) { loadStates ->
-            viewModel.setErrorUiState(loadStates.refresh)
+        when (state.viewMode) {
+            ViewMode.LIST -> bindMediaList()
+            ViewMode.GRID -> bindMediaGrid()
         }
     }
 
+    private fun bindMediaList() {
+        val footerAdapter = LoadUIStateAdapter(listAdapter::retry)
+        binding.recyclerMedia.adapter = listAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+        collect(flow = listAdapter.loadStateFlow) { loadStates ->
+            viewModel.setErrorUiState(loadStates.refresh)
+        }
+
+        lifecycleScope.launch {
+            viewModel.uiState.value.media.collectLatest { pagingData ->
+                listAdapter.submitData(pagingData)
+            }
+        }
+    }
+
+    private fun bindMediaGrid() {
+        val footerAdapter = LoadUIStateAdapter(gridAdapter::retry)
+        binding.recyclerMedia.adapter = gridAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        collect(flow = gridAdapter.loadStateFlow) { loadStates ->
+            viewModel.setErrorUiState(loadStates.refresh)
+        }
+
+        lifecycleScope.launch {
+            viewModel.uiState.value.media.collectLatest { pagingData ->
+                gridAdapter.submitData(pagingData)
+            }
+        }
+    }
+
+
     private fun collectUIState() {
         collectLast(viewModel.uiState) { uiState ->
-            // Collect media data
             lifecycleScope.launch {
                 uiState.media.collect { pagingData ->
-                    mediaAdapter.submitData(pagingData)
+                    when (uiState.viewMode) {
+                        ViewMode.GRID -> gridAdapter.submitData(pagingData)
+                        ViewMode.LIST -> listAdapter.submitData(pagingData)
+                    }
                 }
             }
         }
     }
+
 
     private fun navigateToMediaDetails(mediaId: Int) {
         val currentMediaType = if (binding.tabLayout.selectedTabPosition == 0) {
@@ -185,8 +262,8 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), MediaInterac
         }
     }
 
-    override fun onClickMedia(mediaId: Int) {
-        viewModel.onClickMedia(mediaId)
+    override fun onClickCategory(categoryId: Int) {
+        viewModel.onClickMedia(categoryId)
     }
 
 }

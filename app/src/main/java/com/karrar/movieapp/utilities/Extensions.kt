@@ -29,7 +29,10 @@ import java.util.*
 
 fun <T> ChipGroup.createChip(item: GenreUIState, listener: T): View {
     val chipBinding: ChipItemCategoryBinding = DataBindingUtil.inflate(
-        LayoutInflater.from(context), R.layout.chip_item_category, this, false
+        LayoutInflater.from(context),
+        R.layout.chip_item_category,
+        this,
+        false
     )
     chipBinding.item = item
     chipBinding.listener = listener as CategoryInteractionListener

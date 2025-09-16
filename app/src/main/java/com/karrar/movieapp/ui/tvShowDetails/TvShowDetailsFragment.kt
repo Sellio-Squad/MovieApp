@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.animation.ValueAnimator
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -123,6 +124,8 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
         val recyclerView = binding.recyclerView
         val motionLayout = binding.headerMotionLayout
 
+        var lastProgress = 0f
+
         recyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
             val range = recyclerView.computeVerticalScrollRange()
             val extent = recyclerView.computeVerticalScrollExtent()
@@ -130,22 +133,30 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
             val canScroll = range > extent
             if (!canScroll) {
                 motionLayout.progress = 0f
+                lastProgress = 0f
                 return@setOnScrollChangeListener
             }
 
             val offset = recyclerView.computeVerticalScrollOffset().toFloat()
             val maxScroll = (range - extent).toFloat()
 
-            var progress = if (maxScroll > 0) {
+            val targetProgress = if (maxScroll > 0) {
                 (offset / maxScroll).coerceIn(0f, 1f)
             } else {
                 0f
             }
 
-            progress = android.view.animation.AccelerateDecelerateInterpolator()
-                .getInterpolation(progress)
-
-            motionLayout.progress = progress
+            if (targetProgress != lastProgress) {
+                ValueAnimator.ofFloat(lastProgress, targetProgress).apply {
+                    duration = 50
+                    interpolator = android.view.animation.DecelerateInterpolator()
+                    addUpdateListener { animator ->
+                        motionLayout.progress = animator.animatedValue as Float
+                    }
+                    start()
+                }
+            }
+            lastProgress = targetProgress
         }
     }
 }

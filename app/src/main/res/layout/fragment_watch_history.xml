@@ -17,6 +17,58 @@
         android:layout_height="match_parent"
         android:background="@color/background_color">
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tip_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/radius_cineVerse_xl"
+            android:layout_marginTop="@dimen/radius_cineVerse_xl"
+            android:background="@drawable/tip_background_drawable"
+            android:padding="@dimen/radius_cineVerse_l"
+            app:isVisible="@{viewModel.uiState.showTip &amp; viewModel.uiState.allMedia.size() != 0}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/tip_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/due_tone_info_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/brand_color_primary" />
+
+            <TextView
+                android:id="@+id/tip_text"
+                style="@style/TextStyle.Body.Small.Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/radius_cineVerse_s"
+                android:gravity="center_vertical"
+                android:text="@string/tip_my_history"
+                android:textColor="@color/shade_color_primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tip_close"
+                app:layout_constraintStart_toEndOf="@id/tip_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/tip_close"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:onClick="@{() -> viewModel.onTipCancelIconClicked()}"
+                android:src="@drawable/outline_x"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/shade_color_secondary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_watch_history"
             android:layout_width="match_parent"

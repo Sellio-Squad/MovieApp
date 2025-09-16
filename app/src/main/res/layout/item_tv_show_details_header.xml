@@ -157,41 +157,14 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="12dp"
-                    style="@style/MovieAppFabStyle"
-                    android:background="@drawable/shape_md_corner"
+                    style="@style/MovieAppFabStyle" android:background="@drawable/shape_md_corner"
+                    app:tint="@color/shade_primary_color"
                     android:onClick="@{() -> listener.onClickSave()}"
                     android:padding="11dp"
                     android:src="@drawable/due_tone_add"
                     app:backgroundTint="@color/button_color_secondary" />
             </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/over_view_title"
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:text="@string/Storyline"
-            android:textColor="@color/shade_primary_color"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailCard" />
-
-        <TextView
-            android:id="@+id/over_view"
-            style="@style/Regular.Medium.Secondary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginBottom="@dimen/spacing_large"
-            android:text="@{item.tvShowOverview}"
-            android:textColor="@color/shade_secondary_color"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/over_view_title"
-            app:layout_constraintTop_toBottomOf="@+id/over_view_title"
-            tools:text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam. Exercitation veniam." />
 
         <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/posterImage"

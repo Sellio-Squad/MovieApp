@@ -30,6 +30,12 @@ class DetailAdapter(
 
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
+            is DetailItemUIState.OverView -> {
+                holder.binding.run {
+                    setVariable(BR.item, currentItem.data)
+                }
+
+            }
 
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
@@ -77,6 +83,7 @@ class DetailAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+
         }
     }
 
@@ -91,6 +98,7 @@ class DetailAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
+            is DetailItemUIState.OverView -> R.layout.item_movie_overview
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
             is DetailItemUIState.Rating -> R.layout.item_rating

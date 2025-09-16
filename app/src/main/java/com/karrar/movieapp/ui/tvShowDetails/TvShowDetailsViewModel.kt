@@ -2,7 +2,6 @@ package com.karrar.movieapp.ui.tvShowDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
@@ -11,10 +10,9 @@ import com.karrar.movieapp.domain.usecases.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.TvShowDetailsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
+import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
-import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIEvent
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
@@ -98,6 +96,7 @@ class TvShowDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
+                updateDetailItems(DetailItemUIState.OverView(_stateUI.value.tvShowDetailsResult))
                 insertMovieToWatchHistory(result)
             } catch (e: Exception) {
                 _stateUI.update {

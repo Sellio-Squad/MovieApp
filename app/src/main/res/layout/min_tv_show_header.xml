@@ -54,6 +54,7 @@
             android:background="@drawable/shape_md_corner"
             android:onClick="@{() -> listener.onClickSave()}"
             android:padding="11dp"
+            app:tint="@color/shade_primary_color"
             android:src="@drawable/due_tone_add"
             app:backgroundTint="@color/button_color_secondary" />
         <androidx.appcompat.widget.AppCompatImageView

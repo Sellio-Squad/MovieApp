@@ -4,6 +4,8 @@ import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actor.ActorGalleryDto
+import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaDto
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
@@ -78,6 +80,14 @@ interface MovieService {
     @GET("person/{person_id}")
     suspend fun getActorDetails(@Path("person_id") actorId: Int): Response<ActorDto>
 
+    @GET("person/{person_id}/images")
+    suspend fun getGalleryActor(@Path("person_id") actorId: Int): Response<ActorGalleryDto>
+
+    @GET("person/{person_id}/external_ids")
+    suspend fun getActorSocialMedia(
+        @Path("person_id") actorId: Int
+    ): Response<ActorSocialMediaDto>
+
     @GET("person/{person_id}/movie_credits")
     suspend fun getActorMovies(@Path("person_id") actorId: Int): Response<ActorMoviesDto>
 
@@ -100,10 +110,14 @@ interface MovieService {
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCast(@Path("movie_id") movieId: Int): Response<CreditsDto>
 
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieCastAndCrew(@Path("movie_id") movieId: Int): Response<CreditsDto>
 
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseListResponse<MovieDto>>
 
+    @GET("tv/{tv_id}/similar")
+    suspend fun getSimilarTvShows(@Path("tv_id") tvShowId: Int): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviews(@Path("movie_id") movieId: Int): Response<BaseListResponse<ReviewsDto>>
@@ -227,4 +241,13 @@ interface MovieService {
         @Path("tv_id") tvId: Int,
     ): Response<RatingDto>
 
+    @GET("discover/movie")
+    suspend fun getMatchedMovies(
+        @Query("page") page: Int = 1,
+        @Query("with_genres") genres: String? = null,
+        @Query("with_runtime.gte") runtimeGte: Int? = null,
+        @Query("with_runtime.lte") runtimeLte: Int? = null,
+        @Query("primary_release_date.gte") releaseDateGte: String? = null,
+        @Query("primary_release_date.lte") releaseDateLte: String? = null
+    ): Response<BaseListResponse<MovieDto>>
 }

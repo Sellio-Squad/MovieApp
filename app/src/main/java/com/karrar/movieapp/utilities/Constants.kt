@@ -5,6 +5,12 @@ object Constants {
     const val MAX_NUMBER_AIRING_TODAY = 6
     const val MYSTERY_ID = 9648
     const val ADVENTURE_ID = 12
+    const val HORROR_ID = 27
+    const val SCIENCE_FICTION_ID = 878
+    const val DRAMA_ID = 18
+    const val FAMILY_ID = 10751
+    const val HISTORY_ID = 36
+    const val COMEDY_ID = 35
     const val MOVIE_CATEGORIES_ID = 1
     const val TV_CATEGORIES_ID = 2
     const val FIRST_CATEGORY_ID = 0
@@ -18,10 +24,15 @@ object Constants {
     const val PERSON = "person"
     const val ACTING = "Acting"
     const val NUM_HOME_REQUEST = 9
-    const val  SUCCESS_REQUEST = 1
+    const val SUCCESS_REQUEST = 1
     const val INTERNET_STATUS = 400
 
     const val PROFILE = 1
+    const val THEME_DARK = "dark"
+    const val THEME_LIGHT = "light"
+    const val APP_THEME = "light"
+    const val CONTENT_PREFERENCE_KEY = "content_preference"
+
 }
 
 object ErrorUI {
@@ -31,4 +42,7 @@ object ErrorUI {
     const val NO_LOGIN = "NoLogin"
     const val EMPTY_FIELD = "EMPTY_FIELD"
     const val EMPTY_BODY = "EMPTY_BODY"
+
+    const val EDIT_PROFILE_URL = "https://www.themoviedb.org/u/"
+
 }

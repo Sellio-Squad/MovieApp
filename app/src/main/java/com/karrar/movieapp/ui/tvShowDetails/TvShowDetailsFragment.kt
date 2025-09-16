@@ -70,7 +70,10 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
             }
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
                 action =
-                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId, event.seasonId)
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
+                        args.tvShowId,
+                        event.seasonId
+                    )
             }
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
@@ -86,6 +89,14 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
             }
             TvShowDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
+            }
+
+            is TvShowDetailsUIEvent.ClickTvShowEvent -> {
+                viewModelStore.clear()
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToTvShowDetailFragment(
+                        event.tvShowID
+                    )
             }
         }
         action?.let { findNavController().navigate(it) }

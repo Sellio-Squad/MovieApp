@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.profile.settings.language.ChangeLanguageViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color_bottomSheetContainer"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_simi_medium"
+            android:layout_marginBottom="@dimen/spacing_bottom"
+            app:cardBackgroundColor="@color/card_background_color"
+            app:cardCornerRadius="@dimen/radius_medium"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_medium">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_title"
+                        style="@style/TextStyle.Title.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/change_language"
+                        android:textColor="@color/shade_color_primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/icon" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/img_close"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/icon"
+                        android:onClick="@{() -> viewModel.onCloseDialog()}"
+                        android:src="@drawable/outline_x"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/brand_color_secondary" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium">
+
+                    <include
+                        layout="@layout/item_language_card"
+                        android:layout_width="0dp"
+                        android:layout_height="87dp"
+                        android:layout_weight="1"
+                        app:isSelected="@{viewModel.uiState.currentLanguage == viewModel.uiState.languages[0]}"
+                        bind:item="@{viewModel.uiState.languages[0]}" />
+
+                    <View
+                        android:layout_width="@dimen/spacing_simi_medium"
+                        android:layout_height="87dp" />
+
+                    <include
+                        layout="@layout/item_language_card"
+                        android:layout_width="0dp"
+                        android:layout_height="87dp"
+                        android:layout_weight="1"
+                        app:isSelected="@{viewModel.uiState.currentLanguage == viewModel.uiState.languages[1]}"
+                        bind:item="@{viewModel.uiState.languages[1]}" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</layout>

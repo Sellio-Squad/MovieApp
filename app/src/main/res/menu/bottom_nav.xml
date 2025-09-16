@@ -11,7 +11,7 @@
         android:title="@string/explore" />
 
     <item
-        android:id="@+id/myListFragment"
+        android:id="@+id/matchFragment"
         android:icon="@drawable/ic_magic_stick_selector"
         android:title="@string/match" />
 

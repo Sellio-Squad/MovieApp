@@ -51,6 +51,15 @@ class DetailAdapter(
                     )
                 }
             }
+
+            is DetailItemUIState.Crew -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        CrewAdapter(currentItem.data, R.layout.item_crew, listener)
+                    )
+                }
+            }
             is DetailItemUIState.Rating -> {
                 holder.binding.run {
                     setVariable(BR.viewModel, currentItem.viewModel)
@@ -88,6 +97,7 @@ class DetailAdapter(
             is DetailItemUIState.Comment -> R.layout.item_movie_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
             DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.Crew -> R.layout.list_crew
         }
     }
 

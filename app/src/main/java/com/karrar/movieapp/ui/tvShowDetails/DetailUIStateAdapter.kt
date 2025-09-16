@@ -54,6 +54,26 @@ class DetailUIStateAdapter(
                     )
                 }
             }
+            is DetailItemUIState.SimilarTvShow -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        TvShowDetailsAdapter(currentItem.data, listener as TvShowDetailsInteractionListener)
+                    )
+                }
+            }
+            is DetailItemUIState.Crew -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        CrewAdapter(
+                            currentItem.data,
+                            R.layout.item_crew,
+                            listener
+                        )
+                    )
+                }
+            }
             is DetailItemUIState.Rating -> {
                 holder.binding.run {
                     setVariable(BR.viewModel, currentItem.viewModel)
@@ -86,11 +106,13 @@ class DetailUIStateAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is DetailItemUIState.Cast -> R.layout.list_cast
+            is DetailItemUIState.SimilarTvShow -> R.layout.list_similar_tv_show
             is DetailItemUIState.Seasons -> R.layout.list_season
             is DetailItemUIState.Rating -> R.layout.item_tvshow_rating
             is DetailItemUIState.Comment -> R.layout.item_tvshow_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
             DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.Crew -> R.layout.list_crew
         }
     }
 }

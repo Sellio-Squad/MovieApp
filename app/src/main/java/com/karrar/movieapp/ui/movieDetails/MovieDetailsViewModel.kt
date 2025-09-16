@@ -9,6 +9,8 @@ import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentArgs
+import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MovieDetailsUIStateMapper
@@ -37,6 +39,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieRate: GetMovieRateUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
     private val sessionIDUseCase: GetSessionIDUseCase,
+    private val crewUIStateMapper: CrewUIStateMapper,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -60,8 +63,26 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieCast(args.movieId)
         getSimilarMovie(args.movieId)
         getMovieReviews(args.movieId)
+        getMovieCrew(args.movieId)
     }
-
+    private fun getMovieCrew(movieId: Int) {
+        viewModelScope.launch {
+            try {
+                val result = getMovieDetailsUseCase.getMovieCrew(movieId)
+                _uiState.update {
+                    it.copy(
+                        movieCrewResult = result.map { crew -> crewUIStateMapper.map(crew) }
+                            .take(8),
+                        isLoading = false
+                    )
+                }
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Crew(_uiState.value.movieCrewResult)
+                )
+            } catch (e: Throwable) {
+            }
+        }
+    }
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
             try {
@@ -213,6 +234,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {}
+    override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
+        TODO("Not yet implemented")
+    }
 
     override fun onClickActor(actorID: Int) {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }

@@ -51,7 +51,7 @@
             <com.ae.imageharamblur.ui.ImageViewFilter
                 android:id="@+id/image_movie"
                 android:layout_width="64dp"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1.338"

@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.explore
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMediaByGenreIDUseCase
@@ -91,17 +92,22 @@ class ExploringViewModel @Inject constructor(
     fun getMediaList(mediaType: Int, categoryId: Int) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
+
             val result = getCategoryUseCase(mediaType, categoryId)
+                .map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } }
+                .cachedIn(viewModelScope) // ✅ keeps Flow alive as long as VM is alive
+
             _uiState.update {
                 it.copy(
                     isLoading = false,
                     selectedGenreID = categoryId,
-                    media = result.map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } },
+                    media = result, // ✅ stable reference
                     error = emptyList()
                 )
             }
         }
     }
+
 
     fun setViewMode(viewMode: ViewMode) {
         _uiState.update { it.copy(viewMode = viewMode) }

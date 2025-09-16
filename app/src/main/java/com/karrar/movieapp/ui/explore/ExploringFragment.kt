@@ -10,7 +10,9 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -53,30 +55,54 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.recyclerMedia.adapter = listAdapter.withLoadStateFooter(
+            LoadUIStateAdapter(listAdapter::retry)
+        )
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
         collectEvent()
         collectUIState()
         setupToggleButton()
         setupVoiceSearch()
+        setupTabLayout()
 
         collect(viewModel.uiState) { state ->
-            setupRecyclerViews(state)
+            updateRecyclerView(state)
             updateToggleIndicator(state.viewMode == ViewMode.GRID)
         }
+    }
 
+    private fun updateRecyclerView(state: ExploreUIState) {
+        when (state.viewMode) {
+            ViewMode.LIST -> {
+                binding.recyclerMedia.adapter =
+                    listAdapter.withLoadStateFooter(LoadUIStateAdapter(listAdapter::retry))
+                binding.recyclerMedia.layoutManager =
+                    LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            }
+            ViewMode.GRID -> {
+                binding.recyclerMedia.adapter =
+                    gridAdapter.withLoadStateFooter(LoadUIStateAdapter(gridAdapter::retry))
+                binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
+            }
+        }
+    }
+    private fun setupTabLayout() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewModel.onTabChanged(tab.position)
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+            }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
                 viewModel.onTabChanged(tab.position)
             }
-        }
-        )
-
+        })
     }
+
 
     private fun setupToggleButton() {
         binding.btnGridView.setOnClickListener {
@@ -90,7 +116,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
 
 
     private fun updateToggleIndicator(isGridSelected: Boolean) {
-        val indicatorMargin = if (isGridSelected) 0 else 40 // 40dp for moving to the right
+        val indicatorMargin = if (isGridSelected) 0 else 40
         val layoutParams = binding.indicator.layoutParams as android.widget.FrameLayout.LayoutParams
         layoutParams.marginStart = (indicatorMargin * resources.displayMetrics.density).toInt()
         binding.indicator.layoutParams = layoutParams
@@ -188,64 +214,22 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
         findNavController().navigate(action)
     }
 
-    private var lastViewMode: ViewMode? = null
-
-    private fun setupRecyclerViews(state: ExploreUIState) {
-        if (state.viewMode == lastViewMode) return
-        lastViewMode = state.viewMode
-
-        when (state.viewMode) {
-            ViewMode.LIST -> bindMediaList()
-            ViewMode.GRID -> bindMediaGrid()
-        }
-    }
-
-    private fun bindMediaList() {
-        val footerAdapter = LoadUIStateAdapter(listAdapter::retry)
-        binding.recyclerMedia.adapter = listAdapter.withLoadStateFooter(footerAdapter)
-        binding.recyclerMedia.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
-        collect(flow = listAdapter.loadStateFlow) { loadStates ->
-            viewModel.setErrorUiState(loadStates.refresh)
-        }
-
-        lifecycleScope.launch {
-            viewModel.uiState.value.media.collectLatest { pagingData ->
-                listAdapter.submitData(pagingData)
-            }
-        }
-    }
-
-    private fun bindMediaGrid() {
-        val footerAdapter = LoadUIStateAdapter(gridAdapter::retry)
-        binding.recyclerMedia.adapter = gridAdapter.withLoadStateFooter(footerAdapter)
-        binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
-
-        collect(flow = gridAdapter.loadStateFlow) { loadStates ->
-            viewModel.setErrorUiState(loadStates.refresh)
-        }
-
-        lifecycleScope.launch {
-            viewModel.uiState.value.media.collectLatest { pagingData ->
-                gridAdapter.submitData(pagingData)
-            }
-        }
-    }
-
-
     private fun collectUIState() {
-        collectLast(viewModel.uiState) { uiState ->
-            lifecycleScope.launch {
-                uiState.media.collect { pagingData ->
-                    when (uiState.viewMode) {
-                        ViewMode.GRID -> gridAdapter.submitData(pagingData)
-                        ViewMode.LIST -> listAdapter.submitData(pagingData)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collectLatest { uiState ->
+                    uiState.media.collectLatest { pagingData ->
+                        when (uiState.viewMode) {
+                            ViewMode.GRID -> gridAdapter.submitData(pagingData)
+                            ViewMode.LIST -> listAdapter.submitData(pagingData)
+                        }
                     }
                 }
             }
         }
     }
+
+
 
 
     private fun navigateToMediaDetails(mediaId: Int) {

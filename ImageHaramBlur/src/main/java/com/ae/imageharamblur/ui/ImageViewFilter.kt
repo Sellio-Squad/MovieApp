@@ -8,10 +8,8 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import androidx.annotation.RequiresApi
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import coil.Coil
 import coil.request.CachePolicy
@@ -20,14 +18,7 @@ import com.ae.imageharamblur.R
 import com.ae.imageharamblur.databinding.ViewImageFilterBinding
 import com.ae.imageharamblur.extensions.toBitmap
 import com.ae.imageharamblur.utils.StackBlur
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import androidx.core.content.withStyledAttributes
+import kotlinx.coroutines.*
 
 class ImageViewFilter @JvmOverloads constructor(
     context: Context,
@@ -38,7 +29,8 @@ class ImageViewFilter @JvmOverloads constructor(
     private val binding: ViewImageFilterBinding =
         ViewImageFilterBinding.inflate(LayoutInflater.from(context), this, true)
     private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var currentJob: Job? = null
+    private var loadingJob: Job? = null
+    private var moderationJob: Job? = null
     private var controller: ImageModerationController? = null
 
     var config: ImageFilterConfig = ImageFilterConfig()
@@ -56,19 +48,20 @@ class ImageViewFilter @JvmOverloads constructor(
         }
 
     var onModerationResult: ((Boolean) -> Unit)? = null
-    var onLoadingStateChange: ((Boolean) -> Unit)? = null
-
-    // Custom content providers
-    var loadingView: View? = null
-    var errorView: View? = null
-    var moderatedView: View? = null
+    var onError: ((String?) -> Unit)? = null
 
     init {
-
-        // Set default views
-        loadingView = binding.progressBar
-        errorView = binding.errorContainer
-        moderatedView = binding.moderatedContainer
+        // Hide all UI elements except imageView
+        binding.apply {
+            imageView.isVisible = true // Always show image view
+            progressBar.isVisible = false
+            errorContainer.isVisible = false
+            moderatedContainer.isVisible = false
+            customLoadingContainer.isVisible = false
+            customErrorContainer.isVisible = false
+            customModeratedContainer.isVisible = false
+            blurTextOverlay.isVisible = false
+        }
 
         // Parse attributes if needed
         attrs?.let {
@@ -105,187 +98,159 @@ class ImageViewFilter @JvmOverloads constructor(
         }
     }
 
-    fun setLoadingContent(view: View) {
-        binding.customLoadingContainer.removeAllViews()
-        binding.customLoadingContainer.addView(view)
-        loadingView = view
-    }
-
-    fun setErrorContent(view: View) {
-        binding.customErrorContainer.removeAllViews()
-        binding.customErrorContainer.addView(view)
-        errorView = view
-    }
-
-    fun setModeratedContent(view: View) {
-        binding.customModeratedContainer.removeAllViews()
-        binding.customModeratedContainer.addView(view)
-        moderatedView = view
-    }
-
     private fun loadImage() {
-        currentJob?.cancel()
-        currentJob = coroutineScope.launch {
-            showLoading()
+        // Cancel only the loading job, not moderation
+        loadingJob?.cancel()
 
+        loadingJob = coroutineScope.launch {
             try {
                 val drawable = loadImageDrawable(context, imageModel)
 
                 if (drawable == null) {
-                    showError("Failed to load image")
+                    onError?.invoke("Failed to load image")
                     return@launch
                 }
 
-                android.util.Log.d(
-                    "ImageViewFilter",
-                    "Moderation enabled: ${config.enableModeration}"
-                )
-                android.util.Log.d("ImageViewFilter", "Detect females: ${config.detectFemales}")
-                android.util.Log.d("ImageViewFilter", "Detect males: ${config.detectMales}")
+                // Show image immediately without blur
+                val bitmap = drawable.toBitmap() ?: return@launch
+                showImage(bitmap, shouldBlur = false)
 
-                // Check for force blur first
+                // Process moderation in background
                 if (config.forceBlur) {
-                    android.util.Log.d("ImageViewFilter", "Forcing blur on image")
-                    showImage(drawable.toBitmap()!!, shouldBlur = true)
+                    showImage(bitmap, shouldBlur = true)
                     onModerationResult?.invoke(true)
                     return@launch
                 }
 
-
                 if (!config.enableModeration) {
-                    showImage(drawable.toBitmap()!!, shouldBlur = false)
                     onModerationResult?.invoke(false)
                     return@launch
                 }
 
-                val imageKey = generateImageKey(imageModel)
-                controller?.close()
-                controller = createModerationController(
-                    context = context,
-                    imageKey = imageKey,
-                    config = config
-                )
+                // Cancel previous moderation job
+                moderationJob?.cancel()
 
-                val state = controller?.processImage(
-                    drawable = drawable,
-                    detectFemales = config.detectFemales,
-                    detectMales = config.detectMales,
-                    useContentDetection = config.useContentDetection
-                )
+                // Run moderation in a separate job
+                moderationJob = coroutineScope.launch(Dispatchers.Default) {
+                    try {
+                        // Check if this job is still active
+                        if (!isActive) return@launch
 
-                android.util.Log.d("ImageViewFilter", "Should blur: ${state?.shouldBlur}")
+                        val imageKey = generateImageKey(imageModel)
 
-                state?.let {
-                    if (it.shouldBlur && config.showCustomContentWhenBlurred) {
-                        showModerated()
-                    } else {
-                        showImage(
-                            it.originalBitmap!!,
-                            shouldBlur = it.shouldBlur && !config.showTextInsteadOfBlur
+                        // Create controller only if job is still active
+                        if (!isActive) return@launch
+
+                        // Don't close previous controller if job was cancelled
+                        val newController = createModerationController(
+                            context = context,
+                            imageKey = imageKey,
+                            config = config
                         )
 
-                        if (it.shouldBlur && config.showTextInsteadOfBlur) {
-                            binding.blurTextOverlay.isVisible = true
+                        if (!isActive) {
+                            newController.close()
+                            return@launch
                         }
+
+                        controller?.close()
+                        controller = newController
+
+                        val state = try {
+                            controller?.processImage(
+                                drawable = drawable,
+                                detectFemales = config.detectFemales,
+                                detectMales = config.detectMales,
+                                useContentDetection = config.useContentDetection
+                            )
+                        } catch (e: Exception) {
+                            android.util.Log.e("ImageViewFilter", "Moderation failed", e)
+                            null
+                        }
+
+                        // Check if job is still active before updating UI
+                        if (!isActive) return@launch
+
+                        state?.let {
+                            if (it.shouldBlur && isActive) {
+                                withContext(Dispatchers.Main) {
+                                    if (isActive) {
+                                        showImage(it.originalBitmap!!, shouldBlur = true)
+                                        onModerationResult?.invoke(true)
+                                    }
+                                }
+                            } else {
+                                onModerationResult?.invoke(false)
+                            }
+                        }
+                    } catch (e: CancellationException) {
+                        // Expected when view is recycled
+                        android.util.Log.d("ImageViewFilter", "Moderation cancelled")
+                    } catch (e: Exception) {
+                        android.util.Log.e("ImageViewFilter", "Moderation error", e)
+                        onError?.invoke(e.message)
                     }
-                    onModerationResult?.invoke(it.shouldBlur)
                 }
+            } catch (e: CancellationException) {
+                // Expected when loading new image
+                android.util.Log.d("ImageViewFilter", "Loading cancelled")
             } catch (e: Exception) {
-                android.util.Log.e("ImageViewFilter", "Error: ${e.message}", e)
-                showError(e.message ?: "Unknown error")
-            } finally {
-                onLoadingStateChange?.invoke(false)
+                android.util.Log.e("ImageViewFilter", "Loading error", e)
+                onError?.invoke(e.message)
             }
-        }
-    }
-
-    private fun showLoading() {
-        onLoadingStateChange?.invoke(true)
-        binding.apply {
-            imageView.isVisible = false
-            progressBar.isVisible = loadingView == progressBar
-            customLoadingContainer.isVisible = loadingView != progressBar
-            errorContainer.isVisible = false
-            customErrorContainer.isVisible = false
-            moderatedContainer.isVisible = false
-            customModeratedContainer.isVisible = false
-            blurTextOverlay.isVisible = false
-        }
-    }
-
-    private fun showError(message: String) {
-        binding.apply {
-            imageView.isVisible = false
-            progressBar.isVisible = false
-            customLoadingContainer.isVisible = false
-            errorText.text = message
-            errorContainer.isVisible = errorView == errorContainer
-            customErrorContainer.isVisible = errorView != errorContainer
-            moderatedContainer.isVisible = false
-            customModeratedContainer.isVisible = false
-            blurTextOverlay.isVisible = false
-        }
-    }
-
-    private fun showModerated() {
-        binding.apply {
-            imageView.isVisible = false
-            progressBar.isVisible = false
-            customLoadingContainer.isVisible = false
-            errorContainer.isVisible = false
-            customErrorContainer.isVisible = false
-            moderatedContainer.isVisible = moderatedView == moderatedContainer
-            customModeratedContainer.isVisible = moderatedView != moderatedContainer
-            blurTextOverlay.isVisible = false
         }
     }
 
     private fun showImage(bitmap: Bitmap, shouldBlur: Boolean) {
-        binding.apply {
-            imageView.isVisible = true
-            progressBar.isVisible = false
-            customLoadingContainer.isVisible = false
-            errorContainer.isVisible = false
-            customErrorContainer.isVisible = false
-            moderatedContainer.isVisible = false
-            customModeratedContainer.isVisible = false
-            blurTextOverlay.isVisible = false
-
-            if (shouldBlur) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    imageView.setImageBitmap(bitmap)
-                    applyBlurEffect(imageView, config.blurStrength)
+        try {
+            binding.imageView.apply {
+                if (shouldBlur) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        setImageBitmap(bitmap)
+                        setRenderEffect(
+                            RenderEffect.createBlurEffect(
+                                config.blurStrength,
+                                config.blurStrength,
+                                Shader.TileMode.CLAMP
+                            )
+                        )
+                    } else {
+                        try {
+                            val blurredBitmap = applyStackBlur(bitmap, config.blurStrength.toInt())
+                            setImageBitmap(blurredBitmap)
+                        } catch (e: Exception) {
+                            // If blur fails, show original
+                            android.util.Log.e("ImageViewFilter", "Blur failed", e)
+                            setImageBitmap(bitmap)
+                        }
+                    }
                 } else {
-                    val blurredBitmap = applyStackBlur(bitmap, config.blurStrength.toInt())
-                    imageView.setImageBitmap(blurredBitmap)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        setRenderEffect(null)
+                    }
+                    setImageBitmap(bitmap)
                 }
-            } else {
-                imageView.setRenderEffect(null)
-                imageView.setImageBitmap(bitmap)
             }
+        } catch (e: Exception) {
+            android.util.Log.e("ImageViewFilter", "Failed to show image", e)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
-    private fun applyBlurEffect(imageView: ImageView, blurRadius: Float) {
-        imageView.setRenderEffect(
-            RenderEffect.createBlurEffect(
-                blurRadius,
-                blurRadius,
-                Shader.TileMode.CLAMP
-            )
-        )
-    }
-
-    // Stack blur implementation for pre-Android 12
     private fun applyStackBlur(bitmap: Bitmap, radius: Int): Bitmap {
         val output = bitmap.copy(bitmap.config!!, true)
         return StackBlur.process(output, radius.coerceIn(1, 180))
     }
 
+    fun onViewRecycled() {
+        // Cancel moderation when view is recycled
+        moderationJob?.cancel()
+    }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        coroutineScope.cancel()
+        // Cancel jobs but not the entire scope
+        loadingJob?.cancel()
+        moderationJob?.cancel()
         controller?.close()
     }
 

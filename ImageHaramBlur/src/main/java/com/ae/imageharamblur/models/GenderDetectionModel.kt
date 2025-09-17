@@ -38,7 +38,6 @@ internal class GenderDetectionModel {
         try {
             val modelBuffer = FileUtil.loadMappedFile(context, MODEL_FILE)
 
-            // Initialize model properties first
             val tempInterpreter = createInterpreter(modelBuffer)
             val (inputProps, outputProps) = initializeModelProperties(tempInterpreter)
 
@@ -47,10 +46,8 @@ internal class GenderDetectionModel {
             this.outputShape = outputProps.first
             this.outputDataType = outputProps.second
 
-            // Create processors
             this.imageProcessor = createImageProcessor()
 
-            // Set interpreter last
             this.interpreter = tempInterpreter
             this.isInitialized = true
 
@@ -64,7 +61,6 @@ internal class GenderDetectionModel {
         try {
             val modelBuffer = loadModelFile(modelFile)
 
-            // Initialize model properties first
             val tempInterpreter = createInterpreter(modelBuffer)
             val (inputProps, outputProps) = initializeModelProperties(tempInterpreter)
 
@@ -73,10 +69,8 @@ internal class GenderDetectionModel {
             this.outputShape = outputProps.first
             this.outputDataType = outputProps.second
 
-            // Create processors
             this.imageProcessor = createImageProcessor()
 
-            // Set interpreter last
             this.interpreter = tempInterpreter
             this.isInitialized = true
 
@@ -93,8 +87,8 @@ internal class GenderDetectionModel {
 
         val inputShape = inputTensor.shape()
         val inputSize = when {
-            inputShape.size >= 4 -> inputShape[1] // NHWC format
-            inputShape.size >= 3 -> inputShape[1] // HWC format
+            inputShape.size >= 4 -> inputShape[1]
+            inputShape.size >= 3 -> inputShape[1]
             else -> INPUT_SIZE
         }
 
@@ -116,15 +110,11 @@ internal class GenderDetectionModel {
 
     private fun createInterpreter(modelBuffer: MappedByteBuffer): Interpreter {
         val options = Interpreter.Options().apply {
-            setNumThreads(2) // Reduce threads to avoid concurrency issues
-            // Don't use NNAPI or GPU delegates - they can cause crashes
+            setNumThreads(2)
             setUseNNAPI(false)
             try {
-                // XNNPack is generally stable
                 setUseXNNPACK(true)
-            } catch (e: Exception) {
-                // Ignore if not available
-            }
+            } catch (e: Exception) {}
         }
         return Interpreter(modelBuffer, options)
     }
@@ -137,13 +127,11 @@ internal class GenderDetectionModel {
     }
 
     fun detectGender(faceBitmap: Bitmap): GenderResult {
-        // Fast fail if closed
         if (isClosed || !isInitialized || interpreter == null) {
             return GenderResult(isFemale = false, confidence = 0.5f)
         }
 
         return interpreterLock.withLock {
-            // Double-check after acquiring lock
             if (isClosed || !isInitialized || interpreter == null) {
                 return@withLock GenderResult(isFemale = false, confidence = 0.5f)
             }
@@ -154,23 +142,18 @@ internal class GenderDetectionModel {
 
     private fun detectGenderInternal(faceBitmap: Bitmap): GenderResult {
         return try {
-            // Validate input
             if (faceBitmap.isRecycled || faceBitmap.width <= 0 || faceBitmap.height <= 0) {
                 return GenderResult(isFemale = false, confidence = 0.5f)
             }
 
-            // Create output buffer for this inference
             val outputBuffer = TensorBuffer.createFixedSize(outputShape, outputDataType)
 
-            // Prepare input
             val rgbBitmap = ensureRgbBitmap(faceBitmap)
             val tensorImage = TensorImage(inputDataType)
             tensorImage.load(rgbBitmap)
 
-            // Process image
             val processedImage = imageProcessor.process(tensorImage)
 
-            // Run inference - check if still valid
             val currentInterpreter = interpreter
             if (currentInterpreter == null || isClosed) {
                 return GenderResult(isFemale = false, confidence = 0.5f)
@@ -178,17 +161,14 @@ internal class GenderDetectionModel {
 
             currentInterpreter.run(processedImage.buffer, outputBuffer.buffer)
 
-            // Process results
             val probabilities = extractProbabilities(outputBuffer)
             val normalizedProbabilities = normalizeProbabilities(probabilities)
 
             createGenderResult(normalizedProbabilities)
 
         } catch (e: IllegalStateException) {
-            // Interpreter was closed during execution
             GenderResult(isFemale = false, confidence = 0.5f)
         } catch (e: Exception) {
-            // Any other error
             GenderResult(isFemale = false, confidence = 0.5f)
         }
     }
@@ -264,7 +244,6 @@ internal class GenderDetectionModel {
             try {
                 interpreter?.close()
             } catch (e: Exception) {
-                // Ignore errors during cleanup
             } finally {
                 interpreter = null
             }

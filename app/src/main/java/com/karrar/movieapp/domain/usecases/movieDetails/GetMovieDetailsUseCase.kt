@@ -12,6 +12,7 @@ import com.karrar.movieapp.domain.models.Crew
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.runCatchingResult
 import com.karrar.movieapp.domain.usecases.GetReviewsUseCase
 import com.karrar.movieapp.utilities.Constants.MAX_NUM_REVIEWS
 import javax.inject.Inject
@@ -25,18 +26,12 @@ class GetMovieDetailsUseCase @Inject constructor(
     private val movieCrewMapper: MovieCrewMapper
 ) {
 
-    suspend fun getMovieDetails(movieId: Int): ResultHandler<MovieDetails> {
-        return try {
-            val response = movieRepository.getMovieDetails(movieId)
-            if (response != null) {
-                ResultHandler.Success(movieDetailsMapper.map(response))
-            } else {
-                ResultHandler.Error(Throwable("Movie details not found"))
+    suspend fun getMovieDetails(movieId: Int): ResultHandler<MovieDetails> =
+        runCatchingResult {
+            movieRepository.getMovieDetails(movieId)?.let {
+                movieDetailsMapper.map(it)
             }
-        } catch (e: Exception) {
-            ResultHandler.Error(e)
         }
-    }
 
     suspend fun getMovieCast(movieId: Int): List<Actor> {
         return movieRepository.getMovieCast(movieId)?.cast?.let {

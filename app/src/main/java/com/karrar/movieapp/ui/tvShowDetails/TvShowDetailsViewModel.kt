@@ -3,6 +3,8 @@ package com.karrar.movieapp.ui.tvShowDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.enums.MovieItemsType
+import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
@@ -11,6 +13,7 @@ import com.karrar.movieapp.domain.usecases.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.TvShowDetailsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
@@ -256,6 +259,10 @@ class TvShowDetailsViewModel @Inject constructor(
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickPlayTrailerEvent) }
     }
 
+    override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
+        TODO("Not yet implemented")
+    }
+
     override fun onclickBack() {
         this._tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickBackEvent) }
     }
@@ -276,6 +283,7 @@ class TvShowDetailsViewModel @Inject constructor(
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickTvShowEvent(item.id)) }
     }
 
-    override fun onClickShowMoreTvShow() {}
-
+    override fun onClickSeeAllTvShows(items: TvShowItemsType) {
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent(items)) }
+    }
 }

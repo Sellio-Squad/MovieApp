@@ -213,9 +213,15 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSave() {
-        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent) }
+        if (_uiState.value.isLogin) {
+            _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent) }
+        } else {
+            showLoginDialog()
+        }
     }
-
+    private fun showLoginDialog() {
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ShowLoginDialogEvent) }
+    }
     override fun onClickPlayTrailer() {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickPlayTrailerEvent) }
     }

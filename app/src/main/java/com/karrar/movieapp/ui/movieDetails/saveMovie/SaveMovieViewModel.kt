@@ -72,7 +72,11 @@ class SaveMovieViewModel @Inject constructor(
             currentListItems[itemIndex] = currentListItems[itemIndex].copy(isLoading = false)
             _myListsUIState.update { it.copy(myListItemUI = currentListItems) }
 
-            _saveMovieUIEvent.update { Event(SaveMovieUIEvent.DisplayMessage(message ?: "")) }
+            _saveMovieUIEvent.update { Event(SaveMovieUIEvent.DisplayMessage(message)) }
         }
+    }
+
+    override fun onClickNewCollection() {
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToCollectionScreen) }
     }
 }

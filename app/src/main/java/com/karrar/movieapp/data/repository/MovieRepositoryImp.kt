@@ -157,6 +157,10 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.getAllWatchedMovies()
     }
 
+    override suspend fun deleteRecentlyViewedItemById(id: Int) {
+        movieDao.deleteRecentlyViewedItemById(id)
+    }
+
 
     override suspend fun getActorData(): Pager<Int, ActorDto> {
         return Pager(config = config, pagingSourceFactory = { actorDataSource })

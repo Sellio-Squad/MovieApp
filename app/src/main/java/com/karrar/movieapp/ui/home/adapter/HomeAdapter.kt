@@ -89,10 +89,12 @@ class HomeAdapter(
                 }
 
                 is HomeItem.RecentlyViewed -> {
-                    holder.binding.setVariable(
-                        BR.adapterRecycler,
-                        RecentlyViewedAdapter(currentItem.items, listener as RecentlyViewedInteractionListener)
-                    )
+                    if(currentItem.items.isNotEmpty()){
+                        holder.binding.setVariable(
+                            BR.adapterRecycler,
+                            RecentlyViewedAdapter(currentItem.items, listener as RecentlyViewedInteractionListener)
+                        )
+                    }
                 }
 
                 is HomeItem.LetUsChooseForYou -> {

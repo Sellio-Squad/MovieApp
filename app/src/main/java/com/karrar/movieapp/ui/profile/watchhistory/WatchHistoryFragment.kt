@@ -40,6 +40,10 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
                     event.tvShowID
                 )
             }
+
+            is WatchHistoryUIEvent.FindToSomethingToWatchEvent -> {
+                WatchHistoryFragmentDirections.actionWatchHistoryFragmentToSearchFragment()
+            }
         }
         findNavController().navigate(action)
     }

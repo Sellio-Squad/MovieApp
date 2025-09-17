@@ -6,10 +6,9 @@ import android.os.Build
 import com.ae.imageharamblur.ImageModerationProcessor
 import com.ae.imageharamblur.extensions.toBitmap
 import com.ae.imageharamblur.utils.blurBitmap
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
 
 internal class ImageModerationController(
     context: Context,
@@ -18,7 +17,11 @@ internal class ImageModerationController(
     private val blurStrength: Float = 80f
 ) {
     private val processor = if (enableModeration) {
-        ImageModerationProcessor(context)
+        try {
+            ImageModerationProcessor(context)
+        } catch (e: Exception) {
+            null
+        }
     } else null
 
     private val _state = MutableStateFlow(
@@ -32,7 +35,6 @@ internal class ImageModerationController(
         detectMales: Boolean = false,
         useContentDetection: Boolean = true
     ): ImageModerationState = withContext(Dispatchers.Default) {
-
         ModerationCacheManager.get(cacheKey)?.let { cachedState ->
             if (cachedState.isModerated && cachedState.originalBitmap != null) {
                 _state.value = cachedState
@@ -41,16 +43,18 @@ internal class ImageModerationController(
         }
 
         try {
-            _state.value = _state.value.copy(isProcessing = true, error = null)
+            // Check if coroutine is still active
+            if (!isActive) throw CancellationException()
 
             val bitmap = drawable.toBitmap()
             if (bitmap == null || bitmap.isRecycled) {
-                val errorState = _state.value.copy(
+                return@withContext ImageModerationState(
                     isProcessing = false,
+                    isModerated = true,
+                    shouldBlur = false,
+                    originalBitmap = null,
                     error = "Invalid bitmap"
                 )
-                _state.value = errorState
-                return@withContext errorState
             }
 
             if (!enableModeration || processor == null) {
@@ -65,15 +69,28 @@ internal class ImageModerationController(
                 return@withContext newState
             }
 
-            val shouldModerate = processor.shouldModerateImage(
-                bitmap = bitmap,
-                detectFemales = detectFemales,
-                detectMales = detectMales,
-                useContentDetection = useContentDetection
-            )
+            // Check again before processing
+            if (!isActive) throw CancellationException()
+
+            val shouldModerate = try {
+                processor.shouldModerateImage(
+                    bitmap = bitmap,
+                    detectFemales = detectFemales,
+                    detectMales = detectMales,
+                    useContentDetection = useContentDetection
+                )
+            } catch (e: Exception) {
+                false
+            }
+
+            if (!isActive) throw CancellationException()
 
             val blurredBitmap = if (shouldModerate && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                blurBitmap(bitmap, blurStrength.toInt())
+                try {
+                    blurBitmap(bitmap, blurStrength.toInt())
+                } catch (e: Exception) {
+                    null
+                }
             } else null
 
             val newState = ImageModerationState(
@@ -88,17 +105,22 @@ internal class ImageModerationController(
             ModerationCacheManager.put(cacheKey, newState)
 
             newState
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
-            val errorState = _state.value.copy(
+            ImageModerationState(
                 isProcessing = false,
+                isModerated = true,
+                shouldBlur = false,
+                originalBitmap = drawable.toBitmap(),
                 error = e.message
             )
-            _state.value = errorState
-            errorState
         }
     }
 
     fun close() {
-        processor?.close()
+        try {
+            processor?.close()
+        } catch (e: Exception) { }
     }
 }

@@ -1,0 +1,51 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color"
+        android:paddingHorizontal="16dp"
+        >
+
+        <TextView
+            android:id="@+id/over_view_title"
+            style="@style/SemiBold.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/Storyline"
+            android:textColor="@color/shade_primary_color"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Storyline"
+            />
+
+        <TextView
+            android:id="@+id/over_view"
+            style="@style/Regular.Medium.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:text="@{item.tvShowOverview}"
+            android:textColor="@color/shade_secondary_color"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/over_view_title"
+            app:layout_constraintTop_toBottomOf="@+id/over_view_title"
+            tools:text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam. Exercitation veniam." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

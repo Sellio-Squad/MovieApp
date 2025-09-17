@@ -51,6 +51,8 @@ interface MovieDao {
     @Query("DELETE FROM WATCH_HISTORY_TABLE")
     suspend fun deleteAllWatchedMovies()
 
+    @Query("DELETE FROM WATCH_HISTORY_TABLE WHERE id = :id")
+    suspend fun deleteRecentlyViewedItemById(id: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPopularMovies(items: List<PopularMovieEntity>)

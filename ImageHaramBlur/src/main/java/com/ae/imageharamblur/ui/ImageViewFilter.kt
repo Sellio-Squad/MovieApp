@@ -49,7 +49,6 @@ class ImageViewFilter @JvmOverloads constructor(
 
         clipToOutline = true
 
-        // Parse attributes
         attrs?.let {
             context.withStyledAttributes(it, R.styleable.ImageViewFilter) {
                 config = ImageFilterConfig(
@@ -69,13 +68,10 @@ class ImageViewFilter @JvmOverloads constructor(
 
         loadingJob = coroutineScope.launch {
             try {
-                // Load image
                 val drawable = loadImageDrawable(context, imageModel) ?: return@launch
 
-                // Show image immediately
                 showImage(drawable, shouldBlur = false)
 
-                // Process moderation if needed
                 if (config.forceBlur) {
                     showImage(drawable, shouldBlur = true)
                     onModerationResult?.invoke(true)
@@ -111,7 +107,6 @@ class ImageViewFilter @JvmOverloads constructor(
                 useContentDetection = config.useContentDetection
             )
 
-            // Use coroutineContext to check if active
             if (state?.shouldBlur == true && coroutineContext.isActive) {
                 withContext(Dispatchers.Main) {
                     showImage(drawable, shouldBlur = true)
@@ -145,7 +140,6 @@ class ImageViewFilter @JvmOverloads constructor(
                 setImageBitmap(blurredBitmap)
             }
         } else {
-            // Clear any render effect
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 setRenderEffect(null)
             }

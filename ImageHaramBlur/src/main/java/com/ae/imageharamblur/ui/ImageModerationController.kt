@@ -35,7 +35,6 @@ internal class ImageModerationController(
         detectMales: Boolean = false,
         useContentDetection: Boolean = true
     ): ImageModerationState = withContext(Dispatchers.Default) {
-        // Check cache first
         ModerationCacheManager.get(cacheKey)?.let { cachedState ->
             if (cachedState.isModerated && cachedState.originalBitmap != null) {
                 _state.value = cachedState
@@ -81,10 +80,9 @@ internal class ImageModerationController(
                     useContentDetection = useContentDetection
                 )
             } catch (e: Exception) {
-                false // Don't blur on error
+                false
             }
 
-            // Check before creating blurred bitmap
             if (!isActive) throw CancellationException()
 
             val blurredBitmap = if (shouldModerate && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -108,9 +106,8 @@ internal class ImageModerationController(
 
             newState
         } catch (e: CancellationException) {
-            throw e // Re-throw cancellation
+            throw e
         } catch (e: Exception) {
-            // Return safe state on error
             ImageModerationState(
                 isProcessing = false,
                 isModerated = true,

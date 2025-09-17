@@ -157,6 +157,9 @@
         <action
             android:id="@+id/action_profileFragment_to_changeLanguageDialog"
             app:destination="@id/changeLanguageDialog" />
+        <action
+            android:id="@+id/action_profileFragment_to_myListsFragment"
+            app:destination="@id/myListsFragment" />
 
 
     </fragment>
@@ -342,6 +345,9 @@
         <action
             android:id="@+id/action_listDetailsFragment_to_exploringFragment"
             app:destination="@id/exploringFragment" />
+        <action
+            android:id="@+id/action_listDetailsFragment_to_myListsFragment"
+            app:destination="@id/myListsFragment" />
     </fragment>
 
     <fragment
@@ -416,6 +422,20 @@
         <argument
             android:name="url"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/myListsFragment"
+        android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
+        tools:layout="@layout/fragment_my_lists" >
+        <action
+            android:id="@+id/action_myListFragment_to_createSavedList"
+            app:destination="@id/createSavedList" />
+        <action
+            android:id="@+id/action_myListFragment_to_savedListFragment"
+            app:destination="@id/listDetailsFragment" />
+        <action
+            android:id="@+id/action_myListFragment_to_exploringFragment"
+            app:destination="@id/exploringFragment" />
     </fragment>
 
 </navigation>

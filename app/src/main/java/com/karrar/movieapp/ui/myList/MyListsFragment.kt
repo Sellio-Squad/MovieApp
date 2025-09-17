@@ -22,11 +22,12 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, getString(R.string.match))
+        setTitle(true, getString(R.string.my_collections))
         binding.savedList.adapter = CreatedListAdapter(emptyList(), viewModel)
         collectEvent()
 
         binding.buttonEmpty.setOnClickListener {
+            findNavController().navigate(MyListsFragmentDirections.actionMyListFragmentToExploringFragment())
         }
 
     }
@@ -41,6 +42,7 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
         var action: NavDirections? = null
         when (event) {
             MyListUIEvent.CreateButtonClicked -> {
+                action = MyListsFragmentDirections.actionMyListFragmentToCreateSavedList()
             }
 
             is MyListUIEvent.DisplayError -> {
@@ -48,6 +50,10 @@ class MyListsFragment : BaseFragment<FragmentMyListsBinding>() {
             }
 
             is MyListUIEvent.OnSelectItem -> {
+                action = MyListsFragmentDirections.actionMyListFragmentToSavedListFragment(
+                    event.createdListUIState.listID,
+                    event.createdListUIState.name
+                )
             }
 
             else -> {

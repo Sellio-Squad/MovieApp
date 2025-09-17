@@ -103,6 +103,9 @@ class ProfileViewModel @Inject constructor(
         _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent(_profileDetailsUIState.value.username)) }
     }
 
+    fun onClickMyCollection() {
+        _profileUIEvent.update { Event(ProfileUIEvent.MyCollectionEvent) }
+    }
     fun changeTheme() {
         viewModelScope.launch {
             if (_profileDetailsUIState.value.isSwitchChecked) {

@@ -92,7 +92,7 @@
                 app:chipCornerRadius="@dimen/spacing_small" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_series"
+                android:id="@+id/chip_myCollection"
                 style="@style/Chip.Regular.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

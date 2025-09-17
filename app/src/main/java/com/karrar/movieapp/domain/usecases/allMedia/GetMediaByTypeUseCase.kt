@@ -6,6 +6,7 @@ import androidx.paging.map
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.AllMediaType
+import com.karrar.movieapp.domain.mappers.movie.MatchVibesMovieMovieMapper
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Media
@@ -19,6 +20,7 @@ class GetMediaByTypeUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val movieMapper: MovieMapper,
     private val tvShowMapper: TVShowMapper,
+    private val matchVibesMovieMovieMapper: MatchVibesMovieMovieMapper
 ) {
 
     suspend operator fun invoke(type: AllMediaType, actorId: Int = 0): Flow<PagingData<Media>> {
@@ -103,11 +105,10 @@ class GetMediaByTypeUseCase @Inject constructor(
 
             AllMediaType.MATCHES_YOUR_VIBE -> {
                 wrapper(
-                    { movieRepository.getMovieByGenre(Constants.ADVENTURE_ID) },
-                    movieMapper::map
+                    { movieRepository.getMatchVibesMoviesPager() },
+                    matchVibesMovieMovieMapper::map
                 )
             }
-            //TODO : change AllMediaType.MATCHES_YOUR_VIBE return with specific repo and mapper
         }
     }
 

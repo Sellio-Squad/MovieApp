@@ -133,4 +133,6 @@ interface MovieRepository {
     ): Flow<List<MatchVibesMovieEntity>>
 
     suspend fun getCurrentMatchVibesMovies(): Flow<List<MatchVibesMovieEntity>>
+
+    suspend fun getMatchVibesMoviesPager(): Pager<Int, MatchVibesMovieEntity>
 }

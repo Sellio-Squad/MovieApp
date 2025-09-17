@@ -1,5 +1,6 @@
 package com.karrar.movieapp.data.local.database.daos
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -116,4 +117,7 @@ interface MovieDao {
 
     @Query("SELECT * FROM MATCH_VIBES_MOVIE_TABLE")
     fun getMatchVibesMovies(): Flow<List<MatchVibesMovieEntity>>
+
+    @Query("SELECT * FROM MATCH_VIBES_MOVIE_TABLE ORDER BY id ASC")
+    fun getMatchVibesMoviesPaged(): PagingSource<Int, MatchVibesMovieEntity>
 }

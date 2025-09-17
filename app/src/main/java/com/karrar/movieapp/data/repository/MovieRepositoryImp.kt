@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.repository
 
 import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.karrar.movieapp.data.Constants
 import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.database.daos.ActorDao
@@ -272,6 +273,16 @@ class MovieRepositoryImp @Inject constructor(
         val dataSource = actorMovieDataSource
         dataSource.setMovieActorID(actorId)
         return Pager(config = config, pagingSourceFactory = { dataSource })
+    }
+
+    override suspend fun getMatchVibesMoviesPager(): Pager<Int, MatchVibesMovieEntity> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { movieDao.getMatchVibesMoviesPaged() }
+        )
     }
 
     private suspend fun refreshPopularMovies(currentDate: Date) {

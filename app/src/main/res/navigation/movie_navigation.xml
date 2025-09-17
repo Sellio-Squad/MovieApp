@@ -238,6 +238,9 @@
         <argument
             android:name="movie_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_saveMovieDialog_to_myListFragment"
+            app:destination="@id/myListFragment" />
     </dialog>
 
     <dialog

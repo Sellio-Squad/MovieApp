@@ -17,11 +17,9 @@ sealed class DetailItemUIState(val priority: Int) {
 
     class Rating(val viewModel: ViewModel) : DetailItemUIState(4)
 
-    object ReviewText : DetailItemUIState(5)
+    object SeeAllReviewsButton : DetailItemUIState(5)
 
     class Comment(val data: ReviewUIState) : DetailItemUIState(6)
 
-    object SeeAllReviewsButton : DetailItemUIState(7)
-
-    class Crew(val data: List<CrewUIState>) : DetailItemUIState(8)
+    class Crew(val data: List<CrewUIState>) : DetailItemUIState(7)
 }

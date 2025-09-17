@@ -6,11 +6,13 @@ import com.karrar.movieapp.domain.ResultHandler
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
-import com.karrar.movieapp.domain.usecases.movieDetails.*
+import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDetailsUseCase
+import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieRateUseCase
+import com.karrar.movieapp.domain.usecases.movieDetails.InsertMoviesUseCase
+import com.karrar.movieapp.domain.usecases.movieDetails.SetRatingUseCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentArgs
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
@@ -96,23 +98,22 @@ class MovieDetailsViewModel @Inject constructor(
                     }
                     addToWatchHistory(result.data)
                 }
-                is ResultHandler.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            errorUIStates = listOf(
-                                ErrorUIState(
-                                    code = Constants.INTERNET_STATUS,
-                                    message = result.throwable.message ?: "Unknown error"
-                                )
-                            ),
-                            isLoading = false
-                        )
-                    }
+                onAddMovieDetailsItemOfNestedView(DetailItemUIState.OverView(_uiState.value.movieDetailsResult))
+                addToWatchHistory(result)
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        errorUIStates = listOf(
+                            ErrorUIState(
+                                code = Constants.INTERNET_STATUS,
+                                message = e.message.toString()
+                            )
+                        ), isLoading = false
+                    )
                 }
             }
         }
     }
-
 
     private suspend fun addToWatchHistory(movie: MovieDetails) {
         insertMoviesUseCase(movie)

@@ -25,7 +25,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="200dp"
             android:layout_height="64dp">
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.ae.imageharamblur.ui.ImageViewFilter
                 android:id="@+id/cast_image"
                 android:layout_width="64dp"
                 android:layout_height="64dp"

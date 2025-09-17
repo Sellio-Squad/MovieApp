@@ -226,6 +226,7 @@
     <string name="arrow">arrow</string>
     <string name="star_icon">star_icon</string>
     <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
+    <string name="tip_my_history">Tip: Swipe left to remove movies from your history.</string>
     <string name="clear_all">Clear All</string>
     <string name="join_as_guest">Join as Guest</string>
     <string name="featured_collections">Featured Collections</string>
@@ -245,6 +246,9 @@
     <string name="instagram">Instagram</string>
     <string name="in">In</string>
     <string name="behind_the_scene">Behind The Scene</string>
+    <string name="no_history_yet">No History Yet</string>
+    <string name="no_history_caption">It’s quiet in here… Start watching and we’ll keep track for you.</string>
+    <string name="find_something_to_watch">Find Something to Watch</string>
     <string name="release_date">release date</string>
     <string name="movie_poster">movie poster</string>
 </resources>

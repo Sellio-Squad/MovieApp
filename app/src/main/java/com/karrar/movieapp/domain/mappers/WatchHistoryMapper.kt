@@ -6,14 +6,21 @@ import javax.inject.Inject
 
 class WatchHistoryMapper @Inject constructor() : Mapper<WatchHistoryEntity, MediaHistoryUiState> {
     override fun map(input: WatchHistoryEntity): MediaHistoryUiState {
+        val hours = (input.movieDuration) / 60
+        val minutes = (input.movieDuration) % 60
         return MediaHistoryUiState(
             input.id,
             input.posterPath,
             input.movieTitle,
             input.voteAverage,
             input.releaseDate,
-            input.movieDuration,
+            movieDuration = if (input.mediaType.equals(
+                    com.karrar.movieapp.utilities.Constants.MOVIE,
+                    true
+                )
+            ) "${hours}h ${minutes}m" else "${input.movieDuration} Seasons",
             input.mediaType,
+            input.genres,
         )
     }
 }

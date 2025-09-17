@@ -9,7 +9,7 @@
             type="String" />
     </data>
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <com.ae.imageharamblur.ui.ImageViewFilter
         android:id="@+id/iv_single_image"
         android:layout_width="match_parent"
         android:layout_height="280dp"

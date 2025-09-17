@@ -3,7 +3,6 @@ package com.ae.imageharamblur.models
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.util.Log
 import androidx.core.graphics.createBitmap
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
@@ -17,238 +16,248 @@ import java.io.File
 import java.io.FileInputStream
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
-import kotlin.math.exp
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 internal class GenderDetectionModel {
-    private val interpreter: Interpreter
+    private var interpreter: Interpreter? = null
     private val imageProcessor: ImageProcessor
     private val inputSize: Int
     private val inputDataType: DataType
+    private val outputShape: IntArray
+    private val outputDataType: DataType
+    private val interpreterLock = ReentrantLock()
+
+    @Volatile
+    private var isInitialized = false
+
+    @Volatile
+    private var isClosed = false
 
     constructor(context: Context) {
-        Log.d(TAG, "Initializing GenderDetectionModel with context")
-        val modelBuffer = FileUtil.loadMappedFile(context, MODEL_FILE)
-        Log.i(TAG, "Model file loaded from assets: $MODEL_FILE")
+        try {
+            val modelBuffer = FileUtil.loadMappedFile(context, MODEL_FILE)
 
-        this.interpreter = createInterpreter(modelBuffer)
+            val tempInterpreter = createInterpreter(modelBuffer)
+            val (inputProps, outputProps) = initializeModelProperties(tempInterpreter)
 
-        val inputTensor = interpreter.getInputTensor(0)
-        val inputShape = inputTensor.shape()
-        this.inputSize = if (inputShape.size >= 3) inputShape[1] else INPUT_SIZE
-        this.inputDataType = inputTensor.dataType()
+            this.inputSize = inputProps.first
+            this.inputDataType = inputProps.second
+            this.outputShape = outputProps.first
+            this.outputDataType = outputProps.second
 
-        Log.d(TAG, "Input configuration - Size: $inputSize, DataType: $inputDataType, Shape: ${inputShape.contentToString()}")
+            this.imageProcessor = createImageProcessor()
 
-        this.imageProcessor = createImageProcessor()
-        Log.i(TAG, "GenderDetectionModel initialized successfully")
+            this.interpreter = tempInterpreter
+            this.isInitialized = true
+
+        } catch (e: Exception) {
+            close()
+            throw RuntimeException("Failed to initialize gender detection model", e)
+        }
     }
 
     constructor(modelFile: File) {
-        Log.d(TAG, "Initializing GenderDetectionModel with file: ${modelFile.absolutePath}")
-        val modelBuffer = loadModelFile(modelFile)
-        Log.i(TAG, "Model file loaded from: ${modelFile.name}")
+        try {
+            val modelBuffer = loadModelFile(modelFile)
 
-        this.interpreter = createInterpreter(modelBuffer)
+            val tempInterpreter = createInterpreter(modelBuffer)
+            val (inputProps, outputProps) = initializeModelProperties(tempInterpreter)
 
-        val inputTensor = interpreter.getInputTensor(0)
+            this.inputSize = inputProps.first
+            this.inputDataType = inputProps.second
+            this.outputShape = outputProps.first
+            this.outputDataType = outputProps.second
+
+            this.imageProcessor = createImageProcessor()
+
+            this.interpreter = tempInterpreter
+            this.isInitialized = true
+
+        } catch (e: Exception) {
+            close()
+            throw RuntimeException("Failed to initialize gender detection model from file", e)
+        }
+    }
+
+    private fun initializeModelProperties(tempInterpreter: Interpreter):
+            Pair<Pair<Int, DataType>, Pair<IntArray, DataType>> {
+        val inputTensor = tempInterpreter.getInputTensor(0)
+        val outputTensor = tempInterpreter.getOutputTensor(0)
+
         val inputShape = inputTensor.shape()
-        this.inputSize = if (inputShape.size >= 3) inputShape[1] else INPUT_SIZE
-        this.inputDataType = inputTensor.dataType()
+        val inputSize = when {
+            inputShape.size >= 4 -> inputShape[1]
+            inputShape.size >= 3 -> inputShape[1]
+            else -> INPUT_SIZE
+        }
 
-        Log.d(TAG, "Input configuration - Size: $inputSize, DataType: $inputDataType, Shape: ${inputShape.contentToString()}")
-
-        this.imageProcessor = createImageProcessor()
-        Log.i(TAG, "GenderDetectionModel initialized successfully")
+        return Pair(
+            Pair(inputSize, inputTensor.dataType()),
+            Pair(outputTensor.shape().clone(), outputTensor.dataType())
+        )
     }
 
     private fun loadModelFile(file: File): MappedByteBuffer {
-        Log.d(TAG, "Loading model file: ${file.absolutePath}")
-        return try {
-            val fileInputStream = FileInputStream(file)
-            val fileChannel = fileInputStream.channel
-            val startOffset = 0L
-            val declaredLength = fileChannel.size()
-            Log.d(TAG, "Model file size: $declaredLength bytes")
-            fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to load model file", e)
-            throw e
+        FileInputStream(file).use { fileInputStream ->
+            fileInputStream.channel.use { fileChannel ->
+                val startOffset = 0L
+                val declaredLength = fileChannel.size()
+                return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+            }
         }
     }
 
     private fun createInterpreter(modelBuffer: MappedByteBuffer): Interpreter {
-        Log.d(TAG, "Creating interpreter")
-        return try {
-            val options = Interpreter.Options().apply {
-                numThreads = 4
-                Log.d(TAG, "Interpreter configured with 4 threads")
-            }
-            Interpreter(modelBuffer, options).also {
-                Log.i(TAG, "Interpreter created successfully")
-
-                // Log output tensor info
-                val outputTensor = it.getOutputTensor(0)
-                Log.d(TAG, "Output tensor - Shape: ${outputTensor.shape().contentToString()}, DataType: ${outputTensor.dataType()}")
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to create interpreter", e)
-            throw e
+        val options = Interpreter.Options().apply {
+            setNumThreads(2)
+            setUseNNAPI(false)
+            try {
+                setUseXNNPACK(true)
+            } catch (e: Exception) {}
         }
+        return Interpreter(modelBuffer, options)
     }
 
     private fun createImageProcessor(): ImageProcessor {
-        Log.d(TAG, "Creating image processor - Input size: $inputSize, DataType: $inputDataType")
-
-        val builder = ImageProcessor.Builder()
+        return ImageProcessor.Builder()
             .add(ResizeOp(inputSize, inputSize, ResizeOp.ResizeMethod.BILINEAR))
-
-        when (inputDataType) {
-            DataType.UINT8 -> {
-                builder.add(NormalizeOp(0f, 1f))
-                Log.d(TAG, "Normalization configured for UINT8: [0, 1]")
-            }
-
-            DataType.FLOAT32 -> {
-                builder.add(NormalizeOp(IMAGE_MEAN, IMAGE_STD))
-                Log.d(TAG, "Normalization configured for FLOAT32: mean=$IMAGE_MEAN, std=$IMAGE_STD")
-            }
-
-            else -> {
-                builder.add(NormalizeOp(0f, 255f))
-                Log.d(TAG, "Normalization configured for ${inputDataType}: [0, 255]")
-            }
-        }
-
-        return builder.build().also {
-            Log.i(TAG, "Image processor created")
-        }
+            .add(NormalizeOp(IMAGE_MEAN, IMAGE_STD))
+            .build()
     }
 
     fun detectGender(faceBitmap: Bitmap): GenderResult {
-        Log.d(TAG, "detectGender() called - Bitmap size: ${faceBitmap.width}x${faceBitmap.height}")
+        if (isClosed || !isInitialized || interpreter == null) {
+            return GenderResult(isFemale = false, confidence = 0.5f)
+        }
 
+        return interpreterLock.withLock {
+            if (isClosed || !isInitialized || interpreter == null) {
+                return@withLock GenderResult(isFemale = false, confidence = 0.5f)
+            }
+
+            detectGenderInternal(faceBitmap)
+        }
+    }
+
+    private fun detectGenderInternal(faceBitmap: Bitmap): GenderResult {
         return try {
-            val rgbBitmap = ensureRgbBitmap(faceBitmap)
-            val tensorImage = TensorImage(inputDataType)
-            tensorImage.load(rgbBitmap)
-            Log.v(TAG, "Image loaded into tensor")
-
-            val processedImage = imageProcessor.process(tensorImage)
-            Log.v(TAG, "Image preprocessing completed")
-
-            val outputTensor = interpreter.getOutputTensor(0)
-            val outputShape = outputTensor.shape()
-            val outputDataType = outputTensor.dataType()
-            Log.v(TAG, "Output tensor info - Shape: ${outputShape.contentToString()}, DataType: $outputDataType")
+            if (faceBitmap.isRecycled || faceBitmap.width <= 0 || faceBitmap.height <= 0) {
+                return GenderResult(isFemale = false, confidence = 0.5f)
+            }
 
             val outputBuffer = TensorBuffer.createFixedSize(outputShape, outputDataType)
 
-            synchronized(interpreter) {
-                Log.d(TAG, "Running inference...")
-                interpreter.run(processedImage.buffer, outputBuffer.buffer.rewind())
-                Log.d(TAG, "Inference completed")
+            val rgbBitmap = ensureRgbBitmap(faceBitmap)
+            val tensorImage = TensorImage(inputDataType)
+            tensorImage.load(rgbBitmap)
+
+            val processedImage = imageProcessor.process(tensorImage)
+
+            val currentInterpreter = interpreter
+            if (currentInterpreter == null || isClosed) {
+                return GenderResult(isFemale = false, confidence = 0.5f)
             }
 
-            val (femaleProbability, maleProbability) = when (outputDataType) {
-                DataType.FLOAT32 -> {
-                    val floatArray = outputBuffer.floatArray
-                    Log.v(TAG, "Raw output (FLOAT32): ${floatArray.contentToString()}")
+            currentInterpreter.run(processedImage.buffer, outputBuffer.buffer)
 
-                    if (floatArray.size >= 2) {
-                        floatArray[FEMALE_INDEX] to floatArray[MALE_INDEX]
-                    } else {
-                        Log.e(TAG, "Unexpected output size: ${floatArray.size}, expected at least 2")
-                        0.5f to 0.5f
-                    }
-                }
+            val probabilities = extractProbabilities(outputBuffer)
+            val normalizedProbabilities = normalizeProbabilities(probabilities)
 
-                DataType.UINT8 -> {
-                    val byteArray = ByteArray(outputBuffer.buffer.remaining())
-                    outputBuffer.buffer.get(byteArray)
-                    Log.v(TAG, "Raw output (UINT8) size: ${byteArray.size}")
+            createGenderResult(normalizedProbabilities)
 
-                    if (byteArray.size >= 2) {
-                        val femaleProb = (byteArray[FEMALE_INDEX].toInt() and 0xFF) / 255f
-                        val maleProb = (byteArray[MALE_INDEX].toInt() and 0xFF) / 255f
-                        Log.v(TAG, "Converted probabilities - Female: $femaleProb, Male: $maleProb")
-                        femaleProb to maleProb
-                    } else {
-                        Log.e(TAG, "Unexpected output size: ${byteArray.size}, expected at least 2")
-                        0.5f to 0.5f
-                    }
-                }
-
-                else -> {
-                    Log.w(TAG, "Unsupported output data type: $outputDataType")
-                    0.5f to 0.5f
-                }
-            }
-
-            Log.d(TAG, "Raw probabilities - Female: $femaleProbability, Male: $maleProbability")
-
-            // Softmax normalization
-            val maxProb = maxOf(femaleProbability, maleProbability)
-            val expFemale = exp(femaleProbability - maxProb)
-            val expMale = exp(maleProbability - maxProb)
-            val sumExp = expFemale + expMale
-
-            val normalizedFemaleProbability = (expFemale / sumExp)
-            val normalizedMaleProbability = (expMale / sumExp)
-
-            Log.d(TAG, "Normalized probabilities - Female: $normalizedFemaleProbability, Male: $normalizedMaleProbability")
-
-            val isFemale = normalizedFemaleProbability > normalizedMaleProbability
-            val confidence =
-                if (isFemale) normalizedFemaleProbability else normalizedMaleProbability
-
-            val result = GenderResult(
-                isFemale = isFemale,
-                confidence = confidence
-            )
-
-            Log.i(TAG, "Gender detection result: ${if (isFemale) "Female" else "Male"} (confidence: ${String.format("%.2f", confidence * 100)}%)")
-
-            result
+        } catch (e: IllegalStateException) {
+            GenderResult(isFemale = false, confidence = 0.5f)
         } catch (e: Exception) {
-            Log.e(TAG, "Gender detection failed", e)
-            GenderResult(
-                isFemale = false,
-                confidence = 0.5f
-            )
+            GenderResult(isFemale = false, confidence = 0.5f)
         }
+    }
+
+    private fun extractProbabilities(outputBuffer: TensorBuffer): FloatArray {
+        return try {
+            val buffer = outputBuffer.buffer
+            buffer.rewind()
+
+            when (outputBuffer.dataType) {
+                DataType.FLOAT32 -> {
+                    val floats = FloatArray(buffer.remaining() / 4)
+                    buffer.asFloatBuffer().get(floats)
+                    floats
+                }
+                DataType.UINT8 -> {
+                    val size = buffer.remaining()
+                    val byteArray = ByteArray(size)
+                    buffer.get(byteArray)
+                    FloatArray(size) { i ->
+                        (byteArray[i].toInt() and 0xFF) / 255.0f
+                    }
+                }
+                else -> floatArrayOf(0.5f, 0.5f)
+            }
+        } catch (e: Exception) {
+            floatArrayOf(0.5f, 0.5f)
+        }
+    }
+
+    private fun normalizeProbabilities(probabilities: FloatArray): Pair<Float, Float> {
+        if (probabilities.size < 2) {
+            return 0.5f to 0.5f
+        }
+
+        val femaleProbability = probabilities[FEMALE_INDEX].coerceIn(0f, 1f)
+        val maleProbability = probabilities[MALE_INDEX].coerceIn(0f, 1f)
+
+        val sum = femaleProbability + maleProbability
+        return when {
+            sum in 0.95f..1.05f -> femaleProbability to maleProbability
+            sum > 0 -> (femaleProbability / sum) to (maleProbability / sum)
+            else -> 0.5f to 0.5f
+        }
+    }
+
+    private fun createGenderResult(normalizedProbabilities: Pair<Float, Float>): GenderResult {
+        val (femaleProbability, maleProbability) = normalizedProbabilities
+        val isFemale = femaleProbability > maleProbability
+        val confidence = if (isFemale) femaleProbability else maleProbability
+
+        return GenderResult(
+            isFemale = isFemale,
+            confidence = confidence.coerceIn(0f, 1f)
+        )
     }
 
     private fun ensureRgbBitmap(bitmap: Bitmap): Bitmap {
         return if (bitmap.config == Bitmap.Config.ARGB_8888) {
-            Log.v(TAG, "Converting ARGB_8888 bitmap to RGB")
-            val rgbBitmap = createBitmap(bitmap.width, bitmap.height)
-            val canvas = Canvas(rgbBitmap)
-            canvas.drawBitmap(bitmap, 0f, 0f, null)
-            rgbBitmap
-        } else {
-            Log.v(TAG, "Bitmap already in compatible format: ${bitmap.config}")
             bitmap
+        } else {
+            createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888).apply {
+                Canvas(this).drawBitmap(bitmap, 0f, 0f, null)
+            }
         }
     }
 
     fun close() {
-        Log.d(TAG, "Closing GenderDetectionModel")
-        try {
-            interpreter.close()
-            Log.i(TAG, "GenderDetectionModel closed successfully")
-        } catch (e: Exception) {
-            Log.e(TAG, "Error closing interpreter", e)
+        interpreterLock.withLock {
+            isClosed = true
+            isInitialized = false
+
+            try {
+                interpreter?.close()
+            } catch (e: Exception) {
+            } finally {
+                interpreter = null
+            }
         }
     }
 
     companion object {
-        private const val TAG = "GenderDetectionModel"
-        private const val MODEL_FILE = "gender_class_model.tflite"
+        private const val MODEL_FILE = "GenderClass_06_03-20-08.tflite"
         private const val INPUT_SIZE = 224
         private const val IMAGE_MEAN = 127.5f
         private const val IMAGE_STD = 127.5f
         private const val FEMALE_INDEX = 0
         private const val MALE_INDEX = 1
+        private const val NUM_THREADS = 2
     }
 }
 

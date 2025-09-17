@@ -3,15 +3,17 @@ package com.ae.imageharamblur
 import android.content.Context
 import android.graphics.Bitmap
 import com.ae.imageharamblur.faceDetection.FaceDetector
-import com.ae.imageharamblur.models.ContentDetectionModel
+import com.ae.imageharamblur.models.NsfwDetectionModel
 import com.ae.imageharamblur.models.GenderDetectionModel
 import com.ae.imageharamblur.models.ModelDownloadManager
 import com.ae.imageharamblur.ui.ModerationCacheManager
 import com.ae.imageharamblur.utils.cropFace
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 internal class ImageModerationProcessor(private val context: Context) {
     companion object {
@@ -21,7 +23,7 @@ internal class ImageModerationProcessor(private val context: Context) {
         private var sharedGenderModel: GenderDetectionModel? = null
 
         @Volatile
-        private var sharedContentModel: ContentDetectionModel? = null
+        private var sharedContentModel: NsfwDetectionModel? = null
 
         @Volatile
         private var modelsInitialized = false
@@ -39,7 +41,7 @@ internal class ImageModerationProcessor(private val context: Context) {
         }
     }
 
-    private val faceDetector = FaceDetector(context)
+    private val faceDetector = FaceDetector()
     private val modelDownloadManager = ModelDownloadManager(context)
 
     init {
@@ -73,7 +75,7 @@ internal class ImageModerationProcessor(private val context: Context) {
 
                 if (modelFiles.isFromFirebase) {
                     sharedGenderModel = GenderDetectionModel(modelFiles.genderModelFile)
-                    sharedContentModel = ContentDetectionModel(modelFiles.nsfwModelFile)
+                    sharedContentModel = NsfwDetectionModel(modelFiles.nsfwModelFile)
                     currentModelsAreFromFirebase = true
 
                     if (switchingToFirebase) {
@@ -82,7 +84,7 @@ internal class ImageModerationProcessor(private val context: Context) {
                     }
                 } else {
                     sharedGenderModel = GenderDetectionModel(context)
-                    sharedContentModel = ContentDetectionModel(context)
+                    sharedContentModel = NsfwDetectionModel(context)
                     currentModelsAreFromFirebase = false
                 }
 
@@ -94,7 +96,7 @@ internal class ImageModerationProcessor(private val context: Context) {
                         sharedContentModel?.close()
 
                         sharedGenderModel = GenderDetectionModel(context)
-                        sharedContentModel = ContentDetectionModel(context)
+                        sharedContentModel = NsfwDetectionModel(context)
                         currentModelsAreFromFirebase = false
                         modelsInitialized = true
                     }
@@ -127,18 +129,28 @@ internal class ImageModerationProcessor(private val context: Context) {
             val faces = faceDetector.detectFaces(bitmap)
 
             for (face in faces) {
-                runCatching {
-                    val faceBitmap = cropFace(bitmap, face)
-                    val genderModel = sharedGenderModel
+                // Check if coroutine is cancelled
+                if (!isActive) break
 
-                    if (genderModel != null) {
+                try {
+                    val faceBitmap = cropFace(bitmap, face)
+                    if (faceBitmap.isRecycled) continue
+
+                    val genderModel = sharedGenderModel
+                    if (genderModel != null && isActive) {
                         val genderResult = genderModel.detectGender(faceBitmap)
 
-                        genderResult.let { result ->
-                            if ((detectFemales && result.isFemale) || (detectMales && !result.isFemale))
-                                return@withContext true
+                        if ((detectFemales && genderResult.isFemale) ||
+                            (detectMales && !genderResult.isFemale)) {
+                            return@withContext true
                         }
                     }
+                } catch (e: CancellationException) {
+                    // Re-throw to properly handle coroutine cancellation
+                    throw e
+                } catch (e: Exception) {
+                    // Log but continue with next face
+                    continue
                 }
             }
         }

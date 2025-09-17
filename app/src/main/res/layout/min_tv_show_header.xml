@@ -1,0 +1,72 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsResultUIState" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
+    </data>
+    <LinearLayout
+        android:id="@+id/min_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:backgroundTint="@color/background_color_screen"
+        >
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/user_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:posterImage="@{item.tvShowImage}"
+            app:shapeAppearanceOverlay="@style/Circle"
+            tools:srcCompat="@drawable/image"
+            />
+        <TextView
+            android:id="@+id/movieTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:singleLine="true"
+            android:text="@{item.tvShowName}"
+            android:textColor="@color/shade_primary_color"
+            android:textSize="18sp"
+            tools:text="title"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/saveButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_md_corner"
+            android:onClick="@{() -> listener.onClickSave()}"
+            android:padding="11dp"
+            app:tint="@color/shade_primary_color"
+            android:src="@drawable/due_tone_add"
+            app:backgroundTint="@color/button_color_secondary" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/playButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_md_corner"
+            android:onClick="@{() -> listener.onClickPlayTrailer()}"
+            android:padding="11dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/due_tone_play"
+            app:backgroundTint="@color/button_color_primary" />
+
+    </LinearLayout>
+</layout>

@@ -25,6 +25,9 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState as DetailsErrorUIState
+import com.ae.imageharamblur.ui.ImageFilterConfig
+import com.ae.imageharamblur.ui.ImageViewFilter
+import com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesTypes
 
 
 @BindingAdapter("app:showWhenListNotEmpty")

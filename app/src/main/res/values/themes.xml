@@ -423,4 +423,11 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_floating_bottom_sheet</item>
     </style>
+
+
+    <style name="MediaPhotoCorners">
+        <item name="cornerSizeTopLeft">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeTopRight">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_cineVerse_l</item>
+    </style>
 </resources>

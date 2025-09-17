@@ -246,8 +246,9 @@ class MovieRepositoryImp @Inject constructor(
     }
 
     override suspend fun getSimilarMoviePager(): Pager<Int, MovieDto> {
-       return Pager(config = config,
-            pagingSourceFactory = {movieMovieDataSource.youMightAlsoLikeMovieDataSource})
+        return Pager(
+            config = config,
+            pagingSourceFactory = { movieMovieDataSource.youMightAlsoLikeMovieDataSource })
     }
 
     override suspend fun getMovieReviewsPager(): Pager<Int, ReviewsDto> {

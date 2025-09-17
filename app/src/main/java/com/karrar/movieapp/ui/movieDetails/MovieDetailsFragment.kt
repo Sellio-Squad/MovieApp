@@ -14,6 +14,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.profile.ProfileFragmentDirections
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -91,7 +92,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),DetailI
             }
 
             MovieDetailsUIEvent.ShowLoginDialogEvent -> {
-                Toast.makeText(context, getString(R.string.log_in), Toast.LENGTH_SHORT).show()
+                action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToLogInDialog("")
             }
         }
         action?.let { findNavController().navigate(it) }

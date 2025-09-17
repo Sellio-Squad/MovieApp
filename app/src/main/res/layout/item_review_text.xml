@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
+
+        <variable
+            name="movieType"
+            type="com.karrar.movieapp.domain.enums.TvShowItemsType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/reviews_comment"
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
+        <com.karrar.movieapp.utilities.common.SectionHeaderView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_marginStart="@dimen/spacing_medium"
-            android:text="@string/reviews_comment"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{movieType.value}"
+            app:onSeeAllClick="@{() -> adapterRecycler.onClickSeeAllTvShows(movieType)}"
+            app:showSeeAll="true"
+            tools:text="Top Reviews"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/reviews_comment"-->
+        <!--            style="@style/SemiBold.Medium"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/spacing_medium"-->
+        <!--            android:layout_marginStart="@dimen/spacing_medium"-->
+        <!--            android:text="@string/reviews_comment"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

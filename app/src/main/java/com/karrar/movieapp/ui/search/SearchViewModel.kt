@@ -77,32 +77,22 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchInputChange(searchTerm: CharSequence) {
-        val newSearchTerm = searchTerm.toString()
 
-        // Update the search input immediately for UI responsiveness
-        _uiState.update {
-            it.copy(searchInput = newSearchTerm)
-        }
-
-        // If search term is blank, show suggestions
-        if (newSearchTerm.isBlank()) {
-            _uiState.update {
-                it.copy(displayMode = SearchDisplayMode.SUGGESTIONS)
-            }
+        if (searchTerm.toString() == _uiState.value.searchInput) {
             return
         }
-
-        // If search term is not blank, show results and perform search
-        if (newSearchTerm != _uiState.value.searchInput || _uiState.value.displayMode != SearchDisplayMode.RESULTS) {
-            _uiState.update {
-                it.copy(
-                    displayMode = SearchDisplayMode.RESULTS,
-                    isLoading = true
-                )
-            }
-
-            viewModelScope.launch {
-                performSearch(newSearchTerm)
+        _uiState.update {
+            it.copy(
+                searchInput = searchTerm.toString(),
+                displayMode = SearchDisplayMode.SUGGESTIONS
+                , isLoading = true
+            )
+        }
+        viewModelScope.launch {
+            when (_uiState.value.searchTypes) {
+                MediaTypes.MOVIE -> onSearchForMovie()
+                MediaTypes.TVS_SHOW -> onSearchForSeries()
+                MediaTypes.ACTOR -> onSearchForActor()
             }
         }
     }
@@ -262,8 +252,12 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onSuggestionClick(query: String) {
-        // When clicking on a suggestion, treat it like typing in the search box
-        onSearchInputChange(query)
+        _uiState.update {
+            it.copy(
+                searchInput = query,
+                displayMode = SearchDisplayMode.RESULTS
+            )
+        }
     }
 
     override fun onMediaClick(media: MediaUIState) {

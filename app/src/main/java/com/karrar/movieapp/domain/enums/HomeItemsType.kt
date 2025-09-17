@@ -12,5 +12,6 @@ enum class HomeItemsType(val value :String) {
     FAMILY_NIGHT_PICKS("Family Night Picks"),
     BASED_ON_TRUE_EVENTS("Based On True Events"),
     FEEL_GOOD_FAVORITES("Feel Good Favorites"),
+    MATCHES_YOUR_VIBE("Matches Your Vibe"),
     NON("")
 }

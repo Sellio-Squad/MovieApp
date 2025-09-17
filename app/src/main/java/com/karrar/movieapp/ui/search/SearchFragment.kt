@@ -132,10 +132,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun updateToggleIndicator(isGridSelected: Boolean) {
-        val indicatorMargin = if (isGridSelected) 0 else 40 // 40dp for moving to the right
+        val indicatorMargin = if (isGridSelected) 0 else 40
         val layoutParams = binding.indicator.layoutParams as android.widget.FrameLayout.LayoutParams
         layoutParams.marginStart = (indicatorMargin * resources.displayMetrics.density).toInt()
         binding.indicator.layoutParams = layoutParams
+
+        binding.btnGridView.isSelected = isGridSelected
+        binding.btnListView.isSelected = !isGridSelected
     }
 
     private fun setSearchHistoryAdapter() {

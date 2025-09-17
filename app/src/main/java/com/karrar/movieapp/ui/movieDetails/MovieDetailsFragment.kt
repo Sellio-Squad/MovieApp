@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),DetailInteractionListener  {
+class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>()  {
 
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
@@ -33,7 +33,6 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),DetailI
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
         binding.viewModel = viewModel
-        binding.listener = this
         collectMovieDetailsItems()
         collectEvents()
         setupRecyclerWithHeaderAnimation()
@@ -99,19 +98,6 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),DetailI
 
     }
 
-    override fun onclickBack() {
-        findNavController().navigateUp()
-
-    }
-
-    override fun onClickSave() {
-    }
-
-    override fun onClickPlayTrailer() {
-    }
-
-    override fun onclickViewReviews() {
-    }
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setupRecyclerWithHeaderAnimation() {
         val recyclerView = binding.recyclerView

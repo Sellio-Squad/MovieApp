@@ -98,13 +98,19 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.MYSTERY -> resources.getString(R.string.title_mystery)
             AllMediaType.ADVENTURE -> resources.getString(R.string.title_adventure)
             AllMediaType.ACTOR_MOVIES -> ""
-            AllMediaType.LATE_NIGHT_THRILLS -> "Late Night Thrills"
-            AllMediaType.MIND_BENDING_STORIES -> "Mind Bending Stories"
-            AllMediaType.CINEMATIC_MASTERPIECES -> "Cinematic Masterpieces"
-            AllMediaType.FAMILY_NIGHT_PICKS -> "Family Night Picks"
-            AllMediaType.BASED_ON_TRUE_EVENTS -> "Based On True Events"
-            AllMediaType.FEEL_GOOD_FAVORITES -> "Feel Good Favorites"
+            AllMediaType.LATE_NIGHT_THRILLS -> resources.getString(R.string.late_night_thrills)
+            AllMediaType.MIND_BENDING_STORIES -> resources.getString(R.string.mind_bending_stories)
+            AllMediaType.CINEMATIC_MASTERPIECES -> resources.getString(R.string.cinematic_masterpieces)
+            AllMediaType.FAMILY_NIGHT_PICKS -> resources.getString(R.string.family_night_picks)
+            AllMediaType.BASED_ON_TRUE_EVENTS -> resources.getString(R.string.based_on_true_events)
+            AllMediaType.FEEL_GOOD_FAVORITES -> resources.getString(R.string.feel_good_favorites)
+
+            AllMediaType.LASTEST_SEASONS -> resources.getString(R.string.latest_seasons)
+            AllMediaType.BEHIND_THE_SCENES -> resources.getString(R.string.behind_the_scene)
+            AllMediaType.YOU_MIGHT_ALSO_LIKE_SERIES -> resources.getString(R.string.you_might_also_like)
+            AllMediaType.YOU_MIGHT_ALSO_LIKE_MOVIES -> resources.getString(R.string.you_might_also_like)
+            AllMediaType.TOP_REVIEWS_SERIES -> resources.getString(R.string.top_reviews)
+            AllMediaType.TOP_REVIEWS_MOVIES -> resources.getString(R.string.top_reviews)
         }
     }
-
 }

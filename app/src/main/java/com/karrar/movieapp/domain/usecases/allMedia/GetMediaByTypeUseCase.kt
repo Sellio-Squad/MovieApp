@@ -101,6 +101,18 @@ class GetMediaByTypeUseCase @Inject constructor(
                     movieMapper::map
                 )
             }
+
+            AllMediaType.LASTEST_SEASONS -> TODO()
+            AllMediaType.BEHIND_THE_SCENES -> TODO()
+            AllMediaType.YOU_MIGHT_ALSO_LIKE_SERIES -> TODO()
+            AllMediaType.YOU_MIGHT_ALSO_LIKE_MOVIES -> {
+                wrapper(movieRepository::getSimilarMoviePager,movieMapper::map)
+            }
+            AllMediaType.TOP_REVIEWS_SERIES -> TODO()
+            AllMediaType.TOP_REVIEWS_MOVIES -> TODO()
+//                {
+//                wrapper(movieRepository::getMovieReviewsPager,  )
+//            }
         }
     }
 

@@ -249,4 +249,11 @@
     <string name="no_history_yet">No History Yet</string>
     <string name="no_history_caption">It’s quiet in here… Start watching and we’ll keep track for you.</string>
     <string name="find_something_to_watch">Find Something to Watch</string>
+    <string name="top_reviews">Top Reviews</string>
+    <string name="feel_good_favorites">Feel Good Favorites</string>
+    <string name="based_on_true_events">Based On True Events</string>
+    <string name="family_night_picks">Family Night Picks</string>
+    <string name="cinematic_masterpieces">Cinematic Masterpieces</string>
+    <string name="mind_bending_stories">Mind Bending Stories</string>
+    <string name="late_night_thrills">Late Night Thrills</string>
 </resources>

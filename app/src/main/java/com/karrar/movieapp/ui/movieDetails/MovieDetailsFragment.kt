@@ -85,6 +85,10 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),DetailI
             MovieDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
+
+            MovieDetailsUIEvent.ShowLoginDialogEvent -> {
+                Toast.makeText(context, getString(R.string.log_in), Toast.LENGTH_SHORT).show()
+            }
         }
         action?.let { findNavController().navigate(it) }
 

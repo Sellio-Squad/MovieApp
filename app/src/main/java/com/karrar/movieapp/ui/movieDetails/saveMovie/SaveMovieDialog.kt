@@ -10,7 +10,7 @@ import com.karrar.movieapp.ui.base.BaseDialogFragment
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.SaveMovieUIEvent
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
-
+import androidx.navigation.fragment.findNavController
 
 @AndroidEntryPoint
 class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
@@ -30,12 +30,21 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
     }
 
     private fun onEvent(event: SaveMovieUIEvent) {
-        if (event is SaveMovieUIEvent.DisplayMessage) {
-            if (!event.message.isNullOrBlank()) {
-                Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+        when (event) {
+            is SaveMovieUIEvent.DisplayMessage -> {
+                if (event.message.isNotBlank())
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
+
+            is SaveMovieUIEvent.NavigateToCollectionScreen -> {
+                findNavController().navigate(
+                    SaveMovieDialogDirections.actionSaveMovieDialogToMyListFragment()
+                )
                 dismiss()
             }
         }
+
     }
 
 }

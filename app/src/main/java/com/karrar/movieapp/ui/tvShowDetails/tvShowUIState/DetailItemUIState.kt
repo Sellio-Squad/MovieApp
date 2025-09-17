@@ -13,13 +13,13 @@ sealed class DetailItemUIState(val priority: Int) {
 
     class Cast(val data: List<ActorUiState>) : DetailItemUIState(2)
 
-    class SimilarTvShow(val data: List<MediaUiState>) : DetailItemUIState(3)
+    class Crew(val data: List<CrewUIState>) : DetailItemUIState(3)
 
-    class Rating(val viewModel: ViewModel) : DetailItemUIState(4)
+    class SimilarTvShow(val data: List<MediaUiState>) : DetailItemUIState(4)
 
-    object SeeAllReviewsButton : DetailItemUIState(5)
+    class Rating(val viewModel: ViewModel) : DetailItemUIState(5)
 
-    class Comment(val data: ReviewUIState) : DetailItemUIState(6)
+    object SeeAllReviewsButton : DetailItemUIState(6)
 
-    class Crew(val data: List<CrewUIState>) : DetailItemUIState(7)
+    class Comment(val data: ReviewUIState) : DetailItemUIState(7)
 }

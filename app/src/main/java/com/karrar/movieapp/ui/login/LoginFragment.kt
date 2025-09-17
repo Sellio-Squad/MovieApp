@@ -28,12 +28,21 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun onEvent(event: LoginUIEvent) {
         when (event) {
             is LoginUIEvent.LoginEvent -> {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment())
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToProfileFragment()
+                )
             }
+
             LoginUIEvent.SignUpEvent -> {
                 val browserIntent =
                     Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
                 startActivity(browserIntent)
+            }
+
+            LoginUIEvent.ShowSignUpDialog -> {
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToSignUpDialog()
+                )
             }
         }
     }

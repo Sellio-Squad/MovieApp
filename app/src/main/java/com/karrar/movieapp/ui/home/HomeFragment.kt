@@ -48,8 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.recentlyViewed,
                         uiState.collections,
                         uiState.featuredCollections,
-//                        uiState.matchesYourVibes
-                        // TODO : uncomment this line when matches your vibes in data and domain layers completed
+                        uiState.matchesYourVibes
                     )
                 )
             }

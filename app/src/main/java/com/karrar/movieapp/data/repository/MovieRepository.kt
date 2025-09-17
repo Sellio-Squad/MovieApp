@@ -131,4 +131,6 @@ interface MovieRepository {
         releaseDateGte: String?,
         releaseDateLte: String?
     ): Flow<List<MatchVibesMovieEntity>>
+
+    suspend fun getCurrentMatchVibesMovies(): Flow<List<MatchVibesMovieEntity>>
 }

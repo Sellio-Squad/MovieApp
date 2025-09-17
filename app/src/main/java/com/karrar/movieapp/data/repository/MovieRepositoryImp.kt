@@ -497,4 +497,8 @@ class MovieRepositoryImp @Inject constructor(
             },
         )
     }
+
+    override suspend fun getCurrentMatchVibesMovies(): Flow<List<MatchVibesMovieEntity>> {
+        return movieDao.getMatchVibesMovies()
+    }
 }

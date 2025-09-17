@@ -1,18 +1,19 @@
-package com.karrar.movieapp.domain.usecase.home.getData.movie
+package com.karrar.movieapp.domain.usecases.home.getData.movie
 
 import com.karrar.movieapp.data.repository.MovieRepository
-import com.karrar.movieapp.domain.mappers.movie.AdventureMovieMapper
+import com.karrar.movieapp.domain.mappers.movie.MatchVibesMovieMovieMapper
 import com.karrar.movieapp.domain.models.Media
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetMatchesYourVibeMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
+    private val movieMapper: MatchVibesMovieMovieMapper
 ) {
 
     suspend operator fun invoke(): Flow<List<Media>> {
-        return flowOf(listOf<Media>())
+        return movieRepository.getCurrentMatchVibesMovies()
+            .map { it.map(movieMapper::map) }
     }
-    // TODO: This fake useCase need to return from repo and create mapper
 }

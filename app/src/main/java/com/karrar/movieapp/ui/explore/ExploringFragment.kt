@@ -45,6 +45,14 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
     private val gridAdapter by lazy { CategoryAdapter(this) }
     private lateinit var voiceLauncher: ActivityResultLauncher<Intent>
 
+    private val gridAdapterWithFooter by lazy {
+        gridAdapter.withLoadStateFooter(LoadUIStateAdapter { gridAdapter.retry() })
+    }
+
+    private val listAdapterWithFooter by lazy {
+        listAdapter.withLoadStateFooter(LoadUIStateAdapter { listAdapter.retry() })
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition =
@@ -65,11 +73,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
 
     private fun initRecyclerView() {
         binding.recyclerMedia.apply {
-            layoutManager = if (viewModel.uiState.value.viewMode == ViewMode.GRID)
-                GridLayoutManager(requireContext(), 2)
-            else
-                LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
+            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = gridAdapter.withLoadStateFooter(LoadUIStateAdapter(gridAdapter::retry))
         }
     }
@@ -90,17 +94,26 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
         if (binding.recyclerMedia.layoutManager!!::class != layoutManager::class) {
             binding.recyclerMedia.layoutManager = layoutManager
         }
+
+        val newAdapter = when (viewMode) {
+            ViewMode.GRID -> gridAdapterWithFooter
+            ViewMode.LIST -> listAdapterWithFooter
+        }
+
+        if (binding.recyclerMedia.adapter != newAdapter) {
+            binding.recyclerMedia.adapter = newAdapter
+        }
     }
+
 
     private fun collectUIState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collectLatest { uiState ->
                     uiState.media.collectLatest { pagingData ->
-                        if (uiState.viewMode == ViewMode.GRID) {
-                            gridAdapter.submitData(lifecycle, pagingData)
-                        } else {
-                            listAdapter.submitData(lifecycle, pagingData)
+                        when (uiState.viewMode) {
+                            ViewMode.GRID -> gridAdapter.submitData(lifecycle, pagingData)
+                            ViewMode.LIST -> listAdapter.submitData(lifecycle, pagingData)
                         }
                     }
                 }
@@ -134,6 +147,9 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
         val layoutParams = binding.indicator.layoutParams as android.widget.FrameLayout.LayoutParams
         layoutParams.marginStart = (indicatorMargin * resources.displayMetrics.density).toInt()
         binding.indicator.layoutParams = layoutParams
+
+        binding.btnGridView.isSelected = isGridSelected
+        binding.btnListView.isSelected = !isGridSelected
     }
 
     private fun setupVoiceSearch() {

@@ -96,20 +96,21 @@ class MovieDetailsViewModel @Inject constructor(
                             isLoading = false
                         )
                     }
+                    onAddMovieDetailsItemOfNestedView(DetailItemUIState.OverView(_uiState.value.movieDetailsResult))
                     addToWatchHistory(result.data)
                 }
-                onAddMovieDetailsItemOfNestedView(DetailItemUIState.OverView(_uiState.value.movieDetailsResult))
-                addToWatchHistory(result)
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        errorUIStates = listOf(
-                            ErrorUIState(
-                                code = Constants.INTERNET_STATUS,
-                                message = e.message.toString()
-                            )
-                        ), isLoading = false
-                    )
+                is ResultHandler.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            errorUIStates = listOf(
+                                ErrorUIState(
+                                    code = Constants.INTERNET_STATUS,
+                                    message = result.throwable.message ?: "Unknown error"
+                                )
+                            ),
+                            isLoading = false
+                        )
+                    }
                 }
             }
         }

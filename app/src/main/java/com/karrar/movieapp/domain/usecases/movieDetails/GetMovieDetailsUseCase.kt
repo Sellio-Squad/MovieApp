@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.usecases.movieDetails
 
 import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.domain.ResultHandler
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.MovieCrewMapper
 import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
@@ -23,11 +24,18 @@ class GetMovieDetailsUseCase @Inject constructor(
     private val movieMapper: MovieMapper,
     private val movieCrewMapper: MovieCrewMapper
 ) {
-    suspend fun getMovieDetails(movieId: Int): MovieDetails {
-        val response = movieRepository.getMovieDetails(movieId)
-        return response?.let {
-            movieDetailsMapper.map(response)
-        } ?: throw Throwable("Not Success")
+
+    suspend fun getMovieDetails(movieId: Int): ResultHandler<MovieDetails> {
+        return try {
+            val response = movieRepository.getMovieDetails(movieId)
+            if (response != null) {
+                ResultHandler.Success(movieDetailsMapper.map(response))
+            } else {
+                ResultHandler.Error(Throwable("Movie details not found"))
+            }
+        } catch (e: Exception) {
+            ResultHandler.Error(e)
+        }
     }
 
     suspend fun getMovieCast(movieId: Int): List<Actor> {

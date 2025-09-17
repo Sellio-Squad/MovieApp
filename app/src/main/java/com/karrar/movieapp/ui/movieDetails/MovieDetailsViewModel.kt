@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.ResultHandler
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
@@ -85,30 +86,33 @@ class MovieDetailsViewModel @Inject constructor(
     }
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
-            try {
-                val result = getMovieDetailsUseCase.getMovieDetails(movieId)
-
-                _uiState.update {
-                    it.copy(
-                        movieDetailsResult = movieDetailsUIStateMapper.map(result),
-                        isLoading = false,
-                    )
+            when (val result = getMovieDetailsUseCase.getMovieDetails(movieId)) {
+                is ResultHandler.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            movieDetailsResult = movieDetailsUIStateMapper.map(result.data),
+                            isLoading = false
+                        )
+                    }
+                    addToWatchHistory(result.data)
                 }
-                addToWatchHistory(result)
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        errorUIStates = listOf(
-                            ErrorUIState(
-                                code = Constants.INTERNET_STATUS,
-                                message = e.message.toString()
-                            )
-                        ), isLoading = false
-                    )
+                is ResultHandler.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            errorUIStates = listOf(
+                                ErrorUIState(
+                                    code = Constants.INTERNET_STATUS,
+                                    message = result.throwable.message ?: "Unknown error"
+                                )
+                            ),
+                            isLoading = false
+                        )
+                    }
                 }
             }
         }
     }
+
 
     private suspend fun addToWatchHistory(movie: MovieDetails) {
         insertMoviesUseCase(movie)

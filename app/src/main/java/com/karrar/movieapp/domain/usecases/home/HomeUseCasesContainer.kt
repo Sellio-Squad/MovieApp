@@ -12,7 +12,6 @@ import com.karrar.movieapp.domain.usecase.home.getData.series.GetOnTheAirSeriesU
 import com.karrar.movieapp.domain.usecase.home.getData.series.GetTopRatedTvShowSeriesUseCase
 import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
-import com.karrar.movieapp.domain.usecases.GetWatchHistoryUseCase
 import com.karrar.movieapp.domain.usecases.home.getData.movie.GetMatchesYourVibeMoviesUseCase
 import com.karrar.movieapp.domain.usecases.myHistory.GetWatchHistoryUseCase
 import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase

@@ -8,6 +8,7 @@ data class HomeUiState (
     val popularMovies: HomeItem = HomeItem.Slider(emptyList()),
     val recentlyReleasedMovies: HomeItem = HomeItem.RecentlyReleased(emptyList()),
     val upcomingMovies: HomeItem = HomeItem.Upcoming(emptyList()),
+    val matchesYourVibes: HomeItem = HomeItem.MatchesYourVibes(emptyList()),
     val onTheAiringSeries: HomeItem = HomeItem.OnTheAiring(emptyList()),
     val browseEverything: HomeItem = HomeItem.BrowseEverything(),
     val letUsChooseForYou: HomeItem = HomeItem.LetUsChooseForYou(),

@@ -104,6 +104,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.FAMILY_NIGHT_PICKS -> "Family Night Picks"
             AllMediaType.BASED_ON_TRUE_EVENTS -> "Based On True Events"
             AllMediaType.FEEL_GOOD_FAVORITES -> "Feel Good Favorites"
+            AllMediaType.MATCHES_YOUR_VIBE -> getString(R.string.title_matches_your_vibe)
         }
     }
 

@@ -6,6 +6,7 @@ import com.karrar.movieapp.ui.models.CrewUIState
 import com.karrar.movieapp.ui.models.MediaUiState
 
 sealed class DetailItemUIState(val priority: Int) {
+    class OverView(val data: MovieDetailsUIState) : DetailItemUIState(0)
 
     class Cast(val data: List<ActorUiState>) : DetailItemUIState(1)
 

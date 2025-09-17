@@ -9,9 +9,11 @@ import com.ae.imageharamblur.models.ModelDownloadManager
 import com.ae.imageharamblur.ui.ModerationCacheManager
 import com.ae.imageharamblur.utils.cropFace
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 internal class ImageModerationProcessor(private val context: Context) {
     companion object {
@@ -127,18 +129,28 @@ internal class ImageModerationProcessor(private val context: Context) {
             val faces = faceDetector.detectFaces(bitmap)
 
             for (face in faces) {
-                runCatching {
-                    val faceBitmap = cropFace(bitmap, face)
-                    val genderModel = sharedGenderModel
+                // Check if coroutine is cancelled
+                if (!isActive) break
 
-                    if (genderModel != null) {
+                try {
+                    val faceBitmap = cropFace(bitmap, face)
+                    if (faceBitmap.isRecycled) continue
+
+                    val genderModel = sharedGenderModel
+                    if (genderModel != null && isActive) {
                         val genderResult = genderModel.detectGender(faceBitmap)
 
-                        genderResult.let { result ->
-                            if ((detectFemales && result.isFemale) || (detectMales && !result.isFemale))
-                                return@withContext true
+                        if ((detectFemales && genderResult.isFemale) ||
+                            (detectMales && !genderResult.isFemale)) {
+                            return@withContext true
                         }
                     }
+                } catch (e: CancellationException) {
+                    // Re-throw to properly handle coroutine cancellation
+                    throw e
+                } catch (e: Exception) {
+                    // Log but continue with next face
+                    continue
                 }
             }
         }

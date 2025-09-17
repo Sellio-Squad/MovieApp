@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="@dimen/spacing_medium">
+        android:layout_marginBottom="@dimen/spacing_medium"
+        app:hideIfTrue="@{adapterRecycler.itemCount>0 ?false:true}">
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
             android:layout_width="match_parent"

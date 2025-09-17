@@ -16,28 +16,44 @@ import java.io.File
 import java.io.FileInputStream
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 internal class GenderDetectionModel {
-    private val interpreter: Interpreter
+    private var interpreter: Interpreter? = null
     private val imageProcessor: ImageProcessor
     private val inputSize: Int
     private val inputDataType: DataType
+    private val outputShape: IntArray
+    private val outputDataType: DataType
+    private val interpreterLock = ReentrantLock()
+
+    @Volatile
+    private var isInitialized = false
+
+    @Volatile
+    private var isClosed = false
 
     constructor(context: Context) {
         try {
             val modelBuffer = FileUtil.loadMappedFile(context, MODEL_FILE)
 
-            this.interpreter = createInterpreter(modelBuffer)
+            val tempInterpreter = createInterpreter(modelBuffer)
+            val (inputProps, outputProps) = initializeModelProperties(tempInterpreter)
 
-            val inputTensor = interpreter.getInputTensor(0)
-            val inputShape = inputTensor.shape()
-            this.inputSize = if (inputShape.size >= 3) inputShape[1] else INPUT_SIZE
-            this.inputDataType = inputTensor.dataType()
+            this.inputSize = inputProps.first
+            this.inputDataType = inputProps.second
+            this.outputShape = outputProps.first
+            this.outputDataType = outputProps.second
 
             this.imageProcessor = createImageProcessor()
 
+            this.interpreter = tempInterpreter
+            this.isInitialized = true
+
         } catch (e: Exception) {
-            throw e
+            close()
+            throw RuntimeException("Failed to initialize gender detection model", e)
         }
     }
 
@@ -45,18 +61,41 @@ internal class GenderDetectionModel {
         try {
             val modelBuffer = loadModelFile(modelFile)
 
-            this.interpreter = createInterpreter(modelBuffer)
+            val tempInterpreter = createInterpreter(modelBuffer)
+            val (inputProps, outputProps) = initializeModelProperties(tempInterpreter)
 
-            val inputTensor = interpreter.getInputTensor(0)
-            val inputShape = inputTensor.shape()
-            this.inputSize = if (inputShape.size >= 3) inputShape[1] else INPUT_SIZE
-            this.inputDataType = inputTensor.dataType()
+            this.inputSize = inputProps.first
+            this.inputDataType = inputProps.second
+            this.outputShape = outputProps.first
+            this.outputDataType = outputProps.second
 
             this.imageProcessor = createImageProcessor()
 
+            this.interpreter = tempInterpreter
+            this.isInitialized = true
+
         } catch (e: Exception) {
-            throw e
+            close()
+            throw RuntimeException("Failed to initialize gender detection model from file", e)
         }
+    }
+
+    private fun initializeModelProperties(tempInterpreter: Interpreter):
+            Pair<Pair<Int, DataType>, Pair<IntArray, DataType>> {
+        val inputTensor = tempInterpreter.getInputTensor(0)
+        val outputTensor = tempInterpreter.getOutputTensor(0)
+
+        val inputShape = inputTensor.shape()
+        val inputSize = when {
+            inputShape.size >= 4 -> inputShape[1]
+            inputShape.size >= 3 -> inputShape[1]
+            else -> INPUT_SIZE
+        }
+
+        return Pair(
+            Pair(inputSize, inputTensor.dataType()),
+            Pair(outputTensor.shape().clone(), outputTensor.dataType())
+        )
     }
 
     private fun loadModelFile(file: File): MappedByteBuffer {
@@ -71,12 +110,11 @@ internal class GenderDetectionModel {
 
     private fun createInterpreter(modelBuffer: MappedByteBuffer): Interpreter {
         val options = Interpreter.Options().apply {
-            setNumThreads(NUM_THREADS)
-            // Enable GPU delegate if available
+            setNumThreads(2)
+            setUseNNAPI(false)
             try {
-                setUseNNAPI(true)
-            } catch (e: Exception) {
-            }
+                setUseXNNPACK(true)
+            } catch (e: Exception) {}
         }
         return Interpreter(modelBuffer, options)
     }
@@ -89,74 +127,91 @@ internal class GenderDetectionModel {
     }
 
     fun detectGender(faceBitmap: Bitmap): GenderResult {
-        return try {
-            // Validate input
-            require(!faceBitmap.isRecycled) { "Input bitmap is recycled" }
-            require(faceBitmap.width > 0 && faceBitmap.height > 0) { "Invalid bitmap dimensions" }
+        if (isClosed || !isInitialized || interpreter == null) {
+            return GenderResult(isFemale = false, confidence = 0.5f)
+        }
 
-            // Prepare input
+        return interpreterLock.withLock {
+            if (isClosed || !isInitialized || interpreter == null) {
+                return@withLock GenderResult(isFemale = false, confidence = 0.5f)
+            }
+
+            detectGenderInternal(faceBitmap)
+        }
+    }
+
+    private fun detectGenderInternal(faceBitmap: Bitmap): GenderResult {
+        return try {
+            if (faceBitmap.isRecycled || faceBitmap.width <= 0 || faceBitmap.height <= 0) {
+                return GenderResult(isFemale = false, confidence = 0.5f)
+            }
+
+            val outputBuffer = TensorBuffer.createFixedSize(outputShape, outputDataType)
+
             val rgbBitmap = ensureRgbBitmap(faceBitmap)
             val tensorImage = TensorImage(inputDataType)
             tensorImage.load(rgbBitmap)
 
-            // Process image
             val processedImage = imageProcessor.process(tensorImage)
 
-            // Run inference
-            val outputBuffer = TensorBuffer.createFixedSize(
-                interpreter.getOutputTensor(0).shape(),
-                interpreter.getOutputTensor(0).dataType()
-            )
-
-            synchronized(interpreter) {
-                interpreter.run(processedImage.buffer, outputBuffer.buffer.rewind())
+            val currentInterpreter = interpreter
+            if (currentInterpreter == null || isClosed) {
+                return GenderResult(isFemale = false, confidence = 0.5f)
             }
 
-            // Process results
+            currentInterpreter.run(processedImage.buffer, outputBuffer.buffer)
+
             val probabilities = extractProbabilities(outputBuffer)
             val normalizedProbabilities = normalizeProbabilities(probabilities)
 
             createGenderResult(normalizedProbabilities)
 
+        } catch (e: IllegalStateException) {
+            GenderResult(isFemale = false, confidence = 0.5f)
         } catch (e: Exception) {
-            // Return uncertain result on error
             GenderResult(isFemale = false, confidence = 0.5f)
         }
     }
 
     private fun extractProbabilities(outputBuffer: TensorBuffer): FloatArray {
-        return when (outputBuffer.dataType) {
-            DataType.FLOAT32 -> outputBuffer.floatArray
-            DataType.UINT8 -> {
-                val byteArray = ByteArray(outputBuffer.buffer.remaining())
-                outputBuffer.buffer.get(byteArray)
-                FloatArray(byteArray.size) { i ->
-                    (byteArray[i].toInt() and 0xFF) / 255.0f
-                }
-            }
+        return try {
+            val buffer = outputBuffer.buffer
+            buffer.rewind()
 
-            else -> {
-                floatArrayOf(0.5f, 0.5f)
+            when (outputBuffer.dataType) {
+                DataType.FLOAT32 -> {
+                    val floats = FloatArray(buffer.remaining() / 4)
+                    buffer.asFloatBuffer().get(floats)
+                    floats
+                }
+                DataType.UINT8 -> {
+                    val size = buffer.remaining()
+                    val byteArray = ByteArray(size)
+                    buffer.get(byteArray)
+                    FloatArray(size) { i ->
+                        (byteArray[i].toInt() and 0xFF) / 255.0f
+                    }
+                }
+                else -> floatArrayOf(0.5f, 0.5f)
             }
+        } catch (e: Exception) {
+            floatArrayOf(0.5f, 0.5f)
         }
     }
 
     private fun normalizeProbabilities(probabilities: FloatArray): Pair<Float, Float> {
-        val femaleProbability = probabilities.getOrElse(FEMALE_INDEX) { 0.5f }
-        val maleProbability = probabilities.getOrElse(MALE_INDEX) { 0.5f }
+        if (probabilities.size < 2) {
+            return 0.5f to 0.5f
+        }
 
-        // Check if already normalized (sum ≈ 1)
+        val femaleProbability = probabilities[FEMALE_INDEX].coerceIn(0f, 1f)
+        val maleProbability = probabilities[MALE_INDEX].coerceIn(0f, 1f)
+
         val sum = femaleProbability + maleProbability
-        return if (sum in 0.95f..1.05f) {
-            femaleProbability to maleProbability
-        } else {
-            // Apply softmax normalization
-            val maxProb = maxOf(femaleProbability, maleProbability)
-            val expFemale = kotlin.math.exp(femaleProbability - maxProb)
-            val expMale = kotlin.math.exp(maleProbability - maxProb)
-            val sumExp = expFemale + expMale
-
-            (expFemale / sumExp).toFloat() to (expMale / sumExp).toFloat()
+        return when {
+            sum in 0.95f..1.05f -> femaleProbability to maleProbability
+            sum > 0 -> (femaleProbability / sum) to (maleProbability / sum)
+            else -> 0.5f to 0.5f
         }
     }
 
@@ -165,23 +220,33 @@ internal class GenderDetectionModel {
         val isFemale = femaleProbability > maleProbability
         val confidence = if (isFemale) femaleProbability else maleProbability
 
-        return GenderResult(isFemale = isFemale, confidence = confidence)
+        return GenderResult(
+            isFemale = isFemale,
+            confidence = confidence.coerceIn(0f, 1f)
+        )
     }
 
     private fun ensureRgbBitmap(bitmap: Bitmap): Bitmap {
         return if (bitmap.config == Bitmap.Config.ARGB_8888) {
-            createBitmap(bitmap.width, bitmap.height).apply {
+            bitmap
+        } else {
+            createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888).apply {
                 Canvas(this).drawBitmap(bitmap, 0f, 0f, null)
             }
-        } else {
-            bitmap
         }
     }
 
     fun close() {
-        try {
-            interpreter.close()
-        } catch (e: Exception) {
+        interpreterLock.withLock {
+            isClosed = true
+            isInitialized = false
+
+            try {
+                interpreter?.close()
+            } catch (e: Exception) {
+            } finally {
+                interpreter = null
+            }
         }
     }
 
@@ -192,7 +257,7 @@ internal class GenderDetectionModel {
         private const val IMAGE_STD = 127.5f
         private const val FEMALE_INDEX = 0
         private const val MALE_INDEX = 1
-        private const val NUM_THREADS = 4
+        private const val NUM_THREADS = 2
     }
 }
 

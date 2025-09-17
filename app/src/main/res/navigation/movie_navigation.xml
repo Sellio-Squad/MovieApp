@@ -52,15 +52,20 @@
             android:name="from"
             app:argType="integer" />
 
-
         <action
             android:id="@+id/action_loginFragment_to_matchFragment"
             app:destination="@id/matchFragment" />
+
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_signUpDialog"
+            app:destination="@id/signUpDialog" />
+
     </fragment>
 
     <fragment
@@ -423,5 +428,16 @@
             android:name="url"
             app:argType="string" />
     </fragment>
+
+
+    <dialog
+        android:id="@+id/signUpDialog"
+        android:name="com.karrar.movieapp.ui.login.signup.SignUpDialog"
+        tools:layout="@layout/dialog_sign_up">
+        <action
+            android:id="@+id/action_signUpDialog_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </dialog>
+
 
 </navigation>

@@ -104,6 +104,7 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.FAMILY_NIGHT_PICKS -> resources.getString(R.string.family_night_picks)
             AllMediaType.BASED_ON_TRUE_EVENTS -> resources.getString(R.string.based_on_true_events)
             AllMediaType.FEEL_GOOD_FAVORITES -> resources.getString(R.string.feel_good_favorites)
+            AllMediaType.MATCHES_YOUR_VIBE -> getString(R.string.title_matches_your_vibe)
 
             AllMediaType.LASTEST_SEASONS -> resources.getString(R.string.latest_seasons)
             AllMediaType.BEHIND_THE_SCENES -> resources.getString(R.string.behind_the_scene)

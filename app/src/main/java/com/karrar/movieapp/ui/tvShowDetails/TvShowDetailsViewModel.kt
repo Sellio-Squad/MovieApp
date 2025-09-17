@@ -16,8 +16,8 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
+import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
-import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIEvent
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
@@ -101,7 +101,7 @@ class TvShowDetailsViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                updateDetailItems(DetailItemUIState.Header(_stateUI.value.tvShowDetailsResult))
+                updateDetailItems(DetailItemUIState.OverView(_stateUI.value.tvShowDetailsResult))
                 insertMovieToWatchHistory(result)
             } catch (e: Exception) {
                 _stateUI.update {

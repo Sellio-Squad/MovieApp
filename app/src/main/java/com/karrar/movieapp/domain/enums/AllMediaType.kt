@@ -26,4 +26,5 @@ enum class AllMediaType {
     FAMILY_NIGHT_PICKS,
     BASED_ON_TRUE_EVENTS,
     FEEL_GOOD_FAVORITES,
+    MATCHES_YOUR_VIBE
 }

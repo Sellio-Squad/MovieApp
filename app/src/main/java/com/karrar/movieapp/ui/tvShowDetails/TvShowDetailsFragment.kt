@@ -1,8 +1,11 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.animation.ValueAnimator
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
@@ -28,13 +31,18 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
     private val args: TvShowDetailsFragmentArgs by navArgs()
     private val detailAdapter by lazy { DetailUIStateAdapter(emptyList(), viewModel) }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
-        binding.viewModel = viewModel
-        binding.listener = this
+        binding.apply {
+            viewModel = this@TvShowDetailsFragment.viewModel
+            listener = this@TvShowDetailsFragment.viewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
         collectTVShowDetailsItems()
         collectEvents()
+        setupRecyclerWithHeaderAnimation()
     }
 
     private fun collectTVShowDetailsItems() {
@@ -59,14 +67,12 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
             TvShowDetailsUIEvent.ClickBackEvent -> {
                 findNavController().navigateUp()
             }
-
             is TvShowDetailsUIEvent.ClickCastEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(
                         event.castID
                     )
             }
-
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
@@ -74,21 +80,18 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
                         event.seasonId
                     )
             }
-
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
-
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
-
             TvShowDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
@@ -121,5 +124,44 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
 
     override fun onclickViewReviews() {
     }
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setupRecyclerWithHeaderAnimation() {
+        val recyclerView = binding.recyclerView
+        val motionLayout = binding.headerMotionLayout
 
+        var lastProgress = 0f
+
+        recyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
+            val range = recyclerView.computeVerticalScrollRange()
+            val extent = recyclerView.computeVerticalScrollExtent()
+
+            val canScroll = range > extent
+            if (!canScroll) {
+                motionLayout.progress = 0f
+                lastProgress = 0f
+                return@setOnScrollChangeListener
+            }
+
+            val offset = recyclerView.computeVerticalScrollOffset().toFloat()
+            val maxScroll = (range - extent).toFloat()
+
+            val targetProgress = if (maxScroll > 0) {
+                (offset / maxScroll).coerceIn(0f, 1f)
+            } else {
+                0f
+            }
+
+            if (targetProgress != lastProgress) {
+                ValueAnimator.ofFloat(lastProgress, targetProgress).apply {
+                    duration = 50
+                    interpolator = android.view.animation.DecelerateInterpolator()
+                    addUpdateListener { animator ->
+                        motionLayout.progress = animator.animatedValue as Float
+                    }
+                    start()
+                }
+            }
+            lastProgress = targetProgress
+        }
+    }
 }

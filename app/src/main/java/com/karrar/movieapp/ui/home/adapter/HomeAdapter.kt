@@ -122,6 +122,8 @@ class HomeAdapter(
                     }
 
                 }
+
+                is HomeItem.MatchesYourVibes -> bindMovie(holder, currentItem.items, currentItem.type)
             }
     }
 
@@ -159,6 +161,7 @@ class HomeAdapter(
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow
                 is HomeItem.RecentlyReleased,
                 is HomeItem.Upcoming,
+                is HomeItem.MatchesYourVibes
                 -> R.layout.list_movie
                 is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
                 is HomeItem.LetUsChooseForYou -> R.layout.item_let_us_choose_cta

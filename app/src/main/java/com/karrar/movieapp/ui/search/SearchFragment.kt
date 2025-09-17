@@ -154,19 +154,60 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 .collectLatest { newState ->
                     val oldState = oldValue.value
 
-                    // Only update when we're in results mode and something relevant changed
-                    val shouldUpdate = newState.displayMode == SearchDisplayMode.RESULTS &&
-                            newState.searchInput.isNotBlank() &&
+                    val shouldUpdate = newState.searchInput.isNotBlank() &&
                             (oldState.searchInput != newState.searchInput ||
                                     oldState.searchTypes != newState.searchTypes ||
-                                    oldState.viewMode != newState.viewMode)
+                                    oldState.displayMode != newState.displayMode)
 
                     if (shouldUpdate) {
-                        updateRecyclerView(newState)
+                        getSearchResult()
                         oldValue.emit(newState)
                     }
                 }
         }
+    }
+    private fun getSearchResult() {
+        when (viewModel.uiState.value.displayMode) {
+            SearchDisplayMode.SUGGESTIONS -> {
+                when (viewModel.uiState.value.searchTypes) {
+                    MediaTypes.ACTOR -> bindActors()
+                    else -> bindMedia()
+                }
+            }
+            SearchDisplayMode.RESULTS -> {
+                bindMediaCard()
+            }
+        }
+    }
+    private fun bindMedia() {
+        val footerAdapter = LoadUIStateAdapter(mediaSearchAdapter::retry)
+        binding.recyclerMedia.adapter = mediaSearchAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
+        collect(
+            flow = mediaSearchAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
+
+        getMediaSearchResults()
+    }
+    private fun getMediaSearchResults() {
+        collectLast(viewModel.uiState.value.searchResult)
+        { mediaSearchAdapter.submitData(it) }
+    }
+    private fun bindMediaCard() {
+        val footerAdapter = LoadUIStateAdapter(mediaSearchAdapter::retry)
+        binding.recyclerMedia.adapter = mediaSearchCardAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(this@SearchFragment.context, RecyclerView.VERTICAL, false)
+
+        collect(flow = mediaSearchCardAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it, mediaSearchCardAdapter.itemCount) })
+
+        getMediaSearchCardResults()
+    }
+    private fun getMediaSearchCardResults() {
+        collectLast(viewModel.uiState.value.searchResult)
+        { mediaSearchCardAdapter.submitData(it) }
     }
 
     private fun updateRecyclerView(state: MediaSearchUIState) {

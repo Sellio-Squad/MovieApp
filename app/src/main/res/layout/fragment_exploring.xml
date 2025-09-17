@@ -213,7 +213,7 @@
         <include
             android:id="@+id/animation_loading"
             layout="@layout/loading2"
-            app:isVisible="@{viewModel.uiState.isLoading}"
+            app:isLoading="@{viewModel.uiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

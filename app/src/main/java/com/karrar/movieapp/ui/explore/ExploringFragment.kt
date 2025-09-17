@@ -25,7 +25,6 @@ import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.explore.adapter.CategoryListAdapter
-import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploringUIEvent
 import com.karrar.movieapp.ui.explore.exploreUIState.ViewMode
 import com.karrar.movieapp.utilities.Constants
@@ -36,9 +35,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-
 @AndroidEntryPoint
 class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInteractionListener {
+
     override val layoutIdFragment: Int = R.layout.fragment_exploring
     override val viewModel: ExploringViewModel by viewModels()
 
@@ -55,54 +54,69 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerMedia.adapter = listAdapter.withLoadStateFooter(
-            LoadUIStateAdapter(listAdapter::retry)
-        )
-        binding.recyclerMedia.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
-        collectEvent()
-        collectUIState()
+        initRecyclerView()
         setupToggleButton()
         setupVoiceSearch()
         setupTabLayout()
+        collectEvent()
+        collectUIState()
+        observeViewMode()
+    }
 
+    private fun initRecyclerView() {
+        binding.recyclerMedia.apply {
+            layoutManager = if (viewModel.uiState.value.viewMode == ViewMode.GRID)
+                GridLayoutManager(requireContext(), 2)
+            else
+                LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+            adapter = gridAdapter.withLoadStateFooter(LoadUIStateAdapter(gridAdapter::retry))
+        }
+    }
+
+    private fun observeViewMode() {
         collect(viewModel.uiState) { state ->
-            updateRecyclerView(state)
+            updateLayoutManager(state.viewMode)
             updateToggleIndicator(state.viewMode == ViewMode.GRID)
         }
     }
 
-    private fun updateRecyclerView(state: ExploreUIState) {
-        when (state.viewMode) {
-            ViewMode.LIST -> {
-                binding.recyclerMedia.adapter =
-                    listAdapter.withLoadStateFooter(LoadUIStateAdapter(listAdapter::retry))
-                binding.recyclerMedia.layoutManager =
-                    LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            }
-            ViewMode.GRID -> {
-                binding.recyclerMedia.adapter =
-                    gridAdapter.withLoadStateFooter(LoadUIStateAdapter(gridAdapter::retry))
-                binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
+    private fun updateLayoutManager(viewMode: ViewMode) {
+        val layoutManager = when (viewMode) {
+            ViewMode.GRID -> GridLayoutManager(requireContext(), 2)
+            ViewMode.LIST -> LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        }
+
+        if (binding.recyclerMedia.layoutManager!!::class != layoutManager::class) {
+            binding.recyclerMedia.layoutManager = layoutManager
+        }
+    }
+
+    private fun collectUIState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collectLatest { uiState ->
+                    uiState.media.collectLatest { pagingData ->
+                        if (uiState.viewMode == ViewMode.GRID) {
+                            gridAdapter.submitData(lifecycle, pagingData)
+                        } else {
+                            listAdapter.submitData(lifecycle, pagingData)
+                        }
+                    }
+                }
             }
         }
     }
+
     private fun setupTabLayout() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewModel.onTabChanged(tab.position)
             }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                viewModel.onTabChanged(tab.position)
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
         })
     }
-
 
     private fun setupToggleButton() {
         binding.btnGridView.setOnClickListener {
@@ -153,8 +167,14 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE,
+                Locale.getDefault()
+            )
+            putExtra(
+                RecognizerIntent.EXTRA_PROMPT,
+                "Speak to search"
+            )
         }
 
         try {
@@ -166,7 +186,6 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
                 .show()
         }
     }
-
 
     private fun collectEvent() {
         collectLast(viewModel.exploringUIEvent) {
@@ -184,10 +203,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
             }
 
             ExploringUIEvent.SearchEvent -> navigateToSearch()
-            is ExploringUIEvent.ClickMediaEvent -> {
-                navigateToMediaDetails(event.mediaID)
-            }
-
+            is ExploringUIEvent.ClickMediaEvent -> navigateToMediaDetails(event.mediaID)
             is ExploringUIEvent.SelectedCategory -> Unit
         }
     }
@@ -201,37 +217,6 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
             )
     }
 
-
-    fun navigateToMovieDetails(movieId: Int) {
-        val action =
-            ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(movieId)
-        findNavController().navigate(action)
-    }
-
-    fun navigateToTvShowDetails(tvShowId: Int) {
-        val action =
-            ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(tvShowId)
-        findNavController().navigate(action)
-    }
-
-    private fun collectUIState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { uiState ->
-                    uiState.media.collectLatest { pagingData ->
-                        when (uiState.viewMode) {
-                            ViewMode.GRID -> gridAdapter.submitData(pagingData)
-                            ViewMode.LIST -> listAdapter.submitData(pagingData)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
     private fun navigateToMediaDetails(mediaId: Int) {
         val currentMediaType = if (binding.tabLayout.selectedTabPosition == 0) {
             Constants.MOVIE_CATEGORIES_ID
@@ -239,15 +224,17 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
             Constants.TV_CATEGORIES_ID
         }
 
-        if (currentMediaType == Constants.MOVIE_CATEGORIES_ID) {
-            navigateToMovieDetails(mediaId)
-        } else {
-            navigateToTvShowDetails(mediaId)
-        }
+        if (currentMediaType == Constants.MOVIE_CATEGORIES_ID)
+            findNavController().navigate(
+                ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(mediaId)
+            )
+        else
+            findNavController().navigate(
+                ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(mediaId)
+            )
     }
 
     override fun onClickCategory(categoryId: Int) {
         viewModel.onClickMedia(categoryId)
     }
-
 }

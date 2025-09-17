@@ -25,40 +25,40 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:showSeeAll="true"
-            tools:text="Popular"
             android:text="@{movieType.value}"
             app:onSeeAllClick="@{() -> interactionListener.onClickSeeAllMovie(movieType)}"
+            app:showSeeAll="true"
+            tools:text="Popular"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/similar_movie_title"-->
-<!--            style="@style/TextStyle.Title.Small"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"-->
-<!--            android:layout_marginStart="@dimen/spacing_medium"-->
-<!--            android:text="@string/you_might_also_like"-->
-<!--            android:textColor="@color/shade_color_primary"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/similar_movie_title"-->
+        <!--            style="@style/TextStyle.Title.Small"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"-->
+        <!--            android:layout_marginStart="@dimen/spacing_medium"-->
+        <!--            android:text="@string/you_might_also_like"-->
+        <!--            android:textColor="@color/shade_color_primary"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
 
-<!--        <TextView-->
-<!--            android:id="@+id/textButton"-->
-<!--            style="@style/TextStyle.Body.Medium.Medium"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:background="?attr/selectableItemBackground"-->
-<!--            android:clickable="true"-->
-<!--            android:paddingHorizontal="@dimen/radius_cineVerse_l"-->
-<!--            android:focusable="true"-->
-<!--            android:text="@string/show_more"-->
-<!--            android:textColor="@color/brand_color_primary"-->
-<!--            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllMovie(movieType)}"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/similar_movie_title"  />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/textButton"-->
+        <!--            style="@style/TextStyle.Body.Medium.Medium"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:background="?attr/selectableItemBackground"-->
+        <!--            android:clickable="true"-->
+        <!--            android:paddingHorizontal="@dimen/radius_cineVerse_l"-->
+        <!--            android:focusable="true"-->
+        <!--            android:text="@string/show_more"-->
+        <!--            android:textColor="@color/brand_color_primary"-->
+        <!--            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllMovie(movieType)}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/similar_movie_title"  />-->
 
 
         <androidx.recyclerview.widget.RecyclerView

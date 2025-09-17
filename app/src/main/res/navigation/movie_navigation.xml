@@ -104,7 +104,7 @@
             app:destination="@id/actorDetailsFragment" />
     </fragment>
 
-<!--    movie        Details             Fragment-->
+    <!--    movie        Details             Fragment-->
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
@@ -250,7 +250,7 @@
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
-<!--    review                        -->
+    <!--    review                        -->
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.karrar.movieapp.ui.reviews.ReviewFragment"

@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +22,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         collectLast(viewModel.profileUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
+        onClick(uiState = viewModel.profileDetailsUIState.value)
+    }
+
+    private fun onClick(uiState: ProfileUIState) {
+        binding.switchLanguage.isChecked = uiState.isSwitchChecked
+        binding.switchLanguage.setOnCheckedChangeListener { _, checked ->
+            viewModel.changeTheme()
+        }
     }
 
     private fun onEvent(event: ProfileUIEvent) {
@@ -30,8 +37,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ProfileUIEvent.DialogLogoutEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToLogoutDialog()
             }
-            ProfileUIEvent.LoginEvent -> {
-                ProfileFragmentDirections.actionProfileFragmentToLoginFragment(Constants.PROFILE)
+            is ProfileUIEvent.LoginEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToLogInDialog(event.userName)
             }
             ProfileUIEvent.RatedMoviesEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToRatedMoviesFragment()
@@ -39,6 +46,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ProfileUIEvent.WatchHistoryEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
             }
+            ProfileUIEvent.DialogPreferencesEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToContentPreferencesDialog()
+            }
+
+            ProfileUIEvent.DialogLanguageEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToChangeLanguageDialog()
+            }
+
         }
         findNavController().navigate(action)
     }

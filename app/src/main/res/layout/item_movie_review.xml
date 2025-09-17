@@ -20,7 +20,7 @@
         android:background="@drawable/review_section_background"
         >
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/user_image"
             android:layout_width="40dp"
             android:layout_height="40dp"

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.textview.MaterialTextView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
@@ -22,11 +22,26 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState as DetailsErrorUIState
+import com.ae.imageharamblur.ui.ImageFilterConfig
+import com.ae.imageharamblur.ui.ImageViewFilter
+import com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesTypes
 
 
 @BindingAdapter("app:showWhenListNotEmpty")
 fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
     view.isVisible = list.isNotEmpty() == true
+}
+
+@BindingAdapter("app:showWhenListIsLargeThanOrEqualThreeItem")
+fun <T> showWhenListIsLargeThanOrEqualThreeItem(view: View, list: List<T>) {
+    view.isVisible = list.size >= 3
+}
+
+@BindingAdapter("app:showWhenListOfGalleryLargeThenThreeAndNotEmpty")
+fun <T> showWhenListOfGalleryLargeThenThreeAndNotEmpty(view: View, list: List<T>) {
+    if(list.isNotEmpty()){
+        view.isVisible = list.size >= 3
+    }
 }
 
 @BindingAdapter("app:showWhenListEmpty")
@@ -172,6 +187,16 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
     }
 }
 
+@BindingAdapter("posterImage")
+fun ImageView.setPosterImage(imageURL: String?) {
+    imageURL?.let {
+        this.load(imageURL) {
+            placeholder(R.drawable.image_error_palceholder)
+            error(R.drawable.profile)
+        }
+    }
+}
+
 @BindingAdapter("app:mediaPoster")
 fun loadMediaPoster(image: ImageView, imageURL: String?) {
     imageURL?.let {
@@ -282,10 +307,19 @@ fun setRating(view: RatingBar?, rating: Float) {
 fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
 }
+
+@BindingAdapter("app:setImageResource")
+fun setImageResource(image: ImageView, resourceId: Int){
+    if(resourceId != 0){
+        image.setImageResource(resourceId)
+    }
+}
+
 @BindingAdapter("app:hideDividerIfLast")
 fun hideDividerIfLast(view: View, isLast: Boolean) {
     view.isVisible = !isLast
 }
+
 @BindingAdapter("app:highlightEmojiByRating")
 fun highlightEmojiByRating(container: ViewGroup, ratingValue: Float?) {
     val selectedIndex: Int = ((ratingValue ?: 0f).toInt() - 1).coerceIn(-1, 4)
@@ -321,6 +355,24 @@ fun starsDrawableByRating(container: LinearLayout, ratingValue: Float?) {
 }
 
 @BindingAdapter("imageRes")
-fun setImageResource(imageView: ShapeableImageView, resId: Int) {
-    imageView.setImageResource(resId)
+fun setImgResource(image: ImageView, resourceId: Int) {
+    if (resourceId != 0) {
+        image.setImageResource(resourceId)
+    }
+}
+
+@BindingAdapter("textRes")
+fun setTextResource(textView: MaterialTextView, resourceId: Int) {
+    if (resourceId != 0) {
+        textView.setText(resourceId)
+    }
+}
+
+@BindingAdapter("selectedItem")
+fun <T> setSelectedItem(
+    recyclerView: RecyclerView,
+    selectedItem: T?
+) {
+    val adapter = recyclerView.adapter as? BaseAdapter<T>
+    adapter?.updateSelectedItem(selectedItem)
 }

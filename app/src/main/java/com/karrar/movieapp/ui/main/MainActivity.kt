@@ -14,10 +14,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.ActivityMainBinding
+import com.karrar.movieapp.ui.base.BottomNavigationController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BottomNavigationController {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -73,5 +74,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment).navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun showBottomNavigation(show: Boolean) {
+        binding.bottomNavigation.isVisible = show
     }
 }

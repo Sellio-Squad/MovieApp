@@ -7,8 +7,6 @@ import com.karrar.movieapp.ui.models.MediaUiState
 
 sealed class DetailItemUIState(val priority: Int) {
 
-    class Header(val data: MovieDetailsUIState?) : DetailItemUIState(0)
-
     class Cast(val data: List<ActorUiState>) : DetailItemUIState(1)
 
     class Crew(val data: List<CrewUIState>) : DetailItemUIState(2)

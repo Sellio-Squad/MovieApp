@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.profile.login.LogInViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color_bottomSheetContainer"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_simi_medium"
+            android:layout_marginBottom="@dimen/spacing_bottom"
+            app:cardBackgroundColor="@color/card_background_color"
+            app:cardCornerRadius="@dimen/radius_medium"
+            app:cardElevation="0dp">
+
+            <include
+                android:id="@+id/viewMessageInfo"
+                layout="@layout/view_message_info"
+                bind:caption="@{viewModel.loggedIn ? @string/you_ll_be_taken_to_the_website_to_update_your_name_username_or_profile_picture : @string/log_in_to_update_your_name_profile_picture_and_account_details}"
+                bind:firstButtonText="@{viewModel.loggedIn ? @string/go_to_website : @string/login}"
+                bind:iconDrawable="@{viewModel.loggedIn? @drawable/due_tone_link_minimalistic :@drawable/due_tone_login}"
+                bind:onFirstButtonClick="@{() -> viewModel.onActionClicked()}"
+                bind:onSecondButtonClick="@{() -> viewModel.onCloseDialog()}"
+                bind:secondButtonText="@{@string/cancel}"
+                bind:title="@{viewModel.loggedIn? @string/edit_profile : @string/you_re_almost_there}" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</layout>

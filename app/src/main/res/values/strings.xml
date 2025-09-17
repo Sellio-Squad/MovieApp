@@ -14,7 +14,12 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="you_re_almost_there">You\'re Almost There!</string>
     <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="log_in_to_update_your_name_profile_picture_and_account_details">Log in to update your name, profile picture, and account details</string>
+    <string name="you_ll_be_taken_to_the_website_to_update_your_name_username_or_profile_picture">You’ll be taken to the website to update your name, username, or profile picture.</string>
+    <string name="go_to_website">Go to Website</string>
     <string name="sign_up">Sign up</string>
     <string name="place_of_birth">place of Birth</string>
     <string name="konwn_for">Known For</string>
@@ -27,6 +32,15 @@
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
     <string name="all_movies_of_actor">All Movies Of Actor</string>
+    <!-- Content preference -->
+    <string name="content_preferences">Content Preferences</string>
+    <string name="choose_how_you_d_like_to_handle_sensitive_or_revealing_images_in_the_app">Choose how you’d like to handle sensitive or revealing images in the app.</string>
+    <string name="show_all_content">Show All Content</string>
+    <string name="strict_filtering">Strict Filtering</string>
+    <string name="hide_explicit_content">Hide Explicit Content</string>
+    <string name="hides_revealing_or_inappropriate_posters_e_g_nudity_strong_sexual_content">Hides revealing or inappropriate posters (e.g. nudity, strong sexual content).</string>
+    <string name="hides_all_content_that_includes_immodest_clothing_or_behavior">Hides all content that includes immodest clothing or behavior</string>
+    <string name="no_filtering_all_images_and_posters_will_be_displayed">No filtering. All images and posters will be displayed.</string>
     <!--   Titles -->
     <string name="title_on_air">On The Air</string>
     <string name="title_tv_shows">TV Shows</string>
@@ -68,14 +82,23 @@
     <string name="submit_toast">Submitted, Thank you for your feedback</string>
     <string name="total_episodes">%1$s Episodes</string>
     <string name="m">%1$s m</string>
-    <string name="watch_history">Watch History</string>
+    <string name="watch_history">History</string>
     <string name="rated_movies">My Ratings</string>
+    <string name="my_collections">My Collections</string>
     <string name="sign_out">Sign Out</string>
     <string name="at">\@</string>
     <string name="are_you_sure">Are You Sure?</string>
     <string name="you_re_about_to_sign_out_of_your_account">You’re about to sign out of your account.</string>
+    <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="you_can_always_sign_back_in_with_your_account">You can always sign back in with your account.</string>
     <string name="cancel">Cancel</string>
-    <string name="logout">Sign Out</string>
+    <string name="logout">Log Out</string>
+    <string name="change_language">Change Language</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="login_or_signup">Login or Sign Up</string>
+    <string name="to_personalize_your_experience">to personalize your experience!</string>
+    <string name="version">Version 1.0.1</string>
     <string name="this_list_has_no_movies">This list has no movies</string>
     <string name="zero">\.0</string>
     <string name="my_ratings">My Ratings</string>
@@ -124,6 +147,10 @@
     <string name="tap_to_change_your_rating">Tap to change your rating</string>
     <string name="title">Title</string>
     <string name="caption">Caption</string>
+    <string name="settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="language">Language</string>
+    <string name="preferences">Preferences</string>
     <string name="you_recently_viewed">You Recently Viewed</string>
     <string name="welcome">Welcome</string>
     <string name="fao">FAO</string>
@@ -148,7 +175,6 @@
     <string name="nothing_found">Nothing Found!</string>
     <string name="not_found_msg">We searched the entire universe… but found nothing matching your query. Try something else?</string>
     <string name="you_might_also_like">You Might Also Like</string>
-    <string name="show_more">Show More</string>
     <string name="because_you_watched">Because You Watched</string>
 
     <string name="discover_your_match">Discover Your Match</string>
@@ -200,6 +226,7 @@
     <string name="arrow">arrow</string>
     <string name="star_icon">star_icon</string>
     <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
+    <string name="tip_my_history">Tip: Swipe left to remove movies from your history.</string>
     <string name="clear_all">Clear All</string>
     <string name="join_as_guest">Join as Guest</string>
     <string name="featured_collections">Featured Collections</string>
@@ -208,6 +235,19 @@
     <string name="_2h_32m">2h 32m</string>
     <string name="_8_5">8.5</string>
     <string name="search">Search...</string>
+    <string name="best_of_christian_bale">Best of Christian Bale</string>
+    <string name="show_more">Show More</string>
+    <string name="gallery">Gallery</string>
+    <string name="born_on">Born on</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="youtube">Youtube</string>
+    <string name="tiktok">Tiktok</string>
+    <string name="instagram">Instagram</string>
+    <string name="in">In</string>
     <string name="behind_the_scene">Behind The Scene</string>
     <string name="start_saving">Start Saving</string>
+    <string name="no_history_yet">No History Yet</string>
+    <string name="no_history_caption">It’s quiet in here… Start watching and we’ll keep track for you.</string>
+    <string name="find_something_to_watch">Find Something to Watch</string>
 </resources>

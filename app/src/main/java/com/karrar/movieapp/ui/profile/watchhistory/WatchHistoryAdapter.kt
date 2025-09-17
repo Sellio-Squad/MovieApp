@@ -13,4 +13,7 @@ class WatchHistoryAdapter(
 
 interface WatchHistoryInteractionListener : BaseInteractionListener {
     fun onClickMovie(item: MediaHistoryUiState)
+    fun onTipCancelIconClicked()
+    fun onClickFindSomethingToWatchButton()
+    fun onDeleteItem(item: MediaHistoryUiState)
 }

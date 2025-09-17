@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application ChangeThemeUseCase. -->
     <style name="Theme.MovieApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/brand_color</item>
         <item name="colorPrimaryVariant">@color/background_color</item>
@@ -131,6 +131,13 @@
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
+
+    <style name="CardCorners.Custom">
+        <item name="cornerSizeBottomLeft">@dimen/radius_small</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_medium</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_medium</item>
+        <item name="cornerSizeTopRight">@dimen/radius_small</item>
+    </style>
 
     <style name="Login" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:textColorHint">@color/shade_secondary_color</item>
@@ -407,5 +414,12 @@
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_floating_bottom_sheet</item>
+    </style>
+
+
+    <style name="MediaPhotoCorners">
+        <item name="cornerSizeTopLeft">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeTopRight">@dimen/radius_cineVerse_l</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_cineVerse_l</item>
     </style>
 </resources>

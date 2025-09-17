@@ -74,15 +74,13 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 homeUseCasesContainer.getWatchHistoryUseCase().collect { list ->
-                 if(list.isNotEmpty()){
-                     val items = list.map(watchHistoryMapper::map)
-                     _homeUiState.update {
-                         it.copy(
-                             recentlyViewed = HomeItem.RecentlyViewed(items),
-                             isLoading = false
-                         )
-                     }
-                 }
+                    val items = list.map(watchHistoryMapper::map)
+                    _homeUiState.update {
+                        it.copy(
+                            recentlyViewed = HomeItem.RecentlyViewed(items),
+                            isLoading = false
+                        )
+                    }
                 }
             } catch (th: Throwable) {
                 onError(th.message.toString())
@@ -225,6 +223,10 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.FEEL_GOOD_FAVORITES -> AllMediaType.FEEL_GOOD_FAVORITES
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
+    }
+
+    override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
+
     }
 
     override fun onClickBrowseEverything() {

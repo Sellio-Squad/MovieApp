@@ -7,7 +7,9 @@ import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.movie.*
 import com.karrar.movieapp.data.remote.response.*
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
+import com.karrar.movieapp.data.remote.response.actor.ActorGalleryDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaDto
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
@@ -28,6 +30,10 @@ interface MovieRepository {
 
     suspend fun getActorMovies(actorId: Int): ActorMoviesDto?
 
+    suspend fun getGalleryActor(actorId: Int): ActorGalleryDto?
+
+    suspend fun getActorSocialMedia(actorId: Int): ActorSocialMediaDto?
+
     suspend fun getAllLists(sessionId: String): List<CreatedListDto>?
 
     suspend fun getListDetails(listId: Int): MyListsDto?
@@ -47,6 +53,8 @@ interface MovieRepository {
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>
+
+    suspend fun deleteRecentlyViewedItemById(id: Int)
 
     suspend fun getAllMovies(): Pager<Int, MovieDto>
 

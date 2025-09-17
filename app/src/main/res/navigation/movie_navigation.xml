@@ -127,6 +127,9 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_logInDialog"
+            app:destination="@id/logInDialog" />
     </fragment>
 
     <fragment

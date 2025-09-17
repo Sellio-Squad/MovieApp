@@ -2,14 +2,17 @@ package com.karrar.movieapp.ui.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.enums.MovieItemsType
+import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentArgs
+import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
@@ -65,6 +68,7 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieReviews(args.movieId)
         getMovieCrew(args.movieId)
     }
+
     private fun getMovieCrew(movieId: Int) {
         viewModelScope.launch {
             try {
@@ -83,6 +87,7 @@ class MovieDetailsViewModel @Inject constructor(
             }
         }
     }
+
     private fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
             try {
@@ -233,7 +238,23 @@ class MovieDetailsViewModel @Inject constructor(
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickMovieEvent(movieId)) }
     }
 
-    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {}
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
+        val type = when (movieItemsType) {
+            MovieItemsType.YOU_MIGHT_ALSO_LIKE -> AllMediaType.YOU_MIGHT_ALSO_LIKE_MOVIES
+            MovieItemsType.Top_REVIEWS -> AllMediaType.TOP_REVIEWS_MOVIES
+            MovieItemsType.NON -> AllMediaType.ACTOR_MOVIES
+        }
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSeeAllMovieEvent(type)) }
+    }
+
+    override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
+        TODO("Not yet implemented")
+    }
+
     override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
         TODO("Not yet implemented")
     }

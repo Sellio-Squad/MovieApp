@@ -25,8 +25,13 @@ sealed class HomeItem(val priority: Int) {
 
     data class FeaturedCollections(
         val items: List<FeaturedCollectionsItem> = emptyList(),
-        val pSort: Int = 3
+        val pSort: Int = 4
     ) : HomeItem(pSort)
+
+    data class MatchesYourVibes(
+        val items: List<MediaUiState>,
+        val type: HomeItemsType = HomeItemsType.MATCHES_YOUR_VIBE
+    ) : HomeItem(5)
 
     data class OnTheAiring(
         val items: List<MediaUiState>,
@@ -44,6 +49,5 @@ sealed class HomeItem(val priority: Int) {
     ) : HomeItem(8)
 
     data class BrowseEverything(val ctaNumber: Int = 9) : HomeItem(ctaNumber)
-    data class MatchesYourVibes(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.MATCHES_YOUR_VIBE) : HomeItem(3)
 
 }

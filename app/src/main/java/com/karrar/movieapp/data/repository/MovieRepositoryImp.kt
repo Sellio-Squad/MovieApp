@@ -247,17 +247,20 @@ class MovieRepositoryImp @Inject constructor(
 
 
     override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.trendingMovieDataSource })
     }
 
     override suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.nowStreamingMovieMovieDataSource })
     }
 
     override suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.upcomingMovieMovieDataSource })
     }
 
@@ -462,20 +465,14 @@ class MovieRepositoryImp @Inject constructor(
         releaseDateGte: String?,
         releaseDateLte: String?,
     ): Flow<List<MatchVibesMovieEntity>> {
-        refreshOneTimePerDay(
-            appConfiguration.getRequestDate(Constants.MATCH_VIBES_MOVIE_REQUEST_DATE_KEY)
-
-        ) { date ->
-            refreshMatchedVibesMovies(
-                page = page,
-                genres = genres,
-                runtimeGte = runtimeGte,
-                runtimeLte = runtimeLte,
-                releaseDateGte = releaseDateGte,
-                releaseDateLte = releaseDateLte,
-                currentDate = date,
-            )
-        }
+        refreshMatchedVibesMovies(
+            page = page,
+            genres = genres,
+            runtimeGte = runtimeGte,
+            runtimeLte = runtimeLte,
+            releaseDateGte = releaseDateGte,
+            releaseDateLte = releaseDateLte,
+        )
         return movieDao.getMatchVibesMovies()
     }
 
@@ -486,7 +483,6 @@ class MovieRepositoryImp @Inject constructor(
         runtimeLte: Int?,
         releaseDateGte: String?,
         releaseDateLte: String?,
-        currentDate: Date
     ) {
         refreshWrapper(
             {
@@ -503,12 +499,8 @@ class MovieRepositoryImp @Inject constructor(
                 list?.map { dataMappers.matchVibesMovieMapper.map(it) }
             },
             {
-                movieDao.deleteAllWatchedMovies()
+                movieDao.deleteAllMatchVibesMovies()
                 movieDao.insertMatchVibesMovies(it)
-                appConfiguration.saveRequestDate(
-                    Constants.MATCH_VIBES_MOVIE_REQUEST_DATE_KEY,
-                    currentDate.time
-                )
             },
         )
     }

@@ -47,7 +47,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.letUsChooseForYou,
                         uiState.recentlyViewed,
                         uiState.collections,
-                        uiState.featuredCollections
+                        uiState.featuredCollections,
+                        uiState.matchesYourVibes
                     )
                 )
             }

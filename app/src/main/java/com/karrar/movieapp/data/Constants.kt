@@ -11,6 +11,7 @@ object Constants {
     const val TOP_RATED_SERIES_REQUEST_DATE_KEY = "top_rated_series_request_date"
     const val ON_THE_AIR_SERIES_REQUEST_DATE_KEY = "on_the_air_series_request_date"
     const val AIRING_TODAY_SERIES_REQUEST_DATE_KEY = "airing_today_series_request_date"
+    const val MATCH_VIBES_MOVIE_REQUEST_DATE_KEY = "airing_today_series_request_date"
     const val MYSTERY_ID = 9648
     const val ADVENTURE_ID = 12
 }

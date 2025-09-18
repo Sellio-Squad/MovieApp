@@ -17,15 +17,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginVertical="@dimen/spacing_medium"
         app:hideIfTrue="@{adapterRecycler.itemCount>0 ?false:true}">
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:showSeeAll="true"
-            tools:text="Popular"
+            tools:text="Recently Released"
             android:text="@{movieType.value}"
             app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllMovie(movieType)}"
             app:layout_constraintTop_toTopOf="parent" />

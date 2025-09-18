@@ -447,4 +447,16 @@ class MovieRepositoryImp @Inject constructor(
         ).body()
     }
 
+    override suspend fun removeMovieFromCollection(
+        sessionId: String,
+        listId: Int,
+        movieId: Int
+    ): RemoveMovieDto? {
+        return movieService.removeMovieFromCollection(
+            collectionId = listId,
+            sessionId = sessionId,
+            movieId = movieId
+        ).body()
+    }
+
 }

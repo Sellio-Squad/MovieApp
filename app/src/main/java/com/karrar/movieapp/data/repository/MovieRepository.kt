@@ -15,7 +15,6 @@ import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
 import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
-import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -119,4 +118,11 @@ interface MovieRepository {
         releaseDateGte: String?,
         releaseDateLte: String?
     ): BaseListResponse<MovieDto>?
+
+    suspend fun removeMovieFromCollection(
+        sessionId: String,
+        listId: Int,
+        movieId: Int
+    ) : RemoveMovieDto?
+
 }

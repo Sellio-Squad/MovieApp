@@ -14,8 +14,8 @@ import com.karrar.movieapp.ui.home.adapter.YourCollectionsInteractionListener
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
-import com.karrar.movieapp.ui.myList.CreatedListUIMapper
-import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myCollection.CreatedListUIMapper
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event

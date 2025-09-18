@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.myList.myListUIState
+package com.karrar.movieapp.ui.myCollection.myCollectionUIState
 
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 

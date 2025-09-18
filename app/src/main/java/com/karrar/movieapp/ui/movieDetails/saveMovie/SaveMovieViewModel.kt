@@ -2,8 +2,8 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
-import com.karrar.movieapp.domain.usecases.mylist.SaveMovieToMyListUseCase
+import com.karrar.movieapp.domain.usecases.myCollection.GetMyListUseCase
+import com.karrar.movieapp.domain.usecases.myCollection.SaveMovieToMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MySavedListUIState

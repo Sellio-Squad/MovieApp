@@ -100,3 +100,21 @@ fun Date.convertToDayMonthYearFormat(): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(this)
 }
+
+fun formatDuration(timeInt: Int): String {
+    val stringBuilder = StringBuilder()
+
+    if (timeInt >= 60) {
+        stringBuilder.append("${(timeInt / 60)}${getLocalizedTimeUnit("h")} ")
+    }
+
+    stringBuilder.append("${(timeInt % 60)}${getLocalizedTimeUnit("m")}")
+
+    return stringBuilder.toString().trim()
+}
+
+fun getLocalizedTimeUnit(unit: String): String {
+    val enMap = mapOf("h" to "h", "m" to "m", "s" to "s")
+    val key = unit.lowercase()
+    return enMap[key] ?: unit
+}

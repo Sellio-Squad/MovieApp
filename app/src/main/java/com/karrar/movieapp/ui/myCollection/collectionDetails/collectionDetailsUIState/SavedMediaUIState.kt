@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState
+package com.karrar.movieapp.ui.myCollection.collectionDetails.collectionDetailsUIState
 
 import com.karrar.movieapp.utilities.Constants
 
@@ -9,4 +9,6 @@ data class SavedMediaUIState(
     val voteAverage: Double = 0.0,
     val releaseDate: String = "",
     val image: String = "",
+    val genres: String = "",
+    val duration: String = ""
 )

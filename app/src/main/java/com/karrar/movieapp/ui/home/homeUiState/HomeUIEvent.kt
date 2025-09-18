@@ -1,7 +1,7 @@
 package com.karrar.movieapp.ui.home.homeUiState
 
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState
 
 sealed interface HomeUIEvent {
     data class ClickMovieEvent(val movieID: Int) : HomeUIEvent

@@ -1,8 +1,8 @@
-package com.karrar.movieapp.ui.myList
+package com.karrar.movieapp.ui.myCollection
 
 import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.CreatedList
-import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState
 import javax.inject.Inject
 
 class CreatedListUIMapper @Inject constructor() : Mapper<CreatedList, CreatedListUIState> {

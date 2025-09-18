@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.home.adapter
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState
 
 class YourCollectionsAdapter(
     items: List<CreatedListUIState>,

@@ -13,5 +13,6 @@ interface AccountRepository {
     suspend fun logout()
 
     suspend fun getAccountDetails(): AccountDto?
+
 }
 

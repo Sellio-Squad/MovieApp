@@ -1,14 +1,14 @@
-package com.karrar.movieapp.ui.myList
+package com.karrar.movieapp.ui.myCollection
 
 import androidx.lifecycle.viewModelScope
-import com.karrar.movieapp.domain.usecases.mylist.CreateMovieListUseCase
-import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
+import com.karrar.movieapp.domain.usecases.myCollection.CreateMovieListUseCase
+import com.karrar.movieapp.domain.usecases.myCollection.GetMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
-import com.karrar.movieapp.ui.myList.myListUIState.CreateListDialogUIState
-import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
-import com.karrar.movieapp.ui.myList.myListUIState.MyListUIEvent
-import com.karrar.movieapp.ui.myList.myListUIState.MyListUIState
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreateListDialogUIState
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.MyListUIEvent
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.MyListUIState
 import com.karrar.movieapp.utilities.ErrorUI.INTERNET_CONNECTION
 import com.karrar.movieapp.utilities.ErrorUI.NEED_LOGIN
 import com.karrar.movieapp.utilities.ErrorUI.NO_LOGIN
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MyListsViewModel @Inject constructor(
+class MyLCollectionViewModel @Inject constructor(
     private val createMovieListUseCase: CreateMovieListUseCase,
     private val getMyListUseCase: GetMyListUseCase,
     private val createdListUIMapper: CreatedListUIMapper,
@@ -64,6 +64,11 @@ class MyListsViewModel @Inject constructor(
     fun onCreateList() {
         _myListUIEvent.update { Event(MyListUIEvent.CreateButtonClicked) }
     }
+
+    fun onStartCollectingClicked() {
+        _myListUIEvent.update { Event(MyListUIEvent.StartCollectingButtonClicked) }
+    }
+
 
     fun onClickAddList() {
         viewModelScope.launch {

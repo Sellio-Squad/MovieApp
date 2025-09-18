@@ -1,9 +1,9 @@
-package com.karrar.movieapp.ui.myList
+package com.karrar.movieapp.ui.myCollection
 
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState
+import com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState
 
 class CreatedListAdapter(items: List<CreatedListUIState>, listener: CreatedListInteractionListener) :
     BaseAdapter<CreatedListUIState>(items, listener) {

@@ -1,4 +1,4 @@
-package com.karrar.movieapp.ui.myList.listDetails
+package com.karrar.movieapp.ui.myCollection.collectionDetails
 
 import android.os.Bundle
 import android.view.View
@@ -7,15 +7,15 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentListDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.ListDetailsUIEvent
+import com.karrar.movieapp.ui.myCollection.collectionDetails.collectionDetailsUIState.CollectionDetailsUIEvent
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
+class CollectionDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
     override val layoutIdFragment = R.layout.fragment_list_details
-    override val viewModel: ListDetailsViewModel by viewModels()
+    override val viewModel: CollectionDetailsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,7 +25,7 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
         binding.buttonEmpty.setOnClickListener {
-            findNavController().navigate(ListDetailsFragmentDirections.actionListDetailsFragmentToExploringFragment())
+            findNavController().navigate(CollectionDetailsFragmentDirections.actionListDetailsFragmentToExploringFragment())
         }
 
         binding.tipClose.setOnClickListener {
@@ -33,8 +33,8 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
         }
     }
 
-    private fun onEvent(event: ListDetailsUIEvent) {
-        if (event is ListDetailsUIEvent.OnItemSelected) {
+    private fun onEvent(event: CollectionDetailsUIEvent) {
+        if (event is CollectionDetailsUIEvent.OnItemSelected) {
             if (event.savedMediaUIState.mediaType == Constants.MOVIE) {
                 navigateToMovieDetails(event.savedMediaUIState.mediaID)
             } else {
@@ -45,13 +45,13 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
 
     private fun navigateToMovieDetails(id: Int) {
         findNavController().navigate(
-            ListDetailsFragmentDirections.actionSavedListFragmentToMovieDetailFragment(id)
+            CollectionDetailsFragmentDirections.actionSavedListFragmentToMovieDetailFragment(id)
         )
     }
 
     private fun navigateToTvShowDetails(id: Int) {
         findNavController().navigate(
-            ListDetailsFragmentDirections.actionListDetailsFragmentToTvShowDetailsFragment(id)
+            CollectionDetailsFragmentDirections.actionListDetailsFragmentToTvShowDetailsFragment(id)
         )
     }
 }

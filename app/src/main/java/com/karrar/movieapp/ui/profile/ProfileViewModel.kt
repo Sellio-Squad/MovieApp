@@ -62,7 +62,7 @@ class ProfileViewModel @Inject constructor(
                         it.copy(
                             avatarPath = accountDetails.avatarPath,
                             name = accountDetails.name,
-                            username = accountDetails.username,
+                            username = '@' + accountDetails.username,
                             isLoading = false
                         )
                     }
@@ -80,7 +80,11 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickRatedMovies() {
-        _profileUIEvent.update { Event(ProfileUIEvent.RatedMoviesEvent) }
+        if (profileDetailsUIState.value.isLoggedIn) {
+            _profileUIEvent.update { Event(ProfileUIEvent.RatedMoviesEvent) }
+        } else {
+            _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent(_profileDetailsUIState.value.username)) }
+        }
     }
 
     fun onClickLogout() {
@@ -96,7 +100,11 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickWatchHistory() {
-        _profileUIEvent.update { Event(ProfileUIEvent.WatchHistoryEvent) }
+        if (_profileDetailsUIState.value.isLoggedIn) {
+            _profileUIEvent.update { Event(ProfileUIEvent.WatchHistoryEvent) }
+        } else {
+            _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent(_profileDetailsUIState.value.username)) }
+        }
     }
 
     fun onClickLogin() {

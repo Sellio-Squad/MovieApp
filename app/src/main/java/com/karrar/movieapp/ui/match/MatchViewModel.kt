@@ -1,13 +1,14 @@
 package com.karrar.movieapp.ui.match
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMatchedMoviesUseCase
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,11 +18,11 @@ class MatchViewModel @Inject constructor(
     private val getGenreListUseCase: GetGenreListUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData(MatchUiState())
-    val uiState: LiveData<MatchUiState> = _uiState
+    private val _uiState = MutableStateFlow(MatchUiState())
+    val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = MutableLiveData<Event<MatchEvent>>()
-    val uiEvent: LiveData<Event<MatchEvent>> = _uiEvent
+    private val _uiEvent = MutableStateFlow<Event<MatchEvent?>>(Event(null))
+    val uiEvent = _uiEvent.asStateFlow()
 
     init {
         loadGenres()
@@ -32,7 +33,7 @@ class MatchViewModel @Inject constructor(
             try {
                 val genres =
                     getGenreListUseCase(com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID)
-                _uiState.value = _uiState.value?.copy(
+                _uiState.value = _uiState.value.copy(
                     movieGenres = genres.map { GenreUiState(it.genreID, it.genreName) }
                 )
             } catch (e: Exception) {
@@ -41,7 +42,7 @@ class MatchViewModel @Inject constructor(
     }
 
     fun onClickStartMatching() {
-        _uiState.value = _uiState.value?.copy(currentPage = MatchPages.QUESTIONS_PAGE)
+        _uiState.value = _uiState.value.copy(currentPage = MatchPages.QUESTIONS_PAGE)
 
     }
 
@@ -66,20 +67,24 @@ class MatchViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val params = MatchMapper.toMatchParams(currentState)
-                val matches = getMatchedMoviesUseCase(
+                getMatchedMoviesUseCase(
                     page = 1,
                     genres = params.genres,
                     runtimeGte = params.runtimeGte,
                     runtimeLte = params.runtimeLte,
                     releaseDateGte = params.releaseDateGte,
                     releaseDateLte = params.releaseDateLte
-                )
+                ).collect { movies ->
+                    _uiState.update {
+                        it.copy(
+                            matchResults = movies.take(10),
+                            isLoadingRecommendations = false,
+                            currentPage = MatchPages.RESULTS_PAGE
+                        )
+                    }
+                }
 
-                _uiState.value = currentState.copy(
-                    matchResults = matches.take(10),
-                    isLoadingRecommendations = false,
-                    currentPage = MatchPages.RESULTS_PAGE
-                )
+
             } catch (e: Exception) {
                 _uiState.value = currentState.copy(
                     isLoadingRecommendations = false,
@@ -167,11 +172,15 @@ class MatchViewModel @Inject constructor(
     }
 
     fun onRetry() {
-        _uiState.value = _uiState.value?.copy(
+        _uiState.value = _uiState.value.copy(
             shouldShowError = false,
             errorMessage = null
         )
         loadMatches()
+    }
+
+    fun resetEvent() {
+        _uiEvent.value = Event(null)
     }
 }
 

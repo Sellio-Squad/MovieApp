@@ -26,14 +26,13 @@
         android:gravity="center"
         android:onClick="@{() -> listener.onPreferenceSelected(item)}"
         android:orientation="horizontal"
-        android:padding="@dimen/spacing_simi_larg"
         android:selected="@{item == selectedItem}">
 
         <ImageView
             android:id="@+id/icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginEnd="@dimen/spacing_simi_medium"
+            android:layout_marginStart="12dp"
             android:background="@drawable/rounded_corners"
             android:contentDescription="@string/icon"
             android:padding="@dimen/spacing_small"
@@ -44,6 +43,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="12dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_too_small"
                 android:text="@{item.title}"
-                android:textColor="@color/shade_color_primary" />
+                android:textColor="@color/preference_title_color" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_description"
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{item.description}"
-                android:textColor="@color/shade_color_primary" />
+                android:textColor="@color/shade_color_secondary" />
 
         </LinearLayout>
     </LinearLayout>

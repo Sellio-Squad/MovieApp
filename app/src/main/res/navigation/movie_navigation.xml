@@ -281,7 +281,7 @@
     </dialog>
     <dialog
         android:id="@+id/createSavedList"
-        android:name="com.karrar.movieapp.ui.myList.CreateListDialog"
+        android:name="com.karrar.movieapp.ui.myCollection.CreateListDialog"
         tools:layout="@layout/fragment_create_list_dialog">
 
     </dialog>
@@ -327,7 +327,7 @@
     </activity>
     <fragment
         android:id="@+id/listDetailsFragment"
-        android:name="com.karrar.movieapp.ui.myList.listDetails.ListDetailsFragment"
+        android:name="com.karrar.movieapp.ui.myCollection.collectionDetails.CollectionDetailsFragment"
         tools:layout="@layout/fragment_list_details">
         <argument
             android:name="id"
@@ -425,8 +425,8 @@
     </fragment>
     <fragment
         android:id="@+id/myListsFragment"
-        android:name="com.karrar.movieapp.ui.myList.MyListsFragment"
-        tools:layout="@layout/fragment_my_lists" >
+        android:name="com.karrar.movieapp.ui.myCollection.MyCollectionFragment"
+        tools:layout="@layout/fragment_my_list" >
         <action
             android:id="@+id/action_myListFragment_to_createSavedList"
             app:destination="@id/createSavedList" />

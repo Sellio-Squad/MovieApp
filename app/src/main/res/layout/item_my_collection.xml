@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState" />
+            type="com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

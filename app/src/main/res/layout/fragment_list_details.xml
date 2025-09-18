@@ -8,7 +8,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.myList.listDetails.ListDetailsViewModel" />
+            type="com.karrar.movieapp.ui.myCollection.collectionDetails.CollectionDetailsViewModel" />
 
     </data>
 

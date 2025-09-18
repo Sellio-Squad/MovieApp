@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.myList.MyListsViewModel" />
+            type="com.karrar.movieapp.ui.myCollection.MyLCollectionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

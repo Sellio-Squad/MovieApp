@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.myList.myListUIState.CreatedListUIState" />
+            type="com.karrar.movieapp.ui.myCollection.myCollectionUIState.CreatedListUIState" />
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.myList.CreatedListInteractionListener" />
+            type="com.karrar.movieapp.ui.myCollection.CreatedListInteractionListener" />
 
     </data>
 

@@ -1,4 +1,9 @@
+name: Build and Auto-Update PR
+
 on:
+  push:
+    branches:
+      - develop
   pull_request:
     branches:
       - main
@@ -6,11 +11,69 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_app:
+  # Auto-update job that runs when develop is updated
+  autoupdate:
+    name: Auto Update PRs
     runs-on: ubuntu-latest
+    # Only run on push to develop or when PR is synchronized
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.action == 'synchronize')
+    
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
+      - name: Auto-update PR
+        uses: chinthakagodawita/autoupdate@v1.7.0
+        id: autoupdate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: "false"
+          PR_FILTER: "auto_merge"
+          MERGE_MSG: "Merged upstream develop into PR branch"
+          RETRY_COUNT: "5"
+          RETRY_SLEEP: "300"
+          MERGE_CONFLICT_ACTION: "ignore"
+
+      - name: Find Autoupdate PR Comment
+        if: github.event.pull_request.number
+        uses: peter-evans/find-comment@v3
+        id: fc_autoupdate
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- autoupdate-comment -->'
+
+      - name: Add or Update PR comment for Autoupdate
+        if: github.event.pull_request.number
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-id: ${{ steps.fc_autoupdate.outputs.comment-id }}
+          edit-mode: replace
+          body: |
+            <!-- autoupdate-comment -->
+            **Auto-update Status**
+            
+            ${{ steps.autoupdate.outputs.conflicted == 'true' && '❌ **Merge conflict detected!** Branch could not be automatically updated from `develop`.' || '' }}
+            ${{ steps.autoupdate.outputs.conflicted != 'true' && steps.autoupdate.outcome == 'success' && '✅ Branch successfully updated from `develop`.' || '' }}
+            ${{ steps.autoupdate.outcome == 'failure' && '🚨 An error occurred during the auto-update process.' || '' }}
+
+  build_app:
+    runs-on: ubuntu-latest
+    # Always run the build job
+    if: always()
+    needs: [autoupdate]  # Wait for autoupdate to complete if it runs
+
+    steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
 

@@ -22,8 +22,8 @@
         <activity
             android:name=".ui.onboarding.OnBoardingActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MovieApp">
+        android:screenOrientation="portrait"
+            android:theme="@style/Theme.MovieApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

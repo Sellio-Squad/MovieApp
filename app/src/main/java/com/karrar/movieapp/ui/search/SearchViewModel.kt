@@ -38,6 +38,7 @@ class SearchViewModel @Inject constructor(
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
     private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase,
     private val clearAllSearchHistoryUseCase: ClearAllSearchHistoryUseCase,
+    private val deleteSearchHistoryUseCase: DeleteSearchHistoryUseCase
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
@@ -288,6 +289,12 @@ class SearchViewModel @Inject constructor(
     fun onClearAllSearchHistory() {
         viewModelScope.launch {
             clearAllSearchHistoryUseCase()
+        }
+    }
+
+    fun onDeleteSearchHistory(id: Long, name: String) {
+        viewModelScope.launch {
+            deleteSearchHistoryUseCase(id, name)
         }
     }
 

@@ -32,37 +32,35 @@
             app:layout_constraintTop_toTopOf="@id/input_search"
             app:tint="@color/shade_primary_color" />
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/input_search"
-            style="@style/Regular.Medium"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
+            android:background="@drawable/text_field_background"
             android:afterTextChanged="@{(text) -> viewModel.onSearchInputChange(text)}"
-            android:background="@drawable/edit_text_background"
             android:drawableStart="@drawable/ic_search"
-            android:drawablePadding="@dimen/spacing_small"
+            android:drawableEnd="@drawable/ic_mic"
+            android:drawablePadding="8dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:hint="@string/search_hint"
+            android:hint="@string/search"
             android:inputType="text"
             android:maxLines="1"
-            android:paddingStart="@dimen/spacing_small"
-            android:paddingEnd="@dimen/spacing_small"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:text="@{viewModel.uiState.searchInput}"
             android:textColor="@color/shade_primary_color"
             android:textColorHint="@color/shade_ternary_color"
-            android:textCursorDrawable="@drawable/color_cursor"
             android:transitionName="search_box"
-            app:drawableTint="@color/brand_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toTopOf="parent">
 
             <requestFocus />
-        </com.google.android.material.textfield.TextInputEditText>
+        </EditText>
 
         <!-- Tabs replacing the Chip Group -->
         <com.google.android.material.tabs.TabLayout

@@ -3,7 +3,6 @@ package com.karrar.movieapp.ui.movieDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.enums.MovieItemsType
 import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
@@ -13,9 +12,8 @@ import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieRateUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.InsertMoviesUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.SetRatingUseCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
-import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieDetailsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
@@ -47,8 +45,8 @@ class MovieDetailsViewModel @Inject constructor(
     private val sessionIDUseCase: GetSessionIDUseCase,
     private val crewUIStateMapper: CrewUIStateMapper,
     state: SavedStateHandle,
-) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
-    DetailInteractionListener {
+) : BaseViewModel(),MovieDetailsInteractionListener,
+    DetailInteractionListener ,ActorsInteractionListener{
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -238,14 +236,6 @@ class MovieDetailsViewModel @Inject constructor(
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickReviewsEvent) }
     }
 
-    override fun onClickMovie(movieId: Int) {
-        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickMovieEvent(movieId)) }
-    }
-
-    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
-        TODO("Not yet implemented")
-    }
-
     override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
         val type = when (movieItemsType) {
             MovieItemsType.YOU_MIGHT_ALSO_LIKE -> AllMediaType.YOU_MIGHT_ALSO_LIKE_MOVIES
@@ -256,15 +246,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
-        TODO("Not yet implemented")
     }
 
     override fun onClickActor(actorID: Int) {
-        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }
     }
 
 }

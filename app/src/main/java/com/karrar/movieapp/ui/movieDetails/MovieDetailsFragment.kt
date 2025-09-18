@@ -16,8 +16,8 @@ import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.enums.MovieItemsType
 import com.karrar.movieapp.domain.enums.TvShowItemsType
+import com.karrar.movieapp.ui.adapters.MovieDetailsInteractionListener
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.home.HomeFragmentDirections
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
-    DetailInteractionListener {
+    DetailInteractionListener, MovieDetailsInteractionListener {
 
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
@@ -70,6 +70,16 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
                 findNavController().navigateUp()
             }
 
+            is MovieDetailsUIEvent.ClickSeeAllMovieEvent -> {
+                val action = MovieDetailsFragmentDirections
+                    .actionMovieDetailsFragmentToAllMovieFragment(-1, event.mediaType)
+                findNavController().navigate(action)
+            }
+            MovieDetailsUIEvent.ClickReviewsEvent -> {
+                MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
+                    args.movieId, MediaType.MOVIE
+                )
+            }
             is MovieDetailsUIEvent.ClickCastEvent -> {
                 action =
                     MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
@@ -105,17 +115,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
 
-            is MovieDetailsUIEvent.ClickSeeAllMovieEvent ->
 
-                action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToAllMovieFragment(
-                    -1, event.mediaType
-                )
-
-
-
-//                HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
-//                -1, event.mediaType
-//            )
         }
         action?.let { findNavController().navigate(it) }
 
@@ -133,11 +133,11 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
     }
 
     override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
-
+        viewModel.onClickSeeAllMovie(movieItemsType)
     }
 
+
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
-        TODO("Not yet implemented")
     }
 
     override fun onclickViewReviews() {

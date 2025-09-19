@@ -17,7 +17,7 @@
     <string name="enter_your_email_or_username">Enter your email or username</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="create_a_new_account">Create a New Account</string>
-    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="login">Login</string>
     <string name="you_re_almost_there">You\'re Almost There!</string>
     <string name="don_t_have_an_account">Don’t have an account?</string>

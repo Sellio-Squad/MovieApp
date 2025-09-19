@@ -6,17 +6,17 @@
     <data>
         <variable
             name="item"
-            type="com.karrar.movieapp.ui.explore.exploreUIState.MediaUIState" />
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.explore.CategoryInteractionListener" />
+            type="com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_simi_small"
-        android:onClick="@{() -> listener.onClickCategory(item.mediaID)}">
+        android:onClick="@{() -> listener.onClickMediaResult(item)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_poster"
@@ -79,5 +79,4 @@
             tools:text="The Mandalorian..." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

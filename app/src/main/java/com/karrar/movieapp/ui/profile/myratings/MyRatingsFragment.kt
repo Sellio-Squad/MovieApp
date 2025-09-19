@@ -57,6 +57,10 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
             is MyRatingUIEvent.TVShowEvent -> {
                 MyRatingsFragmentDirections.actionRatedMoviesFragmentToTvShowDetailsFragment(event.tvShowID)
             }
+
+            MyRatingUIEvent.StartRatingsEvent -> {
+                MyRatingsFragmentDirections.actionRatedMoviesFragmentToExploreFragment()
+            }
         }
         findNavController().navigate(action)
     }

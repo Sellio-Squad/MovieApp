@@ -136,4 +136,8 @@ class MyRatingsViewModel @Inject constructor(
             }
         }
     }
+
+    fun onClickStartRatings() {
+        _myRatingUIEvent.update { Event(MyRatingUIEvent.StartRatingsEvent) }
+    }
 }

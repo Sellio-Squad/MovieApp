@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.myratings.MyRatingsViewModel" />
@@ -127,8 +128,8 @@
                 android:layout_height="64dp"
                 android:background="@drawable/back_icon_shape"
                 android:contentDescription="@string/icon"
-                android:padding="12dp"
-                android:src="@drawable/due_tone_search"
+                android:padding="18dp"
+                android:src="@drawable/ic_rate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -137,13 +138,12 @@
             <!-- Title -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title"
+                style="@style/TextStyle.Title.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:fontFamily="@font/manrope_medium"
-                android:text="@string/nothing_found"
+                android:text="@string/no_rating_title"
                 android:textColor="@color/shade_color_primary"
-                android:textSize="@dimen/text_title_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/icon" />
@@ -151,18 +151,33 @@
             <!-- caption -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/caption"
-                style="@style/Regular.Medium"
+                style="@style/TextStyle.Body.Small.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:fontFamily="@font/manrope_medium"
                 android:gravity="center"
-                android:text="@string/not_found_msg"
+                android:text="@string/no_ratings_caption"
                 android:textColor="@color/shade_color_secondary"
-                android:textSize="@dimen/text_body_small_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_title" />
+
+            <Button
+                android:id="@+id/button_start_rating"
+                style="@style/small_button.enabled"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:background="@drawable/large_enabled_button"
+                android:fontFamily="@font/manrope_medium"
+                android:onClick="@{() -> viewModel.onClickStartRatings()}"
+                android:text="@string/start_rating_button"
+                android:textAllCaps="false"
+                android:textAppearance="@dimen/text_body_small_medium"
+                android:textColor="@color/button_color_onPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/caption" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

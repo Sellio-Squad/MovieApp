@@ -14,7 +14,7 @@ data class ExploreUIState(
     val isLoading: Boolean = false,
     val error: List<ErrorUIState> = emptyList(),
     val viewMode: ViewMode = ViewMode.GRID,
-
+    val selectedTab: Int = 0
     )
 
 enum class ViewMode {

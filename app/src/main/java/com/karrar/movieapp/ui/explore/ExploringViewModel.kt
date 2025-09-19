@@ -133,6 +133,7 @@ class ExploringViewModel @Inject constructor(
     }
 
     fun onTabChanged(position: Int) {
+        _uiState.update { it.copy(selectedTab = position) }
         when (position) {
             0 -> {
                 onClickMovies()

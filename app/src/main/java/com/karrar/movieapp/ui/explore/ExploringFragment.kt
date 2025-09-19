@@ -69,6 +69,7 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
         collectEvent()
         collectUIState()
         observeViewMode()
+        observeTabState()
     }
 
     private fun initRecyclerView() {
@@ -82,6 +83,14 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
         collect(viewModel.uiState) { state ->
             updateLayoutManager(state.viewMode)
             updateToggleIndicator(state.viewMode == ViewMode.GRID)
+        }
+    }
+
+    private fun observeTabState() {
+        collect(viewModel.uiState) { state ->
+            if (binding.tabLayout.selectedTabPosition != state.selectedTab) {
+                binding.tabLayout.getTabAt(state.selectedTab)?.select()
+            }
         }
     }
 

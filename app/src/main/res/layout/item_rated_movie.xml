@@ -14,138 +14,156 @@
             type="com.karrar.movieapp.ui.profile.myratings.RatedMoviesInteractionListener" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_medium"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:background="@color/background_color_screen"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/spacing_medium">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/rate_title"
+            style="@style/TextStyle.Body.Small.Medium"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/spacing_simi_medium"
+            android:ellipsize="end"
+            android:text="@string/you_gave_it"
+            android:textColor="@color/shade_primary_color"
+            app:layout_constraintBottom_toTopOf="@+id/rate_item"
+            tools:ignore="MissingConstraints" />
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextStyle.Body.Small.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:text="@string/you_gave_it"
-                android:textColor="@color/shade_primary_color" />
-
-            <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/rating_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginStart="@dimen/spacing_small"
-                android:layout_marginBottom="0dp"
-                android:isIndicator="true"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:progressBackgroundTint="@color/shade_color_tertiary"
-                android:progressDrawable="@drawable/rating_custom"
-                android:progressTint="@color/additional_color_primary_color_yellow"
-                android:rating="@{item.rating}"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:splitTrack="false"
-                android:stepSize="1"
-                android:transformPivotX="0dp"
-                android:transformPivotY="0dp" />
-
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginBottom="0dp"
+            android:isIndicator="true"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:progressBackgroundTint="@color/shade_color_tertiary"
+            android:progressDrawable="@drawable/rating_custom"
+            android:progressTint="@color/additional_color_primary_color_yellow"
+            android:rating="@{item.rating}"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:splitTrack="false"
+            android:stepSize="1"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
+            app:layout_constraintStart_toEndOf="@+id/rate_title"
+            tools:ignore="MissingConstraints" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rate_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_card_rounded"
             android:onClick="@{() -> listener.onClickMovie(item.id)}"
-            app:cardCornerRadius="@dimen/radius_small"
-            app:cardElevation="0dp">
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <com.ae.imageharamblur.ui.ImageViewFilter
+                android:id="@+id/image_movie"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1.338"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:mediaPoster="@{item.posterPath}"
+                app:shapeAppearanceOverlay="@style/MediaPhotoCorners"
+                tools:src="@drawable/test" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/background_color_card">
+                android:layout_margin="12dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/image_movie"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.ae.imageharamblur.ui.ImageViewFilter
-                    android:id="@+id/image_movie"
-                    android:layout_width="64dp"
-                    android:layout_height="88dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mediaPoster="@{item.posterPath}"
-                    app:shapeAppearanceOverlay="@style/CardCorners.RatedMovieImage"
-                    tools:src="@drawable/test" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_title_movie"
-                    style="@style/TextStyle.Body.Medium.Medium"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    android:layout_marginTop="@dimen/spacing_simi_medium"
-                    android:layout_marginEnd="@dimen/spacing_too_small"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/movie_title"
+                        style="@style/TextStyle.Body.Medium.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_too_small"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{item.title}"
+                        android:textColor="@color/shade_color_primary"
+                        tools:text="Mission: Impossible - Ghost Protocol" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="2dp"
+                        android:fontFamily="@font/manrope_medium"
+                        android:text="@{String.valueOf(item.rating)}"
+                        android:textColor="@color/shade_color_primary"
+                        android:textSize="@dimen/text_label_medium_medium"
+                        tools:text="7.5" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/ic_rate" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_too_small"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@{item.title}"
-                    android:textColor="@color/shade_color_primary"
-                    app:layout_constraintEnd_toStartOf="@id/text_rate_movie"
-                    app:layout_constraintStart_toEndOf="@id/image_movie"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="The Mandalorian" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_rate_movie"
-                    style="@style/SemiBold.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    android:layout_marginEnd="@dimen/spacing_simi_medium"
-                    android:layout_marginBottom="@dimen/spacing_small"
-                    android:drawableEnd="@drawable/half_star"
-                    android:drawablePadding="@dimen/spacing_too_small"
-                    android:text="@{String.valueOf(item.rating)}"
-                    android:textColor="@color/yellow"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/text_title_movie"
-                    tools:text="8.4" />
-
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_genres_movie"
-                    style="@style/TextStyle.Body.Small.Regular"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_medium"
-                    android:layout_marginVertical="@dimen/spacing_small"
-                    android:ellipsize="end"
-                    android:lines="1"
                     android:text="@{item.genres}"
                     android:textColor="@color/shade_color_secondary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/image_movie"
-                    app:layout_constraintTop_toBottomOf="@id/text_title_movie"
+                    android:textSize="@dimen/text_body_small_regular"
                     tools:text="Drama, Action, Crime, Thriller" />
 
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_year"
-                    style="@style/Regular.Small.ternary"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="@dimen/spacing_small"
-                    android:drawableStart="@drawable/calendar"
-                    android:text="@{item.releaseDate}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/text_title_movie"
-                    tools:text="2022" />
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/spacing_too_small"
+                        android:src="@drawable/calendar"
+                        app:tint="@color/shade_color_secondary" />
+
+                    <TextView
+                        style="@style/TextStyle.Label.Medium.Regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{item.releaseDate}"
+                        android:textColor="@color/shade_color_secondary"
+                        tools:text="2008, Jul 18" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -40,6 +40,10 @@ class LoginViewModel @Inject constructor(
         login()
     }
 
+    fun onClickForgotPassword() {
+        _loginEvent.update { Event(LoginUIEvent.ForgotPasswordEvent) }
+    }
+
     fun onClickJoinAsGuest() {
         _loginEvent.update { Event(LoginUIEvent.LoginEvent(args.from)) }
     }

@@ -24,7 +24,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
     DetailInteractionListener {
-class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>()  {
 
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()

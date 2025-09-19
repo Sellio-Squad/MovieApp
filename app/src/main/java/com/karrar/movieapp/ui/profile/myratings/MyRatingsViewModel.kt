@@ -62,11 +62,16 @@ class MyRatingsViewModel @Inject constructor(
                 _ratedUiState.update {
                     it.copy(
                         currentTypeList = listOfRated.filter { it.mediaType == MediaTypes.MOVIE.toString() },
-                        isLoading = false
+                        isLoading = false,
+                        hasLoaded = true
                     )
                 }
             } catch (e: Throwable) {
-                _ratedUiState.update { it.copy(error = listOf(Error("")), isLoading = false) }
+                _ratedUiState.update {
+                    it.copy(
+                        error = listOf(Error("")), isLoading = false
+                    )
+                }
             }
         }
     }
@@ -107,7 +112,6 @@ class MyRatingsViewModel @Inject constructor(
             it.copy(
                 contentType = contentType,
                 currentTypeList = filtered,
-                isLoading = false
             )
         }
     }

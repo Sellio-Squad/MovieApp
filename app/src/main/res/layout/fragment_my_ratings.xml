@@ -103,23 +103,68 @@
                 android:scrollbars="none"
                 app:items="@{viewModel.ratedUiState.currentTypeList}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:showWhenListNotEmpty="@{viewModel.ratedUiState.ratedList}"
+                app:showWhenListNotEmpty="@{viewModel.ratedUiState.currentTypeList}"
                 tools:listitem="@layout/item_rated_movie" />
         </LinearLayout>
 
-        <TextView
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/this_list_has_no_movies"
-            android:visibility="gone"
-            app:doneLoad="@{viewModel.ratedUiState.loading}"
-            app:emptyData="@{viewModel.ratedUiState.currentTypeList}"
+            android:layout_marginHorizontal="60dp"
+            android:padding="@dimen/spacing_large"
+            app:isListEmpty="@{viewModel.ratedUiState.currentTypeList.empty &amp;&amp; viewModel.ratedUiState.hasLoaded}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:noError="@{viewModel.ratedUiState.error}" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/back_icon_shape"
+                android:contentDescription="@string/icon"
+                android:padding="12dp"
+                android:src="@drawable/due_tone_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/brand_color_primary" />
+
+            <!-- Title -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:fontFamily="@font/manrope_medium"
+                android:text="@string/nothing_found"
+                android:textColor="@color/shade_color_primary"
+                android:textSize="@dimen/text_title_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/icon" />
+
+            <!-- caption -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/caption"
+                style="@style/Regular.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:fontFamily="@font/manrope_medium"
+                android:gravity="center"
+                android:text="@string/not_found_msg"
+                android:textColor="@color/shade_color_secondary"
+                android:textSize="@dimen/text_body_small_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="255dp"

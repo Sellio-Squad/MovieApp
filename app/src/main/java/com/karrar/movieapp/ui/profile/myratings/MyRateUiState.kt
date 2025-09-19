@@ -6,7 +6,8 @@ data class MyRateUIState(
     val currentTypeList: List<RatedUIState> = emptyList(),
     val error: List<Error> = emptyList(),
     val contentType: ContentType = ContentType.MOVIES,
-    val showTip: Boolean = false
+    val showTip: Boolean = false,
+    val hasLoaded: Boolean = false,
 ) {
     enum class ContentType {
         MOVIES, TV_SHOWS

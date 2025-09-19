@@ -243,7 +243,6 @@ fun loadMediaPoster(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
             placeholder(R.drawable.loading)
-            error(R.drawable.media_place_holder)
         }
     }
 }

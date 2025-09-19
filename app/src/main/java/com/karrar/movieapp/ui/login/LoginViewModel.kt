@@ -39,6 +39,7 @@ class LoginViewModel @Inject constructor(
     fun onClickLogin() {
         login()
     }
+
     fun onClickJoinAsGuest() {
         _loginEvent.update { Event(LoginUIEvent.LoginEvent(args.from)) }
     }
@@ -50,11 +51,10 @@ class LoginViewModel @Inject constructor(
                 userName = text.toString(),
                 userNameHelperText = userNameFieldState.errorMessage() ?: "",
                 isValidForm = validateLoginFormUseCase(
-                    loginUIState.value.userName,
-                    loginUIState.value.password
+                    text.toString(),
+                    it.password
                 )
             )
-
         }
     }
 
@@ -65,13 +65,12 @@ class LoginViewModel @Inject constructor(
                 password = text.toString(),
                 passwordHelperText = passwordFieldState.errorMessage() ?: "",
                 isValidForm = validateLoginFormUseCase(
-                    loginUIState.value.userName,
-                    loginUIState.value.password
+                    it.userName,
+                    text.toString()
                 )
             )
         }
     }
-
 
     private fun login() {
         viewModelScope.launch {
@@ -89,7 +88,6 @@ class LoginViewModel @Inject constructor(
                 onLoginError(e.message.toString())
             }
         }
-
     }
 
     private fun onLoginSuccessfully() {
@@ -108,9 +106,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-
     private fun resetForm() {
-        _loginUIState.update { it.copy(userName = "", password = "") }
+        _loginUIState.update { it.copy(userName = "", password = "", isValidForm = false) }
     }
-
 }

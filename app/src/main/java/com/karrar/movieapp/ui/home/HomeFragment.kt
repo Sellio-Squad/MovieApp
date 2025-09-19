@@ -47,7 +47,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         uiState.letUsChooseForYou,
                         uiState.recentlyViewed,
                         uiState.collections,
-                        uiState.featuredCollections
+                        uiState.featuredCollections,
+                        uiState.matchesYourVibes
                     )
                 )
             }
@@ -104,8 +105,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             is HomeUIEvent.ClickLetUsChooseForYouEvent -> {
-                // TODO("Will Nav To Match Screen Later")
-                HomeFragmentDirections.actionHomeFragmentToMyListFragment()
+                HomeFragmentDirections.actionHomeFragmentToMatchFragment()
             }
 
             is HomeUIEvent.ClickCollectionList -> {

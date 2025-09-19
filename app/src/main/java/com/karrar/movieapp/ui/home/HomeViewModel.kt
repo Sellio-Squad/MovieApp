@@ -56,6 +56,8 @@ class HomeViewModel @Inject constructor(
         getRecentlyViewed()
         getUserName()
         getMyCollections()
+        getMatchesYourVibes()
+
     }
 
     private fun getMyCollections() {
@@ -70,19 +72,18 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
     private fun getRecentlyViewed() {
         viewModelScope.launch {
             try {
                 homeUseCasesContainer.getWatchHistoryUseCase().collect { list ->
-                 if(list.isNotEmpty()){
-                     val items = list.map(watchHistoryMapper::map)
-                     _homeUiState.update {
-                         it.copy(
-                             recentlyViewed = HomeItem.RecentlyViewed(items),
-                             isLoading = false
-                         )
-                     }
-                 }
+                    val items = list.map(watchHistoryMapper::map)
+                    _homeUiState.update {
+                        it.copy(
+                            recentlyViewed = HomeItem.RecentlyViewed(items),
+                            isLoading = false
+                        )
+                    }
                 }
             } catch (th: Throwable) {
                 onError(th.message.toString())
@@ -90,6 +91,7 @@ class HomeViewModel @Inject constructor(
 
         }
     }
+
     private fun getUserName() {
         viewModelScope.launch {
             try {
@@ -164,8 +166,26 @@ class HomeViewModel @Inject constructor(
                 onError(th.message.toString())
             }
         }
+    }
 
-
+    private fun getMatchesYourVibes() {
+        viewModelScope.launch {
+            try {
+                homeUseCasesContainer.getMatchesYourVibeMoviesUseCase().collect { list ->
+                    if (list.isNotEmpty()) {
+                        val items = list.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(
+                                matchesYourVibes = HomeItem.MatchesYourVibes(items),
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
     }
 
     private fun getRecentlyReleased() {
@@ -186,6 +206,7 @@ class HomeViewModel @Inject constructor(
         }
 
     }
+
     private fun getOnTheAir() {
         viewModelScope.launch {
             try {
@@ -223,6 +244,8 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.FAMILY_NIGHT_PICKS -> AllMediaType.FAMILY_NIGHT_PICKS
             HomeItemsType.BASED_ON_TRUE_EVENTS -> AllMediaType.BASED_ON_TRUE_EVENTS
             HomeItemsType.FEEL_GOOD_FAVORITES -> AllMediaType.FEEL_GOOD_FAVORITES
+            HomeItemsType.MATCHES_YOUR_VIBE -> AllMediaType.MATCHES_YOUR_VIBE
+
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }

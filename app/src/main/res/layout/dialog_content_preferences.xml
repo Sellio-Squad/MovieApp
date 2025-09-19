@@ -25,6 +25,13 @@
             app:cardCornerRadius="@dimen/radius_medium"
             app:cardElevation="0dp">
 
+            <View
+                android:layout_width="48dp"
+                android:layout_height="3dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_horizontal_divider" />
+
             <LinearLayout
                 style="@style/FloatingBottomSheetDialogTheme"
                 android:layout_width="match_parent"
@@ -35,6 +42,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
@@ -42,7 +50,6 @@
                         style="@style/TextStyle.Title.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
                         android:text="@string/content_preferences"
                         android:textColor="@color/shade_color_primary"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -57,15 +64,14 @@
                     <ImageView
                         android:id="@+id/img_close"
                         android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
                         android:contentDescription="@string/icon"
                         android:onClick="@{() -> viewModel.onClose()}"
                         android:src="@drawable/outline_x"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/brand_color_secondary" />
+                        app:tint="@color/shade_color_secondary" />
 
                 </LinearLayout>
 
@@ -74,7 +80,7 @@
                     style="@style/TextStyle.Body.Small.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginTop="20dp"
                     android:text="@string/choose_how_you_d_like_to_handle_sensitive_or_revealing_images_in_the_app"
                     android:textColor="@color/shade_color_secondary"
                     app:layout_constraintEnd_toEndOf="parent"

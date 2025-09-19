@@ -34,12 +34,16 @@
             app:destination="@id/watchHistoryFragment" />
 
         <action
-            android:id="@+id/action_homeFragment_to_myListFragment"
-            app:destination="@+id/myListFragment"/>
+            android:id="@+id/action_homeFragment_to_matchFragment"
+            app:destination="@+id/matchFragment"/>
 
         <action
             android:id="@+id/action_homeFragment_to_listDetailsFragment"
             app:destination="@+id/listDetailsFragment"/>
+
+        <action
+            android:id="@+id/action_homeFragment_to_myListFragment"
+            app:destination="@+id/myListFragment"/>
 
     </fragment>
 
@@ -52,15 +56,20 @@
             android:name="from"
             app:argType="integer" />
 
-
         <action
             android:id="@+id/action_loginFragment_to_matchFragment"
             app:destination="@id/matchFragment" />
+
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_signUpDialog"
+            app:destination="@id/signUpDialog" />
+
     </fragment>
 
     <fragment
@@ -305,6 +314,10 @@
         <action
             android:id="@+id/action_watchHistoryFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
+
+        <action
+            android:id="@+id/action_watchHistoryFragment_to_searchFragment"
+            app:destination="@id/exploringFragment" />
     </fragment>
 
     <activity
@@ -413,5 +426,16 @@
             android:name="url"
             app:argType="string" />
     </fragment>
+
+
+    <dialog
+        android:id="@+id/signUpDialog"
+        android:name="com.karrar.movieapp.ui.login.signup.SignUpDialog"
+        tools:layout="@layout/dialog_sign_up">
+        <action
+            android:id="@+id/action_signUpDialog_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </dialog>
+
 
 </navigation>

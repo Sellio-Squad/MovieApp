@@ -13,7 +13,7 @@ class NowStreamingMovieMapper @Inject constructor() : Mapper<NowStreamingMovieEn
             mediaID = input.id,
             mediaName = input.name,
             mediaImage = BuildConfig.IMAGE_BASE_PATH + input.imageUrl,
-            mediaRate = 0f,
+            mediaRate = input.movieRate.toFloat(),
             mediaDate = "",
             mediaType = MediaType.MOVIE.value,
         )

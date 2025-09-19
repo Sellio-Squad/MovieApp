@@ -1,10 +1,21 @@
 package com.karrar.movieapp.data.local.database.daos
 
-import androidx.room.*
+import androidx.paging.PagingSource
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchList
-import com.karrar.movieapp.data.local.database.entity.movie.*
+import com.karrar.movieapp.data.local.database.entity.movie.AdventureMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.MatchVibesMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.MysteryMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.NowStreamingMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.PopularMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.TrendingMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.UpcomingMovieEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -40,6 +51,8 @@ interface MovieDao {
     @Query("DELETE FROM WATCH_HISTORY_TABLE")
     suspend fun deleteAllWatchedMovies()
 
+    @Query("DELETE FROM WATCH_HISTORY_TABLE WHERE id = :id")
+    suspend fun deleteRecentlyViewedItemById(id: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPopularMovies(items: List<PopularMovieEntity>)
@@ -97,4 +110,16 @@ interface MovieDao {
 
     @Query("SELECT * FROM ADVENTURE_MOVIE_TABLE")
     fun getAdventureMovies(): Flow<List<AdventureMovieEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMatchVibesMovies(items: List<MatchVibesMovieEntity>)
+
+    @Query("DELETE FROM MATCH_VIBES_MOVIE_TABLE")
+    suspend fun deleteAllMatchVibesMovies()
+
+    @Query("SELECT * FROM MATCH_VIBES_MOVIE_TABLE")
+    fun getMatchVibesMovies(): Flow<List<MatchVibesMovieEntity>>
+
+    @Query("SELECT * FROM MATCH_VIBES_MOVIE_TABLE ORDER BY id ASC")
+    fun getMatchVibesMoviesPaged(): PagingSource<Int, MatchVibesMovieEntity>
 }

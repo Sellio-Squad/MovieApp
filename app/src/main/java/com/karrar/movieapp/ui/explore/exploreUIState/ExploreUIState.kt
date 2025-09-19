@@ -12,5 +12,12 @@ data class ExploreUIState(
     val media: Flow<PagingData<MediaUIState>> = emptyFlow(),
     val currentType: String = Constants.MOVIE,
     val isLoading: Boolean = false,
-    val error: List<ErrorUIState> = emptyList()
-)
+    val error: List<ErrorUIState> = emptyList(),
+    val viewMode: ViewMode = ViewMode.GRID,
+    val selectedTab: Int = 0
+    )
+
+enum class ViewMode {
+    LIST,
+    GRID
+}

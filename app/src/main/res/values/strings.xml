@@ -13,10 +13,17 @@
     <string name="login_to_your_account">Login to your account</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="welcome_back_to_cineverse">Welcome back to CineVerse!</string>
+    <string name="enter_your_email_or_username">Enter your email or username</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="create_a_new_account">Create a New Account</string>
+    <string name="forgot_password">Forgot Password?</string>
     <string name="login">Login</string>
     <string name="you_re_almost_there">You\'re Almost There!</string>
     <string name="don_t_have_an_account">Don’t have an account?</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="join_cineverse">Join CineVerse</string>
+    <string name="sign_up_description">Let\'s get you set up! We\'ll take you to the website to create your account.</string>
     <string name="log_in_to_update_your_name_profile_picture_and_account_details">Log in to update your name, profile picture, and account details</string>
     <string name="you_ll_be_taken_to_the_website_to_update_your_name_username_or_profile_picture">You’ll be taken to the website to update your name, username, or profile picture.</string>
     <string name="go_to_website">Go to Website</string>
@@ -92,7 +99,7 @@
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
     <string name="you_can_always_sign_back_in_with_your_account">You can always sign back in with your account.</string>
     <string name="cancel">Cancel</string>
-    <string name="logout">Log Out</string>
+    <string name="logout">Logout</string>
     <string name="change_language">Change Language</string>
     <string name="english">English</string>
     <string name="arabic">Arabic</string>
@@ -226,6 +233,7 @@
     <string name="arrow">arrow</string>
     <string name="star_icon">star_icon</string>
     <string name="tip_swipe_left_to_remove_movies_from_your_collection">Tip: Swipe left to remove movies from your collection.</string>
+    <string name="tip_my_history">Tip: Swipe left to remove movies from your history.</string>
     <string name="clear_all">Clear All</string>
     <string name="join_as_guest">Join as Guest</string>
     <string name="featured_collections">Featured Collections</string>
@@ -245,4 +253,11 @@
     <string name="instagram">Instagram</string>
     <string name="in">In</string>
     <string name="behind_the_scene">Behind The Scene</string>
+    <string name="no_history_yet">No History Yet</string>
+    <string name="no_history_caption">It’s quiet in here… Start watching and we’ll keep track for you.</string>
+    <string name="find_something_to_watch">Find Something to Watch</string>
+    <string name="logo">logo</string>
+    <string name="title_matches_your_vibe">Matches Your Vibe</string>
+    <string name="release_date">release date</string>
+    <string name="movie_poster">movie poster</string>
 </resources>

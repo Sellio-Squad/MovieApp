@@ -2,11 +2,10 @@ package com.karrar.movieapp.ui.explore
 
 import androidx.recyclerview.widget.DiffUtil
 import com.karrar.movieapp.R
-import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.explore.exploreUIState.MediaUIState
 
-class CategoryAdapter (listener: MediaInteractionListener) :
+class CategoryAdapter(listener: CategoryInteractionListener) :
     BasePagingAdapter<MediaUIState>(MediaComparator, listener) {
     override val layoutID: Int = R.layout.item_category
 

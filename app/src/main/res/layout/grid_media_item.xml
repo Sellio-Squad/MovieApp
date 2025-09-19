@@ -5,41 +5,34 @@
 
     <data>
         <variable
-            name="listener"
-            type="com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener" />
-
-        <variable
             name="item"
-            type="com.karrar.movieapp.ui.models.MediaUiState" />
-
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
         <variable
-            name="type"
-            type="com.karrar.movieapp.domain.enums.HomeItemsType" />
-
+            name="listener"
+            type="com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_simi_small">
+        android:layout_margin="@dimen/spacing_simi_small"
+        android:onClick="@{() -> listener.onClickMediaResult(item)}">
 
-        <com.ae.imageharamblur.ui.ImageViewFilter
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_poster"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/media_card_height"
-            android:layout_marginBottom="@dimen/radius_cineVerse_s"
-            android:onClick="@{()->listener.onClickTVShow(item.id)}"
+            android:layout_width="match_parent"
+            android:layout_height="232dp"
             android:scaleType="centerCrop"
-
-            app:layout_constraintDimensionRatio="136:182"
+            android:transitionName="@{`media_image_` + item.mediaID}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:posterImage="@{item.imageUrl}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mediaPoster="@{item.mediaImage}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            tools:background="@color/brand_color_primary"
-            tools:ignore="MissingConstraints" />
+            android:background="@drawable/image_error_palceholder" />
 
         <LinearLayout
+            android:id="@+id/rating_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
@@ -48,15 +41,16 @@
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingVertical="@dimen/spacing_too_small"
+            android:transitionName="@{`media_rating_` + item.mediaID}"
             app:layout_constraintEnd_toEndOf="@id/img_poster"
             app:layout_constraintTop_toTopOf="@id/img_poster">
 
             <TextView
-                style="@style/TextStyle.Label.Medium.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.format(`%.1f`, item.rate)}"
+                android:text="@{String.valueOf(item.mediaVoteAverage)}"
                 android:textColor="@color/shade_color_primary"
+                style="@style/TextStyle.Label.Medium.Medium"
                 tools:text="5.7" />
 
             <ImageView
@@ -66,22 +60,23 @@
                 android:src="@drawable/ic_rate" />
         </LinearLayout>
 
+        <!-- Title below the image -->
         <TextView
+            android:id="@+id/text_title"
             style="@style/TextStyle.Body.Medium.Medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/spacing_small"
             android:ellipsize="end"
-            android:gravity="start|center"
-            android:maxLines="1"
-            android:text="@{item.mediaTitle}"
-            android:textAllCaps="false"
-            android:textColor="@color/shade_color_secondary"
-            app:layout_constraintEnd_toEndOf="@+id/img_poster"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/img_poster"
+            android:singleLine="true"
+            android:gravity="start"
+            android:textColor="@color/shade_primary_color"
+            android:transitionName="@{`media_title_` + item.mediaID}"
+            app:truncatedTitle="@{item.mediaName}"
+            app:layout_constraintEnd_toEndOf="@id/img_poster"
+            app:layout_constraintStart_toStartOf="@id/img_poster"
             app:layout_constraintTop_toBottomOf="@id/img_poster"
-            tools:text="The Flash" />
+            tools:text="The Mandalorian..." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

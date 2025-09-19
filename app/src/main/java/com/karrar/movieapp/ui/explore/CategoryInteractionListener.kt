@@ -1,5 +1,7 @@
 package com.karrar.movieapp.ui.explore
 
-interface CategoryInteractionListener {
+import com.karrar.movieapp.ui.base.BaseInteractionListener
+
+interface CategoryInteractionListener: BaseInteractionListener {
     fun onClickCategory(categoryId: Int)
 }

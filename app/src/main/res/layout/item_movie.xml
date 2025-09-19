@@ -28,18 +28,17 @@
             android:id="@+id/img_poster"
             android:layout_width="0dp"
             android:layout_height="@dimen/media_card_height"
+            android:layout_marginBottom="@dimen/radius_cineVerse_s"
             android:onClick="@{()->listener.onClickMovie(item.id)}"
             android:scaleType="centerCrop"
-            android:layout_marginBottom="@dimen/radius_cineVerse_s"
 
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="136:182"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            tools:background="@color/brand_color_primary" />
+            tools:background="@color/brand_color_primary"
+            tools:ignore="MissingConstraints" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,6 +71,7 @@
             style="@style/TextStyle.Body.Medium.Medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:gravity="start|center"
             android:maxLines="1"

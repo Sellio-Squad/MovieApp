@@ -259,4 +259,6 @@
     <string name="logo">logo</string>
     <string name="title_matches_your_vibe">Matches Your Vibe</string>
     <string name="you_gave_it">You gave it</string>
+    <string name="release_date">release date</string>
+    <string name="movie_poster">movie poster</string>
 </resources>

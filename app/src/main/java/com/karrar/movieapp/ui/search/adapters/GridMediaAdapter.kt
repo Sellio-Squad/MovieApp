@@ -5,22 +5,15 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.base.*
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 
+class GridMediaAdapter(listener: MediaSearchInteractionListener)
+    : BasePagingAdapter<MediaUIState>(GridMediaComparator, listener){
+    override val layoutID: Int = R.layout.grid_media_item
 
-class MediaSearchAdapter(listener: MediaSearchInteractionListener)
-    : BasePagingAdapter<MediaUIState>(MediaSearchComparator, listener){
-    override val layoutID: Int = R.layout.item_media_search
-
-    object MediaSearchComparator : DiffUtil.ItemCallback<MediaUIState>(){
+    object GridMediaComparator : DiffUtil.ItemCallback<MediaUIState>(){
         override fun areItemsTheSame(oldItem: MediaUIState, newItem: MediaUIState) =
             oldItem.mediaID == newItem.mediaID
 
         override fun areContentsTheSame(oldItem: MediaUIState, newItem: MediaUIState) =
             oldItem == newItem
     }
-}
-
-interface MediaSearchInteractionListener : BaseInteractionListener {
-    fun onSuggestionClick(query: String)
-    fun onClickMediaResult(media: MediaUIState)
-    fun onMediaClick(media: MediaUIState)
 }

@@ -38,9 +38,7 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
             }
 
             is SaveMovieUIEvent.NavigateToCollectionScreen -> {
-                findNavController().navigate(
-                    SaveMovieDialogDirections.actionSaveMovieDialogToMyListFragment()
-                )
+
                 dismiss()
             }
 

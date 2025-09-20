@@ -79,4 +79,9 @@ class SaveMovieViewModel @Inject constructor(
     override fun onClickNewCollection() {
         _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToCollectionScreen) }
     }
+
+    override fun onDismiss() {
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.DismissSheet) }
+
+    }
 }

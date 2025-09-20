@@ -21,7 +21,7 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.listener = viewModel
         binding.saveListAdapter.adapter = SaveListAdapter(mutableListOf(), viewModel)
         collectLast(viewModel.saveMovieUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
@@ -41,6 +41,10 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
                 findNavController().navigate(
                     SaveMovieDialogDirections.actionSaveMovieDialogToMyListFragment()
                 )
+                dismiss()
+            }
+
+            is SaveMovieUIEvent.DismissSheet -> {
                 dismiss()
             }
         }

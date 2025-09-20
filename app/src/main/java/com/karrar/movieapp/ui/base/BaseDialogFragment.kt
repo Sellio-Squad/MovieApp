@@ -32,6 +32,7 @@ abstract class BaseDialogFragment<VDB : ViewDataBinding> : BottomSheetDialogFrag
         _binding.apply {
             lifecycleOwner = this@BaseDialogFragment
             setVariable(BR.viewModel, viewModel)
+            setVariable(BR.listener, viewModel)
             return root
         }
     }

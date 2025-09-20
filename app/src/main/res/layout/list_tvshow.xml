@@ -13,7 +13,8 @@
 
         <variable
             name="movieType"
-            type="com.karrar.movieapp.domain.enums.HomeItemsType" />
+            type="com.karrar.movieapp.domain.enums.HomeItemsType"
+            />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

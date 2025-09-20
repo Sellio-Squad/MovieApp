@@ -3,18 +3,18 @@ package com.karrar.movieapp.ui.match.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.models.Media
-import com.squareup.picasso.Picasso
-import android.widget.ImageView
 import com.karrar.movieapp.BuildConfig
+import com.karrar.movieapp.R
+import com.karrar.movieapp.ui.match.MatchedMovieUIState
+import com.squareup.picasso.Picasso
 
 class MatchCarouselAdapter(
     private val onMovieClick: (Int) -> Unit
-) : ListAdapter<Media, MatchCarouselAdapter.CarouselViewHolder>(MovieDiffCallback()) {
+) : ListAdapter<MatchedMovieUIState, MatchCarouselAdapter.CarouselViewHolder>(MovieDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,8 +29,8 @@ class MatchCarouselAdapter(
     class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val moviePoster: ImageView = itemView.findViewById(R.id.iv_movie_poster)
 
-        fun bind(movie: Media, onMovieClick: (Int) -> Unit) {
-            val imageUrl = BuildConfig.IMAGE_BASE_PATH + movie.mediaImage
+        fun bind(movie: MatchedMovieUIState, onMovieClick: (Int) -> Unit) {
+            val imageUrl = BuildConfig.IMAGE_BASE_PATH + movie.movieImage
             Picasso.get()
                 .load(imageUrl)
                 .placeholder(R.drawable.media_place_holder)
@@ -38,17 +38,23 @@ class MatchCarouselAdapter(
                 .into(moviePoster)
 
             itemView.setOnClickListener {
-                onMovieClick(movie.mediaID)
+                onMovieClick(movie.movieId)
             }
         }
     }
 
-    private class MovieDiffCallback : DiffUtil.ItemCallback<Media>() {
-        override fun areItemsTheSame(oldItem: Media, newItem: Media): Boolean {
-            return oldItem.mediaID == newItem.mediaID
+    private class MovieDiffCallback : DiffUtil.ItemCallback<MatchedMovieUIState>() {
+        override fun areItemsTheSame(
+            oldItem: MatchedMovieUIState,
+            newItem: MatchedMovieUIState
+        ): Boolean {
+            return oldItem.movieId == newItem.movieId
         }
 
-        override fun areContentsTheSame(oldItem: Media, newItem: Media): Boolean {
+        override fun areContentsTheSame(
+            oldItem: MatchedMovieUIState,
+            newItem: MatchedMovieUIState
+        ): Boolean {
             return oldItem == newItem
         }
     }

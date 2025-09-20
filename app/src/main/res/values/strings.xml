@@ -260,7 +260,18 @@
     <string name="find_something_to_watch">Find Something to Watch</string>
     <string name="logo">logo</string>
     <string name="title_matches_your_vibe">Matches Your Vibe</string>
+    <string name="you_gave_it">You gave it</string>
     <string name="release_date">release date</string>
     <string name="movie_poster">movie poster</string>
     <string name="collection_name">Collection Name</string>
+    <string name="no_rating_title">No Ratings Yet</string>
+    <string name="no_ratings_caption">Rate movies and series you’ve watched to track what you love, and what you don’t.</string>
+    <string name="start_rating_button">Start Rating</string>
+    <string name="top_reviews">Top Reviews</string>
+    <string name="feel_good_favorites">Feel Good Favorites</string>
+    <string name="based_on_true_events">Based On True Events</string>
+    <string name="family_night_picks">Family Night Picks</string>
+    <string name="cinematic_masterpieces">Cinematic Masterpieces</string>
+    <string name="mind_bending_stories">Mind Bending Stories</string>
+    <string name="late_night_thrills">Late Night Thrills</string>
 </resources>

@@ -265,6 +265,21 @@ class MovieRepositoryImp @Inject constructor(
             pagingSourceFactory = { movieMovieDataSource.upcomingMovieMovieDataSource })
     }
 
+    override suspend fun getSimilarMoviePager(): Pager<Int, MovieDto> {
+        return Pager(
+            config = config,
+            pagingSourceFactory = { movieMovieDataSource.youMightAlsoLikeMovieDataSource })
+    }
+
+    override suspend fun getMovieReviewsPager(): Pager<Int, ReviewsDto> {
+        TODO()
+//        return Pager(config= config,
+//            pagingSourceFactory = movieMovieDataSource.
+////            return movieService.getMovieReviews(movieId).body()?.items
+//
+//        )
+    }
+
     override suspend fun getAdventureMoviesPager(): Pager<Int, MovieDto> {
         val dataSource = movieMovieDataSource.movieByGenreDataSource
         dataSource.setGenre(Constants.MYSTERY_ID)

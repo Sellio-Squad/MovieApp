@@ -79,7 +79,7 @@ interface MovieRepository {
 
     suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
-   suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
+    suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
 
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
@@ -94,6 +94,10 @@ interface MovieRepository {
     suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto>
 
     suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto>
+
+    suspend fun getSimilarMoviePager(): Pager<Int, MovieDto>
+
+    suspend fun getMovieReviewsPager(): Pager<Int, ReviewsDto>
 
     suspend fun getActorMoviesPager(actorId: Int): Pager<Int, MovieDto>
 

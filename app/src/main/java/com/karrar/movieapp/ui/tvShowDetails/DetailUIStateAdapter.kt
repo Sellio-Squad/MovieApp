@@ -91,14 +91,11 @@ class DetailUIStateAdapter(
                     setVariable(BR.listener, listener)
                 }
             }
-            is DetailItemUIState.ReviewText -> {}
             DetailItemUIState.SeeAllReviewsButton -> {
                 holder.binding.run {
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
-
-
         }
     }
 
@@ -119,7 +116,6 @@ class DetailUIStateAdapter(
             is DetailItemUIState.Seasons -> R.layout.list_season
             is DetailItemUIState.Rating -> R.layout.item_tvshow_rating
             is DetailItemUIState.Comment -> R.layout.item_tvshow_review
-            is DetailItemUIState.ReviewText -> R.layout.item_review_text
             DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
             is DetailItemUIState.Crew -> R.layout.list_crew
         }

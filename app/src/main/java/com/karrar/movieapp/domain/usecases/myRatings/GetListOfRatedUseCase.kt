@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecases
+package com.karrar.movieapp.domain.usecases.myRatings
 
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository

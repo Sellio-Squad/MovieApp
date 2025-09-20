@@ -26,6 +26,15 @@ interface MovieService {
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(@Query("page") page: Int = 1): Response<BaseListResponse<MovieDto>>
 
+    @GET("movie/{movie_id}/similar")
+    suspend fun getYouMightAlsoLikeMovies(
+//        @Path("movie_id") movieId: Int,
+        @Query("page") page: Int = 1
+    ): Response<BaseListResponse<MovieDto>>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseListResponse<MovieDto>>
+
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(): Response<BaseListResponse<MovieDto>>
 
@@ -112,9 +121,6 @@ interface MovieService {
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCastAndCrew(@Path("movie_id") movieId: Int): Response<CreditsDto>
-
-    @GET("movie/{movie_id}/similar")
-    suspend fun getSimilarMovie(@Path("movie_id") movieId: Int): Response<BaseListResponse<MovieDto>>
 
     @GET("tv/{tv_id}/similar")
     suspend fun getSimilarTvShows(@Path("tv_id") tvShowId: Int): Response<BaseListResponse<TVShowsDTO>>

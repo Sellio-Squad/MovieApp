@@ -7,15 +7,15 @@ import com.karrar.movieapp.domain.mappers.Mapper
 import com.karrar.movieapp.domain.models.Media
 import javax.inject.Inject
 
-class MatchVibesMovieMovieMapper @Inject constructor() : Mapper<MatchVibesMovieEntity, Media> {
+class MatchVibesMovieToMediaMapper @Inject constructor() : Mapper<MatchVibesMovieEntity, Media> {
     override fun map(input: MatchVibesMovieEntity): Media {
         return Media(
-            input.id,
-            BuildConfig.IMAGE_BASE_PATH + input.imageUrl,
-            MediaType.MOVIE.value,
-            input.title,
-            "",
-            input.movieRate.toFloat()
+            mediaID = input.id,
+            mediaImage = BuildConfig.IMAGE_BASE_PATH + input.imageUrl,
+            mediaType = MediaType.MOVIE.value,
+            mediaName = input.title,
+            mediaDate = "",
+            mediaRate = input.movieRate.toFloat()
         )
     }
 }

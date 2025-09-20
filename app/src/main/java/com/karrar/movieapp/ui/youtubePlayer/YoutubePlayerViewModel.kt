@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.GetTrailerUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

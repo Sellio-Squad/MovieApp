@@ -34,12 +34,16 @@
             app:destination="@id/watchHistoryFragment" />
 
         <action
-            android:id="@+id/action_homeFragment_to_myListFragment"
-            app:destination="@+id/myListFragment"/>
+            android:id="@+id/action_homeFragment_to_matchFragment"
+            app:destination="@+id/matchFragment"/>
 
         <action
             android:id="@+id/action_homeFragment_to_listDetailsFragment"
             app:destination="@+id/listDetailsFragment"/>
+
+        <action
+            android:id="@+id/action_homeFragment_to_myListFragment"
+            app:destination="@+id/myListFragment"/>
 
     </fragment>
 

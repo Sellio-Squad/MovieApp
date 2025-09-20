@@ -321,6 +321,10 @@
         <action
             android:id="@+id/action_ratedMoviesFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
+
+        <action
+            android:id="@+id/action_ratedMoviesFragment_to_exploreFragment"
+            app:destination="@id/exploringFragment"/>
     </fragment>
 
     <fragment

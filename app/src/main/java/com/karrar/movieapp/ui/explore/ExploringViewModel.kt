@@ -1,7 +1,7 @@
 package com.karrar.movieapp.ui.explore
 
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadState
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMediaByGenreIDUseCase
@@ -9,6 +9,7 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploreUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.ExploringUIEvent
+import com.karrar.movieapp.ui.explore.exploreUIState.ViewMode
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Constants.MOVIE_CATEGORIES_ID
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
@@ -64,24 +65,23 @@ class ExploringViewModel @Inject constructor(
     private fun getGenres(mediaType: Int) {
         viewModelScope.launch {
             try {
-                _uiState.update { it.copy(isLoading = true) }
                 val genres = getGenresUseCase(mediaType).map { genreUIStateMapper.map(it) }
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         genres = genres,
                         isLoading = false,
                         error = emptyList()
-                    ) 
+                    )
                 }
                 if (genres.isNotEmpty()) {
                     getMediaList(currentMediaType, genres.first().genreID)
                 }
             } catch (t: Throwable) {
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
                         error = listOf(ErrorUIState(-1, t.message ?: "Error"))
-                    ) 
+                    )
                 }
             }
         }
@@ -90,18 +90,26 @@ class ExploringViewModel @Inject constructor(
     fun getMediaList(mediaType: Int, categoryId: Int) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
+
             val result = getCategoryUseCase(mediaType, categoryId)
+                .map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } }
+                .cachedIn(viewModelScope)
+
             _uiState.update {
                 it.copy(
                     isLoading = false,
                     selectedGenreID = categoryId,
-                    media = result.map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } },
+                    media = result,
                     error = emptyList()
                 )
             }
         }
     }
 
+
+    fun setViewMode(viewMode: ViewMode) {
+        _uiState.update { it.copy(viewMode = viewMode) }
+    }
 
     fun onClickSearch() {
         _exploringUIEvent.update { Event(ExploringUIEvent.SearchEvent) }
@@ -125,9 +133,15 @@ class ExploringViewModel @Inject constructor(
     }
 
     fun onTabChanged(position: Int) {
+        _uiState.update { it.copy(selectedTab = position) }
         when (position) {
-            0 -> { onClickMovies() }
-            1 -> { onClickTVShow() }
+            0 -> {
+                onClickMovies()
+            }
+
+            1 -> {
+                onClickTVShow()
+            }
         }
     }
 
@@ -138,25 +152,6 @@ class ExploringViewModel @Inject constructor(
 
     fun onClickActors() {
         _exploringUIEvent.update { Event(ExploringUIEvent.ActorsEvent) }
-    }
-    
-    fun setErrorUiState(loadState: LoadState) {
-        when (loadState) {
-            is LoadState.Error -> {
-                _uiState.update {
-                    it.copy(
-                        error = listOf(ErrorUIState(-1, loadState.error.message ?: "Unknown error")),
-                        isLoading = false
-                    )
-                }
-            }
-            is LoadState.Loading -> {
-                _uiState.update { it.copy(isLoading = true) }
-            }
-            is LoadState.NotLoading -> {
-                _uiState.update { it.copy(isLoading = false, error = emptyList()) }
-            }
-        }
     }
 
 

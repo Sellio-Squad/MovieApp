@@ -10,7 +10,8 @@ class UpcomingMovieMapper @Inject constructor() : Mapper<MovieDto, UpcomingMovie
         return UpcomingMovieEntity(
             id = input.id ?: 0,
             name = input.originalTitle ?: "",
-            imageUrl = input.posterPath ?: ""
+            imageUrl = input.posterPath ?: "",
+            movieRate = input.voteAverage ?: 0.0
         )
     }
 }

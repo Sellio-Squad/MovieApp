@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.profileDetailsUIState.isLoggedIn ? viewModel.profileDetailsUIState.username : @string/to_personalize_your_experience}"
-                    android:textColor="@color/shade_color_tertiary" />
+                    android:textColor="@color/shade_color_secondary" />
             </LinearLayout>
 
             <ImageView
@@ -190,7 +190,6 @@
                 android:id="@+id/second_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_medium"
                 app:dividerColor="@color/shade_color_quaternary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -231,7 +230,6 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_medium"
                 app:dividerColor="@color/shade_quaternary_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -272,7 +270,6 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_medium"
                 android:visibility="@{viewModel.profileDetailsUIState.isLoggedIn ? View.VISIBLE : View.GONE}"
                 app:dividerColor="@color/shade_quaternary_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -296,7 +293,7 @@
                     android:drawablePadding="@dimen/spacing_small"
                     android:text="@string/logout"
                     android:textColor="@color/additional_color_primary_color_red"
-                    app:drawableStartCompat="@drawable/ic_logout"
+                    app:drawableStartCompat="@drawable/logout"
                     app:drawableTint="@color/additional_color_primary_color_red" />
 
                 <ImageView

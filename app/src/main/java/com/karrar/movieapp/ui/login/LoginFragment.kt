@@ -44,6 +44,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     LoginFragmentDirections.actionLoginFragmentToSignUpDialog()
                 )
             }
+            LoginUIEvent.ForgotPasswordEvent -> {
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToForgotPasswordDialog()
+                )
+            }
         }
     }
 }

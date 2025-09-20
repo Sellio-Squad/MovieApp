@@ -13,6 +13,8 @@ import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.enums.MovieItemsType
+import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.utilities.collectLast
@@ -101,6 +103,8 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
                         event.tvShowID
                     )
             }
+
+            is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> TODO()
         }
         action?.let { findNavController().navigate(it) }
     }
@@ -114,6 +118,14 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
     }
 
     override fun onClickPlayTrailer() {
+    }
+
+    override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
+        TODO("Not yet implemented")
     }
 
     override fun onclickViewReviews() {

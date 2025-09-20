@@ -126,6 +126,7 @@
             app:destination="@id/actorDetailsFragment" />
     </fragment>
 
+    <!--    movie        Details             Fragment-->
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
@@ -143,6 +144,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
             app:destination="@id/saveMovieDialog" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_allMovieFragment"
+            app:destination="@id/allMovieFragment" />
         <action
             android:id="@+id/action_movieDetailFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
@@ -213,6 +217,7 @@
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
+
     <fragment
         android:id="@+id/allMovieFragment"
         android:name="com.karrar.movieapp.ui.allMedia.AllMovieFragment"
@@ -267,6 +272,7 @@
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
+    <!--    review                        -->
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.karrar.movieapp.ui.reviews.ReviewFragment"

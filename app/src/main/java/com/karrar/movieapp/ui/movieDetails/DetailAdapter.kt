@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
+import com.karrar.movieapp.domain.enums.MovieItemsType
 import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
@@ -49,14 +50,15 @@ class DetailAdapter(
                     )
                 }
             }
+
             is DetailItemUIState.SimilarMovies -> {
                 holder.binding.run {
-                    setVariable(
-                        BR.adapterRecycler,
-                        MovieAdapter(currentItem.data, listener as MovieInteractionListener)
-                    )
+                    val adapter = MovieDetailsAdapter(currentItem.data, listener as MovieDetailsInteractionListener)
+                    setVariable(BR.adapterRecycler, adapter)
+                    setVariable(BR.movieType, MovieItemsType.YOU_MIGHT_ALSO_LIKE)
                 }
             }
+
 
             is DetailItemUIState.Crew -> {
                 holder.binding.run {
@@ -104,7 +106,7 @@ class DetailAdapter(
             is DetailItemUIState.Rating -> R.layout.item_rating
             is DetailItemUIState.Comment -> R.layout.item_movie_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
-            DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
             is DetailItemUIState.Crew -> R.layout.list_crew
         }
     }

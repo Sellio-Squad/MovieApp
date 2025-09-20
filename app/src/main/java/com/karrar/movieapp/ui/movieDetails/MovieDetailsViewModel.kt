@@ -249,10 +249,6 @@ class MovieDetailsViewModel @Inject constructor(
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSeeAllMovieEvent(type)) }
     }
 
-    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {}
-    override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
-        TODO("Not yet implemented")
-    }
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
     }
     override fun onClickActor(actorID: Int) {

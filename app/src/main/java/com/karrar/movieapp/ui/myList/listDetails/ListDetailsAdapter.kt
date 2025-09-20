@@ -14,5 +14,5 @@ class ListDetailsAdapter(
 
 interface ListDetailsInteractionListener : BaseInteractionListener {
     fun onItemClick(item: SavedMediaUIState)
-    fun onDeleteItem(item: SavedMediaUIState)
+    fun onDeleteItem(item: Int)
 }

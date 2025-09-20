@@ -8,5 +8,5 @@ data class SaveListDetails(
     val voteAverage: Double,
     val posterPath: String,
     val genres: String = "",
-    val duration: Int = 0
+    val duration: String = ""
 )

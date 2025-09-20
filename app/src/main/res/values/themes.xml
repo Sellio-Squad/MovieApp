@@ -505,4 +505,15 @@
         <item name="cornerSizeTopRight">@dimen/radius_cineVerse_l</item>
         <item name="cornerSizeBottomLeft">@dimen/radius_cineVerse_l</item>
     </style>
+
+    <style name="InputField">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/input_field_background</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:fontFamily">@font/plus_jakarta_sans_regular</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/shade_primary_color</item>
+        <item name="android:textColorHint">@color/shade_secondary_color</item>
+    </style>
 </resources>

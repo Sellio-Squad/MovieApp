@@ -13,8 +13,32 @@ class MediaUIStateMapper @Inject constructor() : Mapper<SaveListDetails, SavedMe
             mediaID = input.id,
             title = input.title,
             voteAverage = input.voteAverage,
-            releaseDate = input.releaseDate,
-            mediaType = input.mediaType
+            releaseDate = formatDate(input.releaseDate),
+            mediaType = input.mediaType,
+            duration = input.duration,
+            genres = input.genres
         )
     }
+
+    private fun formatDate(date: String?) = date
+        ?.replace("-", " ")
+        ?.split(" ")
+        ?.run {
+            "${this[0]}, ${
+                listOf(
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec"
+                )[this[1].toInt()]
+            } ${this[2]}"
+        } ?: "Unknown"
 }

@@ -15,5 +15,3 @@ class CreatedListUIMapper @Inject constructor() : Mapper<CreatedList, CreatedLis
         )
     }
 }
-
-

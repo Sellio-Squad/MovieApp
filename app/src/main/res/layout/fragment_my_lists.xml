@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.myList.MyListsFragment">
+        tools:context=".ui.myCollection.MyCollectionFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/saved_list"
@@ -61,40 +61,33 @@
             app:error="@{viewModel.createdListUIState.error}"
             app:loading="@{viewModel.createdListUIState.loading}" />
 
-        <include
+        <ProgressBar
             android:id="@+id/loading"
-            layout="@layout/loading2"
-            app:isVisible="@{viewModel.createdListUIState.loading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminateDrawable="@drawable/loading_shape_my_collection"
+            app:isVisible="@{viewModel.createdListUIState.loading}"
+            />
 
         <!-- Error State -->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
             android:id="@+id/animation_lost_connection"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:background="@drawable/circle_background_my_list"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/circle_red_my_collection"
+            android:padding="18dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:tint="@color/additional_color_primary_color_red"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/due_tone_station"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/additional_color_primary_color_red" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:src="@drawable/due_tone_station" />
 
         <TextView
             android:id="@+id/title_lost_connection"
@@ -104,6 +97,7 @@
             android:layout_marginTop="@dimen/radius_cineVerse_xl"
             android:text="@string/oops_no_internet"
             android:textColor="@color/shade_color_primary"
+            app:layout_constraintBottom_toTopOf="@id/description_lost_connection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_lost_connection" />
@@ -119,6 +113,7 @@
             android:textColor="@color/shade_secondary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_retry"
             app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
 
         <Button
@@ -133,7 +128,8 @@
             android:textColor="@color/button_color_onPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection"/>
 
 
         <androidx.constraintlayout.widget.Group
@@ -144,27 +140,19 @@
 
         <!-- empty List -->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
             android:id="@+id/no_data"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:background="@drawable/circle_empty_list"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/circle_disabled_my_collection"
+            android:padding="18dp"
+            android:src="@drawable/due_tone_video_library"
+            app:layout_constraintBottom_toTopOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/due_tone_video_library"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/brand_color_primary" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:tint="@color/brand_color_primary" />
 
         <TextView
             android:id="@+id/title"
@@ -174,9 +162,10 @@
             android:layout_marginTop="@dimen/radius_cineVerse_xl"
             android:text="@string/no_collections_yet"
             android:textColor="@color/shade_color_primary"
-            app:layout_constraintEnd_toEndOf="@+id/no_data"
-            app:layout_constraintStart_toStartOf="@+id/no_data"
-            app:layout_constraintTop_toBottomOf="@+id/no_data" />
+            app:layout_constraintBottom_toTopOf="@id/description_empty_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/no_data" />
 
         <TextView
             android:id="@+id/description_empty_list"
@@ -187,9 +176,10 @@
             android:gravity="center"
             android:text="@string/start_building_your_personal_library_by_saving_movies_or_series_you_want_to_remember"
             android:textColor="@color/shade_color_secondary"
-            app:layout_constraintEnd_toEndOf="@+id/no_data"
-            app:layout_constraintStart_toStartOf="@+id/no_data"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_empty"
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <Button
             android:id="@+id/button_empty"
@@ -200,8 +190,10 @@
             android:background="@drawable/button_background"
             android:text="@string/start_collecting"
             android:textColor="@color/button_color_onPrimary"
+            android:onClick="@{() -> viewModel.onStartCollectingClicked()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_empty_list" />
 
         <androidx.constraintlayout.widget.Group

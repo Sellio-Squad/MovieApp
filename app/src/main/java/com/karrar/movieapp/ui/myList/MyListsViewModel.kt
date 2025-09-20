@@ -65,6 +65,11 @@ class MyListsViewModel @Inject constructor(
         _myListUIEvent.update { Event(MyListUIEvent.CreateButtonClicked) }
     }
 
+    fun onStartCollectingClicked() {
+        _myListUIEvent.update { Event(MyListUIEvent.StartCollectingButtonClicked) }
+    }
+
+
     fun onClickAddList() {
         viewModelScope.launch {
             try {
@@ -98,5 +103,8 @@ class MyListsViewModel @Inject constructor(
             }
             it.copy(isLoading = false, error = error)
         }
+    }
+    fun onCancelClicked() {
+        _myListUIEvent.update { Event(MyListUIEvent.CancelButtonClicked) }
     }
 }

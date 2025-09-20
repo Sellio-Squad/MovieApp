@@ -53,6 +53,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ProfileUIEvent.DialogLanguageEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToChangeLanguageDialog()
             }
+            ProfileUIEvent.MyCollectionEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToMyListsFragment()
+            }
+
 
         }
         findNavController().navigate(action)

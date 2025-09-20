@@ -217,7 +217,7 @@
 
     <style name="CineVerseButton.Primary">
         <item name="android:textAppearance">@style/TextStyle.Body.Medium.Medium</item>
-        <item name="android:textColor">@color/button_color_onPrimary</item>
+        <item name="android:textColor">@color/button_text_primary</item>
         <item name="backgroundTint">@color/button_state_primary</item>
     </style>
 

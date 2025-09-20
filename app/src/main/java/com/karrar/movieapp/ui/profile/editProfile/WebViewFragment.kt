@@ -19,7 +19,6 @@ class WebViewFragment : BaseFragment<FragmentWebViewBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, getString(R.string.edit_profile))
         setBottomNavigationVisibility()
         setupWebView()
         collectLast(viewModel.url) {

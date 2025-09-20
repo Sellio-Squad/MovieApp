@@ -104,4 +104,8 @@ class ListDetailsViewModel @Inject constructor(
         }
     }
 
+    fun closeTip() {
+        _listDetailsUIState.update { it.copy(isTipShown = false) }
+    }
+
 }

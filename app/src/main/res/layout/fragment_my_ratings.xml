@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.myratings.MyRatingsViewModel" />
@@ -15,41 +17,173 @@
         android:layout_height="match_parent"
         android:background="@color/background_color">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_rated_movies"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingVertical="@dimen/spacing_small"
-            android:paddingBottom="@dimen/spacing_medium"
-            android:scrollbars="none"
-            app:items="@{viewModel.ratedUiState.ratedList}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListNotEmpty="@{viewModel.ratedUiState.ratedList}"
-            tools:listitem="@layout/item_rated_movie" />
-
-        <TextView
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/this_list_has_no_movies"
-            android:visibility="gone"
-            app:doneLoad="@{viewModel.ratedUiState.loading}"
-            app:emptyData="@{viewModel.ratedUiState.ratedList}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:noError="@{viewModel.ratedUiState.error}" />
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tip_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/radius_cineVerse_xl"
+                android:layout_marginTop="@dimen/radius_cineVerse_xl"
+                android:background="@drawable/tip_background_drawable"
+                android:padding="@dimen/radius_cineVerse_l"
+                android:visibility="@{viewModel.ratedUiState.showTip ? View.VISIBLE : View.GONE}">
+
+                <ImageView
+                    android:id="@+id/tip_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/due_tone_info_circle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/brand_color_primary" />
+
+                <TextView
+                    android:id="@+id/tip_text"
+                    style="@style/TextStyle.Body.Small.Regular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/radius_cineVerse_s"
+                    android:layout_marginEnd="@dimen/radius_cineVerse_s"
+                    android:gravity="center_vertical"
+                    android:text="@string/tip_swipe_left_to_remove_movies_from_your_collection"
+                    android:textColor="@color/shade_color_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tip_close"
+                    app:layout_constraintStart_toEndOf="@id/tip_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/tip_close"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:onClick="@{()-> viewModel.hideTip()}"
+                    android:src="@drawable/outline_x"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/shade_color_secondary" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_color_screen"
+                app:tabIndicator="@drawable/tab_indicator"
+                app:tabSelectedTextColor="@color/brand_color_primary"
+                app:tabTextAppearance="@style/TabTextStyle"
+                app:tabTextColor="@color/shade_color_tertiary">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/movies" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/series" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_rated_movies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingVertical="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_medium"
+                android:scrollbars="none"
+                app:items="@{viewModel.ratedUiState.currentTypeList}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:showWhenListNotEmpty="@{viewModel.ratedUiState.currentTypeList}"
+                tools:listitem="@layout/item_rated_movie" />
+        </LinearLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/no_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="60dp"
+            android:padding="@dimen/spacing_large"
+            app:isListEmpty="@{viewModel.ratedUiState.currentTypeList.empty &amp;&amp; viewModel.ratedUiState.hasLoaded}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/back_icon_shape"
+                android:contentDescription="@string/icon"
+                android:padding="18dp"
+                android:src="@drawable/ic_rate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/brand_color_primary" />
+
+            <!-- Title -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_title"
+                style="@style/TextStyle.Title.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:text="@string/no_rating_title"
+                android:textColor="@color/shade_color_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/icon" />
+
+            <!-- caption -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/caption"
+                style="@style/TextStyle.Body.Small.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:gravity="center"
+                android:text="@string/no_ratings_caption"
+                android:textColor="@color/shade_color_secondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_title" />
+
+            <Button
+                android:id="@+id/button_start_rating"
+                style="@style/small_button.enabled"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:background="@drawable/large_enabled_button"
+                android:fontFamily="@font/manrope_medium"
+                android:onClick="@{() -> viewModel.onClickStartRatings()}"
+                android:text="@string/start_rating_button"
+                android:textAllCaps="false"
+                android:textAppearance="@dimen/text_body_small_medium"
+                android:textColor="@color/button_color_onPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/caption" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="255dp"
+            android:layout_height="292dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -93,17 +227,17 @@
 
             <Button
                 android:id="@+id/button_try_again"
-                android:layout_marginTop="@dimen/spacing_medium"
                 style="@style/small_button.enabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:background="@drawable/large_enabled_button"
+                android:fontFamily="@font/manrope_medium"
                 android:onClick="@{() -> viewModel.getData()}"
                 android:paddingHorizontal="94dp"
                 android:text="@string/try_again"
                 android:textAllCaps="false"
                 android:textColor="@color/button_color_onPrimary"
-                android:fontFamily="@font/manrope_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
@@ -116,18 +250,14 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.airbnb.lottie.LottieAnimationView
+        <include
             android:id="@+id/loading"
-            android:layout_width="172dp"
-            android:layout_height="172dp"
-            app:isVisible="@{viewModel.ratedUiState.loading}"
+            layout="@layout/loading2"
+            app:isLoading="@{viewModel.ratedUiState.loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

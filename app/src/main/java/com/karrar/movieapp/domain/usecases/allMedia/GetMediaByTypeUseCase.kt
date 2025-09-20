@@ -6,7 +6,7 @@ import androidx.paging.map
 import com.karrar.movieapp.data.repository.MovieRepository
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.domain.mappers.movie.MatchVibesMovieMovieMapper
+import com.karrar.movieapp.domain.mappers.movie.MatchVibesMovieToMediaMapper
 import com.karrar.movieapp.domain.mappers.movie.MovieMapper
 import com.karrar.movieapp.domain.mappers.series.TVShowMapper
 import com.karrar.movieapp.domain.models.Media
@@ -20,7 +20,7 @@ class GetMediaByTypeUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val movieMapper: MovieMapper,
     private val tvShowMapper: TVShowMapper,
-    private val matchVibesMovieMovieMapper: MatchVibesMovieMovieMapper
+    private val matchVibesMovieMapper: MatchVibesMovieToMediaMapper
 ) {
 
     suspend operator fun invoke(type: AllMediaType, actorId: Int = 0): Flow<PagingData<Media>> {
@@ -106,9 +106,21 @@ class GetMediaByTypeUseCase @Inject constructor(
             AllMediaType.MATCHES_YOUR_VIBE -> {
                 wrapper(
                     { movieRepository.getMatchVibesMoviesPager() },
-                    matchVibesMovieMovieMapper::map
+                    matchVibesMovieMapper::map
                 )
             }
+
+            AllMediaType.LASTEST_SEASONS -> TODO()
+            AllMediaType.BEHIND_THE_SCENES -> TODO()
+            AllMediaType.YOU_MIGHT_ALSO_LIKE_SERIES -> TODO()
+            AllMediaType.YOU_MIGHT_ALSO_LIKE_MOVIES -> {
+                wrapper(movieRepository::getSimilarMoviePager,movieMapper::map)
+            }
+            AllMediaType.TOP_REVIEWS_SERIES -> TODO()
+            AllMediaType.TOP_REVIEWS_MOVIES -> TODO()
+//                {
+//                wrapper(movieRepository::getMovieReviewsPager,  )
+//            }
         }
     }
 

@@ -17,7 +17,7 @@
     <string name="enter_your_email_or_username">Enter your email or username</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="create_a_new_account">Create a New Account</string>
-    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="login">Login</string>
     <string name="you_re_almost_there">You\'re Almost There!</string>
     <string name="don_t_have_an_account">Don’t have an account?</string>
@@ -28,6 +28,8 @@
     <string name="you_ll_be_taken_to_the_website_to_update_your_name_username_or_profile_picture">You’ll be taken to the website to update your name, username, or profile picture.</string>
     <string name="go_to_website">Go to Website</string>
     <string name="sign_up">Sign up</string>
+    <string name="reset_your_password">Reset Your Password</string>
+    <string name="forgot_password_description">We\'ll take you to the website so you can securely update your password.</string>
     <string name="place_of_birth">place of Birth</string>
     <string name="konwn_for">Known For</string>
     <string name="todo">TODO</string>
@@ -259,6 +261,17 @@
     <string name="find_something_to_watch">Find Something to Watch</string>
     <string name="logo">logo</string>
     <string name="title_matches_your_vibe">Matches Your Vibe</string>
+    <string name="you_gave_it">You gave it</string>
     <string name="release_date">release date</string>
     <string name="movie_poster">movie poster</string>
+    <string name="no_rating_title">No Ratings Yet</string>
+    <string name="no_ratings_caption">Rate movies and series you’ve watched to track what you love, and what you don’t.</string>
+    <string name="start_rating_button">Start Rating</string>
+    <string name="top_reviews">Top Reviews</string>
+    <string name="feel_good_favorites">Feel Good Favorites</string>
+    <string name="based_on_true_events">Based On True Events</string>
+    <string name="family_night_picks">Family Night Picks</string>
+    <string name="cinematic_masterpieces">Cinematic Masterpieces</string>
+    <string name="mind_bending_stories">Mind Bending Stories</string>
+    <string name="late_night_thrills">Late Night Thrills</string>
 </resources>

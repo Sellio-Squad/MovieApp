@@ -138,6 +138,7 @@
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
+                            app:tint="@color/shade_secondary_color"
                             android:src="@drawable/due_tone_clock" />
 
                         <TextView
@@ -160,6 +161,7 @@
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
+                            app:tint="@color/shade_secondary_color"
                             android:src="@drawable/due_tone_calendar" />
 
                         <TextView
@@ -199,6 +201,7 @@
                     android:background="@drawable/shape_md_corner"
                     android:padding="11dp"
                     android:src="@drawable/due_tone_add"
+                    app:tint="@color/button_color_onSecondary"
                     app:backgroundTint="@color/button_color_secondary" />
             </LinearLayout>
         </LinearLayout>

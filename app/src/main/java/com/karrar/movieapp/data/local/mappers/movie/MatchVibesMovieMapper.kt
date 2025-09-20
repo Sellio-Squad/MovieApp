@@ -12,6 +12,7 @@ class MatchVibesMovieMapper @Inject constructor() : Mapper<MovieDto, MatchVibesM
             title = input.originalTitle ?: "",
             imageUrl = input.posterPath ?: "",
             movieRate = input.voteAverage ?: 0.0,
+            genreName = input.genreIds?.map { it.toString() } ?: listOf(""),
         )
     }
 }

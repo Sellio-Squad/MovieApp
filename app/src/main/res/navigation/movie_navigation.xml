@@ -47,6 +47,15 @@
 
     </fragment>
 
+    <dialog
+        android:id="@+id/forgotPasswordDialog"
+        android:name="com.karrar.movieapp.ui.login.forgotpassword.ForgotPasswordDialog"
+        tools:layout="@layout/dialog_forgot_password">
+        <action
+            android:id="@+id/action_forgotPasswordDialog_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </dialog>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.karrar.movieapp.ui.login.LoginFragment"
@@ -69,6 +78,10 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpDialog"
             app:destination="@id/signUpDialog" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordDialog"
+            app:destination="@id/forgotPasswordDialog" />
 
     </fragment>
 
@@ -113,6 +126,7 @@
             app:destination="@id/actorDetailsFragment" />
     </fragment>
 
+    <!--    movie        Details             Fragment-->
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
@@ -130,6 +144,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
             app:destination="@id/saveMovieDialog" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_allMovieFragment"
+            app:destination="@id/allMovieFragment" />
         <action
             android:id="@+id/action_movieDetailFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
@@ -203,6 +220,7 @@
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
+
     <fragment
         android:id="@+id/allMovieFragment"
         android:name="com.karrar.movieapp.ui.allMedia.AllMovieFragment"
@@ -257,6 +275,7 @@
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
+    <!--    review                        -->
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.karrar.movieapp.ui.reviews.ReviewFragment"
@@ -308,6 +327,10 @@
         <action
             android:id="@+id/action_ratedMoviesFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
+
+        <action
+            android:id="@+id/action_ratedMoviesFragment_to_exploreFragment"
+            app:destination="@id/exploringFragment"/>
     </fragment>
 
     <fragment

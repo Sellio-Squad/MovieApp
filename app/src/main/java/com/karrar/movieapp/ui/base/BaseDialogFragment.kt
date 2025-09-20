@@ -54,13 +54,13 @@ abstract class BaseDialogFragment<VDB : ViewDataBinding> : BottomSheetDialogFrag
                 behavior.skipCollapsed = true
                 behavior.isDraggable = false
 
-                val layoutParams = it.layoutParams as ViewGroup.MarginLayoutParams
-                val horizontalMargin =
-                    resources.getDimensionPixelSize(R.dimen.bottom_sheet_horizontal_margin)
-
-                layoutParams.leftMargin = horizontalMargin
-                layoutParams.rightMargin = horizontalMargin
-                it.layoutParams = layoutParams
+//                val layoutParams = it.layoutParams as ViewGroup.MarginLayoutParams
+//                val horizontalMargin =
+//                    resources.getDimensionPixelSize(R.dimen.bottom_sheet_horizontal_margin)
+//
+//                layoutParams.leftMargin = horizontalMargin
+//                layoutParams.rightMargin = horizontalMargin
+//                it.layoutParams = layoutParams
 
                 it.setBackgroundResource(android.R.color.transparent)
                dialog?.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())

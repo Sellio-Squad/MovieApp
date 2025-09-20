@@ -47,6 +47,15 @@
 
     </fragment>
 
+    <dialog
+        android:id="@+id/forgotPasswordDialog"
+        android:name="com.karrar.movieapp.ui.login.forgotpassword.ForgotPasswordDialog"
+        tools:layout="@layout/dialog_forgot_password">
+        <action
+            android:id="@+id/action_forgotPasswordDialog_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </dialog>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.karrar.movieapp.ui.login.LoginFragment"
@@ -69,6 +78,10 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpDialog"
             app:destination="@id/signUpDialog" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordDialog"
+            app:destination="@id/forgotPasswordDialog" />
 
     </fragment>
 

@@ -16,8 +16,11 @@ import com.google.android.material.textview.MaterialTextView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
-import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import com.karrar.movieapp.ui.explore.exploreUIState.GenreUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
+import com.karrar.movieapp.ui.search.mediaSearchUIState.SearchDisplayMode
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -162,6 +165,44 @@ fun <T> hideWhenSuccessSearch(view: View, text: String, error: List<T>?, loading
     }
 }
 
+@BindingAdapter("app:showToggleForMedia")
+fun showToggleForMedia(view: View, mediaType: MediaTypes) {
+    view.isVisible = mediaType == MediaTypes.MOVIE || mediaType == MediaTypes.TVS_SHOW
+}
+
+@BindingAdapter("app:truncatedTitle")
+fun setTruncatedTitle(textView: TextView, title: String?) {
+    title?.let {
+        textView.text = if (it.length > 20) {
+            it.take(17) + "..."
+        } else {
+            it
+        }
+    }
+}
+
+@BindingAdapter("app:showWhenDisplayMode")
+fun showWhenDisplayMode(view: View, displayMode: SearchDisplayMode) {
+    view.isVisible = displayMode == SearchDisplayMode.RESULTS
+}
+
+@BindingAdapter("app:showWhenSuggestionMode")
+fun showWhenSuggestionMode(view: View, displayMode: SearchDisplayMode) {
+    view.isVisible = displayMode == SearchDisplayMode.SUGGESTIONS
+}
+
+@BindingAdapter("app:showTabsWhenResults")
+fun showTabsWhenResults(view: View, state: MediaSearchUIState) {
+    view.isVisible = state.displayMode == SearchDisplayMode.RESULTS && state.searchInput.isNotBlank()
+}
+
+@BindingAdapter("app:showToggleWhenResultsAndNotActor")
+fun showToggleWhenResultsAndNotActor(view: View, state: MediaSearchUIState) {
+    view.isVisible = state.displayMode == SearchDisplayMode.RESULTS &&
+            state.searchInput.isNotBlank() &&
+            state.searchTypes != MediaTypes.ACTOR
+}
+
 // different
 
 @BindingAdapter(value = ["app:items"])
@@ -202,7 +243,6 @@ fun loadMediaPoster(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
             placeholder(R.drawable.loading)
-            error(R.drawable.media_place_holder)
         }
     }
 }

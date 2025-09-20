@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.usecases.movieDetails
 
 import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.domain.ResultHandler
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.MovieCrewMapper
 import com.karrar.movieapp.domain.mappers.actor.ActorDtoMapper
@@ -11,6 +12,7 @@ import com.karrar.movieapp.domain.models.Crew
 import com.karrar.movieapp.domain.models.Media
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.runCatchingResult
 import com.karrar.movieapp.domain.usecases.GetReviewsUseCase
 import com.karrar.movieapp.utilities.Constants.MAX_NUM_REVIEWS
 import javax.inject.Inject
@@ -23,12 +25,13 @@ class GetMovieDetailsUseCase @Inject constructor(
     private val movieMapper: MovieMapper,
     private val movieCrewMapper: MovieCrewMapper
 ) {
-    suspend fun getMovieDetails(movieId: Int): MovieDetails {
-        val response = movieRepository.getMovieDetails(movieId)
-        return response?.let {
-            movieDetailsMapper.map(response)
-        } ?: throw Throwable("Not Success")
-    }
+
+    suspend fun getMovieDetails(movieId: Int): ResultHandler<MovieDetails> =
+        runCatchingResult {
+            movieRepository.getMovieDetails(movieId)?.let {
+                movieDetailsMapper.map(it)
+            }
+        }
 
     suspend fun getMovieCast(movieId: Int): List<Actor> {
         return movieRepository.getMovieCast(movieId)?.cast?.let {

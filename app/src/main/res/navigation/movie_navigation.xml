@@ -34,14 +34,27 @@
             app:destination="@id/watchHistoryFragment" />
 
         <action
-            android:id="@+id/action_homeFragment_to_myListFragment"
-            app:destination="@+id/myListFragment"/>
+            android:id="@+id/action_homeFragment_to_matchFragment"
+            app:destination="@+id/matchFragment"/>
 
         <action
             android:id="@+id/action_homeFragment_to_listDetailsFragment"
             app:destination="@+id/listDetailsFragment"/>
 
+        <action
+            android:id="@+id/action_homeFragment_to_myListFragment"
+            app:destination="@+id/myListFragment"/>
+
     </fragment>
+
+    <dialog
+        android:id="@+id/forgotPasswordDialog"
+        android:name="com.karrar.movieapp.ui.login.forgotpassword.ForgotPasswordDialog"
+        tools:layout="@layout/dialog_forgot_password">
+        <action
+            android:id="@+id/action_forgotPasswordDialog_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </dialog>
 
     <fragment
         android:id="@+id/loginFragment"
@@ -65,6 +78,10 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpDialog"
             app:destination="@id/signUpDialog" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordDialog"
+            app:destination="@id/forgotPasswordDialog" />
 
     </fragment>
 

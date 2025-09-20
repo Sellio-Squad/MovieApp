@@ -4,4 +4,5 @@ sealed interface LoginUIEvent {
     data class LoginEvent(val login: Int) : LoginUIEvent
     object SignUpEvent : LoginUIEvent
     object ShowSignUpDialog : LoginUIEvent
+    object ForgotPasswordEvent : LoginUIEvent
 }

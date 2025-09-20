@@ -21,6 +21,6 @@ class MediaSearchAdapter(listener: MediaSearchInteractionListener)
 
 interface MediaSearchInteractionListener : BaseInteractionListener {
     fun onSuggestionClick(query: String)
-
+    fun onClickMediaResult(media: MediaUIState)
     fun onMediaClick(media: MediaUIState)
 }

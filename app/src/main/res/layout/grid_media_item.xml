@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_simi_small"
+        android:onClick="@{() -> listener.onClickMediaResult(item)}">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_poster"
+            android:layout_width="match_parent"
+            android:layout_height="232dp"
+            android:scaleType="centerCrop"
+            android:transitionName="@{`media_image_` + item.mediaID}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mediaPoster="@{item.mediaImage}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
+            android:background="@drawable/image_error_palceholder" />
+
+        <LinearLayout
+            android:id="@+id/rating_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/media_rate_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_small"
+            android:paddingVertical="@dimen/spacing_too_small"
+            android:transitionName="@{`media_rating_` + item.mediaID}"
+            app:layout_constraintEnd_toEndOf="@id/img_poster"
+            app:layout_constraintTop_toTopOf="@id/img_poster">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(item.mediaVoteAverage)}"
+                android:textColor="@color/shade_color_primary"
+                style="@style/TextStyle.Label.Medium.Medium"
+                tools:text="5.7" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="@dimen/spacing_too_small"
+                android:src="@drawable/ic_rate" />
+        </LinearLayout>
+
+        <!-- Title below the image -->
+        <TextView
+            android:id="@+id/text_title"
+            style="@style/TextStyle.Body.Medium.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:gravity="start"
+            android:textColor="@color/shade_primary_color"
+            android:transitionName="@{`media_title_` + item.mediaID}"
+            app:truncatedTitle="@{item.mediaName}"
+            app:layout_constraintEnd_toEndOf="@id/img_poster"
+            app:layout_constraintStart_toStartOf="@id/img_poster"
+            app:layout_constraintTop_toBottomOf="@id/img_poster"
+            tools:text="The Mandalorian..." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

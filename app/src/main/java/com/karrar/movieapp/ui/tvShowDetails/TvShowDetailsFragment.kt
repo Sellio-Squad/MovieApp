@@ -1,6 +1,5 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
-import android.animation.ValueAnimator
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -133,42 +132,15 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
     }
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setupRecyclerWithHeaderAnimation() {
-        val recyclerView = binding.recyclerView
-        val motionLayout = binding.headerMotionLayout
 
-        var lastProgress = 0f
-
-        recyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
-            val range = recyclerView.computeVerticalScrollRange()
-            val extent = recyclerView.computeVerticalScrollExtent()
-
-            val canScroll = range > extent
-            if (!canScroll) {
-                motionLayout.progress = 0f
-                lastProgress = 0f
-                return@setOnScrollChangeListener
+        binding.fullHeader.root.post {
+            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                val headerHeight = binding.fullHeader.root.height
+                val progress = (scrollY.toFloat() / headerHeight).coerceIn(0f, 1f)
+                binding.headerMotionLayout.progress = progress
             }
 
-            val offset = recyclerView.computeVerticalScrollOffset().toFloat()
-            val maxScroll = (range - extent).toFloat()
-
-            val targetProgress = if (maxScroll > 0) {
-                (offset / maxScroll).coerceIn(0f, 1f)
-            } else {
-                0f
-            }
-
-            if (targetProgress != lastProgress) {
-                ValueAnimator.ofFloat(lastProgress, targetProgress).apply {
-                    duration = 50
-                    interpolator = android.view.animation.DecelerateInterpolator()
-                    addUpdateListener { animator ->
-                        motionLayout.progress = animator.animatedValue as Float
-                    }
-                    start()
-                }
-            }
-            lastProgress = targetProgress
         }
     }
+
 }

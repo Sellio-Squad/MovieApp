@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.karrar.movieapp.domain.enums.AllMediaType"/>
+        <import type="com.karrar.movieapp.domain.enums.AllMediaType" />
 
         <variable
             name="adapterRecycler"
@@ -20,26 +20,26 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color"
-        android:layout_marginBottom="@dimen/spacing_medium">
+        android:layout_marginVertical="@dimen/spacing_medium"
+        android:background="@color/background_color">
 
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:showSeeAll="true"
-            tools:text="Popular"
             android:text="@{movieType.value}"
-            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeTVShow(AllMediaType.ON_THE_AIR)}"
-            android:textSize="20sp"
             android:textColor="@color/shade_color_primary"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/TextStyle.Title.Small"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeTVShow(AllMediaType.ON_THE_AIR)}"
+            app:showSeeAll="true"
+            tools:text="Top Rated TV Shows" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_movie"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_simi_medium"
             android:adapter="@{adapterRecycler}"
             android:clipToPadding="false"
             android:orientation="horizontal"
@@ -49,11 +49,9 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header"
-            app:layout_constraintVertical_bias="1.0"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/item_tvshow" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

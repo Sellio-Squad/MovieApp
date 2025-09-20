@@ -10,7 +10,8 @@ class OnTheAirSeriesMapper  @Inject constructor() : Mapper<TVShowsDTO, OnTheAirS
         return OnTheAirSeriesEntity(
             id = input.id ?:0,
             name = input.originalName?:"",
-            imageUrl = input.posterPath ?:""
+            imageUrl = input.posterPath ?:"",
+            movieRate = input.voteAverage ?:0.0
         )
     }
 }

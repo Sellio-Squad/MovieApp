@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_medium">
+        android:layout_marginVertical="@dimen/spacing_medium">
 
         <TextView
             android:id="@+id/cast"
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_simi_medium"
-            android:layout_marginStart="@dimen/spacing_medium"
+            android:paddingHorizontal="@dimen/spacing_medium"
             android:orientation="horizontal"
             android:clipToPadding="false"
             android:adapter="@{adapterRecycler}"

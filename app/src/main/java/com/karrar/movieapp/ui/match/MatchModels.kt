@@ -3,7 +3,6 @@ package com.karrar.movieapp.ui.match
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.models.Media
 
 enum class MatchPages {
     START_PAGE,
@@ -27,11 +26,12 @@ data class MatchUiState(
     val movieTypeQuestions: List<QuestionUiState> = getMovieTypeQuestionAnswers(),
     val currentQuestionType: QuestionType = QuestionType.MOOD,
     val movieGenres: List<GenreUiState> = emptyList(),
-    val matchResults: List<Media> = emptyList(),
+    val matchResults: List<MatchedMovieUIState> = emptyList(),
     val isLoadingRecommendations: Boolean = false,
     val errorMessage: String? = null,
     val shouldShowError: Boolean = false
 ) {
+
     val matchProgress: Float =
         currentQuestionType.ordinal.plus(1).toFloat() / QuestionType.entries.size
 
@@ -133,6 +133,15 @@ fun getTimeQuestionAnswers() = listOf(
         description = R.string.time_long_desc,
         iconResource = R.drawable.ic_time_long
     )
+)
+data class MatchedMovieUIState(
+    val movieId: Int,
+    val movieImage: String,
+    val movieName: String,
+    val movieGenres: String,
+    val movieDuration: String,
+    val movieVoteAverage: String,
+    val movieReleasedDate: String
 )
 
 fun getGenreQuestionAnswers() = listOf(

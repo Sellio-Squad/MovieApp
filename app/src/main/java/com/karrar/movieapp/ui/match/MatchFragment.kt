@@ -111,21 +111,21 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
             binding.matchResultsPage.btnViewDetails.setOnClickListener {
                 val matchResults = viewModel.uiState.value?.matchResults.orEmpty()
                 if (matchResults.isNotEmpty() && currentCarouselPosition < matchResults.size) {
-                    onMovieClick(matchResults[currentCarouselPosition].mediaID)
+                    onMovieClick(matchResults[currentCarouselPosition].movieId)
                 }
             }
 
             binding.matchResultsPage.btnSave.setOnClickListener {
                 val matchResults = viewModel.uiState.value?.matchResults.orEmpty()
                 if (matchResults.isNotEmpty() && currentCarouselPosition < matchResults.size) {
-                    onSaveClick(matchResults[currentCarouselPosition].mediaID)
+                    onSaveClick(matchResults[currentCarouselPosition].movieId)
                 }
             }
 
             binding.matchResultsPage.btnPlayTrailer.setOnClickListener {
                 val matchResults = viewModel.uiState.value?.matchResults.orEmpty()
                 if (matchResults.isNotEmpty() && currentCarouselPosition < matchResults.size) {
-                    onPlayTrailerClick(matchResults[currentCarouselPosition].mediaID)
+                    onPlayTrailerClick(matchResults[currentCarouselPosition].movieId)
                 }
             }
         } catch (e: Exception) {
@@ -498,13 +498,13 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
             if (matchResults.isNotEmpty() && position < matchResults.size) {
                 val movie = matchResults[position]
 
-                binding.matchResultsPage.tvMovieTitle.text = movie.mediaName
-                binding.matchResultsPage.tvRating.text = String.format("%.1f", movie.mediaRate)
-                binding.matchResultsPage.tvReleaseDate.text = movie.mediaDate
+                binding.matchResultsPage.tvMovieTitle.text = movie.movieName
+                binding.matchResultsPage.tvRating.text = movie.movieVoteAverage
+                binding.matchResultsPage.tvReleaseDate.text = movie.movieReleasedDate
                 binding.matchResultsPage.tvType.text = getString(R.string.movie)
 
-                binding.matchResultsPage.tvGenres.text = "Action, Drama" // TODO: Get actual genres
-                binding.matchResultsPage.tvDuration.text = "2h 30m" // TODO: Get actual duration
+                binding.matchResultsPage.tvGenres.text = movie.movieGenres
+                binding.matchResultsPage.tvDuration.text = movie.movieDuration
             }
         } catch (e: Exception) {
             e.printStackTrace()

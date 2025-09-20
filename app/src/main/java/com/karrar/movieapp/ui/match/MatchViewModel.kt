@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -77,7 +79,17 @@ class MatchViewModel @Inject constructor(
                 ).collect { movies ->
                     _uiState.update {
                         it.copy(
-                            matchResults = movies.take(10),
+                            matchResults = movies.take(10).map { movie ->
+                                MatchedMovieUIState(
+                                    movieId = movie.movieId,
+                                    movieImage = movie.movieImage,
+                                    movieName = movie.movieName,
+                                    movieGenres = movie.movieGenres,
+                                    movieDuration = formatDuration(movie.movieDuration),
+                                    movieVoteAverage = movie.movieVoteAverage,
+                                    movieReleasedDate = toUiDate(movie.movieReleaseDate)
+                                )
+                            },
                             isLoadingRecommendations = false,
                             currentPage = MatchPages.RESULTS_PAGE
                         )
@@ -181,6 +193,23 @@ class MatchViewModel @Inject constructor(
 
     fun resetEvent() {
         _uiEvent.value = Event(null)
+    }
+
+    private fun formatDuration(minutes: Int): String {
+        val hours = minutes / 60
+        val mins = minutes % 60
+        return "${hours}h ${mins}m"
+    }
+
+    private fun toUiDate(inputDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+            val outputFormat = SimpleDateFormat("yyyy,MMM dd", Locale.US)
+            val date = inputFormat.parse(inputDate)
+            date?.let { outputFormat.format(it) } ?: inputDate
+        } catch (e: Exception) {
+            inputDate
+        }
     }
 }
 

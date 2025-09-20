@@ -9,4 +9,5 @@ data class MatchVibesMovieEntity(
     val title: String,
     val imageUrl: String,
     val movieRate: Double,
+    val genreName: List<String>,
 )

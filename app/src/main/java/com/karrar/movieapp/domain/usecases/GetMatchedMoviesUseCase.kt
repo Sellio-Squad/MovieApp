@@ -1,6 +1,7 @@
 package com.karrar.movieapp.domain.usecases
 
 import com.karrar.movieapp.data.repository.MovieRepository
+import com.karrar.movieapp.domain.ResultHandler
 import com.karrar.movieapp.domain.models.MovieDetails
 import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import kotlinx.coroutines.flow.Flow
@@ -30,8 +31,13 @@ class GetMatchedMoviesUseCase @Inject constructor(
             releaseDateLte = releaseDateLte
         ).map {
             it.map { movie ->
-                movieDetailsUseCase.getMovieDetails(movie.id)
+                val result = movieDetailsUseCase.getMovieDetails(movie.id)
+                when (result) {
+                    is ResultHandler.Success -> result.data
+                    is ResultHandler.Error -> throw result.throwable
+                }
             }
+
         }
     }
 }

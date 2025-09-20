@@ -53,7 +53,10 @@ abstract class BaseDialogFragment<VDB : ViewDataBinding> : BottomSheetDialogFrag
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.skipCollapsed = true
                 behavior.isDraggable = false
-
+                val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt() // 70% of screen height
+                val layoutParams = it.layoutParams
+                layoutParams.height = maxHeight
+                it.layoutParams = layoutParams
 //                val layoutParams = it.layoutParams as ViewGroup.MarginLayoutParams
 //                val horizontalMargin =
 //                    resources.getDimensionPixelSize(R.dimen.bottom_sheet_horizontal_margin)

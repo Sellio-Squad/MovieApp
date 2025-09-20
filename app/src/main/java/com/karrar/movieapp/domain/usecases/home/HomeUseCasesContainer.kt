@@ -1,4 +1,4 @@
-package com.karrar.movieapp.domain.usecase.home
+package com.karrar.movieapp.domain.usecases.home
 
 import com.karrar.movieapp.domain.usecase.home.getData.GetTrendingActorsUseCase
 import com.karrar.movieapp.domain.usecase.home.getData.movie.GetAdventureMoviesUseCase

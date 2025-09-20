@@ -1,6 +1,5 @@
 package com.karrar.movieapp.domain.models
 
-
 data class SaveListDetails(
     val id: Int,
     val mediaType: String,
@@ -8,4 +7,6 @@ data class SaveListDetails(
     val releaseDate: String,
     val voteAverage: Double,
     val posterPath: String,
+    val genres: String = "",
+    val duration: Int = 0
 )

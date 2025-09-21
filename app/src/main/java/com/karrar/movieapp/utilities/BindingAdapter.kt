@@ -261,11 +261,17 @@ fun setOverViewText(view: TextView, text: String) {
     }
 }
 
-@BindingAdapter("app:setVideoId")
+@BindingAdapter("setVideoId")
 fun setVideoId(view: YouTubePlayerView, videoId: String?) {
+    if (videoId.isNullOrEmpty()) return
+
+    // Avoid adding multiple listeners
+    if (view.tag == videoId) return
+    view.tag = videoId
+
     view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: YouTubePlayer) {
-            videoId?.let { youTubePlayer.cueVideo(it, 0f) }
+            youTubePlayer.loadVideo(videoId, 0f) // or cueVideo(videoId, 0f)
         }
     })
 }

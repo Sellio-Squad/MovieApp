@@ -1,5 +1,6 @@
 package com.karrar.movieapp.utilities
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -28,6 +29,8 @@ import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState as D
 import com.ae.imageharamblur.ui.ImageFilterConfig
 import com.ae.imageharamblur.ui.ImageViewFilter
 import com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesTypes
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 
 
 @BindingAdapter("app:showWhenListNotEmpty")
@@ -260,16 +263,28 @@ fun setOverViewText(view: TextView, text: String) {
         view.text = view.context.getString(R.string.empty_overview_text)
     }
 }
-
-@BindingAdapter("app:setVideoId")
+@BindingAdapter("setVideoId")
 fun setVideoId(view: YouTubePlayerView, videoId: String?) {
-    view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-        override fun onReady(youTubePlayer: YouTubePlayer) {
-            videoId?.let { youTubePlayer.cueVideo(it, 0f) }
-        }
-    })
-}
+    if (videoId.isNullOrEmpty()) return
 
+    if (view.tag == videoId) return
+    view.tag = videoId
+
+
+    val options = IFramePlayerOptions.Builder()
+        .origin("https://www.youtube-nocookie.com")
+        .build()
+
+    view.initialize(
+        object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo(videoId, 0f)
+            }
+        },
+        true,
+        options
+    )
+}
 @BindingAdapter("app:setReleaseDate")
 fun setReleaseDate(text: TextView, date: String?) {
     text.text = date?.take(4)

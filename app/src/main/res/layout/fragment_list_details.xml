@@ -71,7 +71,7 @@
         <androidx.constraintlayout.widget.Group
             android:id="@+id/tip_group"
             android:layout_width="wrap_content"
-            app:isVisible="@{viewModel.listDetailsUIState.isTipShown &amp;&amp; !viewModel.listDetailsUIState.savedMedia.empty}"
+            app:isVisible="@{viewModel.listDetailsUIState.isTipShown &amp;&amp; !viewModel.listDetailsUIState.savedMedia.isEmpty()}"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="tip_card" />
 

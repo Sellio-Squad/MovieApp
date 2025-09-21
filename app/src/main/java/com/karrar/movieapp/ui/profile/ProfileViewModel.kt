@@ -112,8 +112,14 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onClickMyCollection() {
-        _profileUIEvent.update { Event(ProfileUIEvent.MyCollectionEvent) }
+        if (_profileDetailsUIState.value.isLoggedIn) {
+            _profileUIEvent.update { Event(ProfileUIEvent.MyCollectionEvent) }
+        } else {
+            _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent(_profileDetailsUIState.value.username)) }
+        }
+
     }
+
     fun changeTheme() {
         viewModelScope.launch {
             if (_profileDetailsUIState.value.isSwitchChecked) {

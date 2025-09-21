@@ -31,8 +31,7 @@ class GetMatchedMoviesUseCase @Inject constructor(
             releaseDateLte = releaseDateLte
         ).map {
             it.map { movie ->
-                val result = movieDetailsUseCase.getMovieDetails(movie.id)
-                when (result) {
+                when (val result = movieDetailsUseCase.getMovieDetails(movie.id)) {
                     is ResultHandler.Success -> result.data
                     is ResultHandler.Error -> throw result.throwable
                 }

@@ -256,4 +256,13 @@ interface MovieService {
         @Query("primary_release_date.gte") releaseDateGte: String? = null,
         @Query("primary_release_date.lte") releaseDateLte: String? = null
     ): Response<BaseListResponse<MovieDto>>
+
+    @FormUrlEncoded
+    @POST("list/{list_id}/remove_item")
+    suspend fun removeMovieFromCollection(
+        @Field("media_id") movieId: Int,
+        @Path("list_id") collectionId: Int,
+        @Query("session_id") sessionId: String
+    ): Response<RemoveMovieDto>
+
 }

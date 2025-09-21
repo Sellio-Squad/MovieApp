@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.text.TextUtils" />
 
         <variable
             name="item"
@@ -13,6 +14,7 @@
             name="listener"
             type="com.karrar.movieapp.ui.myList.listDetails.ListDetailsInteractionListener" />
     </data>
+
 
     <com.chauthai.swipereveallayout.SwipeRevealLayout
         android:layout_width="match_parent"
@@ -36,7 +38,7 @@
                 android:background="@drawable/ic_delete_background"
                 android:backgroundTint="@color/additional_color_primary_color_red"
                 android:contentDescription="@string/todo"
-                android:onClick="@{()-> listener.onDeleteItem(item)}"
+                android:onClick="@{()-> listener.onDeleteItem(item.mediaID)}"
                 android:src="@drawable/due_tone_trash" />
         </FrameLayout>
 
@@ -48,7 +50,7 @@
             android:background="@drawable/collection_card"
             android:onClick="@{()-> listener.onItemClick(item)}">
 
-            <com.ae.imageharamblur.ui.ImageViewFilter
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/cast_image"
                 android:layout_width="64dp"
                 android:layout_height="0dp"
@@ -93,7 +95,7 @@
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="@{item.mediaType}"
+                    android:text='@{!TextUtils.isEmpty(item.genres) ? item.genres : "Unknown"}'
                     android:textColor="@color/shade_color_secondary"
                     tools:text="Drama, Action, Crime, Thriller" />
 

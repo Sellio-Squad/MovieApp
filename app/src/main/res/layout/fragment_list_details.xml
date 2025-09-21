@@ -24,7 +24,6 @@
             android:layout_marginTop="@dimen/radius_cineVerse_xl"
             android:padding="@dimen/radius_cineVerse_l"
             android:layout_marginHorizontal="@dimen/radius_cineVerse_xl"
-            android:visibility="@{viewModel.listDetailsUIState.savedMedia.size() &gt; 0 ? View.VISIBLE : View.GONE}"
             android:background="@drawable/tip_background_drawable"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,12 +60,20 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/outline_x"
+                android:onClick="@{() -> viewModel.closeTip()}"
                 app:tint="@color/shade_color_secondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/tip_group"
+            android:layout_width="wrap_content"
+            app:isVisible="@{viewModel.listDetailsUIState.isTipShown &amp;&amp; !viewModel.listDetailsUIState.savedMedia.isEmpty()}"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tip_card" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lists"
@@ -224,7 +231,7 @@
             android:fontFamily="@font/manrope_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_lost_connection" />
+            app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/error_group"

@@ -20,6 +20,7 @@ import com.karrar.movieapp.data.remote.response.DailyTrendingDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.RatedMoviesDto
+import com.karrar.movieapp.data.remote.response.RemoveMovieDto
 import com.karrar.movieapp.data.remote.response.SavedListDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorGalleryDto
@@ -141,4 +142,10 @@ interface MovieRepository {
     suspend fun getCurrentMatchVibesMovies(): Flow<List<MatchVibesMovieEntity>>
 
     suspend fun getMatchVibesMoviesPager(): Pager<Int, MatchVibesMovieEntity>
+
+    suspend fun removeMovieFromCollection(
+        sessionId: String,
+        listId: Int,
+        movieId: Int
+    ) : RemoveMovieDto?
 }

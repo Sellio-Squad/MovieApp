@@ -109,14 +109,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/text_medium"
-                android:textFontWeight="500"
                 android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
                 android:onClick="@{()->viewModel.onClickAddList()}"
                 android:paddingVertical="14dp"
                 android:text="@string/create"
                 android:textAllCaps="false"
-                android:textColor="@color/button_color_onPrimary"
-                app:backgroundTint="@drawable/button_primary"
+                android:textColor="@color/material_button_text_color"
+                app:backgroundTint="@color/color_states_material_button"
+                android:fontFamily="@font/manrope_medium"
                 app:cornerRadius="@dimen/radius_medium" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

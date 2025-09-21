@@ -20,16 +20,10 @@ class CreateListDialog : BaseDialogFragment<FragmentCreateListDialogBinding>() {
         super.onViewCreated(view, savedInstanceState)
         collectLast(viewModel.myListUIEvent) {
             it.peekContent()?.let {
-                if (it is MyListUIEvent.CLickAddEvent) {
+                if (it is MyListUIEvent.CLickAddEvent || it is MyListUIEvent.CancelButtonClicked) {
                     dismissDialog()
                 }
             }
-        }
-        binding.exitButton.setOnClickListener {
-            dismiss()
-        }
-        binding.cancelButton.setOnClickListener {
-            dismiss()
         }
     }
 

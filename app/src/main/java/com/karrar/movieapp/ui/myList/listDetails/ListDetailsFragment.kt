@@ -27,10 +27,6 @@ class ListDetailsFragment : BaseFragment<FragmentListDetailsBinding>() {
         binding.buttonEmpty.setOnClickListener {
             findNavController().navigate(ListDetailsFragmentDirections.actionListDetailsFragmentToExploringFragment())
         }
-
-        binding.tipClose.setOnClickListener {
-            binding.tipCard.visibility = View.GONE
-        }
     }
 
     private fun onEvent(event: ListDetailsUIEvent) {

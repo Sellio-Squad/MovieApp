@@ -2,7 +2,12 @@ package com.karrar.movieapp.ui.myList.listDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.data.local.DataStorePreferences
+import com.karrar.movieapp.domain.ResultHandler
+import com.karrar.movieapp.domain.models.SaveListDetails
+import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import com.karrar.movieapp.domain.usecases.mylist.GetMyMediaListDetailsUseCase
+import com.karrar.movieapp.domain.usecases.mylist.RemoveMovieFromListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.explore.exploreUIState.ErrorUIState
 import com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState.ListDetailsUIEvent
@@ -14,14 +19,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.internal.concurrent.formatDuration
 import javax.inject.Inject
-
 
 @HiltViewModel
 class ListDetailsViewModel @Inject constructor(
     private val getMyMediaListDetailsUseCase: GetMyMediaListDetailsUseCase,
     private val mediaUIStateMapper: MediaUIStateMapper,
-    saveStateHandle: SavedStateHandle
+    private val removeMovieFromListUseCase: RemoveMovieFromListUseCase,
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val dataStorePreferences: DataStorePreferences,
+    private val saveStateHandle: SavedStateHandle
 ) : BaseViewModel(), ListDetailsInteractionListener {
 
     val args = ListDetailsFragmentArgs.fromSavedStateHandle(saveStateHandle)
@@ -33,7 +41,17 @@ class ListDetailsViewModel @Inject constructor(
     val listDetailsUIEvent = _listDetailsUIEvent.asStateFlow()
 
     init {
+        readTipState()
         getData()
+    }
+
+    private fun readTipState() {
+        viewModelScope.launch {
+            val shown =
+                dataStorePreferences.readBoolean(DataStorePreferences.SHOW_RATING_TIP) ?: true
+            _listDetailsUIState.update { it.copy(isTipShown = shown) }
+            saveStateHandle["isTipShown"] = shown
+        }
     }
 
     override fun getData() {
@@ -42,8 +60,7 @@ class ListDetailsViewModel @Inject constructor(
         }
         viewModelScope.launch {
             try {
-                val result =
-                    getMyMediaListDetailsUseCase(args.id).map { mediaUIStateMapper.map(it) }
+                val result = updateMoviesDurationTime(getMyMediaListDetailsUseCase(args.id))
                 _listDetailsUIState.update {
                     it.copy(
                         isLoading = false,
@@ -55,12 +72,25 @@ class ListDetailsViewModel @Inject constructor(
             } catch (t: Throwable) {
                 _listDetailsUIState.update {
                     it.copy(
-                        isLoading = false, error = listOf(
-                            ErrorUIState(0, t.message.toString())
-                        )
+                        isLoading = false,
+                        error = listOf(ErrorUIState(0, t.message.toString()))
                     )
                 }
             }
+        }
+    }
+
+    private suspend fun updateMoviesDurationTime(
+        movies: List<SaveListDetails>
+    ): List<SavedMediaUIState> {
+        return movies.map { movie ->
+            val duration = when (val result = getMovieDetailsUseCase.getMovieDetails(movie.id)) {
+                is ResultHandler.Success -> result.data.movieDuration
+                is ResultHandler.Error -> 0
+            }
+            mediaUIStateMapper.map(movie).copy(
+                duration = formatDuration(duration.toLong())
+            )
         }
     }
 
@@ -68,11 +98,33 @@ class ListDetailsViewModel @Inject constructor(
         _listDetailsUIEvent.update { Event(ListDetailsUIEvent.OnItemSelected(item)) }
     }
 
-    override fun onDeleteItem(item: SavedMediaUIState) {
-        _listDetailsUIState.update { state ->
-            state.copy(savedMedia = state.savedMedia.filter { it != item })
+    override fun onDeleteItem(item: Int) {
+        viewModelScope.launch {
+            try {
+                removeMovieFromListUseCase(args.id, item)
+                val currentList = _listDetailsUIState.value.savedMedia.toMutableList()
+                currentList.removeAll { it.mediaID == item }
+
+                _listDetailsUIState.update {
+                    it.copy(
+                        savedMedia = currentList,
+                        isEmpty = currentList.isEmpty(),
+                        error = emptyList()
+                    )
+                }
+            } catch (t: Throwable) {
+                _listDetailsUIState.update {
+                    it.copy(error = listOf(ErrorUIState(0, t.message.toString())))
+                }
+            }
         }
     }
 
+    fun closeTip() {
+        viewModelScope.launch {
+            dataStorePreferences.writeBoolean(DataStorePreferences.LIST_DETAILS_TIP_SHOWN, false)
+        }
+        saveStateHandle["isTipShown"] = false
+        _listDetailsUIState.update { it.copy(isTipShown = false) }
+    }
 }
-

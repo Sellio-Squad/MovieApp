@@ -26,6 +26,7 @@ import com.karrar.movieapp.data.remote.response.DailyTrendingDto
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
 import com.karrar.movieapp.data.remote.response.RatedMoviesDto
+import com.karrar.movieapp.data.remote.response.RemoveMovieDto
 import com.karrar.movieapp.data.remote.response.SavedListDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorGalleryDto
@@ -305,6 +306,18 @@ class MovieRepositoryImp @Inject constructor(
             ),
             pagingSourceFactory = { movieDao.getMatchVibesMoviesPaged() }
         )
+    }
+
+    override suspend fun removeMovieFromCollection(
+        sessionId: String,
+        listId: Int,
+        movieId: Int
+    ): RemoveMovieDto? {
+        return movieService.removeMovieFromCollection(
+            collectionId = listId,
+            sessionId = sessionId,
+            movieId = movieId
+        ).body()
     }
 
     private suspend fun refreshPopularMovies(currentDate: Date) {

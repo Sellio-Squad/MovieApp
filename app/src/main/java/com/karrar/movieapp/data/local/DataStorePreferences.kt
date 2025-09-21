@@ -56,5 +56,6 @@ class DataStorePreferences(context: Context) {
         private const val PREFERENCES_FILE_NAME = "movie"
         const val SHOW_RATING_TIP = "is_rating_history"
         const val CONTENT_PREFERENCE_KEY = "content_preference"
+        const val LIST_DETAILS_TIP_SHOWN = "list_details_tip_shown"
     }
 }

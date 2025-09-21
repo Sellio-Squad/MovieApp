@@ -17,6 +17,7 @@ import com.karrar.movieapp.domain.enums.MovieItemsType
 import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.ui.adapters.MovieDetailsInteractionListener
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.profile.ProfileFragmentDirections
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -35,6 +36,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
+        binding.viewModel = viewModel
         binding.apply {
             viewModel = this@MovieDetailsFragment.viewModel
             listener = this@MovieDetailsFragment.viewModel
@@ -115,6 +117,10 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
             }
 
 
+
+            MovieDetailsUIEvent.ShowLoginDialogEvent -> {
+                action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToLogInDialog("")
+            }
         }
         action?.let { findNavController().navigate(it) }
 

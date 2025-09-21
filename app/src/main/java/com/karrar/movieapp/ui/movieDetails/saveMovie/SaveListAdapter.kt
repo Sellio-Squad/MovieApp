@@ -13,4 +13,6 @@ class SaveListAdapter(
 
 interface SaveListInteractionListener : BaseInteractionListener {
     fun onClickSaveList(listID: Int)
+    fun onClickNewCollection()
+    fun onDismiss()
 }

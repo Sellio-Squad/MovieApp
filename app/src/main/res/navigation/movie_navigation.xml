@@ -153,6 +153,9 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_logInDialog"
+            app:destination="@id/logInDialog" />
     </fragment>
 
     <fragment
@@ -292,6 +295,9 @@
         <argument
             android:name="movie_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_saveMovieDialog_to_myListFragment"
+            app:destination="@id/myListFragment" />
     </dialog>
 
     <dialog

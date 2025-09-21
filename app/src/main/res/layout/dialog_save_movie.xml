@@ -9,16 +9,21 @@
             name="viewModel"
             type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel" />
 
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener" />
+
     </data>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_simi_medium">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/radius_cineVerse_m"
 
             android:background="@drawable/bg_floating_bottom_sheet">
@@ -27,8 +32,9 @@
                 android:id="@+id/drag_handler_bs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_simi_medium"
                 android:src="@drawable/drag_handler_bs"
+                android:backgroundTint="@color/shade_quaternary_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,9 +43,8 @@
                 android:id="@+id/collection_bs_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/radius_cineVerse_m"
-                android:layout_marginBottom="@dimen/radius_cineVerse_size2xl"
                 android:layout_marginHorizontal="@dimen/spacing_simi_medium"
+                android:layout_marginTop="@dimen/radius_cineVerse_size2xl"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/spacing_too_small"
@@ -48,30 +53,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/drag_handler_bs">
 
                 <TextView
-
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    style="@style/TextStyle.Title.Medium"
                     android:text="@string/add_to_collection"
                     android:textColor="@color/shade_color_primary"
                     android:textSize="16sp"
-                    android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="0dp"
+                    style="@style/TextStyle.Body.Medium.Medium"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusable="true"
+                    android:onClick="@{() -> listener.onClickNewCollection()}"
+                    android:clickable="true"
                     android:text="@string/new_collection"
                     android:textColor="@color/brand_color_primary"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    app:showWhenListNotEmpty="@{viewModel.myListsUIState.myListItemUI}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+                <ImageView
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cancel"
+                    android:onClick="@{() -> viewModel.onDismiss()}"
+                    android:textFontWeight="500"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:showWhenListEmpty="@{viewModel.myListsUIState.myListItemUI}"
+                    app:tint="@color/shade_secondary_color" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,37 +111,77 @@
                 app:layout_constraintTop_toBottomOf="@id/collection_bs_title"
                 tools:listitem="@layout/item_list" />
 
-            <TextView
-                android:id="@+id/text_message_wrong"
-                style="@style/SemiBold.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/spacing_large"
-                android:gravity="center"
-                android:text="@string/you_must_be_logged_in_to_save_a_movie"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:showWhenNoLogin="@{viewModel.myListsUIState.error}" />
 
-            <TextView
-                android:id="@+id/text_message_empty_list"
-                style="@style/SemiBold.Medium"
+            <FrameLayout
+                android:id="@+id/icon_container"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="@dimen/radius_cineVerse_size2xl"
+                android:background="@drawable/oval_background_red"
+                android:backgroundTint="@color/brand_color_tertiary"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collection_bs_title"
+                app:showWhenListEmpty="@{viewModel.myListsUIState.myListItemUI}">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/due_tone_video_library"
+                    app:tint="@color/brand_color_primary" />
+            </FrameLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_confirmation"
+                style="@style/TextStyle.Title.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/spacing_large"
-                android:gravity="center"
-                android:text="@string/this_list_has_no_lists"
+                android:layout_marginTop="10dp"
+                android:text="@string/no_collections_yet"
+                android:textColor="@color/shade_primary_color"
                 android:visibility="gone"
-                app:doneLoad="@{viewModel.myListsUIState.loading}"
-                app:emptyData="@{viewModel.myListsUIState.myListItemUI}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/icon_container"
+                app:showWhenListEmpty="@{viewModel.myListsUIState.myListItemUI}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_confirmation_message"
+                style="@style/TextStyle.Body.Small.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:paddingHorizontal="10dp"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:text="@string/start_saving"
+                android:textAlignment="center"
+                android:textColor="@color/shade_secondary_color"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_confirmation"
+                app:showWhenListEmpty="@{viewModel.myListsUIState.myListItemUI}" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_create"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:background="@drawable/button_corner_shape"
+                android:onClick="@{() -> viewModel.onClickNewCollection()}"
+                android:text="@string/create_collection"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextStyle.Body.Medium.Medium"
+                android:textColor="@color/button_color_onPrimary"
+                app:backgroundTint="@color/button_color_primary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:noError="@{viewModel.myListsUIState.error}" />
+                app:layout_constraintTop_toBottomOf="@id/text_confirmation_message" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

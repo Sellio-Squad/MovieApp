@@ -8,6 +8,8 @@ import javax.inject.Inject
 class MediaUIStateMapper @Inject constructor() : Mapper<SaveListDetails, SavedMediaUIState> {
 
     override fun map(input: SaveListDetails): SavedMediaUIState {
+        val genresNames = input.genres?.joinToString(", ") ?: ""
+
         return SavedMediaUIState(
             image = input.posterPath,
             mediaID = input.id,
@@ -16,7 +18,7 @@ class MediaUIStateMapper @Inject constructor() : Mapper<SaveListDetails, SavedMe
             releaseDate = formatDate(input.releaseDate),
             mediaType = input.mediaType,
             duration = input.duration,
-            genres = input.genres
+            genres = genresNames
         )
     }
 

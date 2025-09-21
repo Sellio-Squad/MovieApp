@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.text.TextUtils" />
 
         <variable
             name="item"
@@ -13,6 +14,7 @@
             name="listener"
             type="com.karrar.movieapp.ui.myList.listDetails.ListDetailsInteractionListener" />
     </data>
+
 
     <com.chauthai.swipereveallayout.SwipeRevealLayout
         android:layout_width="match_parent"
@@ -93,7 +95,7 @@
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text='@{item.genres != null &amp;&amp; !item.genres.empty ? item.genres : "Unkonwn"}'
+                    android:text='@{!TextUtils.isEmpty(item.genres) ? item.genres : "Unknown"}'
                     android:textColor="@color/shade_color_secondary"
                     tools:text="Drama, Action, Crime, Thriller" />
 

@@ -270,7 +270,6 @@ fun setVideoId(view: YouTubePlayerView, videoId: String?) {
     if (view.tag == videoId) return
     view.tag = videoId
 
-    Log.d("YouTubeDebug", "Loading video ID: $videoId")
 
     val options = IFramePlayerOptions.Builder()
         .origin("https://www.youtube-nocookie.com")
@@ -278,13 +277,6 @@ fun setVideoId(view: YouTubePlayerView, videoId: String?) {
 
     view.initialize(
         object : AbstractYouTubePlayerListener() {
-            override fun onError(
-                youTubePlayer: YouTubePlayer,
-                error: PlayerConstants.PlayerError
-            ) {
-                Log.e("YouTubeDebug", "Video cannot be played: $videoId + $error")
-            }
-
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo(videoId, 0f)
             }

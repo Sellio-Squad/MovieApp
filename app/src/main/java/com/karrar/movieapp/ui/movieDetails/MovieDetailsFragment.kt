@@ -17,7 +17,6 @@ import com.karrar.movieapp.domain.enums.MovieItemsType
 import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.ui.adapters.MovieDetailsInteractionListener
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.profile.ProfileFragmentDirections
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -146,8 +145,8 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
     }
 
     override fun onclickViewReviews() {
-
     }
+
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setupRecyclerWithHeaderAnimation() {
 
@@ -160,5 +159,4 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
 
         }
     }
-
 }

@@ -3,7 +3,6 @@ package com.karrar.movieapp.ui.movieDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.ResultHandler
-import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.MovieItemsType
 import com.karrar.movieapp.domain.enums.TvShowItemsType
@@ -256,7 +255,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
+        TODO("Not yet implemented")
     }
+
     override fun onClickActor(actorID: Int) {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }
     }

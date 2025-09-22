@@ -14,10 +14,8 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.enums.MovieItemsType
-import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.ui.adapters.MovieDetailsInteractionListener
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.profile.ProfileFragmentDirections
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
-    DetailInteractionListener, MovieDetailsInteractionListener {
+    MovieDetailsInteractionListener {
 
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
@@ -72,9 +70,9 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
             }
 
             is MovieDetailsUIEvent.ClickSeeAllMovieEvent -> {
-                val action = MovieDetailsFragmentDirections
+                val seeAllMovieAction = MovieDetailsFragmentDirections
                     .actionMovieDetailsFragmentToAllMovieFragment(-1, event.mediaType)
-                findNavController().navigate(action)
+                findNavController().navigate(seeAllMovieAction)
             }
             MovieDetailsUIEvent.ClickReviewsEvent -> {
                 MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
@@ -126,28 +124,10 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
 
     }
 
-    override fun onclickBack() {
-        findNavController().navigateUp()
-
-    }
-
-    override fun onClickSave() {
-    }
-
-    override fun onClickPlayTrailer() {
-    }
-
     override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
         viewModel.onClickSeeAllMovie(movieItemsType)
     }
 
-
-    override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
-    }
-
-    override fun onclickViewReviews() {
-
-    }
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setupRecyclerWithHeaderAnimation() {
 

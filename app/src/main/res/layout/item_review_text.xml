@@ -9,9 +9,6 @@
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
 
-        <variable
-            name="movieType"
-            type="com.karrar.movieapp.domain.enums.TvShowItemsType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,8 +19,6 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{movieType.Top_REVIEWS.value}"
-            app:onSeeAllClick="@{() -> adapterRecycler.onClickSeeAllTvShows(movieType)}"
             app:showSeeAll="true"
             tools:text="Top Reviews"
             app:layout_constraintTop_toTopOf="parent" />

@@ -6,8 +6,17 @@
     <data>
 
         <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.adapters.TvShowDetailsInteractionListener" />
+
+        <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.adapters.TvShowDetailsAdapter" />
+
+        <variable
+            name="tvShowType"
+            type="com.karrar.movieapp.domain.enums.TvShowItemsType" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
-            android:text="@string/you_might_also_like"
+            android:text="@{tvShowType.YOU_MIGHT_ALSO_LIKE.value}"
             android:textColor="@color/shade_color_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,6 +45,8 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="@{() -> listener.onClickSeeAllTvShows(tvShowType)}"
+            app:showSeeAll="true"
             android:paddingHorizontal="@dimen/radius_cineVerse_l"
             android:text="@string/show_more"
             android:textColor="@color/brand_color_primary"

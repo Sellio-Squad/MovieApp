@@ -10,5 +10,6 @@ class TvShowMapperContainer @Inject constructor(
     val tvShowReviewUIMapper: TvShowReviewUIMapper,
     val tvShowSeasonUIMapper: TvShowSeasonUIMapper,
     val tvShowWatchHistoryMapper: TvShowWatchHistoryMapper,
-    val tvShowEpisodesUIMapper: TvShowEpisodesUIMapper
+    val tvShowEpisodesUIMapper: TvShowEpisodesUIMapper,
+    val similarTvShowUIStateMapper: SimilarTvShowUIStateMapper
 )

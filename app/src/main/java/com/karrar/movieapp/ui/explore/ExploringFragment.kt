@@ -43,7 +43,6 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
 
     private val listAdapter by lazy { CategoryListAdapter(this) }
     private val gridAdapter by lazy { CategoryAdapter(this) }
-    private lateinit var voiceLauncher: ActivityResultLauncher<Intent>
 
     private val gridAdapterWithFooter by lazy {
         gridAdapter.withLoadStateFooter(LoadUIStateAdapter { gridAdapter.retry() })
@@ -64,7 +63,6 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
 
         initRecyclerView()
         setupToggleButton()
-        setupVoiceSearch()
         setupTabLayout()
         collectEvent()
         collectUIState()
@@ -161,56 +159,6 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>(), CategoryInte
         binding.btnListView.isSelected = !isGridSelected
     }
 
-    private fun setupVoiceSearch() {
-        voiceLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                val voiceText =
-                    data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0) ?: ""
-                binding.inputSearch.setText(voiceText)
-            }
-        }
-
-        binding.inputSearch.setOnTouchListener { v, event ->
-            val DRAWABLE_END = 2
-            if (event.action == android.view.MotionEvent.ACTION_UP &&
-                event.rawX >= binding.inputSearch.right - binding.inputSearch.compoundDrawables[DRAWABLE_END].bounds.width()
-            ) {
-                startVoiceSearch()
-                v.performClick()
-                return@setOnTouchListener true
-            }
-            false
-        }
-    }
-
-    private fun startVoiceSearch() {
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-            )
-            putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE,
-                Locale.getDefault()
-            )
-            putExtra(
-                RecognizerIntent.EXTRA_PROMPT,
-                "Speak to search"
-            )
-        }
-
-        try {
-            voiceLauncher.launch(intent)
-        } catch (e: Exception) {
-            Toast.makeText(
-                requireContext(), "Voice search not supported", Toast.LENGTH_SHORT
-            )
-                .show()
-        }
-    }
 
     private fun collectEvent() {
         collectLast(viewModel.exploringUIEvent) {

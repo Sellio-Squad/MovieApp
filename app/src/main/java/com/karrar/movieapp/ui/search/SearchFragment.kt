@@ -1,10 +1,16 @@
 package com.karrar.movieapp.ui.search
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.transition.ChangeTransform
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -35,12 +41,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_search
     override val viewModel: SearchViewModel by viewModels()
+    private lateinit var voiceLauncher: ActivityResultLauncher<Intent>
 
     private val mediaSearchAdapter by lazy { MediaSearchAdapter(viewModel) }
     private val mediaSearchCardAdapter by lazy { MediaSearchCardAdapter(viewModel) }
@@ -64,6 +72,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setupTabs()
         setupToggleButton()
         setSearchHistoryAdapter()
+        setupVoiceSearch()
         observeUIStateChanges()
 
         collect(viewModel.uiState) { state ->
@@ -202,6 +211,58 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
         }
+    }
+    private fun setupVoiceSearch() {
+        setupVoiceLauncher()
+        setupMicClickListener()
+    }
+
+    private fun setupVoiceLauncher() {
+        voiceLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val voiceText = result.data
+                    ?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    ?.firstOrNull()
+                    .orEmpty()
+
+                binding.inputSearch.setText(voiceText)
+            }
+        }
+    }
+
+    private fun setupMicClickListener() {
+        binding.inputSearch.setOnTouchListener { view, event ->
+            if (event.action == android.view.MotionEvent.ACTION_UP &&
+                isClickOnDrawableEnd(event.rawX)
+            ) {
+                startVoiceSearch()
+                view.performClick()
+                return@setOnTouchListener true
+            }
+            false
+        }
+    }
+
+    private fun isClickOnDrawableEnd(touchX: Float): Boolean {
+        val drawableEndIndex = 2
+        val drawableEnd = binding.inputSearch.compoundDrawables[drawableEndIndex]
+        return drawableEnd != null &&
+                touchX >= binding.inputSearch.right - drawableEnd.bounds.width()
+    }
+
+    private fun startVoiceSearch() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
+        }
+
+        runCatching { voiceLauncher.launch(intent) }
+            .onFailure {
+                Toast.makeText(requireContext(), "Voice search not supported", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun setupMediaListAdapter() {

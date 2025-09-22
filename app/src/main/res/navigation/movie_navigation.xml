@@ -126,7 +126,6 @@
             app:destination="@id/actorDetailsFragment" />
     </fragment>
 
-    <!--    movie        Details             Fragment-->
     <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.karrar.movieapp.ui.movieDetails.MovieDetailsFragment"
@@ -278,7 +277,6 @@
             app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
-    <!--    review                        -->
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.karrar.movieapp.ui.reviews.ReviewFragment"
@@ -289,6 +287,18 @@
         <argument
             android:name="type"
             app:argType="com.karrar.movieapp.domain.enums.MediaType" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/similarTvShowFragment"
+        android:name="com.karrar.movieapp.ui.similarTvShow.SimilarTvShowFragment"
+        tools:layout="@layout/fragment_similar_details">
+        <argument
+            android:name="mediaId"
+            app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="com.karrar.movieapp.domain.enums.AllMediaType" />
     </fragment>
 
     <dialog
@@ -422,8 +432,12 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_to_tvShowDetailFragment"
             app:destination="@+id/tvShowDetailsFragment"
-            app:popUpToInclusive="true"
-            />
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_similarTvShowFragment"
+            app:destination="@id/similarTvShowFragment"
+            app:popUpTo="@id/tvShowDetailsFragment" />
+
     </fragment>
     <dialog
         android:id="@+id/logInDialog"

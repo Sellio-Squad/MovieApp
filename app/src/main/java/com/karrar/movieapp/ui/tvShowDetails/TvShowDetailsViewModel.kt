@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.tvShowDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.MovieItemsType
 import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.domain.models.TvShowDetails
@@ -15,6 +16,7 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIEvent
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
@@ -69,6 +71,7 @@ class TvShowDetailsViewModel @Inject constructor(
         getTvShowReviews(args.tvShowId)
         showTvShowCrew(args.tvShowId)
     }
+
     private fun showTvShowCrew(tvShowId: Int) {
         viewModelScope.launch {
             try {
@@ -87,6 +90,7 @@ class TvShowDetailsViewModel @Inject constructor(
 
         }
     }
+
     private fun getTvShowDetails(tvShowId: Int) {
         viewModelScope.launch {
             try {
@@ -279,7 +283,9 @@ class TvShowDetailsViewModel @Inject constructor(
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickTvShowEvent(item.id)) }
     }
 
-    override fun onClickSeeAllTvShows(items: TvShowItemsType) {
-        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent(items)) }
+    override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
+        _tvShowDetailsUIEvent.update {
+            Event(TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent(AllMediaType.YOU_MIGHT_ALSO_LIKE_SERIES))
+        }
     }
 }

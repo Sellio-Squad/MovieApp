@@ -13,5 +13,5 @@ class TvShowDetailsAdapter(items: List<MediaUiState>, val listener: TvShowDetail
 
 interface TvShowDetailsInteractionListener : BaseInteractionListener {
     fun onClickTvShow(item: MediaUiState)
-//    fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType)
+    fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType)
 }

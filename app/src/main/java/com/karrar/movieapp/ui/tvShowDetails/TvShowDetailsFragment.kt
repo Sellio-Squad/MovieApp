@@ -37,7 +37,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
         setTitle(false)
         binding.apply {
             viewModel = this@TvShowDetailsFragment.viewModel
-            listener = this@TvShowDetailsFragment.viewModel
+            listener = this@TvShowDetailsFragment
             lifecycleOwner = viewLifecycleOwner
         }
         collectTVShowDetailsItems()
@@ -67,12 +67,14 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
             TvShowDetailsUIEvent.ClickBackEvent -> {
                 findNavController().navigateUp()
             }
+
             is TvShowDetailsUIEvent.ClickCastEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(
                         event.castID
                     )
             }
+
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
@@ -80,18 +82,21 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
                         event.seasonId
                     )
             }
+
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
@@ -104,10 +109,17 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
                     )
             }
 
-            is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> TODO()
+            is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> {
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToSimilarTvShowFragment(
+                        args.tvShowId,
+                        event.mediaType
+                    )
+            }
         }
         action?.let { findNavController().navigate(it) }
     }
+
 
     override fun onclickBack() {
         findNavController().navigateUp()
@@ -125,11 +137,12 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
     }
 
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
-        TODO("Not yet implemented")
+        viewModel.onClickSeeAllTvShows(tvShowItemsType)
     }
 
     override fun onclickViewReviews() {
     }
+
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setupRecyclerWithHeaderAnimation() {
 
@@ -139,8 +152,6 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
                 val progress = (scrollY.toFloat() / headerHeight).coerceIn(0f, 1f)
                 binding.headerMotionLayout.progress = progress
             }
-
         }
     }
-
 }

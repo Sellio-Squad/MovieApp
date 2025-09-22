@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
+import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
@@ -40,14 +41,19 @@ class DetailUIStateAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+
             is DetailItemUIState.Seasons -> {
                 holder.binding.run {
                     setVariable(
                         BR.adapterRecycler,
-                        SeasonAdapterUIState(currentItem.data, listener as SeasonInteractionListener)
+                        SeasonAdapterUIState(
+                            currentItem.data,
+                            listener as SeasonInteractionListener
+                        )
                     )
                 }
             }
+
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
                     setVariable(
@@ -60,14 +66,28 @@ class DetailUIStateAdapter(
                     )
                 }
             }
+
             is DetailItemUIState.SimilarTvShow -> {
                 holder.binding.run {
-                    setVariable(
-                        BR.adapterRecycler,
-                        TvShowDetailsAdapter(currentItem.data, listener as TvShowDetailsInteractionListener)
+                    val adapter = TvShowDetailsAdapter(
+                        currentItem.data,
+                        listener as TvShowDetailsInteractionListener
                     )
+                    setVariable(BR.adapterRecycler, adapter)
+                    setVariable(BR.type, TvShowItemsType.YOU_MIGHT_ALSO_LIKE)
                 }
             }
+
+            is DetailItemUIState.SeeAllSimilarTvShowButton -> {
+                holder.binding.run {
+                    val adapter = TvShowDetailsAdapter(
+                        currentItem.data,
+                        listener as TvShowDetailsInteractionListener
+                    )
+                    setVariable(BR.adapterRecycler, adapter)
+                }
+            }
+
             is DetailItemUIState.Crew -> {
                 holder.binding.run {
                     setVariable(
@@ -80,22 +100,26 @@ class DetailUIStateAdapter(
                     )
                 }
             }
+
             is DetailItemUIState.Rating -> {
                 holder.binding.run {
                     setVariable(BR.viewModel, currentItem.viewModel)
                 }
             }
+
             is DetailItemUIState.Comment -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener)
                 }
             }
+
             DetailItemUIState.SeeAllReviewsButton -> {
                 holder.binding.run {
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+
         }
     }
 
@@ -113,10 +137,11 @@ class DetailUIStateAdapter(
             is DetailItemUIState.OverView -> R.layout.item_tv_show_overview
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarTvShow -> R.layout.list_similar_tv_show
+            is DetailItemUIState.SeeAllSimilarTvShowButton -> R.layout.item_similar_series
             is DetailItemUIState.Seasons -> R.layout.list_season
             is DetailItemUIState.Rating -> R.layout.item_tvshow_rating
             is DetailItemUIState.Comment -> R.layout.item_tvshow_review
-            DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
             is DetailItemUIState.Crew -> R.layout.list_crew
         }
     }

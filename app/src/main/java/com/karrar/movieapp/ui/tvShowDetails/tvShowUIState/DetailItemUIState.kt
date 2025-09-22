@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
 import androidx.lifecycle.ViewModel
+import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.ui.models.ActorUiState
 import com.karrar.movieapp.ui.models.CrewUIState
 import com.karrar.movieapp.ui.models.MediaUiState
@@ -17,9 +18,13 @@ sealed class DetailItemUIState(val priority: Int) {
 
     class SimilarTvShow(val data: List<MediaUiState>) : DetailItemUIState(4)
 
-    class Rating(val viewModel: ViewModel) : DetailItemUIState(5)
+    class SeeAllSimilarTvShowButton(
+        val data: List<MediaUiState>,
+    ) : DetailItemUIState(5)
 
-    object SeeAllReviewsButton : DetailItemUIState(6)
+    class Rating(val viewModel: ViewModel) : DetailItemUIState(6)
 
-    class Comment(val data: ReviewUIState) : DetailItemUIState(7)
+    object SeeAllReviewsButton : DetailItemUIState(7)
+
+    class Comment(val data: ReviewUIState) : DetailItemUIState(8)
 }

@@ -6,7 +6,9 @@ import androidx.fragment.app.viewModels
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSimilarDetailsBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SimilarTvShowFragment : BaseFragment<FragmentSimilarDetailsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_similar_details
     override val viewModel: SimilarTvShowViewModel by viewModels()

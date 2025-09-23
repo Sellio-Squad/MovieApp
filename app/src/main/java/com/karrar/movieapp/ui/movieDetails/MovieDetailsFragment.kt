@@ -14,7 +14,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMovieDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.enums.MovieItemsType
-import com.karrar.movieapp.ui.adapters.MovieDetailsInteractionListener
+import com.karrar.movieapp.ui.adapters.moviedetailsadapters.SimilarMovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,12 +23,12 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
-    MovieDetailsInteractionListener {
+    SimilarMovieInteractionListener {
 
     override val layoutIdFragment = R.layout.fragment_movie_details
     override val viewModel: MovieDetailsViewModel by viewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
-    private val detailAdapter by lazy { DetailAdapter(emptyList(), viewModel) }
+    private val detailAdapter by lazy { DetailMovieAdapter(emptyList(), viewModel) }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,11 +74,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
                     .actionMovieDetailsFragmentToAllMovieFragment(-1, event.mediaType)
                 findNavController().navigate(seeAllMovieAction)
             }
-            MovieDetailsUIEvent.ClickReviewsEvent -> {
-                MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewFragment(
-                    args.movieId, MediaType.MOVIE
-                )
-            }
+
             is MovieDetailsUIEvent.ClickCastEvent -> {
                 action =
                     MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
@@ -140,5 +136,4 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
 
         }
     }
-
 }

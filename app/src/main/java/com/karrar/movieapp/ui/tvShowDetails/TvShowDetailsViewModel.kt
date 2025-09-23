@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.AllMediaType
@@ -285,6 +286,7 @@ class TvShowDetailsViewModel @Inject constructor(
 
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
         _tvShowDetailsUIEvent.update {
+            Log.d("TAG", "onClickSeeAllTvShows: $tvShowItemsType")
             Event(TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent(AllMediaType.YOU_MIGHT_ALSO_LIKE_SERIES))
         }
     }

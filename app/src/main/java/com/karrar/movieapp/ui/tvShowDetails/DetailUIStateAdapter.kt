@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -74,9 +75,11 @@ class DetailUIStateAdapter(
                         listener as TvShowDetailsInteractionListener
                     )
                     setVariable(BR.adapterRecycler, adapter)
-                    setVariable(BR.type, TvShowItemsType.YOU_MIGHT_ALSO_LIKE)
+                    setVariable(BR.listener, listener)
+                    setVariable(BR.tvShowType, TvShowItemsType.YOU_MIGHT_ALSO_LIKE) // ✅ correct name
                 }
             }
+
 
             is DetailItemUIState.SeeAllSimilarTvShowButton -> {
                 holder.binding.run {
@@ -84,6 +87,7 @@ class DetailUIStateAdapter(
                         currentItem.data,
                         listener as TvShowDetailsInteractionListener
                     )
+                    setVariable(BR.listener, listener as DetailInteractionListener)
                     setVariable(BR.adapterRecycler, adapter)
                 }
             }

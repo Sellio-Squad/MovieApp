@@ -15,10 +15,12 @@ import org.junit.jupiter.api.TestInstance
 internal class RatedMapperTest {
 
     private lateinit var ratedMoviesMapper: RatedMoviesMapper
+    private lateinit var genreMapper: GenreMapper
 
     @BeforeAll
     fun setUp() {
-        ratedMoviesMapper = RatedMoviesMapper()
+        genreMapper= GenreMapper()
+        ratedMoviesMapper = RatedMoviesMapper(genreMapper)
     }
 
     @Test
@@ -51,10 +53,10 @@ internal class RatedMapperTest {
             posterPath = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             rating = 1f,
             releaseDate = "releaseDate",
-            mediaType = Constants.MOVIE
+            mediaType = Constants.MOVIE,
+            genres = listOf(1, 2, 3)
         )
 
-        // then the result should be a Movie rated object with the same values
         assertEquals(expectedRatedMovie, result)
 
     }

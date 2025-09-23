@@ -14,7 +14,7 @@ class RatedMoviesMapper @Inject constructor(val genreMapper: GenreMapper) :
         return Rated(
             id = input.id ?: 0,
             title = input.title ?: "",
-            posterPath = BuildConfig.IMAGE_BASE_PATH + input.backdropPath,
+            posterPath = BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             rating = input.rating ?: 0F,
             releaseDate = input.releaseDate ?: "",
             mediaType = Constants.MOVIE,

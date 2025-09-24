@@ -26,11 +26,11 @@
             android:layout_height="40dp"
             android:scaleType="centerCrop"
             android:background="@color/gray"
+            app:srcCompat="@drawable/due_tone_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:posterImage="@{item.userImage}"
-            app:shapeAppearanceOverlay="@style/Circle"
-            tools:srcCompat="@drawable/image" />
+            app:shapeAppearanceOverlay="@style/Circle" />
 
         <TextView
             android:id="@+id/name"

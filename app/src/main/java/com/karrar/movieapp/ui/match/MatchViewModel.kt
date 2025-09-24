@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMatchedMoviesUseCase
+import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchViewModel @Inject constructor(
     private val getMatchedMoviesUseCase: GetMatchedMoviesUseCase,
-    private val getGenreListUseCase: GetGenreListUseCase
+    private val getGenreListUseCase: GetGenreListUseCase,
+    private val getSessionIDUseCase: GetSessionIDUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MatchUiState())
@@ -28,6 +30,7 @@ class MatchViewModel @Inject constructor(
 
     init {
         loadGenres()
+        getLoginStatus()
     }
 
     private fun loadGenres() {
@@ -149,6 +152,30 @@ class MatchViewModel @Inject constructor(
         _uiState.value = updatedState
     }
 
+    private fun getLoginStatus() {
+        if (!getSessionIDUseCase().isNullOrEmpty()) {
+            _uiState.update { it.copy(isLogin = true) }
+        } else {
+            showLoginDialog()
+        }
+    }
+
+    fun onSaveClick(movieId: Int) {
+        if (!getSessionIDUseCase().isNullOrEmpty()) {
+            _uiEvent.value = Event(MatchEvent.OnSaveClick(movieId))
+        }
+    }
+
+    fun onPlayTrailerClick(movieId: Int) {
+        if (!getSessionIDUseCase().isNullOrEmpty()) {
+            _uiEvent.value = Event(MatchEvent.OnPlayTrailerClick(movieId))
+        }
+    }
+
+    private fun showLoginDialog() {
+        _uiEvent.update { Event(MatchEvent.ShowLoginDialogEvent) }
+    }
+
     fun onNavigateBack() {
         val currentState = _uiState.value ?: return
 
@@ -211,8 +238,4 @@ class MatchViewModel @Inject constructor(
             inputDate
         }
     }
-}
-
-sealed class MatchEvent {
-    data class OnMovieClick(val id: Int) : MatchEvent()
 }

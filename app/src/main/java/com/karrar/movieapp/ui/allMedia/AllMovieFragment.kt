@@ -112,6 +112,8 @@ class AllMovieFragment : BaseFragment<FragmentAllMovieBinding>() {
             AllMediaType.YOU_MIGHT_ALSO_LIKE_MOVIES -> resources.getString(R.string.you_might_also_like)
             AllMediaType.TOP_REVIEWS_SERIES -> resources.getString(R.string.top_reviews)
             AllMediaType.TOP_REVIEWS_MOVIES -> resources.getString(R.string.top_reviews)
+            AllMediaType.RECENTLY_VIEWED -> resources.getString(R.string.recently_viewed)
+            AllMediaType.YOUR_COLLECTIONS -> resources.getString(R.string.your_collections)
         }
     }
 }

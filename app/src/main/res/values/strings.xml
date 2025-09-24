@@ -288,4 +288,5 @@
     <string name="browse_everything">Browse Everything</string>
     <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like">Explore all movies and series by genre or search for anything you like.</string>
     <string name="number_of_shows">%1$d shows</string>
+    <string name="unknown_section">Unknown Section</string>
 </resources>

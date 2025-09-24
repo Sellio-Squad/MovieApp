@@ -57,7 +57,6 @@ class HomeViewModel @Inject constructor(
         getUserName()
         getMyCollections()
         getMatchesYourVibes()
-
     }
 
     private fun getMyCollections() {
@@ -80,7 +79,10 @@ class HomeViewModel @Inject constructor(
                     val items = list.map(watchHistoryMapper::map)
                     _homeUiState.update {
                         it.copy(
-                            recentlyViewed = HomeItem.RecentlyViewed(items),
+                            recentlyViewed = HomeItem.RecentlyViewed(
+                                items = items,
+                                type = HomeItemsType.RECENTLY_VIEWED // التأكد من استخدام RECENTLY_VIEWED
+                            ),
                             isLoading = false
                         )
                     }
@@ -88,7 +90,6 @@ class HomeViewModel @Inject constructor(
             } catch (th: Throwable) {
                 onError(th.message.toString())
             }
-
         }
     }
 
@@ -124,7 +125,6 @@ class HomeViewModel @Inject constructor(
         getHomeData()
         _homeUiState.update { it.copy(error = emptyList()) }
     }
-
 
     private fun getPopularMovies() {
         viewModelScope.launch {
@@ -204,7 +204,6 @@ class HomeViewModel @Inject constructor(
                 onError(th.message.toString())
             }
         }
-
     }
 
     private fun getOnTheAir() {
@@ -223,7 +222,6 @@ class HomeViewModel @Inject constructor(
                 onError(th.message.toString())
             }
         }
-
     }
 
     override fun onClickMovie(movieId: Int) {
@@ -235,9 +233,9 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.TOP_RATED_TV_SHOWS -> AllMediaType.TOP_RATED
             HomeItemsType.RECENTLY_RELEASED -> AllMediaType.RECENTLY_RELEASED
             HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
-            HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
-            HomeItemsType.RECENTLY_VIEWED -> TODO("There is no need to add new attribute to AllMediaType")
-            HomeItemsType.YOUR_COLLECTIONS -> TODO("There is no need to add new attribute to AllMediaType")
+            HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES // هنا ممكن نغيّر لو NON مش لازم
+            HomeItemsType.RECENTLY_VIEWED -> AllMediaType.RECENTLY_VIEWED
+            HomeItemsType.YOUR_COLLECTIONS -> AllMediaType.YOUR_COLLECTIONS
             HomeItemsType.LATE_NIGHT_THRILLS -> AllMediaType.LATE_NIGHT_THRILLS
             HomeItemsType.MIND_BENDING_STORIES -> AllMediaType.MIND_BENDING_STORIES
             HomeItemsType.CINEMATIC_MASTERPIECES -> AllMediaType.CINEMATIC_MASTERPIECES
@@ -245,13 +243,12 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.BASED_ON_TRUE_EVENTS -> AllMediaType.BASED_ON_TRUE_EVENTS
             HomeItemsType.FEEL_GOOD_FAVORITES -> AllMediaType.FEEL_GOOD_FAVORITES
             HomeItemsType.MATCHES_YOUR_VIBE -> AllMediaType.MATCHES_YOUR_VIBE
-
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }
 
     override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
-
+        // No changes needed here
     }
 
     override fun onClickBrowseEverything() {

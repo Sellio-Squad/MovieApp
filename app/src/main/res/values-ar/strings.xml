@@ -291,5 +291,7 @@
     <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like">
 استكشف جميع الأفلام والمسلسلات حسب النوع أو ابحث عن أي شيء تفضّله.
 </string>
+    <string name="number_of_shows">%1$d عرض</string>
+
 
 </resources>

@@ -1,5 +1,7 @@
 package com.karrar.movieapp.di
 
+import com.karrar.movieapp.data.repository.AccountRepository
+import com.karrar.movieapp.data.repository.AccountRepositoryImp
 import com.karrar.movieapp.data.repository.ContentPreferencesRepository
 import com.karrar.movieapp.data.repository.ContentPreferencesRepositoryImpl
 import com.karrar.movieapp.data.repository.RatingTipsRepository
@@ -25,4 +27,10 @@ abstract class SingletonRepositoryModule {
     abstract fun bindRatingTipRepository(
         impl: RatingTipsRepositoryImpl
     ): RatingTipsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAccountRepository(
+        accountRepositoryImp: AccountRepositoryImp
+    ): AccountRepository
 }

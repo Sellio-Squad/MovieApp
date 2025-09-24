@@ -79,6 +79,7 @@
                         android:layout_height="87dp"
                         android:layout_weight="1"
                         app:isSelected="@{viewModel.uiState.currentLanguage == viewModel.uiState.languages[0]}"
+                        android:onClick="@{() -> viewModel.onLanguageSelected(viewModel.uiState.languages[0])}"
                         bind:item="@{viewModel.uiState.languages[0]}" />
 
                     <View
@@ -91,10 +92,10 @@
                         android:layout_height="87dp"
                         android:layout_weight="1"
                         app:isSelected="@{viewModel.uiState.currentLanguage == viewModel.uiState.languages[1]}"
+                        android:onClick="@{() -> viewModel.onLanguageSelected(viewModel.uiState.languages[1])}"
                         bind:item="@{viewModel.uiState.languages[1]}" />
                 </LinearLayout>
             </LinearLayout>
-
 
         </androidx.cardview.widget.CardView>
 

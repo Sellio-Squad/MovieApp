@@ -1,6 +1,7 @@
 package com.karrar.movieapp.data.local
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -13,11 +14,15 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
-class DataStorePreferences(context: Context) {
+class DataStorePreferences(private val context: Context) {
     private val Context.preferencesDataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(
         PREFERENCES_FILE_NAME
     )
     private val prefDataStore = context.preferencesDataStore
+
+    private val sharedPreferences: SharedPreferences by lazy {
+        context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+    }
 
     suspend fun writeLong(key: String, value: Long) {
         prefDataStore.edit { preferences ->
@@ -30,13 +35,31 @@ class DataStorePreferences(context: Context) {
     }
 
     suspend fun writeString(key: String, value: String) {
-        prefDataStore.edit { preferences ->
-            preferences[stringPreferencesKey(key)] = value
+        when (key) {
+            AppConfigurator.LANGUAGE_KEY -> {
+                sharedPreferences.edit().putString(key, value).apply()
+                prefDataStore.edit { preferences ->
+                    preferences[stringPreferencesKey(key)] = value
+                }
+            }
+            else -> {
+                prefDataStore.edit { preferences ->
+                    preferences[stringPreferencesKey(key)] = value
+                }
+            }
         }
     }
 
     fun readString(key: String): String? {
-        return runBlocking { prefDataStore.data.map { it[stringPreferencesKey(key)] }.first() }
+        return when (key) {
+            AppConfigurator.LANGUAGE_KEY -> {
+                sharedPreferences.getString(key, null)
+                    ?: runBlocking { prefDataStore.data.map { it[stringPreferencesKey(key)] }.first() }
+            }
+            else -> {
+                runBlocking { prefDataStore.data.map { it[stringPreferencesKey(key)] }.first() }
+            }
+        }
     }
 
     fun readStringFlow(key: String): Flow<String?> =

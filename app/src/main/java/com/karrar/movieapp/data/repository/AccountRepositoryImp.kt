@@ -59,7 +59,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
     override suspend fun saveLanguage(language: String) {
-        appConfiguration.saveSessionId(language)
+        appConfiguration.saveLanguage(language)
     }
 
     private suspend fun getRequestToken(): String {

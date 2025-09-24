@@ -32,12 +32,6 @@ abstract class RepositoryModule {
 
     @ViewModelScoped
     @Binds
-    abstract fun bindAccountRepository(
-        accountRepositoryImp: AccountRepositoryImp
-    ): AccountRepository
-
-    @ViewModelScoped
-    @Binds
     abstract fun bindHistoryTipsRepository(impl: HistoryTipsRepositoryImpl): HistoryTipsRepository
 
 }

@@ -275,4 +275,21 @@
     <string name="cinematic_masterpieces">روائع سينمائية</string>
     <string name="mind_bending_stories">قصص محيرة للعقل</string>
     <string name="late_night_thrills">إثارة ليلية</string>
+    <string name="top_rated_tv_shows">أفضل المسلسلات</string>
+    <string name="recently_released">صدر مؤخراً</string>
+    <string name="upcoming_movies">الأفلام القادمة</string>
+    <string name="recently_viewed">شوفتها مؤخراً</string>
+    <string name="your_collections">مجموعاتك</string>
+    <string name="matches_your_vibe">تناسب ذوقك</string>
+    <string name="what_should_i_watch">ماذا أشاهد؟</string>
+    <string name="let_us_choose_for_you">دعنا نختار لك!</string>
+    <string name="we_ll_help_you_skip_the_scroll_and_go_straight_to_the_good_stuff">
+سنساعدك على تجاوز التمرير والوصول مباشرةً إلى المحتوى المميز.
+</string>
+    <string name="need_more_to_watch">هل تحتاج إلى المزيد للمشاهدة؟</string>
+    <string name="browse_everything">تصفّح كل شيء</string>
+    <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like">
+استكشف جميع الأفلام والمسلسلات حسب النوع أو ابحث عن أي شيء تفضّله.
+</string>
+
 </resources>

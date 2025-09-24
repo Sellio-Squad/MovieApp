@@ -275,4 +275,16 @@
     <string name="cinematic_masterpieces">Cinematic Masterpieces</string>
     <string name="mind_bending_stories">Mind Bending Stories</string>
     <string name="late_night_thrills">Late Night Thrills</string>
+    <string name="top_rated_tv_shows">Top Rated Tv Shows</string>
+    <string name="recently_released">Recently Released</string>
+    <string name="upcoming_movies">Upcoming Movies</string>
+    <string name="recently_viewed">You Recently Viewed</string>
+    <string name="your_collections">Your Collections</string>
+    <string name="matches_your_vibe">Matches Your Vibe</string>
+    <string name="what_should_i_watch">What Should I Watch?</string>
+    <string name="let_us_choose_for_you">Let Us Choose For You!</string>
+    <string name="we_ll_help_you_skip_the_scroll_and_go_straight_to_the_good_stuff">We’ll help you skip the scroll and go straight to the good stuff.</string>
+    <string name="need_more_to_watch">Need More to Watch?</string>
+    <string name="browse_everything">Browse Everything</string>
+    <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like">Explore all movies and series by genre or search for anything you like.</string>
 </resources>

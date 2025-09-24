@@ -2,6 +2,7 @@ package com.karrar.movieapp.domain.mappers
 
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
 import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
+import com.karrar.movieapp.utilities.DateFormatter
 import javax.inject.Inject
 
 class WatchHistoryMapper @Inject constructor() : Mapper<WatchHistoryEntity, MediaHistoryUiState> {
@@ -13,7 +14,7 @@ class WatchHistoryMapper @Inject constructor() : Mapper<WatchHistoryEntity, Medi
             input.posterPath,
             input.movieTitle,
             input.voteAverage,
-            input.releaseDate,
+            DateFormatter.toUiDate(input.releaseDate),
             movieDuration = if (input.mediaType.equals(
                     com.karrar.movieapp.utilities.Constants.MOVIE,
                     true

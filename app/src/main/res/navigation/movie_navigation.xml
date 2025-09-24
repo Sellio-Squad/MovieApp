@@ -424,6 +424,9 @@
             app:destination="@+id/tvShowDetailsFragment"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_tvShowDetailFragment_to_logInDialog"
+            app:destination="@id/logInDialog" />
     </fragment>
     <dialog
         android:id="@+id/logInDialog"

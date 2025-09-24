@@ -104,7 +104,17 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
                     )
             }
 
-            is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> TODO()
+            is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> {}
+            is TvShowDetailsUIEvent.ShowLoginDialogEvent -> {
+                action = TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToLogInDialog("")
+            }
+
+            TvShowDetailsUIEvent.ClickSaveEvent -> {
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToSaveMovieDialog(
+                        args.tvShowId
+                    )
+            }
         }
         action?.let { findNavController().navigate(it) }
     }

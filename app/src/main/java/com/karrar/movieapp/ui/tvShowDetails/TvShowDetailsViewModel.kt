@@ -249,7 +249,17 @@ class TvShowDetailsViewModel @Inject constructor(
         getInsertTvShowUserCase(tvShow)
     }
 
-    override fun onClickSave() {}
+    override fun onClickSave() {
+        if (_stateUI.value.isLogin) {
+            _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSaveEvent) }
+        } else {
+            showLoginDialog()
+        }
+    }
+
+    private fun showLoginDialog() {
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ShowLoginDialogEvent) }
+    }
 
     override fun onClickPlayTrailer() {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickPlayTrailerEvent) }

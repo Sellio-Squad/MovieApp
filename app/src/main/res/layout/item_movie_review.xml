@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{item.name}"
+            android:text="@{item.userName}"
             android:textSize="14sp"
             android:textColor="@color/shade_primary_color"
             app:layout_constraintStart_toEndOf="@+id/user_image"

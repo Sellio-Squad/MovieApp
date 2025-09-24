@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMatchedMoviesUseCase
+import com.karrar.movieapp.utilities.DateFormatter
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -85,9 +86,9 @@ class MatchViewModel @Inject constructor(
                                     movieImage = movie.movieImage,
                                     movieName = movie.movieName,
                                     movieGenres = movie.movieGenres,
-                                    movieDuration = formatDuration(movie.movieDuration),
+                                    movieDuration = DateFormatter.formatDuration(movie.movieDuration),
                                     movieVoteAverage = movie.movieVoteAverage,
-                                    movieReleasedDate = toUiDate(movie.movieReleaseDate)
+                                    movieReleasedDate = DateFormatter.toUiDate(movie.movieReleaseDate)
                                 )
                             },
                             isLoadingRecommendations = false,
@@ -195,22 +196,6 @@ class MatchViewModel @Inject constructor(
         _uiEvent.value = Event(null)
     }
 
-    private fun formatDuration(minutes: Int): String {
-        val hours = minutes / 60
-        val mins = minutes % 60
-        return "${hours}h ${mins}m"
-    }
-
-    private fun toUiDate(inputDate: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-            val outputFormat = SimpleDateFormat("yyyy,MMM dd", Locale.US)
-            val date = inputFormat.parse(inputDate)
-            date?.let { outputFormat.format(it) } ?: inputDate
-        } catch (e: Exception) {
-            inputDate
-        }
-    }
 }
 
 sealed class MatchEvent {

@@ -77,25 +77,46 @@
             app:readMoreText="Read more"
             tools:text="Krasinski's instincts are very good, and once you've placed the primary action there, then it allows the story instincts are very good, and once you've placed the primary action there, then it allows the story" />
 
-        <androidx.appcompat.widget.AppCompatRatingBar
+        <LinearLayout
             android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:isIndicator="true"
-            android:rating="@{item.rating}"
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:stepSize="1"
-            android:splitTrack="false"
-            android:transformPivotX="0dp"
-            android:progressDrawable="@drawable/rating_custom"
-            android:progressTint="@color/additional_color_primary_color_yellow"
-            android:progressBackgroundTint="@color/shade_color_tertiary"
-            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@+id/comment"
-            app:layout_constraintTop_toBottomOf="@+id/comment"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/comment">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@{item.rating >= 1 ? @drawable/yellow_star : @drawable/outline_star}" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:src="@{item.rating >= 2 ? @drawable/yellow_star : @drawable/outline_star}" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:src="@{item.rating >= 3 ? @drawable/yellow_star : @drawable/outline_star}" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:src="@{item.rating >= 4 ? @drawable/yellow_star : @drawable/outline_star}" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:src="@{item.rating >= 5 ? @drawable/yellow_star : @drawable/outline_star}" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/comment_date"
             style="@style/Regular.Small.ternary"

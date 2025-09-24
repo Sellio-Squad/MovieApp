@@ -9,12 +9,14 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.flexbox.FlexboxLayout
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMatchBinding
 import com.karrar.movieapp.databinding.ItemMatchQuestionCardBinding
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.main.MainActivity
 import com.karrar.movieapp.ui.match.adapters.MatchCarouselAdapter
@@ -259,7 +261,8 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     }
 
     private fun updateMoodSection(state: MatchUiState, shouldShow: Boolean, isActive: Boolean) {
-        binding.matchQuestionsPage.moodSection.visibility = if (shouldShow) View.VISIBLE else View.GONE
+        binding.matchQuestionsPage.moodSection.visibility =
+            if (shouldShow) View.VISIBLE else View.GONE
         binding.matchQuestionsPage.moodSection.alpha = if (isActive) 1.0f else 0.3f
 
         if (shouldShow) {
@@ -269,7 +272,8 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     }
 
     private fun updateGenreSection(state: MatchUiState, shouldShow: Boolean, isActive: Boolean) {
-        binding.matchQuestionsPage.genreSection.visibility = if (shouldShow) View.VISIBLE else View.GONE
+        binding.matchQuestionsPage.genreSection.visibility =
+            if (shouldShow) View.VISIBLE else View.GONE
         binding.matchQuestionsPage.genreSection.alpha = if (isActive) 1.0f else 0.3f
 
         if (shouldShow) {
@@ -279,7 +283,8 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     }
 
     private fun updateTimeSection(state: MatchUiState, shouldShow: Boolean, isActive: Boolean) {
-        binding.matchQuestionsPage.timeSection.visibility = if (shouldShow) View.VISIBLE else View.GONE
+        binding.matchQuestionsPage.timeSection.visibility =
+            if (shouldShow) View.VISIBLE else View.GONE
         binding.matchQuestionsPage.timeSection.alpha = if (isActive) 1.0f else 0.3f
 
         if (shouldShow) {
@@ -289,12 +294,14 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     }
 
     private fun updateTypeSection(state: MatchUiState, shouldShow: Boolean, isActive: Boolean) {
-        binding.matchQuestionsPage.typeSection.visibility = if (shouldShow) View.VISIBLE else View.GONE
+        binding.matchQuestionsPage.typeSection.visibility =
+            if (shouldShow) View.VISIBLE else View.GONE
         val shouldDim = !isActive || state.isLoadingRecommendations
         binding.matchQuestionsPage.typeSection.alpha = if (shouldDim) 0.3f else 1.0f
 
         if (shouldShow) {
-            val questions = if (isActive) state.movieTypeQuestions else state.selectedMovieTypeQuestion
+            val questions =
+                if (isActive) state.movieTypeQuestions else state.selectedMovieTypeQuestion
             setupTypeOptions(questions, isActive)
         }
     }
@@ -406,7 +413,7 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
             binding.iconContainer.visibility = View.GONE
         }
         cardView.isSelected = question.isSelected
-        
+
         if (isActive) {
             cardView.setOnClickListener {
                 onOptionClick(question, questionType)
@@ -463,10 +470,33 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     }
 
     private fun handleEvent(event: Event<MatchEvent?>) {
+        var action: NavDirections?
         event.getContentIfNotHandled()?.let { matchEvent ->
             when (matchEvent) {
                 is MatchEvent.OnMovieClick -> {
                     navigateToMovieDetails(matchEvent.id)
+                }
+
+                is MatchEvent.OnPlayTrailerClick -> {
+                    action =
+                        MatchFragmentDirections.actionMatchFragmentToYoutubePlayerActivity(
+                            matchEvent.id, MediaType.MOVIE
+                        )
+                    findNavController().navigate(action)
+                }
+
+                is MatchEvent.OnSaveClick -> {
+                    action =
+                        MatchFragmentDirections.actionMatchFragmentToSavedMovieDialog(
+                            matchEvent.id
+                        )
+                    findNavController().navigate(action)
+                }
+
+                MatchEvent.ShowLoginDialogEvent -> {
+                    action =
+                        MatchFragmentDirections.actionMatchFragmentToLogInDialog("")
+                    findNavController().navigate(action)
                 }
             }
             viewModel.resetEvent()
@@ -531,11 +561,14 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
         }
     }
 
-    private fun onSaveClick(mediaID: Int) {
+    private fun onSaveClick(movieId: Int) {
+        viewModel.onSaveClick(movieId)
     }
 
-    private fun onPlayTrailerClick(mediaID: Int) {
+    private fun onPlayTrailerClick(movieId: Int) {
+        viewModel.onPlayTrailerClick(movieId)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

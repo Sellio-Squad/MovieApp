@@ -198,14 +198,21 @@
         android:name="com.karrar.movieapp.ui.match.MatchFragment"
         tools:layout="@layout/fragment_match">
         <action
+            android:id="@+id/action_matchFragment_to_logInDialog"
+            app:destination="@id/logInDialog" />
+        <action
             android:id="@+id/action_matchFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
         <action
-            android:id="@+id/action_myListFragment_to_savedListFragment"
-            app:destination="@id/listDetailsFragment" />
+            android:id="@+id/action_matchFragment_to_savedMovieDialog"
+            app:destination="@id/saveMovieDialog" />
         <action
             android:id="@+id/action_myListFragment_to_exploringFragment"
             app:destination="@id/exploringFragment" />
+        <action
+            android:id="@+id/action_matchFragment_to_youtubePlayerActivity"
+            app:destination="@id/youtubePlayerActivity" />
+
     </fragment>
 
     <fragment

@@ -15,24 +15,127 @@
         android:layout_height="match_parent"
         android:background="@color/background_color">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/movie_series_list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="@dimen/radius_cineVerse_s"
+                android:backgroundTint="@color/background_color_screen"
+                android:src="@drawable/ic_arrow_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/shade_color_primary" />
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/TextStyle.Body.Small.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/radius_cineVerse_s"
+                android:text="@string/because_you_watched"
+                android:textSize="@dimen/radius_cineVerse_l"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                app:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+            <TextView
+                style="@style/TextStyle.Title.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tvshow title"
+                android:textSize="@dimen/radius_cineVerse_xl"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/recycler_media"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="500dp"-->
+        <!--            android:layout_marginHorizontal="@dimen/spacing_small"-->
+        <!--            android:clipToPadding="false"-->
+        <!--            android:overScrollMode="never"-->
+        <!--            android:paddingVertical="@dimen/spacing_small"-->
+        <!--            android:scrollbars="none"-->
+        <!--            android:visibility="visible"-->
+        <!--            app:hideIfTrue="@{viewModel.uiState.loading}"-->
+        <!--            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/movie_series_list_title"-->
+        <!--            app:spanCount="2"-->
+        <!--            tools:listitem="@layout/item_media_search" />-->
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
             android:clipToPadding="false"
             android:overScrollMode="never"
-            android:paddingVertical="@dimen/spacing_small"
-            android:scrollbars="none"
-            android:visibility="gone"
-            app:hideIfTrue="@{viewModel.uiState.loading}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:paddingBottom="@dimen/spacing_medium"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="3"
-            tools:listitem="@layout/item_media_search" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_series_list_title" />
+
+        <FrameLayout
+            android:id="@+id/toggle_view_mode"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:elevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/toggle_button_background" />
+
+            <View
+                android:id="@+id/indicator"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="0dp"
+                android:background="@drawable/toggle_button_indicator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_grid_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/selector_grid_view" />
+
+                <ImageButton
+                    android:id="@+id/btn_list_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/selector_list_view" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
         <include
             android:id="@+id/loading"
@@ -52,7 +155,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -299,6 +299,9 @@
         <argument
             android:name="type"
             app:argType="com.karrar.movieapp.domain.enums.AllMediaType" />
+        <action
+            android:id="@+id/action_similarTvShowFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
     </fragment>
 
     <dialog

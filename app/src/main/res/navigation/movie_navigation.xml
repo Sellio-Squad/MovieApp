@@ -350,6 +350,9 @@
         <argument
             android:name="tvShowId"
             app:argType="integer" />
+        <action
+            android:id="@+id/actionSeasonFragmentToEpisodesFragment"
+            app:destination="@id/episodesFragment" />
     </fragment>
 
     <fragment
@@ -441,7 +444,7 @@
             app:popUpToInclusive="true"
             />
         <action
-            android:id="@+id/action_tvShowDetailsFragment_to_seasonFragment"
+            android:id="@+id/actionFromTvShowDetailsFragmentToSeasonFragment"
             app:destination="@id/seasonFragment" />
     </fragment>
     <dialog

@@ -77,7 +77,7 @@ class SaveMovieViewModel @Inject constructor(
     }
 
     override fun onClickNewCollection() {
-        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToCollectionScreen) }
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToCreateListDialog) }
     }
 
     override fun onDismiss() {

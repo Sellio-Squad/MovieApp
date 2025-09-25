@@ -248,7 +248,6 @@ class TvShowDetailsViewModel @Inject constructor(
     private suspend fun insertMovieToWatchHistory(tvShow: TvShowDetails) {
         getInsertTvShowUserCase(tvShow)
     }
-
     override fun onClickSave() {}
 
     override fun onClickPlayTrailer() {
@@ -273,6 +272,11 @@ class TvShowDetailsViewModel @Inject constructor(
 
     override fun onClickSeason(seasonNumber: Int) {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeasonEvent(seasonNumber)) }
+    }
+
+    override fun onClickSeeMoreSeason() {
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickShowMoreSeasons(args.tvShowId)) }
+
     }
 
     override fun onClickTvShow(item: MediaUiState) {

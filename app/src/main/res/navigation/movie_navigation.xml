@@ -351,6 +351,7 @@
             android:name="tvShowId"
             app:argType="integer" />
     </fragment>
+
     <fragment
         android:id="@+id/watchHistoryFragment"
         android:name="com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryFragment"

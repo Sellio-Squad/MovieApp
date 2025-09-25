@@ -19,7 +19,7 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="@{() -> listener.onClickMediaResult(item)}"
+        android:onClick="@{() -> listener.onMediaClick(item)}"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/background_color_card">

@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.movieDetails
 
 import com.karrar.movieapp.domain.enums.AllMediaType
-import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 
 sealed interface MovieDetailsUIEvent {
     object ClickBackEvent : MovieDetailsUIEvent

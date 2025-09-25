@@ -19,7 +19,9 @@
             layout="@layout/error2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:viewModel="@{viewModel}"
+            app:isError="@{true}" />
 
         <FrameLayout
             android:id="@+id/match_container"

@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_simi_small"
-        android:onClick="@{() -> listener.onClickMediaResult(item)}">
+        android:onClick="@{() -> listener.onMediaClick(item)}">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_poster"

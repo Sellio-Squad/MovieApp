@@ -15,4 +15,5 @@ class SeasonAdapterUIState(
 
 interface SeasonInteractionListener : BaseInteractionListener {
     fun onClickSeason(seasonNumber: Int)
+    fun onClickSeeMoreSeason()
 }

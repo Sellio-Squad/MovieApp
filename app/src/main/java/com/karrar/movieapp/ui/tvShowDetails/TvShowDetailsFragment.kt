@@ -78,10 +78,6 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
                         event.seasonId
                     )
             }
-
-            is TvShowDetailsUIEvent.ClickShowMoreSeasons ->{
-                action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToSeasonFragment(args.tvShowId)
-            }
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
@@ -106,6 +102,11 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToTvShowDetailFragment(
                         event.tvShowID
                     )
+            }
+            TvShowDetailsUIEvent.ClickSeasonsEvent -> {
+                action=TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToSeasonFragment(
+                    args.tvShowId
+                )
             }
 
             is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> TODO()

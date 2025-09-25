@@ -266,6 +266,11 @@ class TvShowDetailsViewModel @Inject constructor(
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickReviewsEvent) }
     }
 
+    override fun onClickViewSeasons() {
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeasonsEvent) }
+
+    }
+
     override fun onClickActor(actorID: Int) {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickCastEvent(actorID)) }
     }
@@ -274,10 +279,7 @@ class TvShowDetailsViewModel @Inject constructor(
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeasonEvent(seasonNumber)) }
     }
 
-    override fun onClickSeeMoreSeason() {
-        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickShowMoreSeasons(args.tvShowId)) }
 
-    }
 
     override fun onClickTvShow(item: MediaUiState) {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickTvShowEvent(item.id)) }

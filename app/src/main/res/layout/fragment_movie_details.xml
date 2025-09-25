@@ -79,6 +79,8 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
             android:background="@color/background_color"
+            android:clipToPadding="false"
+            android:paddingBottom="11dp"
             android:overScrollMode="never"
             android:scrollbars="none"
             app:doneLoading="@{viewModel.uiState.loading}"

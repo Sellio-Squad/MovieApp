@@ -14,12 +14,11 @@ import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutIdFragment = R.layout.fragment_home
     override val viewModel: HomeViewModel by viewModels()
-    lateinit var homeAdapter: HomeAdapter
+    private var homeAdapter: HomeAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,10 +33,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.getData()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        homeAdapter = null
+    }
+
     private fun collectHomeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.homeUiState.collect { uiState ->
-                homeAdapter.setItems(
+                homeAdapter?.setItems(
                     mutableListOf(
                         uiState.popularMovies,
                         uiState.onTheAiringSeries,
@@ -55,9 +59,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-
     private fun setAdapter() {
-        homeAdapter = HomeAdapter(mutableListOf(), viewModel, viewLifecycleOwner.lifecycleScope)
+        homeAdapter = HomeAdapter(
+            mutableListOf(),
+            viewModel,
+            viewLifecycleOwner.lifecycleScope,
+            viewLifecycleOwner
+        )
         binding.recyclerView.adapter = homeAdapter
     }
 
@@ -74,6 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     event.movieID
                 )
             }
+
             is HomeUIEvent.ClickSeeAllMovieEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
                     -1, event.mediaType
@@ -85,17 +94,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     -1, event.mediaType
                 )
             }
+
             is HomeUIEvent.ClickSeeAllTVShowsEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
                     -1,
                     event.mediaType
                 )
             }
+
             is HomeUIEvent.ClickSeriesEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(
                     event.seriesID
                 )
             }
+
             is HomeUIEvent.ClickBrowseEverythingEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToExploringFragment()
             }
@@ -121,5 +133,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         findNavController().navigate(action)
     }
-
 }

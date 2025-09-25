@@ -1,6 +1,5 @@
 package com.karrar.movieapp.utilities
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -24,13 +23,9 @@ import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.karrar.movieapp.ui.search.mediaSearchUIState.SearchDisplayMode
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState as DetailsErrorUIState
-import com.ae.imageharamblur.ui.ImageFilterConfig
-import com.ae.imageharamblur.ui.ImageViewFilter
-import com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesTypes
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 
 
 @BindingAdapter("app:showWhenListNotEmpty")
@@ -225,8 +220,8 @@ fun usePagerSnapHelperWithRecycler(recycler: RecyclerView, useSnapHelper: Boolea
 fun bindMovieImage(image: ImageView, imageURL: String?) {
     imageURL?.let {
         image.load(imageURL) {
-            placeholder(R.drawable.image_error_palceholder)
-            error(R.drawable.profile)
+            placeholder(R.drawable.loading)
+            error(R.drawable.image_error_palceholder)
         }
     }
 }
@@ -235,8 +230,8 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
 fun ImageView.setPosterImage(imageURL: String?) {
     imageURL?.let {
         this.load(imageURL) {
-            placeholder(R.drawable.image_error_palceholder)
-            error(R.drawable.profile)
+            placeholder(R.drawable.loading)
+            error(R.drawable.image_error_palceholder)
         }
     }
 }

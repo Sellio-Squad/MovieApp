@@ -24,6 +24,8 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingBottom="11dp"
             app:items="@{viewModel.uiState.movieReview}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"

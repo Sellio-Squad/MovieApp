@@ -83,6 +83,8 @@
             android:background="@color/background_color"
             android:overScrollMode="never"
             android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingBottom="11dp"
             app:doneLoading="@{viewModel.stateFlow.loading}"
             app:errorNotEmpty="@{viewModel.stateFlow.errorUIState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

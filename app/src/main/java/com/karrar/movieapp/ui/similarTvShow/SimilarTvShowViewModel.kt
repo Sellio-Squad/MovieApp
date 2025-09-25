@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.explore.exploreUIState.ViewMode
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.SimilarTvShowUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsUIState
 import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +30,10 @@ class SimilarTvShowViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(TvShowDetailsUIState())
     val uiState: StateFlow<TvShowDetailsUIState> = _uiState.asStateFlow()
+
+    private val _SimilarTvShowUIEvent: MutableStateFlow<Event<SimilarTvShowUIEvent>?> =
+        MutableStateFlow(null)
+    val SimilarTvShowUIEvent = _SimilarTvShowUIEvent.asStateFlow()
 
     init {
         getData()
@@ -61,5 +67,14 @@ class SimilarTvShowViewModel @Inject constructor(
                 message = e.message.toString()
             )
         )
+    }
+
+    fun setViewMode(viewMode: ViewMode) {
+        _uiState.update { it.copy(viewMode = viewMode) }
+    }
+
+    fun onClickTvShow(tvShowID: Int) {
+//        _SimilarTvShowUIEvent.value = Event(SimilarTvShowUIEvent)
+
     }
 }

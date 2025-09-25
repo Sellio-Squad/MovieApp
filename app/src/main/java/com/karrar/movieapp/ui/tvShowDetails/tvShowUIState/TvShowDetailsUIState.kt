@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
+import com.karrar.movieapp.ui.explore.exploreUIState.ViewMode
 import com.karrar.movieapp.ui.models.ActorUiState
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.models.CrewUIState
@@ -16,4 +17,5 @@ data class TvShowDetailsUIState(
     val isLogin: Boolean = false,
     val errorUIState: List<Error> = emptyList(),
     val similarTvShowResult: List<MediaUiState> = emptyList(),
+    val viewMode: ViewMode = ViewMode.GRID
 )

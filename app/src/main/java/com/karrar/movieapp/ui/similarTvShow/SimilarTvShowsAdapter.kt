@@ -1,13 +1,13 @@
 package com.karrar.movieapp.ui.similarTvShow
 
 import com.karrar.movieapp.R
-import com.karrar.movieapp.domain.models.TvShowDetails
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
+import com.karrar.movieapp.ui.models.MediaUiState
 
 class SimilarTvShowsAdapter(
-    items: List<TvShowDetails>, listener: BaseInteractionListener
-) : BaseAdapter<TvShowDetails>(items, listener) {
+    items: List<MediaUiState>, listener: BaseInteractionListener
+) : BaseAdapter<MediaUiState>(items, listener) {
 
     override val layoutID: Int = R.layout.item_similar_series
 }

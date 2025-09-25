@@ -76,7 +76,7 @@ class DetailUIStateAdapter(
                     )
                     setVariable(BR.adapterRecycler, adapter)
                     setVariable(BR.listener, listener)
-                    setVariable(BR.tvShowType, TvShowItemsType.YOU_MIGHT_ALSO_LIKE) // ✅ correct name
+                    setVariable(BR.tvShowType, TvShowItemsType.YOU_MIGHT_ALSO_LIKE)
                 }
             }
 

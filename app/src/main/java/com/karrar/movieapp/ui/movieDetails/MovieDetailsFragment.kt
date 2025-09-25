@@ -121,6 +121,12 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
             MovieDetailsUIEvent.ShowLoginDialogEvent -> {
                 action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToLogInDialog("")
             }
+
+            is MovieDetailsUIEvent.ClickRateMovieEvent -> {
+                action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToRateMovieDialog(
+                    args.movieId
+                )
+            }
         }
         action?.let { findNavController().navigate(it) }
 

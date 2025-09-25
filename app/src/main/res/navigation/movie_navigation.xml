@@ -156,7 +156,25 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_logInDialog"
             app:destination="@id/logInDialog" />
+
+        <action
+            android:id="@+id/action_movieDetailFragment_to_rateMovieDialog"
+            app:destination="@id/ratingMovieDialog" />
+
     </fragment>
+
+    <dialog
+        android:id="@+id/ratingMovieDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.ratingMovieDialog.RatingMovieDialog"
+        android:label="dialog_rating_movie"
+        tools:layout="@layout/dialog_rate_the_movie">
+
+        <argument
+            android:name="movieId"
+            app:argType="integer"
+            />
+
+    </dialog>
 
     <fragment
         android:id="@+id/profileFragment"

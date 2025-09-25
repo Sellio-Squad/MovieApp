@@ -80,26 +80,27 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+
     fun onSearchInputChange(searchTerm: CharSequence) {
         val newSearchTerm = searchTerm.toString()
-        _uiState.update {
-            it.copy(searchInput = newSearchTerm)
+
+        if (newSearchTerm == _uiState.value.searchInput) {
+            return
         }
 
+        _uiState.update { it.copy(searchInput = newSearchTerm) }
+
         if (newSearchTerm.isBlank()) {
-            _uiState.update {
-                it.copy(displayMode = SearchDisplayMode.SUGGESTIONS)
-            }
+            _uiState.update { it.copy(displayMode = SearchDisplayMode.SUGGESTIONS) }
             return
         }
 
         _uiState.update {
             it.copy(
-                displayMode = SearchDisplayMode.RESULTS,
+                displayMode = SearchDisplayMode.SUGGESTIONS,
                 isLoading = true
             )
         }
-
         viewModelScope.launch {
             performSearch(newSearchTerm)
         }
@@ -303,10 +304,7 @@ class SearchViewModel @Inject constructor(
         _searchUIEvent.update { Event(SearchUIEvent.ClickActorEvent(personID)) }
     }
 
-    override fun onClickMediaResult(media: MediaUIState) {
-        saveSearchResult(media.mediaID, media.mediaName)
-        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
-    }
+
 
     private fun saveSearchResult(id: Int, name: String) {
         viewModelScope.launch { postSaveSearchResultUseCase(id, name) }
@@ -330,42 +328,46 @@ class SearchViewModel @Inject constructor(
     }
 
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates, itemCount: Int) {
-        when (combinedLoadStates.refresh) {
-            is LoadState.Loading -> {
+        val refreshState = combinedLoadStates.refresh
+
+        if (refreshState is LoadState.Error) {
+            if (itemCount == 0) {
                 _uiState.update {
-                    it.copy(isLoading = true, error = emptyList(), isEmpty = false)
+                    it.copy(
+                        isLoading = false,
+                        error = listOf(Error(404, "An error occurred")),
+                        isEmpty = false
+                    )
                 }
             }
-            is LoadState.Error -> {
-                _uiState.update {
-                    it.copy(isLoading = false, error = listOf(Error(404, "")), isEmpty = false)
-                }
-            }
-            is LoadState.NotLoading -> {
-                if (itemCount < 1) {
-                    _uiState.update {
-                        it.copy(
-                            isEmpty = true,
-                            isLoading = false,
-                            error = emptyList()
-                        )
-                    }
-                } else {
-                    _uiState.update {
-                        it.copy(
-                            isEmpty = false,
-                            isLoading = false,
-                            error = emptyList()
-                        )
-                    }
-                }
+        } else {
+            _uiState.update {
+                it.copy(
+                    isLoading = refreshState is LoadState.Loading,
+                    error = emptyList(),
+                    isEmpty = refreshState is LoadState.NotLoading && itemCount < 1
+                )
             }
         }
     }
 
     override fun onSuggestionClick(query: String) {
-        onSearchInputChange(query)
+        if (query == _uiState.value.searchInput && _uiState.value.displayMode == SearchDisplayMode.RESULTS) {
+            return
+        }
+
+        _uiState.update {
+            it.copy(
+                searchInput = query,
+                displayMode = SearchDisplayMode.RESULTS,
+                isLoading = true
+            )
+        }
+        viewModelScope.launch {
+            performSearch(query)
+        }
     }
+
 
     override fun onMediaClick(media: MediaUIState) {
         saveSearchResult(media.mediaID, media.mediaName)

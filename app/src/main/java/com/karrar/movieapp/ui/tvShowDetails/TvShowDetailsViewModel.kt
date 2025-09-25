@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.MovieItemsType
@@ -267,6 +268,7 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     override fun onClickViewSeasons() {
+        Log.d("beep","beep")
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeasonsEvent) }
 
     }

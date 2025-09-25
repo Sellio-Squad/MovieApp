@@ -59,5 +59,8 @@ interface SeriesRepository {
     suspend fun deleteTvShowRating(tvId: Int): RatingDto?
 
     suspend fun getSimilarTvShow(tvShowId: Int): List<TVShowsDTO>?
+
+    fun getSimilarTvShowPager(tvShowId: Int): Pager<Int, TVShowsDTO>
+
     suspend fun getTvShowCastAndCrew(tvShowId: Int): CreditsDto?
 }

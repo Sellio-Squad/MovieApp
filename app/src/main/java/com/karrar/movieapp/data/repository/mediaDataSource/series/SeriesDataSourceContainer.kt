@@ -7,4 +7,5 @@ class SeriesDataSourceContainer @Inject constructor(
     val topRatedTvShowDataSource: TopRatedTvShowDataSource,
     val onTheAirTvShowDataSource: OnTheAirTvShowDataSource,
     val popularTvShowDataSource: PopularTvShowDataSource,
+    val similarTvShowDataSource: SimilarTvShowDataSource,
 )

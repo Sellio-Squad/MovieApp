@@ -123,7 +123,10 @@ interface MovieService {
     suspend fun getMovieCastAndCrew(@Path("movie_id") movieId: Int): Response<CreditsDto>
 
     @GET("tv/{tv_id}/similar")
-    suspend fun getSimilarTvShows(@Path("tv_id") tvShowId: Int): Response<BaseListResponse<TVShowsDTO>>
+    suspend fun getSimilarTvShows(
+        @Path("tv_id") tvShowId: Int,
+        @Query("page") page: Int = 1
+    ): Response<BaseListResponse<TVShowsDTO>>
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviews(@Path("movie_id") movieId: Int): Response<BaseListResponse<ReviewsDto>>

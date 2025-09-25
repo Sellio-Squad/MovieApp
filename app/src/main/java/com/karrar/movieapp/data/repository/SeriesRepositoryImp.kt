@@ -1,7 +1,7 @@
 package com.karrar.movieapp.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.karrar.movieapp.data.Constants
 import com.karrar.movieapp.data.local.AppConfiguration
 import com.karrar.movieapp.data.local.database.daos.MovieDao
@@ -22,6 +22,7 @@ import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.data.repository.mediaDataSource.series.SeriesDataSourceContainer
+import com.karrar.movieapp.data.repository.mediaDataSource.series.SimilarTvShowDataSource
 import com.karrar.movieapp.data.repository.serchDataSource.SearchDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import kotlinx.coroutines.flow.Flow
@@ -222,5 +223,12 @@ class SeriesRepositoryImp @Inject constructor(
 
     override suspend fun getSimilarTvShow(tvShowId: Int): List<TVShowsDTO>? {
         return service.getSimilarTvShows(tvShowId).body()?.items
+    }
+
+    override fun getSimilarTvShowPager(tvShowId: Int): Pager<Int, TVShowsDTO> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = { SimilarTvShowDataSource(service, tvShowId) }
+        )
     }
 }

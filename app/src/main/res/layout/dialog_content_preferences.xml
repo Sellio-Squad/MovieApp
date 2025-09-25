@@ -4,101 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.settings.contentPreferences.ContentPreferencesViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color_bottomSheetContainer"
-        android:gravity="bottom"
-        android:orientation="vertical">
+        android:padding="20dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_simi_medium"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="32dp"
             app:cardBackgroundColor="@color/card_background_color"
             app:cardCornerRadius="@dimen/radius_medium"
             app:cardElevation="0dp">
 
-            <View
-                android:layout_width="48dp"
-                android:layout_height="3dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/shape_horizontal_divider" />
-
             <LinearLayout
-                style="@style/FloatingBottomSheetDialogTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_medium">
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="3dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/spacing_simi_medium"
+                    android:background="@drawable/shape_horizontal_divider" />
 
                 <LinearLayout
+                    style="@style/FloatingBottomSheetDialogTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txt_title"
+                            style="@style/TextStyle.Title.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="20dp"
+                            android:text="@string/content_preferences"
+                            android:textColor="@color/shade_color_primary" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/img_close"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/icon"
+                            android:onClick="@{() -> viewModel.onClose()}"
+                            android:src="@drawable/outline_x"
+                            app:tint="@color/shade_color_secondary" />
+
+                    </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/txt_title"
-                        style="@style/TextStyle.Title.Small"
+                        android:id="@+id/txt_description"
+                        style="@style/TextStyle.Body.Small.Regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/content_preferences"
-                        android:textColor="@color/shade_color_primary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/icon" />
+                        android:text="@string/choose_how_you_d_like_to_handle_sensitive_or_revealing_images_in_the_app"
+                        android:textColor="@color/shade_color_secondary" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/img_close"
-                        android:layout_width="20dp"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@string/icon"
-                        android:onClick="@{() -> viewModel.onClose()}"
-                        android:src="@drawable/outline_x"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/shade_color_secondary" />
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        app:items="@{viewModel.uiState.preferences}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:selectedItem="@{viewModel.uiState.selectedPreference}"
+                        tools:listitem="@layout/item_preference_option" />
 
                 </LinearLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/txt_description"
-                    style="@style/TextStyle.Body.Small.Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/choose_how_you_d_like_to_handle_sensitive_or_revealing_images_in_the_app"
-                    android:textColor="@color/shade_color_secondary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:items="@{viewModel.uiState.preferences}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:selectedItem="@{viewModel.uiState.selectedPreference}"
-                    tools:listitem="@layout/item_preference_option" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </layout>

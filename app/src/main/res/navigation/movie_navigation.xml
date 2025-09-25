@@ -442,7 +442,26 @@
             app:destination="@+id/tvShowDetailsFragment"
             app:popUpToInclusive="true"
             />
+
+        <action
+            android:id="@+id/action_tvShowDetailFragment_ToRateTvShowDialog"
+            app:destination="@id/ratingTvShowDialog" />
     </fragment>
+
+    <dialog
+        android:id="@+id/ratingTvShowDialog"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.ratingTvShowDialog.RatingTvShowDialog"
+        android:label="dialog_rating_tv_show"
+        tools:layout="@layout/dialog_rate_the_tv_show">
+
+        <argument
+            android:name="tvShowId"
+            app:argType="integer"
+            />
+
+    </dialog>
+
+
     <dialog
         android:id="@+id/logInDialog"
         android:name="com.karrar.movieapp.ui.profile.login.LogInDialog"

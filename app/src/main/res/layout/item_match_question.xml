@@ -57,7 +57,7 @@
                 android:id="@+id/option_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/shade_color_primary"
+                android:textColor="@color/item_match_text_color"
                 style="@style/TextStyle.Body.Medium.Medium"
                 tools:text="Emotional" />
 

@@ -1,10 +1,10 @@
 package com.karrar.movieapp.ui.match
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMatchedMoviesUseCase
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
+import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.DateFormatter
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ class MatchViewModel @Inject constructor(
     private val getMatchedMoviesUseCase: GetMatchedMoviesUseCase,
     private val getGenreListUseCase: GetGenreListUseCase,
     private val getSessionIDUseCase: GetSessionIDUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(MatchUiState())
     val uiState = _uiState.asStateFlow()
@@ -66,7 +66,11 @@ class MatchViewModel @Inject constructor(
 
     private fun loadMatches() {
         val currentState = _uiState.value ?: return
-        _uiState.value = currentState.copy(isLoadingRecommendations = true)
+        _uiState.value = currentState.copy(
+            isLoadingRecommendations = true,
+            shouldShowError = false,
+            errorMessage = null
+        )
 
         viewModelScope.launch {
             try {
@@ -93,18 +97,21 @@ class MatchViewModel @Inject constructor(
                                 )
                             },
                             isLoadingRecommendations = false,
-                            currentPage = MatchPages.RESULTS_PAGE
+                            currentPage = MatchPages.RESULTS_PAGE,
+                            shouldShowError = false,
+                            errorMessage = null
                         )
                     }
                 }
-
-
             } catch (e: Exception) {
-                _uiState.value = currentState.copy(
-                    isLoadingRecommendations = false,
-                    shouldShowError = true,
-                    errorMessage = "Failed to load matches. Please try again."
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        isLoadingRecommendations = false,
+                        shouldShowError = true,
+                        errorMessage = "Failed to load matches. Please check your internet connection and try again.",
+                        currentPage = MatchPages.RESULTS_PAGE
+                    )
+                }
             }
         }
     }
@@ -221,4 +228,7 @@ class MatchViewModel @Inject constructor(
         _uiEvent.value = Event(null)
     }
 
+    override fun getData() {
+        onRetry()
+    }
 }

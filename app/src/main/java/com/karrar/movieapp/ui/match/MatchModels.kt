@@ -29,8 +29,9 @@ data class MatchUiState(
     val matchResults: List<MatchedMovieUIState> = emptyList(),
     val isLoadingRecommendations: Boolean = false,
     val errorMessage: String? = null,
-    val shouldShowError: Boolean = false
-) {
+    val shouldShowError: Boolean = false,
+    val isLogin: Boolean = false
+    ) {
 
     val matchProgress: Float =
         currentQuestionType.ordinal.plus(1).toFloat() / QuestionType.entries.size

@@ -159,7 +159,25 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_createListDialog"
             app:destination="@id/createListDialog"/>
+
+        <action
+            android:id="@+id/action_movieDetailFragment_to_rateMovieDialog"
+            app:destination="@id/ratingMovieDialog" />
+
     </fragment>
+
+    <dialog
+        android:id="@+id/ratingMovieDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.ratingMovieDialog.RatingMovieDialog"
+        android:label="dialog_rating_movie"
+        tools:layout="@layout/dialog_rate_the_movie">
+
+        <argument
+            android:name="movieId"
+            app:argType="integer"
+            />
+
+    </dialog>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -446,7 +464,26 @@
             app:destination="@+id/tvShowDetailsFragment"
             app:popUpToInclusive="true"
             />
+
+        <action
+            android:id="@+id/action_tvShowDetailFragment_ToRateTvShowDialog"
+            app:destination="@id/ratingTvShowDialog" />
     </fragment>
+
+    <dialog
+        android:id="@+id/ratingTvShowDialog"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.ratingTvShowDialog.RatingTvShowDialog"
+        android:label="dialog_rating_tv_show"
+        tools:layout="@layout/dialog_rate_the_tv_show">
+
+        <argument
+            android:name="tvShowId"
+            app:argType="integer"
+            />
+
+    </dialog>
+
+
     <dialog
         android:id="@+id/logInDialog"
         android:name="com.karrar.movieapp.ui.profile.login.LogInDialog"

@@ -132,6 +132,12 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
                 action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToCreateListDialog(args.movieId)
             }
 
+
+            is MovieDetailsUIEvent.ClickRateMovieEvent -> {
+                action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToRateMovieDialog(
+                    args.movieId
+                )
+            }
         }
         action?.let { findNavController().navigate(it) }
 
@@ -153,5 +159,4 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
 
         }
     }
-
 }

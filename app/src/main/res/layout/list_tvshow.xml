@@ -27,7 +27,7 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{movieType.value}"
+            android:text="@{movieType.stringRes != 0 ? context.getString(movieType.stringRes) : @string/you_recently_viewed}"
             android:textColor="@color/shade_color_primary"
             style="@style/TextStyle.Title.Small"
             app:layout_constraintTop_toTopOf="parent"

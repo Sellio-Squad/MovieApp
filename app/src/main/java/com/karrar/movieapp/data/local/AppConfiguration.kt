@@ -13,6 +13,10 @@ interface AppConfiguration {
 
     suspend fun getRequestDate(key: String): Long?
 
+    fun getLanguage(): String?
+
+    suspend fun saveLanguage(language: String)
+
 }
 
 class AppConfigurator @Inject constructor(private val dataStorePreferences: DataStorePreferences) :
@@ -34,9 +38,17 @@ class AppConfigurator @Inject constructor(private val dataStorePreferences: Data
         return dataStorePreferences.readLong(key)
     }
 
+    override fun getLanguage(): String? {
+        return dataStorePreferences.readString(LANGUAGE_KEY)
+    }
+
+    override suspend fun saveLanguage(language: String) {
+        dataStorePreferences.writeString(LANGUAGE_KEY, language)
+    }
 
 
     companion object DataStorePreferencesKeys {
         const val SESSION_ID_KEY = "session_id"
+        const val LANGUAGE_KEY = "language"
     }
 }

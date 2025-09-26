@@ -13,5 +13,9 @@ interface AccountRepository {
     suspend fun logout()
 
     suspend fun getAccountDetails(): AccountDto?
+
+    fun getLanguage(): String?
+
+    suspend fun saveLanguage(language: String)
 }
 

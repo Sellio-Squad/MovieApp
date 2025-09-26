@@ -54,6 +54,14 @@ class AccountRepositoryImp @Inject constructor(
         return service.getAccountDetails().body()
     }
 
+    override fun getLanguage(): String? {
+        return appConfiguration.getLanguage()
+    }
+
+    override suspend fun saveLanguage(language: String) {
+        appConfiguration.saveLanguage(language)
+    }
+
     private suspend fun getRequestToken(): String {
         val tokenResponse = service.getRequestToken()
         return tokenResponse.body()?.requestToken.toString()

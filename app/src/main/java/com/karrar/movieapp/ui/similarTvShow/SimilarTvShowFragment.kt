@@ -53,6 +53,7 @@ class SimilarTvShowFragment : BaseFragment<FragmentSimilarDetailsBinding>(),
 
         initRecyclerView()
         setupToggleButton()
+        setupBackButton()
         collectEvent()
         observeViewMode()
         observeSimilarTvShows()
@@ -62,7 +63,7 @@ class SimilarTvShowFragment : BaseFragment<FragmentSimilarDetailsBinding>(),
         binding.recyclerMedia.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = gridAdapterWithFooter
-            //gridAdapter.withLoadStateFooter(LoadUIStateAdapter(gridAdapter::retry))
+            gridAdapter.withLoadStateFooter(LoadUIStateAdapter(gridAdapter::retry))
         }
     }
 
@@ -71,19 +72,16 @@ class SimilarTvShowFragment : BaseFragment<FragmentSimilarDetailsBinding>(),
             updateLayoutManager(state.viewMode)
             updateToggleIndicator(state.viewMode == ViewMode.GRID)
 
-//            when (state.viewMode) {
-//                ViewMode.GRID -> gridAdapter.submitList(state.similarTvShowResult)
-//                ViewMode.LIST -> listAdapter.submitList(state.similarTvShowResult)
-//            }
+            when (state.viewMode) {
+                ViewMode.GRID -> binding.recyclerMedia.adapter = gridAdapterWithFooter
+                ViewMode.LIST -> binding.recyclerMedia.adapter = listAdapterWithFooter
+            }
         }
     }
 
     private fun observeSimilarTvShows() {
         collect(viewModel.uiState) { state ->
-//            when (state.viewMode) {
-//                ViewMode.GRID -> gridAdapter.submitList(state.similarTvShowResult)
-//                ViewMode.LIST -> listAdapter.submitList(state.similarTvShowResult)
-//            }
+
         }
     }
 
@@ -143,6 +141,16 @@ class SimilarTvShowFragment : BaseFragment<FragmentSimilarDetailsBinding>(),
                     )
                 )
             }
+
+            SimilarTvShowUIEvent.ClickBackEvent -> {
+                findNavController().navigateUp()
+            }
+        }
+    }
+
+    private fun setupBackButton() {
+        binding.imageButton.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 

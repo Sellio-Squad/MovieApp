@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
                         it.copy(
                             recentlyViewed = HomeItem.RecentlyViewed(
                                 items = items,
-                                type = HomeItemsType.RECENTLY_VIEWED // التأكد من استخدام RECENTLY_VIEWED
+                                type = HomeItemsType.RECENTLY_VIEWED
                             ),
                             isLoading = false
                         )
@@ -233,7 +233,7 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.TOP_RATED_TV_SHOWS -> AllMediaType.TOP_RATED
             HomeItemsType.RECENTLY_RELEASED -> AllMediaType.RECENTLY_RELEASED
             HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
-            HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES // هنا ممكن نغيّر لو NON مش لازم
+            HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
             HomeItemsType.RECENTLY_VIEWED -> AllMediaType.RECENTLY_VIEWED
             HomeItemsType.YOUR_COLLECTIONS -> AllMediaType.YOUR_COLLECTIONS
             HomeItemsType.LATE_NIGHT_THRILLS -> AllMediaType.LATE_NIGHT_THRILLS
@@ -248,7 +248,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickSeeAllGallery(homeItemsType: HomeItemsType) {
-        // No changes needed here
+
     }
 
     override fun onClickBrowseEverything() {

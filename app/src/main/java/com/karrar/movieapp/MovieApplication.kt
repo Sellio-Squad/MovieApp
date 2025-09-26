@@ -6,6 +6,8 @@ import androidx.core.os.LocaleListCompat
 import com.karrar.movieapp.data.repository.LanguageRepository
 import com.karrar.movieapp.data.repository.ThemeRepository
 import com.karrar.movieapp.utilities.Constants.THEME_DARK
+import com.karrar.movieapp.utilities.ContentPreferencesManager
+import com.karrar.movieapp.utilities.ImageFilterBindingAdapters
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first
@@ -16,10 +18,12 @@ class MovieApplication : Application() {
 
     @Inject lateinit var themeRepository: ThemeRepository
     @Inject lateinit var languageRepository: LanguageRepository
+    @Inject lateinit var contentPreferencesManager: ContentPreferencesManager
 
     override fun onCreate() {
         super.onCreate()
         initializeTheme()
+        initializeImageFilterConfig()
         applyAppLanguage()
     }
 
@@ -43,5 +47,10 @@ class MovieApplication : Application() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
         }
+
+    }
+    private fun initializeImageFilterConfig() {
+        // Initialize the binding adapter with the manager
+        ImageFilterBindingAdapters.initialize(contentPreferencesManager)
     }
 }

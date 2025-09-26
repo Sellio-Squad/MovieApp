@@ -65,13 +65,13 @@
     <string name="movies_label">أفلام</string>
     <string name="tv_shows_label">مسلسلات</string>
     <string name="history_label">السجل</string>
-    <string name="explore_label">استكشاف</string>
+    <string name="explore_label">بحث</string>
     <string name="trending_today_label">الشائع اليوم</string>
     <string name="home">الرئيسية</string>
-    <string name="explore">استكشاف</string>
+    <string name="explore">بحث</string>
     <string name="match">مطابقة</string>
     <string name="myList">قوائمي</string>
-    <string name="profile">الملف الشخصي</string>
+    <string name="profile">حسابي</string>
     <string name="play_trailer">تشغيل الإعلان</string>
     <string name="duration">%1$d دقيقة</string>
     <string name="reviews">(%1$s مراجعة)</string>

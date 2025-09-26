@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:posterImage="@{item.imageUrl}"
+                app:imageUrl="@{item.imageUrl}"
                 app:shapeAppearanceOverlay="@style/CastImage"
                 tools:srcCompat="@drawable/image" />
 

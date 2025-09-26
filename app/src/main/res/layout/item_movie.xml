@@ -31,11 +31,10 @@
             android:layout_marginBottom="@dimen/radius_cineVerse_s"
             android:onClick="@{()->listener.onClickMovie(item.id)}"
             android:scaleType="centerCrop"
-
             app:layout_constraintDimensionRatio="136:182"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:posterImage="@{item.imageUrl}"
+            app:imageUrl="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
             tools:background="@color/brand_color_primary"
             tools:ignore="MissingConstraints" />

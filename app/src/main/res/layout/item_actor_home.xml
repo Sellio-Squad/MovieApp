@@ -33,7 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.imageUrl}"
+            app:imageUrl="@{item.imageUrl}"
             app:enableModeration="@{true}"
             app:detectFemales="@{true}"
             app:detectMales="@{false}" />

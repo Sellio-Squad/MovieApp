@@ -42,14 +42,14 @@
                     app:cardUseCompatPadding="false"
                     app:shapeAppearanceOverlay="@style/PosterShapeStyle">
 
-                    <ImageView
+                    <com.ae.imageharamblur.ui.ImageViewFilter
                         android:id="@+id/img_poster"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:background="@drawable/image_error_palceholder"
-                        app:mediaPoster="@{item.mediaImage}"
+                        app:imageUrl="@{item.mediaImage}"
                         android:contentDescription="@string/movie_poster" />
+
                 </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout

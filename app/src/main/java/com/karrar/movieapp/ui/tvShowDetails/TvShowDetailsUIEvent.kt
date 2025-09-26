@@ -2,6 +2,7 @@ package com.karrar.movieapp.ui.tvShowDetails
 
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.TvShowItemsType
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIEvent
 
 
 sealed interface TvShowDetailsUIEvent {
@@ -12,5 +13,7 @@ sealed interface TvShowDetailsUIEvent {
     data class ClickSeasonEvent(val seasonId: Int) : TvShowDetailsUIEvent
     data class ClickCastEvent(val castID: Int) : TvShowDetailsUIEvent
     data class ClickTvShowEvent(val tvShowID: Int ) : TvShowDetailsUIEvent
+//    data class ClickSeeAllTvShowsEvent(val mediaType: TvShowItemsType) : TvShowDetailsUIEvent
+    data class ClickRateTvShowEvent(val tvShowId: Int) : TvShowDetailsUIEvent
     data class ClickSeeAllTvShowsEvent(val mediaType: AllMediaType) : TvShowDetailsUIEvent
 }

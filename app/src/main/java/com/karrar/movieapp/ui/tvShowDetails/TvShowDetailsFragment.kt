@@ -112,6 +112,14 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
                         event.mediaType
                     )
             }
+            is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> TODO()
+
+            is TvShowDetailsUIEvent.ClickRateTvShowEvent -> {
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToRateTvShowDialog(
+                        event.tvShowId
+                    )
+            }
         }
         action?.let { findNavController().navigate(it) }
     }

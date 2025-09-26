@@ -1,6 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
-import android.util.Log
+import android.provider.SyncStateContract.Helpers.update
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.AllMediaType
@@ -254,6 +254,10 @@ class TvShowDetailsViewModel @Inject constructor(
         getInsertTvShowUserCase(tvShow)
     }
 
+    fun onClickToRateTvShow() {
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickRateTvShowEvent(args.tvShowId)) }
+    }
+
     override fun onClickSave() {}
 
     override fun onClickPlayTrailer() {
@@ -286,7 +290,6 @@ class TvShowDetailsViewModel @Inject constructor(
 
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
         _tvShowDetailsUIEvent.update {
-            Log.d("TAG", "onClickSeeAllTvShows: $tvShowItemsType")
             Event(TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent(AllMediaType.YOU_MIGHT_ALSO_LIKE_SERIES))
         }
     }

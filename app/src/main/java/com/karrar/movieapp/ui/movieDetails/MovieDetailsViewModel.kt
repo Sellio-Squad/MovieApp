@@ -253,6 +253,10 @@ class MovieDetailsViewModel @Inject constructor(
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSeeAllMovieEvent(type)) }
     }
 
+    fun onClickToRateMovie() {
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickRateMovieEvent(args.movieId)) }
+    }
+
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
         TODO("Not yet implemented")
     }

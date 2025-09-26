@@ -12,5 +12,5 @@ sealed interface MovieDetailsUIEvent {
     data class ClickSeeAllMovieEvent(val mediaType: AllMediaType) : MovieDetailsUIEvent
     data class ClickMovieEvent(val movieID: Int) : MovieDetailsUIEvent
     data class ClickCastEvent(val castID: Int) : MovieDetailsUIEvent
-
+    data class ClickRateMovieEvent(val movieID: Int) : MovieDetailsUIEvent
 }

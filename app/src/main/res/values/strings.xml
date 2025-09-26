@@ -276,4 +276,6 @@
     <string name="mind_bending_stories">Mind Bending Stories</string>
     <string name="late_night_thrills">Late Night Thrills</string>
     <string name="best_of">Best of %1$s</string>
+    <string name="change_rating">Change Rating</string>
+    <string name="remove_rating">Remove Rating</string>
 </resources>

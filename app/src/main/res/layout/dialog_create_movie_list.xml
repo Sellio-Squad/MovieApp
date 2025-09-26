@@ -9,118 +9,126 @@
             type="com.karrar.movieapp.ui.movieDetails.createList.CreateListViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/spacing_medium"
-        android:background="@drawable/bottom_sheet_my_collection">
+        android:layout_marginHorizontal="@dimen/spacing_simi_medium"
+        android:paddingHorizontal="@dimen/spacing_simi_medium">
 
-        <View
-            android:id="@+id/drag_bar"
-            android:layout_width="48dp"
-            android:layout_height="3dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/drag_bar_rounded"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/bottom_sheet_header"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            app:layout_constraintTop_toBottomOf="@id/drag_bar"
-            >
-            <TextView
-                android:id="@+id/primary_text"
-                style="@style/TextStyle.Title.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/plus_jakarta_sans_semibold"
-                android:text="@string/create_a_new_list"
-                android:textColor="@color/shade_color_primary"
-                android:textSize="16sp" />
+            android:background="@drawable/bg_floating_bottom_sheet"
+            android:paddingHorizontal="@dimen/spacing_medium"
+            android:layout_marginBottom="28dp">
 
-            <ImageView
+            <View
+                android:id="@+id/drag_bar"
+                android:layout_width="48dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/drag_bar_rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/bottom_sheet_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:layout_constraintTop_toBottomOf="@id/drag_bar">
+
+                <TextView
+                    android:id="@+id/primary_text"
+                    style="@style/TextStyle.Title.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/plus_jakarta_sans_semibold"
+                    android:text="@string/create_a_new_list"
+                    android:textColor="@color/shade_color_primary"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewModel.onCancel()}"
+                    android:src="@drawable/outline_x"
+                    app:tint="@color/shade_color_secondary" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView5"
+                style="@style/TextStyle.Body.Medium.Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:tint="@color/shade_color_secondary"
-                android:onClick="@{()->viewModel.onCancel()}"
-                android:src="@drawable/outline_x"
-                />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView5"
-            style="@style/TextStyle.Body.Medium.Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/collection_name"
-            android:textColor="@color/shade_color_secondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_header" />
+                android:layout_marginTop="20dp"
+                android:text="@string/collection_name"
+                android:textColor="@color/shade_color_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_header" />
 
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/list_name"
-            style="@style/InputField"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal = "16dp"
-            android:paddingVertical = "14dp"
-            android:afterTextChanged="@{(text) -> viewModel.onListNameChanged(text)}"
-            android:drawableStart="@drawable/outline_folder"
-            android:drawableTint="@color/shade_secondary_color"
-            android:hint="@string/list_name"
-            android:inputType="textPersonName"
-            android:maxLength="15"
-            android:maxLines="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <LinearLayout
-            android:id="@+id/bottom_sheet_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/spacing_large"
-            app:layout_constraintTop_toBottomOf="@id/list_name">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_medium"
-                android:textFontWeight="500"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:onClick="@{()->viewModel.onCancel()}"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/list_name"
+                style="@style/InputField"
+                android:layout_marginTop="8dp"
+                android:afterTextChanged="@{(text) -> viewModel.onListNameChanged(text)}"
+                android:drawableStart="@drawable/outline_folder"
+                android:drawableTint="@color/shade_secondary_color"
+                android:hint="@string/list_name"
+                android:inputType="textPersonName"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:text="@string/cancel"
-                android:textAllCaps="false"
-                android:textColor="@color/button_color_onSecondary"
-                app:backgroundTint="@color/button_color_secondary"
-                app:cornerRadius="@dimen/radius_medium" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/create_button"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/bottom_sheet_buttons"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_medium"
-                android:textFontWeight="500"
-                android:enabled="@{!viewModel.uiState.mediaListName.empty}"
-                android:onClick="@{()->viewModel.onCreateList()}"
-                android:paddingVertical="14dp"
-                android:text="@string/create"
-                android:textAllCaps="false"
-                android:textColor="@color/button_color_onPrimary"
-                app:backgroundTint="@drawable/button_primary"
-                app:cornerRadius="@dimen/radius_medium" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/list_name">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->viewModel.onCancel()}"
+                    android:paddingVertical="14dp"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_color_onSecondary"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/text_medium"
+                    app:backgroundTint="@color/button_color_secondary"
+                    app:cornerRadius="@dimen/radius_medium" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/create_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{!viewModel.uiState.mediaListName.empty}"
+                    android:onClick="@{()->viewModel.onCreateList()}"
+                    android:paddingVertical="14dp"
+                    android:text="@string/create"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_color_onPrimary"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/text_medium"
+                    app:backgroundTint="@drawable/button_primary"
+                    app:cornerRadius="@dimen/radius_medium" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>
 

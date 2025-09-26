@@ -267,6 +267,10 @@ class TvShowDetailsViewModel @Inject constructor(
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickReviewsEvent) }
     }
 
+    override fun onClickCreateList() {
+
+    }
+
     override fun onClickActor(actorID: Int) {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickCastEvent(actorID)) }
     }

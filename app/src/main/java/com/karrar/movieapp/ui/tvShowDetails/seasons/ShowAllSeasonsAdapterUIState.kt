@@ -9,7 +9,7 @@ class ShowAllSeasonsAdapterUIState(
     items: List<SeasonUIState>,
     listener: SeasonInteractionListener
 ) : BaseAdapter<SeasonUIState>(items, listener) {
-    override val layoutID: Int = R.layout.item_season
+    override val layoutID: Int = R.layout.item_see_all_season
 }
 
 interface SeasonInteractionListener : BaseInteractionListener {

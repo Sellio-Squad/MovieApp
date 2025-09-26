@@ -156,7 +156,25 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_logInDialog"
             app:destination="@id/logInDialog" />
+
+        <action
+            android:id="@+id/action_movieDetailFragment_to_rateMovieDialog"
+            app:destination="@id/ratingMovieDialog" />
+
     </fragment>
+
+    <dialog
+        android:id="@+id/ratingMovieDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.ratingMovieDialog.RatingMovieDialog"
+        android:label="dialog_rating_movie"
+        tools:layout="@layout/dialog_rate_the_movie">
+
+        <argument
+            android:name="movieId"
+            app:argType="integer"
+            />
+
+    </dialog>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -198,14 +216,21 @@
         android:name="com.karrar.movieapp.ui.match.MatchFragment"
         tools:layout="@layout/fragment_match">
         <action
+            android:id="@+id/action_matchFragment_to_logInDialog"
+            app:destination="@id/logInDialog" />
+        <action
             android:id="@+id/action_matchFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
         <action
-            android:id="@+id/action_myListFragment_to_savedListFragment"
-            app:destination="@id/listDetailsFragment" />
+            android:id="@+id/action_matchFragment_to_savedMovieDialog"
+            app:destination="@id/saveMovieDialog" />
         <action
             android:id="@+id/action_myListFragment_to_exploringFragment"
             app:destination="@id/exploringFragment" />
+        <action
+            android:id="@+id/action_matchFragment_to_youtubePlayerActivity"
+            app:destination="@id/youtubePlayerActivity" />
+
     </fragment>
 
     <fragment
@@ -424,7 +449,26 @@
             app:destination="@+id/tvShowDetailsFragment"
             app:popUpToInclusive="true"
             />
+
+        <action
+            android:id="@+id/action_tvShowDetailFragment_ToRateTvShowDialog"
+            app:destination="@id/ratingTvShowDialog" />
     </fragment>
+
+    <dialog
+        android:id="@+id/ratingTvShowDialog"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.ratingTvShowDialog.RatingTvShowDialog"
+        android:label="dialog_rating_tv_show"
+        tools:layout="@layout/dialog_rate_the_tv_show">
+
+        <argument
+            android:name="tvShowId"
+            app:argType="integer"
+            />
+
+    </dialog>
+
+
     <dialog
         android:id="@+id/logInDialog"
         android:name="com.karrar.movieapp.ui.profile.login.LogInDialog"

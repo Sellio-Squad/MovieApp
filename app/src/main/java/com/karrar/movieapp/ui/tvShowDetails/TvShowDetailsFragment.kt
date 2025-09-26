@@ -13,18 +13,14 @@ import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
-import com.karrar.movieapp.domain.enums.MovieItemsType
-import com.karrar.movieapp.domain.enums.TvShowItemsType
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
-    DetailInteractionListener {
+class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
 
     override val layoutIdFragment = R.layout.fragment_tv_show_details
     override val viewModel: TvShowDetailsViewModel by viewModels()
@@ -67,12 +63,14 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
             TvShowDetailsUIEvent.ClickBackEvent -> {
                 findNavController().navigateUp()
             }
+
             is TvShowDetailsUIEvent.ClickCastEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(
                         event.castID
                     )
             }
+
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
@@ -80,18 +78,21 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
                         event.seasonId
                     )
             }
+
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
@@ -105,31 +106,17 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>(),
             }
 
             is TvShowDetailsUIEvent.ClickSeeAllTvShowsEvent -> TODO()
+
+            is TvShowDetailsUIEvent.ClickRateTvShowEvent -> {
+                action =
+                    TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToRateTvShowDialog(
+                        event.tvShowId
+                    )
+            }
         }
         action?.let { findNavController().navigate(it) }
     }
 
-    override fun onclickBack() {
-        findNavController().navigateUp()
-
-    }
-
-    override fun onClickSave() {
-    }
-
-    override fun onClickPlayTrailer() {
-    }
-
-    override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onclickViewReviews() {
-    }
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setupRecyclerWithHeaderAnimation() {
 

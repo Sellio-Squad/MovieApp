@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_color"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:isVisible="@{viewModel.actorDetailsUIState.success}">
 
                 <androidx.cardview.widget.CardView
@@ -230,19 +230,19 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/social_media_recycler"
                             android:layout_width="0dp"
-                            android:layout_height="36dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="@dimen/spacing_simi_medium"
                             android:clipToPadding="false"
                             android:orientation="horizontal"
                             android:scrollbars="none"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             app:isVisible="@{!viewModel.actorDetailsUIState.socialItemUIState.empty}"
                             app:items="@{viewModel.actorDetailsUIState.socialItemUIState}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/text_place_of_birth_actor"
+                            app:layout_constraintTop_toBottomOf="@id/actor_image"
                             tools:listitem="@layout/item_social" />
 
 
@@ -256,7 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:text="@string/best_of_christian_bale"
+                    android:text="@{@string/best_of(viewModel.actorDetailsUIState.name)}"
                     android:textColor="@color/shade_color_primary"
                     app:layout_constraintStart_toStartOf="@id/cardView_actorDetails"
                     app:layout_constraintTop_toBottomOf="@id/cardView_actorDetails"
@@ -300,7 +300,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/gallery"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:textColor="@color/shade_color_primary"
                     app:layout_constraintStart_toStartOf="@id/cardView_actorDetails"
                     app:layout_constraintTop_toBottomOf="@+id/related_movie_recycler"
@@ -315,7 +315,7 @@
                     android:onClick="@{() -> viewModel.onClickSeeAllGallery(HomeItemsType.NON)}"
                     android:text="@string/show_more"
                     android:textColor="@color/brand_color_primary"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/text_gallery"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/text_gallery"
@@ -331,7 +331,7 @@
                     android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:weightSum="3"
                     app:layout_constraintStart_toStartOf="@id/text_gallery"
                     app:layout_constraintTop_toBottomOf="@id/text_gallery"

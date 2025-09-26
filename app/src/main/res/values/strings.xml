@@ -205,9 +205,9 @@
     <string name="both">Both</string>
 
     <string name="time_short_label">Short </string>
-    <string name="time_short_desc">(Less than 90 min)</string>
+    <string name="time_short_desc">(Under 90 min)</string>
     <string name="time_medium_label">Medium </string>
-    <string name="time_medium_desc">(90–120 min)</string>
+    <string name="time_medium_desc">(between 90 &amp; 120 min)</string>
     <string name="time_long_label">Long </string>
     <string name="time_long_desc">(More than 120 min)</string>
 
@@ -275,6 +275,9 @@
     <string name="cinematic_masterpieces">Cinematic Masterpieces</string>
     <string name="mind_bending_stories">Mind Bending Stories</string>
     <string name="late_night_thrills">Late Night Thrills</string>
+    <string name="best_of">Best of %1$s</string>
+    <string name="change_rating">Change Rating</string>
+    <string name="remove_rating">Remove Rating</string>
     <string name="top_rated_tv_shows">Top Rated Tv Shows</string>
     <string name="recently_released">Recently Released</string>
     <string name="upcoming_movies">Upcoming Movies</string>

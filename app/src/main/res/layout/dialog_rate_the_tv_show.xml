@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.tvShowDetails.ratingTvShowDialog.RatingTvShowDialogViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color_bottomSheetContainer"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_simi_medium"
+            android:layout_marginVertical="@dimen/spacing_bottom"
+            android:background="@drawable/rating_bottom_sheet"
+            app:cardElevation="0dp">
+
+            <View
+                android:id="@+id/horizontal_divider"
+                android:layout_width="48dp"
+                android:layout_height="3dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_horizontal_divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/rate_the_movie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_divider">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_title"
+                    style="@style/TextStyle.Title.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/rate_the_movie"
+                    android:textColor="@color/shade_color_primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon" />
+
+                <ImageView
+                    android:id="@+id/img_close"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/icon"
+                    android:onClick="@{() -> viewModel.onCancel()}"
+                    android:src="@drawable/outline_x"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/shade_color_secondary" />
+
+            </LinearLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/emojis_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingStart="20dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
+                app:highlightEmojiByRating="@{viewModel.uiState.ratingValue}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rate_the_movie">
+
+                <ImageView
+                    android:id="@+id/first_emoji"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:src="@drawable/colored_frowning_face"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/second_emoji"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/second_emoji"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:src="@drawable/colored_confused_face"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/first_emoji"
+                    app:layout_constraintEnd_toStartOf="@+id/third_emoji"
+                    app:layout_constraintStart_toEndOf="@+id/first_emoji"
+                    app:layout_constraintTop_toTopOf="@+id/first_emoji" />
+
+                <ImageView
+                    android:id="@+id/third_emoji"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:src="@drawable/colored_neutral_face"
+                    app:layout_constraintBottom_toBottomOf="@+id/second_emoji"
+                    app:layout_constraintEnd_toStartOf="@+id/fourth_emoji"
+                    app:layout_constraintStart_toEndOf="@+id/second_emoji"
+                    app:layout_constraintTop_toTopOf="@+id/second_emoji" />
+
+                <ImageView
+                    android:id="@+id/fourth_emoji"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:src="@drawable/colored_smiling_face_with_smiling_eyes"
+                    app:layout_constraintBottom_toBottomOf="@+id/third_emoji"
+                    app:layout_constraintEnd_toStartOf="@+id/fifth_emoji"
+                    app:layout_constraintStart_toEndOf="@+id/third_emoji"
+                    app:layout_constraintTop_toTopOf="@+id/third_emoji" />
+
+                <ImageView
+                    android:id="@+id/fifth_emoji"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:src="@drawable/colored_star_struck"
+                    app:layout_constraintBottom_toBottomOf="@+id/fourth_emoji"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/fourth_emoji"
+                    app:layout_constraintTop_toTopOf="@+id/fourth_emoji" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/star_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emojis_container"
+                app:starsDrawableByRating="@{viewModel.uiState.ratingValue}">
+
+                <ImageView
+                    android:id="@+id/first_star"
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:onClick="@{() -> viewModel.onChangeRating(1f)}"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/second_star"
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:onClick="@{() -> viewModel.onChangeRating(2f)}"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/third_star"
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:onClick="@{() -> viewModel.onChangeRating(3f)}"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/fourth_star"
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:onClick="@{() -> viewModel.onChangeRating(4f)}"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/fifth_star"
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:onClick="@{() -> viewModel.onChangeRating(5f)}"
+                    android:src="@drawable/star_outline_new" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/add_rating_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginRight="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:background="@drawable/bg_add_rating_button"
+                android:enabled="@{viewModel.uiState.ratingValue > 0}"
+                android:onClick="@{() -> viewModel.onSubmitRating()}"
+                android:paddingVertical="14dp"
+                android:text="@string/add_rating"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextStyle.Body.Medium.Medium"
+                android:textColor="@color/primary_button_text"
+                app:isVisible="@{!viewModel.uiState.editMode}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/star_bar"
+                app:layout_goneMarginBottom="@dimen/spacing_medium"
+                tools:visibility="invisible" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                app:isVisible="@{viewModel.uiState.editMode}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/star_bar">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/edit_rating_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:background="@drawable/bg_add_rating_button"
+                    android:onClick="@{() -> viewModel.onSubmitRating()}"
+                    android:text="@string/change_rating"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextStyle.Body.Medium.Medium"
+                    android:textColor="@color/primary_button_text" />
+
+                <TextView
+                    style="@style/TextStyle.Body.Medium.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:onClick="@{() -> viewModel.onRemoveRating()}"
+                    android:text="@string/remove_rating"
+                    android:textColor="@color/button_color_onTertiary" />
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+</layout>

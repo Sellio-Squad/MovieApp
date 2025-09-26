@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.search.SearchViewModel" />
@@ -102,8 +102,8 @@
             android:id="@+id/layout_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.uiState.searchInput.empty ? View.VISIBLE : View.GONE}"
             android:layout_marginHorizontal="@dimen/spacing_medium"
-            app:showWhenSuggestionMode="@{viewModel.uiState.displayMode}"
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintTop_toBottomOf="@id/input_search">
@@ -173,6 +173,7 @@
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toBottomOf="@id/layout_history"
             app:layout_constraintVertical_bias="0.0"
+            android:visibility="@{viewModel.uiState.searchInput.empty ? View.VISIBLE : View.GONE}"
             tools:listitem="@layout/item_search_history" />
 
         <!-- Toggle Switch positioned at bottom right -->

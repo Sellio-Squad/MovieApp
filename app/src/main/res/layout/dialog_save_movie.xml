@@ -163,24 +163,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_confirmation"
                 app:showWhenListEmpty="@{viewModel.myListsUIState.myListItemUI}" />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_create"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:layout_marginHorizontal="@dimen/spacing_medium"
-                android:background="@drawable/button_corner_shape"
-                android:onClick="@{() -> viewModel.onClickNewCollection()}"
-                android:text="@string/create_collection"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextStyle.Body.Medium.Medium"
-                android:textColor="@color/button_color_onPrimary"
-                app:backgroundTint="@color/button_color_primary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_confirmation_message" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

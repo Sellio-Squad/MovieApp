@@ -408,7 +408,7 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
                 binding.optionDescription.visibility = View.GONE
             }
 
-            question.iconResource?.let { iconRes ->
+            question.iconResource.let { iconRes ->
                 binding.optionIcon.setImageResource(iconRes)
                 binding.iconContainer.visibility = View.VISIBLE
             }
@@ -500,11 +500,6 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
                     findNavController().navigate(action)
                 }
 
-                MatchEvent.ShowLoginDialogEvent -> {
-                    action =
-                        MatchFragmentDirections.actionMatchFragmentToLogInDialog("")
-                    findNavController().navigate(action)
-                }
             }
             viewModel.resetEvent()
         }

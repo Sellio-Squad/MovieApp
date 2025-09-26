@@ -37,7 +37,7 @@ class SeasonViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = false, errorUIState = emptyList()) }
         viewModelScope.launch {
             try {
-                val result = getSeasonsUseCase.getSeasons(args.tvShowId)
+                val result = getSeasonsUseCase.getSeasons(args.tvShowId,false)
                 _uiState.update {
                     it.copy(
                         seriesSeasonsResult = result.map { season -> tvhShowsSeasonMapper.map(season) },

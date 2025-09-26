@@ -107,7 +107,7 @@ class HomeAdapter(
                 }
 
                 is HomeItem.RecentlyViewed -> {
-                    if (currentItem.items.isNotEmpty()) {
+                    bindSectionVisibility(holder, currentItem.items) {
                         holder.binding.setVariable(
                             BR.adapterRecycler,
                             RecentlyViewedAdapter(
@@ -125,13 +125,15 @@ class HomeAdapter(
                 }
 
                 is HomeItem.CollectionsList -> {
-                    holder.binding.setVariable(
-                        BR.adapterRecycler,
-                        YourCollectionsAdapter(
-                            currentItem.items,
-                            listener as YourCollectionsInteractionListener
+                    bindSectionVisibility(holder, currentItem.items) {
+                        holder.binding.setVariable(
+                            BR.adapterRecycler,
+                            YourCollectionsAdapter(
+                                currentItem.items,
+                                listener as YourCollectionsInteractionListener
+                            )
                         )
-                    )
+                    }
                 }
 
                 is HomeItem.FeaturedCollections -> {
@@ -146,12 +148,41 @@ class HomeAdapter(
                     }
                 }
 
-                is HomeItem.MatchesYourVibes -> bindMovie(
-                    holder,
-                    currentItem.items,
-                    currentItem.type
-                )
+                is HomeItem.MatchesYourVibes -> {
+                    bindSectionVisibility(holder, currentItem.items) {
+                        bindMovie(
+                            holder,
+                            currentItem.items,
+                            currentItem.type
+                        )
+                    }
+                }
             }
+    }
+
+    private fun bindSectionVisibility(
+        holder: ItemViewHolder,
+        items: List<*>,
+        bindAction: () -> Unit
+    ) {
+        val itemView = holder.itemView
+        val layoutParams = itemView.layoutParams as RecyclerView.LayoutParams
+
+        if (items.isNotEmpty()) {
+            itemView.visibility = View.VISIBLE
+            layoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT
+            val verticalMargin =
+                itemView.context.resources.getDimensionPixelSize(R.dimen.spacing_medium)
+            layoutParams.topMargin = verticalMargin
+            layoutParams.bottomMargin = verticalMargin
+            bindAction()
+        } else {
+            itemView.visibility = View.GONE
+            layoutParams.height = 0
+            layoutParams.topMargin = 0
+            layoutParams.bottomMargin = 0
+        }
+        itemView.layoutParams = layoutParams
     }
 
     private fun setupSliderWithFixedElements(holder: ItemViewHolder, currentItem: HomeItem.Slider) {

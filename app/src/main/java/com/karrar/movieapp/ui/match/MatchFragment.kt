@@ -45,6 +45,7 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTitle(false)
 
         binding.viewModel = viewModel
         setupRecyclerViews()

@@ -9,8 +9,13 @@ import javax.inject.Inject
 
 class SimilarTvShowDataSource @Inject constructor(
     private val service: MovieService,
-    private val tvShowId: Int
 ) : BasePagingSource<TVShowsDTO>() {
+
+    private var _tvShowId: Int = 0
+
+    fun setTvShowId(tvShowId: Int) {
+        this._tvShowId = tvShowId
+    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TVShowsDTO> {
         val pageNumber = params.key ?: 1
@@ -18,7 +23,7 @@ class SimilarTvShowDataSource @Inject constructor(
         return try {
             val response = service.getSimilarTvShows(
                 page = pageNumber,
-                tvShowId = tvShowId
+                tvShowId = _tvShowId
             )
 
             LoadResult.Page(

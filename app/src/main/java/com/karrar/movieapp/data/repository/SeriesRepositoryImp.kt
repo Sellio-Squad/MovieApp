@@ -228,7 +228,7 @@ class SeriesRepositoryImp @Inject constructor(
     override fun getSimilarTvShowPager(tvShowId: Int): Pager<Int, TVShowsDTO> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { SimilarTvShowDataSource(service, tvShowId) }
+            pagingSourceFactory = { SimilarTvShowDataSource(service) }
         )
     }
 }

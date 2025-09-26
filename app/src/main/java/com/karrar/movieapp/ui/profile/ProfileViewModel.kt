@@ -117,7 +117,6 @@ class ProfileViewModel @Inject constructor(
         } else {
             _profileUIEvent.update { Event(ProfileUIEvent.LoginEvent(_profileDetailsUIState.value.username)) }
         }
-
     }
 
     fun changeTheme() {

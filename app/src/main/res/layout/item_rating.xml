@@ -36,6 +36,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/card_background"
+            android:onClick="@{() -> viewModel.onClickToRateMovie()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rating_id">
@@ -94,5 +95,117 @@
                 app:tint="@color/shade_color_tertiary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/you_rated_it"
+            style="@style/ctaCard"
+            layout="@layout/item_rating_section"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/card_background"
+            android:onClick="@{() -> viewModel.onClickToRateMovie()}"
+            app:isVisible="@{viewModel.uiState.ratingValue != 0}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rating_id">
+
+            <FrameLayout
+                android:id="@+id/icon_container"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:background="@drawable/back_icon_cta"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_star_cta" />
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/outline_alt_arrow_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/shade_color_tertiary" />
+
+            <TextView
+                android:id="@+id/title_text"
+                style="@style/CtaText.Title"
+                android:layout_marginStart="@dimen/spacing_simi_medium"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:text="@string/you_rated_it"
+                app:layout_constraintBottom_toTopOf="@+id/description_text"
+                app:layout_constraintStart_toEndOf="@+id/icon_container"
+                app:layout_constraintTop_toTopOf="@+id/icon_container" />
+
+            <TextView
+                android:id="@+id/description_text"
+                style="@style/CtaText.Description"
+                android:text="@string/tap_to_change_your_rating"
+                app:layout_constraintBottom_toBottomOf="@+id/icon_container"
+                app:layout_constraintStart_toStartOf="@+id/title_text"
+                app:layout_constraintTop_toBottomOf="@+id/title_text" />
+
+            <LinearLayout
+                android:id="@+id/stars_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/title_text"
+                app:layout_constraintStart_toEndOf="@+id/title_text"
+                app:layout_constraintTop_toTopOf="@id/title_text"
+                app:starsDrawableByRating="@{viewModel.uiState.ratingValue}">
+
+                <ImageView
+                    android:id="@+id/first_star"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginStart="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/second_star"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/third_star"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/fourth_star"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:src="@drawable/star_outline_new" />
+
+                <ImageView
+                    android:id="@+id/fifth_star"
+                    android:layout_width="@dimen/spacing_medium"
+                    android:layout_height="@dimen/spacing_medium"
+                    android:src="@drawable/star_outline_new" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -17,5 +17,7 @@ interface DetailInteractionListener : BaseInteractionListener {
     fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType)
 
     fun onclickViewReviews()
+
+    fun onClickCreateList()
     fun onClickViewSeasons()
 }

@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -16,6 +17,7 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.mappers.CrewUIStateMapper
 import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIEvent
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
@@ -249,6 +251,11 @@ class TvShowDetailsViewModel @Inject constructor(
     private suspend fun insertMovieToWatchHistory(tvShow: TvShowDetails) {
         getInsertTvShowUserCase(tvShow)
     }
+
+    fun onClickToRateTvShow() {
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickRateTvShowEvent(args.tvShowId)) }
+    }
+
     override fun onClickSave() {}
 
     override fun onClickPlayTrailer() {
@@ -265,6 +272,10 @@ class TvShowDetailsViewModel @Inject constructor(
 
     override fun onclickViewReviews() {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickReviewsEvent) }
+    }
+
+    override fun onClickCreateList() {
+
     }
 
     override fun onClickViewSeasons() {

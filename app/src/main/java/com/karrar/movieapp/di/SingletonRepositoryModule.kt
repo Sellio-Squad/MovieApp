@@ -1,7 +1,11 @@
 package com.karrar.movieapp.di
 
+import com.karrar.movieapp.data.repository.AccountRepository
+import com.karrar.movieapp.data.repository.AccountRepositoryImp
 import com.karrar.movieapp.data.repository.ContentPreferencesRepository
 import com.karrar.movieapp.data.repository.ContentPreferencesRepositoryImpl
+import com.karrar.movieapp.data.repository.LanguageRepository
+import com.karrar.movieapp.data.repository.LanguageRepositoryImpl
 import com.karrar.movieapp.data.repository.RatingTipsRepository
 import com.karrar.movieapp.data.repository.RatingTipsRepositoryImpl
 import dagger.Binds
@@ -25,4 +29,17 @@ abstract class SingletonRepositoryModule {
     abstract fun bindRatingTipRepository(
         impl: RatingTipsRepositoryImpl
     ): RatingTipsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAccountRepository(
+        accountRepositoryImp: AccountRepositoryImp
+    ): AccountRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLanguageRepository(
+        impl: LanguageRepositoryImpl
+    ): LanguageRepository
+
 }

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.home.adapter.RecentlyViewedAdapter" />
@@ -19,6 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/background_color"
         android:layout_marginVertical="@dimen/spacing_medium">
+
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             app:showSeeAll="true"
             tools:text="Popular"
             app:isVisible="@{adapterRecycler.itemCount != 0}"
-            android:text="@{movieType.RECENTLY_VIEWED.value}"
+            android:text="@{movieType.stringRes != 0 ? context.getString(movieType.stringRes) : @string/you_recently_viewed}"
             app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllRecentlyViewed()}"
             style="@style/TextStyle.Title.Small"
             android:textColor="@color/shade_color_primary"
@@ -51,5 +51,4 @@
             tools:listitem="@layout/item_recently_viewed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

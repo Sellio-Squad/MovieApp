@@ -121,6 +121,8 @@ class GetMediaByTypeUseCase @Inject constructor(
 //                {
 //                wrapper(movieRepository::getMovieReviewsPager,  )
 //            }
+            AllMediaType.RECENTLY_VIEWED -> TODO()
+            AllMediaType.YOUR_COLLECTIONS -> TODO()
         }
     }
 

@@ -2,9 +2,10 @@ package com.karrar.movieapp.di
 
 import com.google.gson.Gson
 import com.karrar.movieapp.BuildConfig
+import com.karrar.movieapp.data.LanguageInterceptor
 import com.karrar.movieapp.data.remote.AuthInterceptor
 import com.karrar.movieapp.data.remote.service.MovieService
-import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.data.repository.LanguageRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,33 +27,40 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit {
+    fun provideLanguageInterceptor(languageRepository: LanguageRepository): LanguageInterceptor {
+        return LanguageInterceptor { languageRepository.getLanguage() }
+    }
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
+        languageInterceptor: LanguageInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .addInterceptor(languageInterceptor)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(
+        client: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build()
-
     }
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
-            .build()
-    }
+    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Singleton
     @Provides
-    fun provideGsonConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
-
-    @Singleton
-    @Provides
-    fun provideGson(): Gson {
-        return Gson()
-    }
-
+    fun provideGson(): Gson = Gson()
 }

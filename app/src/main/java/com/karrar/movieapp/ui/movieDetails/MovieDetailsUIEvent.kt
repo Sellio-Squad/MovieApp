@@ -9,8 +9,9 @@ sealed interface MovieDetailsUIEvent {
     object MessageAppear : MovieDetailsUIEvent
     object ShowLoginDialogEvent : MovieDetailsUIEvent
     object ClickReviewsEvent : MovieDetailsUIEvent
+    object ClickCreateMovieEvent : MovieDetailsUIEvent
     data class ClickSeeAllMovieEvent(val mediaType: AllMediaType) : MovieDetailsUIEvent
     data class ClickMovieEvent(val movieID: Int) : MovieDetailsUIEvent
     data class ClickCastEvent(val castID: Int) : MovieDetailsUIEvent
-
+    data class ClickRateMovieEvent(val movieID: Int) : MovieDetailsUIEvent
 }

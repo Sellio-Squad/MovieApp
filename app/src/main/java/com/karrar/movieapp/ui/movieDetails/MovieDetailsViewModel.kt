@@ -231,6 +231,15 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    override fun onClickCreateList() {
+        if (_uiState.value.isLogin) {
+            _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCreateMovieEvent) }
+        } else {
+            showLoginDialog()
+        }
+    }
+
+
     private fun showLoginDialog() {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ShowLoginDialogEvent) }
     }
@@ -256,6 +265,10 @@ class MovieDetailsViewModel @Inject constructor(
             MovieItemsType.NON -> AllMediaType.ACTOR_MOVIES
         }
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSeeAllMovieEvent(type)) }
+    }
+
+    fun onClickToRateMovie() {
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickRateMovieEvent(args.movieId)) }
     }
 
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {

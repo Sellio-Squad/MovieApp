@@ -43,7 +43,9 @@ class SaveMovieViewModel @Inject constructor(
                 _myListsUIState.update {
                     it.copy(
                         isLoading = false,
-                        myListItemUI = getMyListUseCase().map { myListItemUIStateMapper.map(it) }
+                        myListItemUI = getMyListUseCase().map {
+                            myListItemUIStateMapper.map(it)
+                        }.take(3)
                     )
                 }
             } catch (t: Throwable) {
@@ -77,7 +79,7 @@ class SaveMovieViewModel @Inject constructor(
     }
 
     override fun onClickNewCollection() {
-        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToCollectionScreen) }
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToCreateListDialog) }
     }
 
     override fun onDismiss() {

@@ -27,7 +27,7 @@
             android:id="@+id/shapeableImageView"
             android:layout_width="@dimen/media_card_width"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:onClick="@{()->listener.onClickMovie(item.id)}"
             android:scaleType="centerCrop"
             android:layout_marginBottom="8dp"

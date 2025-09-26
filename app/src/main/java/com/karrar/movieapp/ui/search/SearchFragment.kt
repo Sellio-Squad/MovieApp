@@ -61,7 +61,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private var searchResultJob: Job? = null
 
     private enum class AdapterType {
-        NONE, MEDIA_LIST, MEDIA_GRID, ACTOR
+        NONE, MEDIA_LIST, MEDIA_GRID, ACTOR,MEDIA_SUGGESTION
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,6 +76,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         observeUIStateChanges()
 
         collect(viewModel.uiState) { state ->
+
             updateToggleVisibility(state.searchTypes)
             updateToggleIndicator(state.viewMode == ViewMode.GRID)
             updateViewVisibility(state)
@@ -115,7 +116,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun updateViewVisibility(state: MediaSearchUIState) {
         when (state.displayMode) {
             SearchDisplayMode.SUGGESTIONS -> {
-                binding.recyclerSearchHistory.visibility = View.VISIBLE
+                binding.recyclerSearchHistory.visibility = View.GONE
                 binding.layoutHistory.visibility = View.VISIBLE
                 binding.recyclerMedia.visibility = View.GONE
                 binding.tabLayoutMediaType.visibility = View.GONE
@@ -163,19 +164,37 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 .debounce(100)
                 .collectLatest { newState ->
                     val oldState = oldValue.value
-                    val shouldUpdate = newState.displayMode == SearchDisplayMode.RESULTS &&
-                            newState.searchInput.isNotBlank() &&
-                            (oldState.searchInput != newState.searchInput ||
-                                    oldState.searchTypes != newState.searchTypes ||
-                                    oldState.viewMode != newState.viewMode ||
-                                    !oldState.hasValidResults)
+                    if (newState.searchInput.isBlank()) {
+                        oldValue.emit(newState)
+                        return@collectLatest
+                    }
+                    val shouldUpdate = oldState.searchInput != newState.searchInput ||
+                            oldState.searchTypes != newState.searchTypes ||
+                            oldState.viewMode != newState.viewMode ||
+                            oldState.displayMode != newState.displayMode
+
 
                     if (shouldUpdate) {
-                        updateRecyclerView(newState)
+                        if (newState.displayMode == SearchDisplayMode.SUGGESTIONS) {
+                            setupSuggestionAdapter()
+                            restartSearchResultCollection()
+                        } else {
+                            updateRecyclerView(newState)
+                        }
                         oldValue.emit(newState)
                     }
                 }
         }
+    }
+    private fun setupSuggestionAdapter() {
+        val footerAdapter = LoadUIStateAdapter(mediaSearchAdapter::retry)
+        binding.recyclerMedia.adapter = mediaSearchAdapter.withLoadStateFooter(footerAdapter)
+        binding.recyclerMedia.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        collect(
+            flow = mediaSearchAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it, mediaSearchAdapter.itemCount) })
+        currentAdapterType = AdapterType.MEDIA_SUGGESTION
     }
 
     private fun updateRecyclerView(state: MediaSearchUIState) {
@@ -192,6 +211,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 AdapterType.ACTOR -> setupActorAdapter()
                 AdapterType.MEDIA_LIST -> setupMediaListAdapter()
                 AdapterType.MEDIA_GRID -> setupMediaGridAdapter()
+                AdapterType.MEDIA_SUGGESTION -> setupSuggestionAdapter()
                 AdapterType.NONE -> {}
             }
             currentAdapterType = requiredAdapterType
@@ -205,6 +225,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             viewModel.uiState.value.searchResult.collectLatest { pagingData ->
                 when (currentAdapterType) {
                     AdapterType.MEDIA_LIST -> mediaSearchCardAdapter.submitData(pagingData)
+                    AdapterType.MEDIA_SUGGESTION -> mediaSearchAdapter.submitData(pagingData)
                     AdapterType.MEDIA_GRID -> gridMediaAdapter.submitData(pagingData)
                     AdapterType.ACTOR -> actorSearchAdapter.submitData(pagingData)
                     AdapterType.NONE -> {}

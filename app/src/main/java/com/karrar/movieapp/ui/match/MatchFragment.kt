@@ -46,6 +46,7 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.viewModel = viewModel
         setupRecyclerViews()
         setupClickListeners()
         setupAppBar()
@@ -176,6 +177,15 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     }
 
     private fun updateUI(state: MatchUiState) {
+        if (state.shouldShowError) {
+            binding.errorLayout.root.visibility = View.VISIBLE
+            binding.matchContainer.visibility = View.GONE
+            return
+        }
+
+        binding.errorLayout.root.visibility = View.GONE
+        binding.matchContainer.visibility = View.VISIBLE
+
         when (state.currentPage) {
             MatchPages.START_PAGE -> {
                 (requireActivity() as? MainActivity)?.showBottomNavigation()
@@ -192,9 +202,6 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
                 showResultsPage(state)
             }
         }
-
-        binding.errorLayout.root.visibility = if (state.shouldShowError) View.VISIBLE else View.GONE
-        binding.matchContainer.visibility = if (state.shouldShowError) View.GONE else View.VISIBLE
     }
 
     private fun showStartPage() {
@@ -351,7 +358,7 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                setMargins(0, 0, 0, 12)
+                setMargins(0, 14, 0, 10)
             }
             optionView.layoutParams = layoutParams
             container.addView(optionView)
@@ -568,7 +575,6 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     private fun onPlayTrailerClick(movieId: Int) {
         viewModel.onPlayTrailerClick(movieId)
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.tvShowDetails.SeasonInteractionListener
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowSeasonUIMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.Error
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.TvShowDetailsUIState

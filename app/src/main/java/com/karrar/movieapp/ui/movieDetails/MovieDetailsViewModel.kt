@@ -229,6 +229,15 @@ class MovieDetailsViewModel @Inject constructor(
             showLoginDialog()
         }
     }
+
+    override fun onClickCreateList() {
+        if (_uiState.value.isLogin) {
+            _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCreateMovieEvent) }
+        } else {
+            showLoginDialog()
+        }
+    }
+
     private fun showLoginDialog() {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ShowLoginDialogEvent) }
     }

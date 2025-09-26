@@ -156,6 +156,9 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_logInDialog"
             app:destination="@id/logInDialog" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_createListDialog"
+            app:destination="@id/createListDialog"/>
 
         <action
             android:id="@+id/action_movieDetailFragment_to_rateMovieDialog"
@@ -324,6 +327,9 @@
             android:name="movie_id"
             app:argType="integer" />
         <action
+            android:id="@+id/action_saveMovieDialog_to_createListDialog"
+            app:destination="@id/createListDialog" />
+        <action
             android:id="@+id/action_saveMovieDialog_to_myListFragment"
             app:destination="@id/myListFragment" />
     </dialog>
@@ -343,6 +349,15 @@
         android:name="com.karrar.movieapp.ui.myList.CreateListDialog"
         tools:layout="@layout/fragment_create_list_dialog">
 
+    </dialog>
+
+    <dialog
+        android:id="@+id/createListDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.createList.CreateListDialog"
+        tools:layout="@layout/dialog_create_movie_list">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
     </dialog>
 
     <fragment

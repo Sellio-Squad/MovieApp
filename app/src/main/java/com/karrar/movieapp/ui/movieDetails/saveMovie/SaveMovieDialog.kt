@@ -3,14 +3,16 @@ package com.karrar.movieapp.ui.movieDetails.saveMovie
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogSaveMovieBinding
 import com.karrar.movieapp.ui.base.BaseDialogFragment
+import com.karrar.movieapp.ui.movieDetails.createList.CreateListDialog
 import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.SaveMovieUIEvent
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.navigation.fragment.findNavController
 
 @AndroidEntryPoint
 class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
@@ -23,6 +25,14 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
         super.onViewCreated(view, savedInstanceState)
         binding.listener = viewModel
         binding.saveListAdapter.adapter = SaveListAdapter(mutableListOf(), viewModel)
+
+        parentFragmentManager.setFragmentResultListener("CreateListResult", this) { _, bundle ->
+            val listCreated = bundle.getBoolean("listCreated", false)
+            if (listCreated) {
+                viewModel.getData()
+            }
+        }
+
         collectLast(viewModel.saveMovieUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
 
@@ -37,9 +47,8 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
                 dismiss()
             }
 
-            is SaveMovieUIEvent.NavigateToCollectionScreen -> {
-
-                dismiss()
+            is SaveMovieUIEvent.NavigateToCreateListDialog -> {
+               showCreateListDialog()
             }
 
             is SaveMovieUIEvent.DismissSheet -> {
@@ -47,6 +56,11 @@ class SaveMovieDialog : BaseDialogFragment<DialogSaveMovieBinding>() {
             }
         }
 
+    }
+
+    private fun showCreateListDialog() {
+        val createListDialog = CreateListDialog()
+        createListDialog.show(childFragmentManager, "CreateListDialog")
     }
 
 }

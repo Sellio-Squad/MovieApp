@@ -40,10 +40,28 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
             listener = this@MovieDetailsFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
         }
+
+
+        setupSaveMovieDialogListener()
         collectMovieDetailsItems()
         collectEvents()
         setupRecyclerWithHeaderAnimation()
 
+    }
+
+    private fun setupSaveMovieDialogListener() {
+        parentFragmentManager.setFragmentResultListener(
+            "SaveMovieDialogResult",
+            this
+        ) { _, bundle ->
+            val shouldNavigate = bundle.getBoolean("navigateToCreateList", false)
+            if (shouldNavigate) {
+                findNavController().popBackStack()
+                val action = MovieDetailsFragmentDirections
+                    .actionMovieDetailFragmentToCreateListDialog(args.movieId)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun collectMovieDetailsItems() {
@@ -111,10 +129,15 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>(),
             }
 
 
-
             MovieDetailsUIEvent.ShowLoginDialogEvent -> {
                 action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToLogInDialog("")
             }
+
+            MovieDetailsUIEvent.ClickCreateMovieEvent -> {
+                action =
+                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToCreateListDialog(args.movieId)
+            }
+
 
             is MovieDetailsUIEvent.ClickRateMovieEvent -> {
                 action = MovieDetailsFragmentDirections.actionMovieDetailFragmentToRateMovieDialog(

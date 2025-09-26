@@ -18,7 +18,7 @@
         android:layout_margin="@dimen/spacing_simi_small"
         android:onClick="@{() -> listener.onMediaClick(item)}">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.ae.imageharamblur.ui.ImageViewFilter
             android:id="@+id/img_poster"
             android:layout_width="match_parent"
             android:layout_height="232dp"
@@ -27,9 +27,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:mediaPoster="@{item.mediaImage}"
-            app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            android:background="@drawable/image_error_palceholder" />
+            app:imageUrl="@{item.mediaImage}"
+            app:shapeAppearanceOverlay="@style/CardCorners.Medium" />
+
 
         <LinearLayout
             android:id="@+id/rating_container"

@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="280dp"
             android:layout_weight="1"
-            app:posterImage="@{secondImageUrl}"
+            app:imageUrl="@{secondImageUrl}"
             android:layout_marginStart="6dp"
             tools:background="@color/yellow" />
 

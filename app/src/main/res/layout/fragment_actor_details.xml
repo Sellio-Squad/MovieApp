@@ -137,7 +137,7 @@
                             app:isVisible="@{viewModel.actorDetailsUIState.success}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:posterImage="@{viewModel.actorDetailsUIState.imageUrl}"
+                            app:imageUrl="@{viewModel.actorDetailsUIState.imageUrl}"
                             app:shapeAppearanceOverlay="@style/CardCorners.Custom"
                             tools:src="@drawable/chris_evans" />
 

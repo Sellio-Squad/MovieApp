@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.ae.imageharamblur.ui.ImageViewFilter
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textview.MaterialTextView
 import com.karrar.movieapp.R
@@ -225,6 +226,11 @@ fun bindMovieImage(image: ImageView, imageURL: String?) {
         }
     }
 }
+@BindingAdapter("imageUrl")
+fun ImageViewFilter.bindImageUrl(url: String?) {
+    this.imageModel = url
+}
+
 
 @BindingAdapter("posterImage")
 fun ImageView.setPosterImage(imageURL: String?) {

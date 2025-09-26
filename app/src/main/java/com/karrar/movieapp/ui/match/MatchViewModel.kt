@@ -29,7 +29,6 @@ class MatchViewModel @Inject constructor(
 
     init {
         loadGenres()
-        getLoginStatus()
     }
 
     private fun loadGenres() {
@@ -158,14 +157,6 @@ class MatchViewModel @Inject constructor(
         _uiState.value = updatedState
     }
 
-    private fun getLoginStatus() {
-        if (!getSessionIDUseCase().isNullOrEmpty()) {
-            _uiState.update { it.copy(isLogin = true) }
-        } else {
-            showLoginDialog()
-        }
-    }
-
     fun onSaveClick(movieId: Int) {
         if (!getSessionIDUseCase().isNullOrEmpty()) {
             _uiEvent.value = Event(MatchEvent.OnSaveClick(movieId))
@@ -176,10 +167,6 @@ class MatchViewModel @Inject constructor(
         if (!getSessionIDUseCase().isNullOrEmpty()) {
             _uiEvent.value = Event(MatchEvent.OnPlayTrailerClick(movieId))
         }
-    }
-
-    private fun showLoginDialog() {
-        _uiEvent.update { Event(MatchEvent.ShowLoginDialogEvent) }
     }
 
     fun onNavigateBack() {

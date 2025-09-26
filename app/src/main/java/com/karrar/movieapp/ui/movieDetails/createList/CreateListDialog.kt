@@ -3,8 +3,9 @@ package com.karrar.movieapp.ui.movieDetails.createList
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogCreateMovieListBinding
 import com.karrar.movieapp.ui.base.BaseDialogFragment
@@ -26,7 +27,13 @@ class CreateListDialog : BaseDialogFragment<DialogCreateMovieListBinding>() {
         collectLast(viewModel.events) {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
-                    is CreateListUIEvent.ListCreated -> dismiss()
+                    is CreateListUIEvent.ListCreated -> {
+                        parentFragment?.setFragmentResult(
+                            "CreateListResult",
+                            bundleOf("listCreated" to true)
+                        )
+                        dismiss()
+                    }
                     is CreateListUIEvent.Dismiss -> dismiss()
                     is CreateListUIEvent.Error ->
                         Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()

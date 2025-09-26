@@ -4,14 +4,13 @@ import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.animation.doOnEnd
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.karrar.movieapp.BR
@@ -43,9 +42,17 @@ class HomeAdapter(
     private var currentViewPager: ViewPager2? = null
     private var fadeAnimator: ValueAnimator? = null
 
+    private var isUserScrolling = false
+    private var userInteractionStartTime = 0L
+    private var lastUserInteractionTime = 0L
+    private var isUserDragging = false
+
     private var fixedRatingText: TextView? = null
     private var fixedMovieTitle: TextView? = null
     private var fixedMovieGenre: TextView? = null
+
+    private var isAnimating = false
+    private var pendingItem: PopularUiState? = null
 
     fun setItem(item: HomeItem) {
         val newItems = homeItems.apply {
@@ -74,9 +81,11 @@ class HomeAdapter(
                 is HomeItem.Slider -> {
                     setupSliderWithFixedElements(holder, currentItem)
                 }
+
                 is HomeItem.RecentlyReleased -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
+
                 is HomeItem.OnTheAiring -> {
                     holder.binding.run {
                         setVariable(
@@ -86,33 +95,45 @@ class HomeAdapter(
                         setVariable(BR.movieType, currentItem.type)
                     }
                 }
+
                 is HomeItem.Upcoming -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
+
                 is HomeItem.BrowseEverything -> {
                     holder.binding.run {
                         setVariable(BR.listener, listener as HomeInteractionListener)
                     }
                 }
+
                 is HomeItem.RecentlyViewed -> {
-                    if(currentItem.items.isNotEmpty()){
+                    if (currentItem.items.isNotEmpty()) {
                         holder.binding.setVariable(
                             BR.adapterRecycler,
-                            RecentlyViewedAdapter(currentItem.items, listener as RecentlyViewedInteractionListener)
+                            RecentlyViewedAdapter(
+                                currentItem.items,
+                                listener as RecentlyViewedInteractionListener
+                            )
                         )
                     }
                 }
+
                 is HomeItem.LetUsChooseForYou -> {
                     holder.binding.run {
                         setVariable(BR.listener, listener as HomeInteractionListener)
                     }
                 }
+
                 is HomeItem.CollectionsList -> {
                     holder.binding.setVariable(
                         BR.adapterRecycler,
-                        YourCollectionsAdapter(currentItem.items, listener as YourCollectionsInteractionListener)
+                        YourCollectionsAdapter(
+                            currentItem.items,
+                            listener as YourCollectionsInteractionListener
+                        )
                     )
                 }
+
                 is HomeItem.FeaturedCollections -> {
                     holder.binding.run {
                         setVariable(
@@ -124,7 +145,12 @@ class HomeAdapter(
                         )
                     }
                 }
-                is HomeItem.MatchesYourVibes -> bindMovie(holder, currentItem.items, currentItem.type)
+
+                is HomeItem.MatchesYourVibes -> bindMovie(
+                    holder,
+                    currentItem.items,
+                    currentItem.type
+                )
             }
     }
 
@@ -164,7 +190,10 @@ class HomeAdapter(
         fixedMovieGenre = rootView.findViewById(R.id.fixed_movie_genre)
     }
 
-    private fun attachEnhancedCarouselTransformer(viewPager: ViewPager2, items: List<PopularUiState>) {
+    private fun attachEnhancedCarouselTransformer(
+        viewPager: ViewPager2,
+        items: List<PopularUiState>
+    ) {
         val displayMetrics = viewPager.resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels.toFloat()
         val density = displayMetrics.density
@@ -180,9 +209,11 @@ class HomeAdapter(
                 pageOffset <= 0.5f -> {
                     1.1f - (pageOffset * 2f * (1f - sideCardScale))
                 }
+
                 pageOffset <= 1f -> {
                     sideCardScale
                 }
+
                 else -> sideCardScale
             }
 
@@ -190,9 +221,11 @@ class HomeAdapter(
                 pageOffset <= 0.5f -> {
                     1.0f - (pageOffset * 2f * (1f - sideCardAlpha))
                 }
+
                 pageOffset <= 1f -> {
                     sideCardAlpha
                 }
+
                 else -> sideCardAlpha
             }
 
@@ -200,9 +233,11 @@ class HomeAdapter(
                 pageOffset <= 0.5f -> {
                     (pageOffset * 2f) * verticalOffsetDp * density
                 }
+
                 pageOffset <= 1f -> {
                     verticalOffsetDp * density
                 }
+
                 else -> verticalOffsetDp * density
             }
 
@@ -210,9 +245,11 @@ class HomeAdapter(
                 position > 0 -> {
                     -screenWidth * 0.01f * (pageOffset.coerceAtMost(1f))
                 }
+
                 position < 0 -> {
                     screenWidth * 0.01f * (pageOffset.coerceAtMost(1f))
                 }
+
                 else -> 0f
             }
 
@@ -238,10 +275,54 @@ class HomeAdapter(
         }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            private var lastSelectedPosition = -1
+            private var updateJob: Job? = null
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                val currentTime = System.currentTimeMillis()
+
+                when (state) {
+                    ViewPager2.SCROLL_STATE_DRAGGING -> {
+                        isUserDragging = true
+                        isUserScrolling = true
+                        userInteractionStartTime = currentTime
+                        lastUserInteractionTime = currentTime
+                        stopAutoScroll()
+                        updateJob?.cancel()
+                    }
+
+                    ViewPager2.SCROLL_STATE_SETTLING -> {
+                        if (isUserDragging) {
+                            lastUserInteractionTime = currentTime
+                        }
+                    }
+
+                    ViewPager2.SCROLL_STATE_IDLE -> {
+                        if (isUserDragging) {
+                            isUserDragging = false
+                            isUserScrolling = false
+                            lastUserInteractionTime = currentTime
+
+                            restartAutoScrollAfterDelay(viewPager, items.size)
+                        }
+                    }
+                }
+            }
+
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if (position < items.size) {
-                    updateFixedContentWithAnimation(items[position])
+                if (position < items.size && position != lastSelectedPosition) {
+                    lastSelectedPosition = position
+
+                    updateJob?.cancel()
+
+                    updateJob = lifecycleOwner.lifecycleScope.launch {
+                        delay(50)
+                        if (position < items.size) {
+                            updateFixedContentWithAnimation(items[position])
+                        }
+                    }
                 }
             }
         })
@@ -254,31 +335,57 @@ class HomeAdapter(
     }
 
     private fun updateFixedContentWithAnimation(item: PopularUiState) {
+        if (fixedMovieTitle?.text == item.title) {
+            return
+        }
+
+        if (isAnimating) {
+            pendingItem = item
+            return
+        }
+
+        isAnimating = true
         fadeAnimator?.cancel()
 
         fadeAnimator = ValueAnimator.ofFloat(1f, 0f, 1f).apply {
-            duration = 600
+            duration = 300
+            var hasUpdatedContent = false
+
             addUpdateListener { animator ->
                 val progress = animator.animatedValue as Float
 
                 when {
-                    progress >= 0.5f -> {
-                        val alpha = (progress - 0.5f) * 2f
+                    progress <= 0.5f -> {
+                        val alpha = 1f - (progress * 2f)
                         fixedRatingText?.alpha = alpha
                         fixedMovieTitle?.alpha = alpha
                         fixedMovieGenre?.alpha = alpha
-                    }
-                    else -> {
-                        if (progress <= 0.5f && fixedMovieTitle?.text != item.title) {
+
+                        if (progress >= 0.45f && !hasUpdatedContent) {
                             updateFixedContent(item)
+                            hasUpdatedContent = true
                         }
-                        val alpha = progress * 2f
+                    }
+
+                    else -> {
+                        val alpha = (progress - 0.5f) * 2f
                         fixedRatingText?.alpha = alpha
                         fixedMovieTitle?.alpha = alpha
                         fixedMovieGenre?.alpha = alpha
                     }
                 }
             }
+
+            doOnEnd {
+                isAnimating = false
+                pendingItem?.let { pending ->
+                    pendingItem = null
+                    fixedMovieTitle?.post {
+                        updateFixedContentWithAnimation(pending)
+                    }
+                }
+            }
+
             start()
         }
     }
@@ -315,6 +422,7 @@ class HomeAdapter(
                 is HomeItem.RecentlyReleased,
                 is HomeItem.Upcoming,
                 is HomeItem.MatchesYourVibes -> R.layout.list_movie
+
                 is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
                 is HomeItem.LetUsChooseForYou -> R.layout.item_let_us_choose_cta
                 is HomeItem.CollectionsList -> R.layout.list_your_collections
@@ -325,29 +433,33 @@ class HomeAdapter(
     }
 
     private fun startAutoScrollWithLifecycle(viewPager: ViewPager2, itemCount: Int) {
-        if (itemCount == 0) return
+        if (itemCount <= 1) return
 
+        autoScrollJob?.cancel()
         autoScrollJob = lifecycleOwner.lifecycleScope.launch {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                var position = 0
+                var position = viewPager.currentItem
 
                 while (true) {
                     delay(4000)
 
-                    if (viewPager.isAttachedToWindow && currentViewPager == viewPager) {
+                    val currentTime = System.currentTimeMillis()
+                    val timeSinceLastInteraction = currentTime - lastUserInteractionTime
+
+                    if (viewPager.isAttachedToWindow &&
+                        currentViewPager == viewPager &&
+                        !isUserScrolling &&
+                        !isUserDragging &&
+                        timeSinceLastInteraction > 3000
+                    ) {
+
                         position = (position + 1) % itemCount
 
-                        val smoothScroller = object : LinearSmoothScroller(viewPager.context) {
-                            override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
-                            override fun calculateTimeForScrolling(dx: Int): Int {
-                                return 1000.coerceAtMost(super.calculateTimeForScrolling(dx))
-                            }
-                        }
-
-                        val recyclerView = viewPager.getChildAt(0) as? RecyclerView
-                        recyclerView?.let {
-                            smoothScroller.targetPosition = position
-                            it.layoutManager?.startSmoothScroll(smoothScroller)
+                        try {
+                            viewPager.setCurrentItem(position, true)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            break
                         }
                     }
                 }
@@ -355,16 +467,32 @@ class HomeAdapter(
         }
     }
 
+    private fun restartAutoScrollAfterDelay(viewPager: ViewPager2, itemCount: Int) {
+        lifecycleOwner.lifecycleScope.launch {
+            delay(4000)
+
+            if (!isUserScrolling && !isUserDragging) {
+                startAutoScrollWithLifecycle(viewPager, itemCount)
+            }
+        }
+    }
+
     private fun stopAutoScroll() {
         autoScrollJob?.cancel()
         autoScrollJob = null
-        fadeAnimator?.cancel()
-        fadeAnimator = null
-        currentViewPager = null
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         stopAutoScroll()
+        fadeAnimator?.cancel()
+        fadeAnimator = null
+        currentViewPager = null
+        isUserScrolling = false
+        isUserDragging = false
+        userInteractionStartTime = 0L
+        lastUserInteractionTime = 0L
+        isAnimating = false
+        pendingItem = null
     }
 }

@@ -18,43 +18,29 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SeasonFragment: BaseFragment<FragmentSeasonBinding>() {
 
-    override val layoutIdFragment = R.layout.fragment_season
+    override val layoutIdFragment: Int = R.layout.fragment_season
     override val viewModel: SeasonViewModel by viewModels()
-    private val adapter by lazy { SeasonAdapterUIState(emptyList(), viewModel) }
+    private val seasonsAdapter by lazy { ShowAllSeasonsAdapterUIState(emptyList(), viewModel) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.seasonList.adapter = adapter
-
-        lifecycleScope.launch {
-            viewModel.seasons.collectLatest { seasons ->
-                adapter.setItems(seasons)
-            }
-        }
-        
+        binding.listener = viewModel
+        binding.seasonList.adapter = seasonsAdapter
         collectEvents()
     }
 
     private fun collectEvents() {
-        collectLast(viewModel.seasonUIEvent) {
+        collectLast(viewModel.seasonsUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
 
-    private fun onEvent(event: SeasonUIEvent) {
-        var action: NavDirections? = null
+    private fun onEvent(event: SeasonsUIEvent) {
         when (event) {
-            is SeasonUIEvent.ClickSeasonEvent -> {
-                // Get tvShowId from arguments
-                val tvShowId = arguments?.getInt("tvShowId") ?: 0
-                action = SeasonFragmentDirections.actionSeasonFragmentToEpisodesFragment(
-                    tvShowId,
-                    event.seasonNumber
-                )
+            SeasonsUIEvent.OnBackClick -> {
+                findNavController().navigateUp()
             }
         }
-        action?.let { findNavController().navigate(it) }
     }
 
 }

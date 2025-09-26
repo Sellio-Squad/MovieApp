@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:posterImage="@{item.imageUrl}"
+            app:imageUrl="@{item.imageUrl}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
             tools:background="@color/brand_color_primary" />
 

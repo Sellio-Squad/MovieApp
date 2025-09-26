@@ -16,7 +16,7 @@ enum class AppLanguages(
     ),
     English(
         code = "en",
-        icon = R.drawable.colored_uk_flag,
+        icon = R.drawable.uk_flag,
         language = R.string.english
     )
 }

@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginHorizontal="4dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/rounded_pill_background"
         android:clickable="true"
         android:focusable="true"

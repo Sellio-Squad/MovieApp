@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="70dp"
-            android:layout_weight="0.45"
+            android:layout_weight="0.65"
             android:clipChildren="false"
             android:clipToPadding="false">
 
@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_too_small"
-                android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView

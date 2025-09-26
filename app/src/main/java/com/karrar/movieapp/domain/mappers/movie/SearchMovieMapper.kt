@@ -1,23 +1,25 @@
-package com.karrar.movieapp.domain.mappers.savedList
+package com.karrar.movieapp.domain.mappers.movie
 
 import com.karrar.movieapp.BuildConfig
-import com.karrar.movieapp.data.remote.response.SavedListDto
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.Mapper
-import com.karrar.movieapp.domain.models.SaveListDetails
+import com.karrar.movieapp.domain.models.Media
+import com.karrar.movieapp.domain.models.SearchMedia
+import com.karrar.movieapp.utilities.Constants
 import javax.inject.Inject
 
-class SaveListDetailsMapper @Inject constructor() : Mapper<SavedListDto, SaveListDetails> {
-    override fun map(input: SavedListDto): SaveListDetails {
+class SearchMovieMapper @Inject constructor() : Mapper<MovieDto, SearchMedia> {
+    override fun map(input: MovieDto): SearchMedia {
         val genresNames = input.genreIds?.map { genreIdToName(it ?: 0) } ?: emptyList()
-
-        return SaveListDetails(
-            id = input.id ?: 0,
-            mediaType = input.mediaType ?: "",
-            title = listOf(input.originalTitle, input.originalName).filterNotNull().firstOrNull().orEmpty(),
-            releaseDate = listOf(input.firstAirDate, input.releaseDate).filterNotNull().firstOrNull().orEmpty(),
-            voteAverage = input.voteAverage ?: 0.0,
-            posterPath = BuildConfig.IMAGE_BASE_PATH + (input.backdropPath ?: ""),
-            genres = genresNames
+        return SearchMedia(
+            input.id ?: 0,
+            BuildConfig.IMAGE_BASE_PATH + input.posterPath,
+            MediaType.MOVIE.value,
+            input.originalTitle ?: "",
+            input.releaseDate ?: "",
+            input.voteAverage?.toFloat() ?: 0f,
+            genresNames
         )
     }
 

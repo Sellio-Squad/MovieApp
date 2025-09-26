@@ -78,65 +78,78 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <HorizontalScrollView
             android:id="@+id/user_options"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_simi_medium"
-            android:orientation="horizontal"
+            android:fillViewport="false"
+            android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_section">
 
-            <com.google.android.material.chip.Chip
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:onClick="@{() -> viewModel.onClickWatchHistory()}"
-                android:text="@string/watch_history"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
-                android:textColor="@color/shade_primary_color"
-                app:checkedIconEnabled="true"
-                app:chipBackgroundColor="@color/background_color_card"
-                app:chipCornerRadius="@dimen/radius_cineVerse_full"
-                app:chipIcon="@drawable/ic_history"
-                app:chipIconTint="@color/brand_color_primary" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/spacing_simi_medium"
+                android:orientation="horizontal">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_series"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_small"
-                android:onClick="@{() -> viewModel.onClickMyCollection()}"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="@dimen/spacing_small"
-                android:text="@string/my_collections"
-                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
-                android:textColor="@color/shade_primary_color"
-                app:checkedIconEnabled="true"
-                app:chipBackgroundColor="@color/background_color_card"
-                app:chipCornerRadius="@dimen/radius_cineVerse_full"
-                app:chipIcon="@drawable/due_tone_video_library"
-                app:chipIconTint="@color/brand_color_primary" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:onClick="@{() -> viewModel.onClickWatchHistory()}"
+                    android:text="@string/watch_history"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextStyle.Label.Medium.Medium"
+                    android:textColor="@color/shade_primary_color"
+                    app:checkedIconEnabled="true"
+                    app:chipBackgroundColor="@color/background_color_card"
+                    app:chipCornerRadius="@dimen/radius_cineVerse_full"
+                    app:chipEndPadding="12dp"
+                    app:chipIcon="@drawable/ic_history"
+                    app:chipIconTint="@color/brand_color_primary"
+                    app:chipMinHeight="32dp"
+                    app:chipStartPadding="12dp" />
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onClickRatedMovies()}"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="@dimen/spacing_small"
-                android:text="@string/rated_movies"
-                android:textAppearance="@style/TextStyle.Label.Medium.Medium"
-                android:textColor="@color/shade_primary_color"
-                app:checkedIconEnabled="true"
-                app:chipBackgroundColor="@color/background_color_card"
-                app:chipCornerRadius="@dimen/radius_cineVerse_full"
-                app:chipIcon="@drawable/ic_rate"
-                app:chipIconTint="@color/brand_color_primary" />
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_small"
+                    android:onClick="@{() -> viewModel.onClickMyCollection()}"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="@dimen/spacing_small"
+                    android:text="@string/my_collections"
+                    android:textAppearance="@style/TextStyle.Label.Medium.Medium"
+                    android:textColor="@color/shade_primary_color"
+                    app:checkedIconEnabled="true"
+                    app:chipBackgroundColor="@color/background_color_card"
+                    app:chipCornerRadius="@dimen/radius_cineVerse_full"
+                    app:chipEndPadding="12dp"
+                    app:chipIcon="@drawable/due_tone_video_library"
+                    app:chipIconTint="@color/brand_color_primary"
+                    app:chipStartPadding="12dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.onClickRatedMovies()}"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="@dimen/spacing_small"
+                    android:text="@string/rated_movies"
+                    android:textAppearance="@style/TextStyle.Label.Medium.Medium"
+                    android:textColor="@color/shade_primary_color"
+                    app:checkedIconEnabled="true"
+                    app:chipBackgroundColor="@color/background_color_card"
+                    app:chipCornerRadius="@dimen/radius_cineVerse_full"
+                    app:chipEndPadding="12dp"
+                    app:chipIcon="@drawable/ic_rate"
+                    app:chipIconTint="@color/brand_color_primary"
+                    app:chipStartPadding="12dp" />
 
 
-        </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_settings"

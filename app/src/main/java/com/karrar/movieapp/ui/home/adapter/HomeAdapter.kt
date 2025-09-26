@@ -1,9 +1,16 @@
 package com.karrar.movieapp.ui.home.adapter
 
+import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -16,18 +23,29 @@ import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeItem
+import com.karrar.movieapp.ui.home.homeUiState.PopularUiState
 import com.karrar.movieapp.ui.models.MediaUiState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 class HomeAdapter(
     private var homeItems: MutableList<HomeItem>,
     private val listener: BaseInteractionListener,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    private val lifecycleOwner: LifecycleOwner
 ) : BaseAdapter<HomeItem>(homeItems, listener) {
     override val layoutID: Int = 0
+
+    private var autoScrollJob: Job? = null
+    private var currentViewPager: ViewPager2? = null
+    private var fadeAnimator: ValueAnimator? = null
+
+    private var fixedRatingText: TextView? = null
+    private var fixedMovieTitle: TextView? = null
+    private var fixedMovieGenre: TextView? = null
 
     fun setItem(item: HomeItem) {
         val newItems = homeItems.apply {
@@ -54,20 +72,11 @@ class HomeAdapter(
         if (position != -1)
             when (val currentItem = homeItems[position]) {
                 is HomeItem.Slider -> {
-                    val adapter = PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
-                    holder.binding.setVariable(BR.adapterRecycler, adapter)
-
-                    val viewPager = holder.binding.root.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
-                    viewPager?.adapter = adapter  // ⚡ Make sure adapter is set
-                    viewPager?.offscreenPageLimit = 3
-                    attachCarouselTransformer(viewPager)
-                    startAutoScroll(viewPager, currentItem.items.size)
+                    setupSliderWithFixedElements(holder, currentItem)
                 }
-
                 is HomeItem.RecentlyReleased -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
-
                 is HomeItem.OnTheAiring -> {
                     holder.binding.run {
                         setVariable(
@@ -77,17 +86,14 @@ class HomeAdapter(
                         setVariable(BR.movieType, currentItem.type)
                     }
                 }
-
                 is HomeItem.Upcoming -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
-
                 is HomeItem.BrowseEverything -> {
                     holder.binding.run {
                         setVariable(BR.listener, listener as HomeInteractionListener)
                     }
                 }
-
                 is HomeItem.RecentlyViewed -> {
                     if(currentItem.items.isNotEmpty()){
                         holder.binding.setVariable(
@@ -96,20 +102,17 @@ class HomeAdapter(
                         )
                     }
                 }
-
                 is HomeItem.LetUsChooseForYou -> {
                     holder.binding.run {
                         setVariable(BR.listener, listener as HomeInteractionListener)
                     }
                 }
-
                 is HomeItem.CollectionsList -> {
                     holder.binding.setVariable(
                         BR.adapterRecycler,
                         YourCollectionsAdapter(currentItem.items, listener as YourCollectionsInteractionListener)
                     )
                 }
-
                 is HomeItem.FeaturedCollections -> {
                     holder.binding.run {
                         setVariable(
@@ -120,11 +123,164 @@ class HomeAdapter(
                             )
                         )
                     }
-
                 }
-
                 is HomeItem.MatchesYourVibes -> bindMovie(holder, currentItem.items, currentItem.type)
             }
+    }
+
+    private fun setupSliderWithFixedElements(holder: ItemViewHolder, currentItem: HomeItem.Slider) {
+        val adapter = PopularMovieAdapter(currentItem.items, listener as HomeInteractionListener)
+        holder.binding.setVariable(BR.adapterRecycler, adapter)
+
+        val viewPager = holder.binding.root.findViewById<ViewPager2>(R.id.viewpager_popular_movie)
+        viewPager?.let { vp ->
+            vp.adapter = adapter
+            vp.offscreenPageLimit = 2
+            vp.clipToPadding = false
+            vp.clipChildren = false
+
+            vp.getChildAt(0)?.let { child ->
+                if (child is RecyclerView) {
+                    child.clipToPadding = false
+                    child.clipChildren = false
+                    child.overScrollMode = View.OVER_SCROLL_NEVER
+                }
+            }
+
+            findFixedElements(holder.binding.root)
+            attachEnhancedCarouselTransformer(vp, currentItem.items)
+            stopAutoScroll()
+            currentViewPager = vp
+            startAutoScrollWithLifecycle(vp, currentItem.items.size)
+            if (currentItem.items.isNotEmpty()) {
+                updateFixedContent(currentItem.items[0])
+            }
+        }
+    }
+
+    private fun findFixedElements(rootView: View) {
+        fixedRatingText = rootView.findViewById(R.id.fixed_rating_text)
+        fixedMovieTitle = rootView.findViewById(R.id.fixed_movie_title)
+        fixedMovieGenre = rootView.findViewById(R.id.fixed_movie_genre)
+    }
+
+    private fun attachEnhancedCarouselTransformer(viewPager: ViewPager2, items: List<PopularUiState>) {
+        val displayMetrics = viewPager.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels.toFloat()
+        val density = displayMetrics.density
+
+        val sideCardScale = 1.20f
+        val sideCardAlpha = 0.7f
+        val verticalOffsetDp = 55f
+
+        viewPager.setPageTransformer { page, position ->
+            val pageOffset = position.absoluteValue
+
+            val scale = when {
+                pageOffset <= 0.5f -> {
+                    1.1f - (pageOffset * 2f * (1f - sideCardScale))
+                }
+                pageOffset <= 1f -> {
+                    sideCardScale
+                }
+                else -> sideCardScale
+            }
+
+            val alpha = when {
+                pageOffset <= 0.5f -> {
+                    1.0f - (pageOffset * 2f * (1f - sideCardAlpha))
+                }
+                pageOffset <= 1f -> {
+                    sideCardAlpha
+                }
+                else -> sideCardAlpha
+            }
+
+            val verticalOffset = when {
+                pageOffset <= 0.5f -> {
+                    (pageOffset * 2f) * verticalOffsetDp * density
+                }
+                pageOffset <= 1f -> {
+                    verticalOffsetDp * density
+                }
+                else -> verticalOffsetDp * density
+            }
+
+            val horizontalOffset = when {
+                position > 0 -> {
+                    -screenWidth * 0.01f * (pageOffset.coerceAtMost(1f))
+                }
+                position < 0 -> {
+                    screenWidth * 0.01f * (pageOffset.coerceAtMost(1f))
+                }
+                else -> 0f
+            }
+
+            val elevation = when {
+                pageOffset <= 0.5f -> 12f - (pageOffset * 8f)
+                pageOffset <= 1f -> 4f
+                else -> 2f
+            }
+
+            page.scaleX = scale
+            page.scaleY = scale
+            page.alpha = alpha
+            page.translationY = verticalOffset
+            page.translationX = horizontalOffset
+            page.translationZ = elevation
+
+            val rotation = when {
+                position > 0.5f -> 2f * (position - 0.5f).coerceAtMost(0.5f)
+                position < -0.5f -> -2f * (-position - 0.5f).coerceAtMost(0.5f)
+                else -> 0f
+            }
+            page.rotation = rotation
+        }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (position < items.size) {
+                    updateFixedContentWithAnimation(items[position])
+                }
+            }
+        })
+    }
+
+    private fun updateFixedContent(item: PopularUiState) {
+        fixedRatingText?.text = String.format("%.1f", item.movieRate)
+        fixedMovieTitle?.text = item.title
+        fixedMovieGenre?.text = item.genre.joinToString(" • ")
+    }
+
+    private fun updateFixedContentWithAnimation(item: PopularUiState) {
+        fadeAnimator?.cancel()
+
+        fadeAnimator = ValueAnimator.ofFloat(1f, 0f, 1f).apply {
+            duration = 600
+            addUpdateListener { animator ->
+                val progress = animator.animatedValue as Float
+
+                when {
+                    progress >= 0.5f -> {
+                        val alpha = (progress - 0.5f) * 2f
+                        fixedRatingText?.alpha = alpha
+                        fixedMovieTitle?.alpha = alpha
+                        fixedMovieGenre?.alpha = alpha
+                    }
+                    else -> {
+                        if (progress <= 0.5f && fixedMovieTitle?.text != item.title) {
+                            updateFixedContent(item)
+                        }
+                        val alpha = progress * 2f
+                        fixedRatingText?.alpha = alpha
+                        fixedMovieTitle?.alpha = alpha
+                        fixedMovieGenre?.alpha = alpha
+                    }
+                }
+            }
+            start()
+        }
     }
 
     private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
@@ -146,10 +302,7 @@ class HomeAdapter(
         return oldItem.priority == newItem.priority
     }
 
-    override fun areContentSame(
-        oldPosition: HomeItem,
-        newPosition: HomeItem,
-    ): Boolean {
+    override fun areContentSame(oldPosition: HomeItem, newPosition: HomeItem): Boolean {
         return oldPosition == newPosition
     }
 
@@ -161,8 +314,7 @@ class HomeAdapter(
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow
                 is HomeItem.RecentlyReleased,
                 is HomeItem.Upcoming,
-                is HomeItem.MatchesYourVibes
-                -> R.layout.list_movie
+                is HomeItem.MatchesYourVibes -> R.layout.list_movie
                 is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
                 is HomeItem.LetUsChooseForYou -> R.layout.item_let_us_choose_cta
                 is HomeItem.CollectionsList -> R.layout.list_your_collections
@@ -172,51 +324,47 @@ class HomeAdapter(
         return -1
     }
 
-    private fun attachCarouselTransformer(viewPager: ViewPager2) {
-        val displayMetrics = viewPager.resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-
-        // Minimum overlap in pixels (for small devices)
-        val minSidePeek = viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_large)
-        // Adaptive overlap: 5% of screen width or at least minSidePeek
-        val sidePeek = maxOf(screenWidth * 0.05f, minSidePeek.toFloat())
-
-        val extraLift = viewPager.context.resources.getDimensionPixelOffset(R.dimen.spacing_extra_extra_large)
-
-        viewPager.setPageTransformer { page, position ->
-            val offset = position * -sidePeek
-            page.translationX = if (viewPager.layoutDirection == View.LAYOUT_DIRECTION_RTL) -offset else offset
-            page.scaleX = 1f
-            page.scaleY = 1f
-            page.alpha = 0.8f + (1 - abs(position)) * 0.2f
-            page.translationY = if (position == 0f) -extraLift.toFloat() else 0f
-            page.translationZ = if (position == 0f) 1f else 0f
-        }
-    }
-
-    fun startAutoScroll(viewPager: ViewPager2, itemCount: Int) {
+    private fun startAutoScrollWithLifecycle(viewPager: ViewPager2, itemCount: Int) {
         if (itemCount == 0) return
 
-        val recyclerView = viewPager.getChildAt(0) as? RecyclerView ?: return
+        autoScrollJob = lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                var position = 0
 
-        scope.launch {
-            var position = 0
-            while (true) {
-                delay(2000)
-                position = (position + 1) % itemCount
+                while (true) {
+                    delay(4000)
 
-                val smoothScroller = object : LinearSmoothScroller(viewPager.context) {
-                    override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
-                    override fun calculateTimeForScrolling(dx: Int): Int {
-                        return 400.coerceAtMost(super.calculateTimeForScrolling(dx))
+                    if (viewPager.isAttachedToWindow && currentViewPager == viewPager) {
+                        position = (position + 1) % itemCount
+
+                        val smoothScroller = object : LinearSmoothScroller(viewPager.context) {
+                            override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
+                            override fun calculateTimeForScrolling(dx: Int): Int {
+                                return 1000.coerceAtMost(super.calculateTimeForScrolling(dx))
+                            }
+                        }
+
+                        val recyclerView = viewPager.getChildAt(0) as? RecyclerView
+                        recyclerView?.let {
+                            smoothScroller.targetPosition = position
+                            it.layoutManager?.startSmoothScroll(smoothScroller)
+                        }
                     }
                 }
-
-                smoothScroller.targetPosition = position
-                recyclerView.layoutManager?.startSmoothScroll(smoothScroller)
             }
         }
     }
 
+    private fun stopAutoScroll() {
+        autoScrollJob?.cancel()
+        autoScrollJob = null
+        fadeAnimator?.cancel()
+        fadeAnimator = null
+        currentViewPager = null
+    }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        stopAutoScroll()
+    }
 }

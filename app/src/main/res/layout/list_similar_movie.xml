@@ -6,7 +6,7 @@
     <data>
         <variable
             name="adapterRecycler"
-            type="com.karrar.movieapp.ui.adapters.MovieDetailsAdapter" />
+            type="com.karrar.movieapp.ui.adapters.moviedetailsadapters.SimilarMovieAdapter" />
 
         <variable
             name="movieType"
@@ -15,14 +15,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
+        >
 
         <com.karrar.movieapp.utilities.common.SectionHeaderView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/radius_cineVerse_size3xl"
             android:text="@{movieType.YOU_MIGHT_ALSO_LIKE.value}"
             app:onSeeAllClick="@{() -> adapterRecycler.listener.onClickSeeAllMovie(movieType)}"
             app:showSeeAll="true"

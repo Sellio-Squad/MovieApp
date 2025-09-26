@@ -15,7 +15,6 @@ import com.ae.imageharamblur.R
 import com.ae.imageharamblur.utils.StackBlur
 import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.*
-import kotlin.coroutines.coroutineContext
 
 class ImageViewFilter @JvmOverloads constructor(
     context: Context,
@@ -24,29 +23,24 @@ class ImageViewFilter @JvmOverloads constructor(
 ) : ShapeableImageView(context, attrs, defStyleAttr) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var loadingJob: Job? = null
     private var moderationJob: Job? = null
     private var controller: ImageModerationController? = null
 
     var config: ImageFilterConfig = ImageFilterConfig()
         set(value) {
             field = value
-            if (imageModel != null) {
-                loadImage()
-            }
+            imageModel?.let { loadImage(it) }
         }
 
     var imageModel: Any? = null
         set(value) {
             field = value
-            loadImage()
+            value?.let { loadImage(it) }
         }
 
     var onModerationResult: ((Boolean) -> Unit)? = null
-    var onError: ((String?) -> Unit)? = null
 
     init {
-
         clipToOutline = true
 
         attrs?.let {
@@ -63,30 +57,29 @@ class ImageViewFilter @JvmOverloads constructor(
         }
     }
 
-    private fun loadImage() {
-        loadingJob?.cancel()
+    private fun loadImage(model: Any) {
+        moderationJob?.cancel()
 
-        loadingJob = coroutineScope.launch {
-            try {
-                val drawable = loadImageDrawable(context, imageModel) ?: return@launch
-
-                showImage(drawable, shouldBlur = false)
-
-                if (config.forceBlur) {
-                    showImage(drawable, shouldBlur = true)
-                    onModerationResult?.invoke(true)
-                } else if (config.enableModeration) {
-                    moderationJob?.cancel()
-                    moderationJob = launch(Dispatchers.Default) {
-                        processModeration(drawable)
+        Coil.imageLoader(context).enqueue(
+            ImageRequest.Builder(context)
+                .data(model)
+                .placeholder(R.drawable.place_holder)
+                .error(R.drawable.place_holder)
+                .target { drawable ->
+                    if (config.forceBlur) {
+                        applyBlur(drawable)
+                        onModerationResult?.invoke(true)
+                    } else if (config.enableModeration) {
+                        moderationJob = coroutineScope.launch(Dispatchers.Default) {
+                            processModeration(drawable)
+                        }
+                    } else {
+                        setImageDrawable(drawable)
+                        onModerationResult?.invoke(false)
                     }
-                } else {
-                    onModerationResult?.invoke(false)
                 }
-            } catch (e: Exception) {
-                onError?.invoke(e.message)
-            }
-        }
+                .build()
+        )
     }
 
     private suspend fun processModeration(drawable: Drawable) {
@@ -107,58 +100,35 @@ class ImageViewFilter @JvmOverloads constructor(
                 useContentDetection = config.useContentDetection
             )
 
-            if (state?.shouldBlur == true && coroutineContext.isActive) {
-                withContext(Dispatchers.Main) {
-                    showImage(drawable, shouldBlur = true)
+            withContext(Dispatchers.Main) {
+                if (state?.shouldBlur == true) {
+                    applyBlur(drawable)
                     onModerationResult?.invoke(true)
-                }
-            } else {
-                withContext(Dispatchers.Main) {
+                } else {
+                    setImageDrawable(drawable)
                     onModerationResult?.invoke(false)
                 }
             }
-        } catch (e: Exception) { }
+        } catch (_: Exception) { }
     }
 
-    private fun showImage(drawable: Drawable, shouldBlur: Boolean) {
-        if (shouldBlur) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                setImageDrawable(drawable)
-                setRenderEffect(
-                    RenderEffect.createBlurEffect(
-                        config.blurStrength,
-                        config.blurStrength,
-                        Shader.TileMode.CLAMP
-                    )
-                )
-            } else {
-                val bitmap = drawable.toBitmap()
-                val blurredBitmap = StackBlur.process(
-                    bitmap.copy(Bitmap.Config.ARGB_8888, true),
-                    config.blurStrength.toInt().coerceIn(1, 180)
-                )
-                setImageBitmap(blurredBitmap)
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                setRenderEffect(null)
-            }
+    private fun applyBlur(drawable: Drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             setImageDrawable(drawable)
-        }
-    }
-
-    private suspend fun loadImageDrawable(context: Context, model: Any?): Drawable? {
-        return withContext(Dispatchers.IO) {
-            val request = ImageRequest.Builder(context)
-                .data(model)
-                .allowHardware(false)
-                .build()
-
-            try {
-                Coil.imageLoader(context).execute(request).drawable
-            } catch (_: Exception) {
-                null
-            }
+            setRenderEffect(
+                RenderEffect.createBlurEffect(
+                    config.blurStrength,
+                    config.blurStrength,
+                    Shader.TileMode.CLAMP
+                )
+            )
+        } else {
+            val bitmap = drawable.toBitmap()
+            val blurred = StackBlur.process(
+                bitmap.copy(Bitmap.Config.ARGB_8888, true),
+                config.blurStrength.toInt().coerceIn(1, 180)
+            )
+            setImageBitmap(blurred)
         }
     }
 

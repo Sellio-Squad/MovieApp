@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:mediaPoster="@{item.mediaImage}"
             app:shapeAppearanceOverlay="@style/CardCorners.Medium"
-            android:background="@drawable/image_error_palceholder" />
+            tools:background="@drawable/image_error_palceholder" />
 
         <LinearLayout
             android:id="@+id/rating_container"

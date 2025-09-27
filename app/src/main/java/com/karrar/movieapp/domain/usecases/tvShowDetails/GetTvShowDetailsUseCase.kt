@@ -44,14 +44,16 @@ class GetTvShowDetailsUseCase @Inject constructor(
         } ?: throw Throwable("Not Success")
     }
 
-    suspend fun getSeasons(tvShowId: Int): List<Season> {
-        val allSeasons= ListMapper(seriesMapperContainer.seasonMapper)
-            .mapList(seriesRepository.getTvShowDetails(tvShowId)?.season)
-        return allSeasons
-            .sortedByDescending { it.seasonNumber }
-            .take(3)
+    suspend fun getSeasons(tvShowId: Int, limitToThree: Boolean = true): List<Season> {
+        return seriesRepository.getTvShowDetails(tvShowId)
+            ?.season
+            ?.map { seriesMapperContainer.seasonMapper.map(it) }
+            ?.sortedByDescending { it.seasonNumber }
+            ?.let { seasons ->
+                if (limitToThree) seasons.take(3) else seasons
+            }
+            ?: emptyList()
     }
-
 
     suspend fun getTvShowReviews(tvShowId: Int): MediaDetailsReviews {
         val reviews = getTVShowsReviews(MediaType.TV_SHOW, tvShowId)

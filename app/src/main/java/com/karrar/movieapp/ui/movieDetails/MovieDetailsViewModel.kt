@@ -47,7 +47,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val crewUIStateMapper: CrewUIStateMapper,
     state: SavedStateHandle,
 ) : BaseViewModel(), SimilarMovieInteractionListener,
-    DetailInteractionListener ,ActorsInteractionListener{
+    DetailInteractionListener, ActorsInteractionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -103,6 +103,7 @@ class MovieDetailsViewModel @Inject constructor(
                     onAddMovieDetailsItemOfNestedView(DetailMovieUIState.OverView(_uiState.value.movieDetailsResult))
                     addToWatchHistory(result.data)
                 }
+
                 is ResultHandler.Error -> {
                     _uiState.update {
                         it.copy(
@@ -238,9 +239,11 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+
     private fun showLoginDialog() {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ShowLoginDialogEvent) }
     }
+
     override fun onClickPlayTrailer() {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickPlayTrailerEvent) }
     }
@@ -252,6 +255,8 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onclickViewReviews() {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickReviewsEvent) }
     }
+
+    override fun onClickViewSeasons() {}
 
     override fun onClickSeeAllMovie(movieItemsType: MovieItemsType) {
         val type = when (movieItemsType) {
@@ -268,6 +273,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     override fun onClickSeeAllTvShows(tvShowItemsType: TvShowItemsType) {
     }
+
     override fun onClickActor(actorID: Int) {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }
     }

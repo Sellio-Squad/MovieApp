@@ -15,4 +15,5 @@ sealed interface TvShowDetailsUIEvent {
     data class ClickTvShowEvent(val tvShowID: Int ) : TvShowDetailsUIEvent
     data class ClickSeeAllTvShowsEvent(val mediaType: TvShowItemsType) : TvShowDetailsUIEvent
     data class ClickRateTvShowEvent(val tvShowId: Int) : TvShowDetailsUIEvent
+    object ClickSeasonsEvent : TvShowDetailsUIEvent
 }

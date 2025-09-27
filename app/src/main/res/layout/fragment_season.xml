@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.tvShowDetails.seasons.SeasonViewModel" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.tvShowDetails.seasons.SeasonInteractionListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color_screen"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/back_arrow_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/back_button"
+            android:onClick="@{() -> listener.onBackClick()}"
+            android:src="@drawable/outline_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/shade_primary_color" />
+
+        <TextView
+            android:id="@+id/seasons"
+            style="@style/TextStyle.Title.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:text="@string/seasons"
+            android:textColor="@color/shade_primary_color"
+            android:textFontWeight="500"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/back_arrow_icon"
+            app:layout_constraintStart_toEndOf="@id/back_arrow_icon"
+            app:layout_constraintTop_toTopOf="@id/back_arrow_icon" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/season_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:paddingBottom="12dp"
+            android:scrollbars="none"
+            app:items="@{viewModel.uiState.seriesSeasonsResult}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seasons"
+            tools:listitem="@layout/item_season" />
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:indeterminateDrawable="@drawable/progress"
+            android:visibility="gone"
+            app:isVisible="@{viewModel.uiState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- retry button -->
+        <FrameLayout
+            android:id="@+id/try_again_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/try_again_text"
+                style="@style/TextStyle.Body.Small.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="94dp"
+                android:layout_marginVertical="12dp"
+                android:text="@string/try_again"
+                android:textColor="@color/button_color_onPrimary"
+                android:visibility="gone" />
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

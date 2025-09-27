@@ -46,6 +46,7 @@ class DetailUIStateAdapter(
                         BR.adapterRecycler,
                         SeasonAdapterUIState(currentItem.data, listener as SeasonInteractionListener)
                     )
+                    setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
             is DetailItemUIState.Cast -> {

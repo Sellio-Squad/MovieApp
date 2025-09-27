@@ -14,7 +14,7 @@ class SeasonMapper @Inject constructor(
             input.id ?: 0,
             BuildConfig.IMAGE_BASE_PATH + input.posterPath,
             input.name ?: "",
-            input.airDate ?: "",
+            extractYearFromDate(input.airDate),
             input.seasonNumber ?: 0,
             seasonRate = input.seasonRate ?: 0.0f,
             input.episodeCount ?: 0,
@@ -23,5 +23,17 @@ class SeasonMapper @Inject constructor(
                 episodeMapper.map(it)
             } ?: emptyList()
         )
+    }
+
+    private fun extractYearFromDate(dateString: String?): String {
+        return if (dateString.isNullOrEmpty()) {
+            ""
+        } else {
+            try {
+               dateString.substring(0, 4)
+            } catch (e: Exception) {
+                ""
+            }
+        }
     }
 }

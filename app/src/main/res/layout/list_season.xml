@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
+
+        <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.tvShowDetails.SeasonAdapterUIState" />
     </data>
@@ -36,6 +40,7 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="@{() -> listener.onClickViewSeasons()}"
             android:paddingHorizontal="@dimen/radius_cineVerse_l"
             android:text="@string/show_more"
             android:textColor="@color/brand_color_primary"
@@ -47,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:orientation="vertical"
             android:adapter="@{adapterRecycler}"
+            android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

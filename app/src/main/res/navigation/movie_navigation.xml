@@ -375,6 +375,18 @@
             android:id="@+id/action_ratedMoviesFragment_to_exploreFragment"
             app:destination="@id/exploringFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/seasonFragment"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.seasons.SeasonFragment"
+        android:label="Seasons"
+        tools:layout="@layout/fragment_season">
+        <argument
+            android:name="tvShowId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/actionSeasonFragmentToEpisodesFragment"
+            app:destination="@id/episodesFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/watchHistoryFragment"
@@ -468,6 +480,9 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_ToRateTvShowDialog"
             app:destination="@id/ratingTvShowDialog" />
+        <action
+            android:id="@+id/actionFromTvShowDetailsFragmentToSeasonFragment"
+            app:destination="@id/seasonFragment" />
     </fragment>
 
     <dialog

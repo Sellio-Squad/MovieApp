@@ -59,4 +59,7 @@
     <color name="additional_color_secondary_color_green">#EEF5EF</color>
     <color name="additional_color_secondary_color_yellow">#FFFAEB</color>
 
+    <color name="overlay_color_primary">#FFFFFF</color>
+    <color name="overlay_color_secondary">#FFFFFF3D</color>
+
 </resources>

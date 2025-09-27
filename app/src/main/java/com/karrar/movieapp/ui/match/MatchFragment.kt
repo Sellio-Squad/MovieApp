@@ -231,11 +231,15 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
         } else {
             getString(R.string.next)
         }
-        binding.matchQuestionsPage.nextButton.text = buttonText
+        binding.matchQuestionsPage.nextButtonText.text = buttonText
 
-        binding.matchQuestionsPage.loadingText.visibility =
-            if (state.isLoadingRecommendations) View.VISIBLE else View.GONE
-
+        if (state.isLoadingRecommendations) {
+            binding.matchQuestionsPage.nextButtonText.visibility = View.GONE
+            binding.matchQuestionsPage.progressIndicator.visibility = View.VISIBLE
+        } else {
+            binding.matchQuestionsPage.nextButtonText.visibility = View.VISIBLE
+            binding.matchQuestionsPage.progressIndicator.visibility = View.GONE
+        }
         updateAppBar(getString(R.string.discover_your_match), showBackButton = true)
     }
 
@@ -335,13 +339,14 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
         val container = binding.matchQuestionsPage.genreOptionsContainer
         container.removeAllViews()
 
+        val margin = container.context.resources.getDimensionPixelSize(R.dimen.spacing_small)
         questions.forEach { question ->
             val optionView = createQuestionCard(question, QuestionType.GENRE, isActive)
             val layoutParams = FlexboxLayout.LayoutParams(
                 FlexboxLayout.LayoutParams.WRAP_CONTENT,
                 FlexboxLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                setMargins(0, 0, 12, 12)
+                setMargins(0, 0, margin, margin)
             }
             optionView.layoutParams = layoutParams
             container.addView(optionView)

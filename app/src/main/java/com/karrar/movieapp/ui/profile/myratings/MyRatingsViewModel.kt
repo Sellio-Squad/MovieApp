@@ -104,9 +104,9 @@ class MyRatingsViewModel @Inject constructor(
 
     fun onTabChanged(contentType: MyRateUIState.ContentType) {
         val mediaType = when (contentType) {
-            MyRateUIState.ContentType.MOVIES -> MediaTypes.MOVIE
-            MyRateUIState.ContentType.TV_SHOWS -> MediaTypes.TVS_SHOW
-        }.toString()
+            MyRateUIState.ContentType.MOVIES -> MOVIE
+            MyRateUIState.ContentType.TV_SHOWS -> TV
+        }
         _ratedUiState.update {
             val filtered = it.ratedList.filter { item -> item.mediaType == mediaType }
             it.copy(
@@ -139,5 +139,10 @@ class MyRatingsViewModel @Inject constructor(
 
     fun onClickStartRatings() {
         _myRatingUIEvent.update { Event(MyRatingUIEvent.StartRatingsEvent) }
+    }
+
+    companion object {
+        const val MOVIE = "movie"
+        const val TV = "tv"
     }
 }

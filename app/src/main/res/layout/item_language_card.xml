@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_too_small"
-            android:textColor="@{isSelected ? @color/brand_color_secondary :@color/shade_color_primary}"
+            android:textColor="@{isSelected ? @color/brand_color_primary : @color/shade_color_primary}"
             app:textRes="@{item.language}" />
 
     </LinearLayout>

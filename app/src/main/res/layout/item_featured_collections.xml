@@ -17,13 +17,13 @@
     <FrameLayout
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="@dimen/radius_cineVerse_xl"
+        android:layout_marginBottom="@dimen/radius_cineVerse_xl"
         android:onClick="@{() -> listener.onClickSeeAllMovie(item.type)}">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@null"
             android:backgroundTint="@null"
             app:cardCornerRadius="@dimen/radius_small"
             app:cardElevation="0dp">
@@ -32,6 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
+                android:alpha="0.9"
+                android:background="@color/overlay_color_secondary"
                 app:imageRes="@{item.image}"
                 tools:srcCompat="@drawable/late_night_thrills" />
 
@@ -45,10 +47,20 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:layout_marginTop="48dp"
-                android:background="#5D000000"
-                app:cardElevation="0dp">
+                android:layout_marginTop="48dp">
 
+                <!-- Translucent background layer -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.6"
+                    android:background="@color/overlay_color_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Fully opaque text -->
                 <TextView
                     style="@style/TextStyle.Body.Small.Medium"
                     android:layout_width="wrap_content"
@@ -66,13 +78,14 @@
                     tools:text="late night thrills" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="6dp"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="79dp"
+            android:layout_marginTop="80dp"
             android:backgroundTint="@color/shade_color_quinary"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp" />
@@ -87,6 +100,4 @@
             app:cardElevation="0dp" />
 
     </FrameLayout>
-
-
 </layout>
